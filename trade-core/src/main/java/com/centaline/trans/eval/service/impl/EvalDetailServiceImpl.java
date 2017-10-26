@@ -35,6 +35,7 @@ import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
+import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.entity.ToEvaRefund;
@@ -98,6 +99,8 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	UamUserOrgService uamUserOrgService;
 	@Autowired
 	TgServItemAndProcessorService tgServItemAndProcessorService;
+	@Autowired
+	private ToEvaPricingMapper toEvaPricingMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -106,7 +109,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				SessionUser user = uamSessionService.getSessionUser();
 				String userOrgId = user.getServiceDepId();
 				
-				ToEvaPricingVo toEvaPricingVo = evaPricingService.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+				List<ToEvaPricingVo> toEvaPricingVo = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);//查询
 				
 				// 工作流
@@ -234,13 +237,16 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 
 	@Override
 	public AjaxResponse<?> checkTransferCommission(HttpServletRequest request, String evaCode) {
+		 AjaxResponse<String> response = new AjaxResponse<String>();
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.selectToEvaReportProcessByEvaCode(evaCode);
 		String changeInfo=toEvalReportProcess.getChangeInfo();
 		if(changeInfo!=null){
-			return new AjaxResponse<>(true);
+			response.setSuccess(true);
 		}else{
-			return new AjaxResponse<>(false);
+			response.setSuccess(false);
+			response.setMessage("评估公司未变更，不可发起调佣");
 		}
+		return response;
 	}
 	
 	private List<TaskVo> taskDuplicateRemoval(List<TaskVo> oList) {

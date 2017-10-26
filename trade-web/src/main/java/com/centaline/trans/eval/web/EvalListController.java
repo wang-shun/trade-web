@@ -174,8 +174,9 @@ public class EvalListController {
 		// TODO
 		SessionUser user = uamSessionService.getSessionUser();
 		String userOrgId = user.getServiceDepId();
-
+		String userId = user.getId();
 		request.setAttribute("queryOrg", userOrgId);
+		request.setAttribute("userId", userId);
 		return "eval/evalList";
 	}
 	

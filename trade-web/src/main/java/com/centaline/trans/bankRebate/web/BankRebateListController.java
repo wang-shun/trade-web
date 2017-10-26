@@ -1,15 +1,16 @@
 package com.centaline.trans.bankRebate.web;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.aist.common.utils.excel.ImportExcel;
+import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.centaline.trans.bankRebate.entity.ToBankRebate;
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
+import com.centaline.trans.bankRebate.service.ToBankRebateService;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
+import com.centaline.trans.bankRebate.vo.ToBankRebateVO;
+import com.centaline.trans.utils.DateUtil;
 import org.apache.commons.compress.archivers.dump.InvalidFormatException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -18,21 +19,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.aist.common.utils.excel.ImportExcel;
-import com.aist.common.web.validate.AjaxResponse;
-import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.bankRebate.entity.ToBankRebate;
-import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
-import com.centaline.trans.bankRebate.service.ToBankRebateInfoService;
-import com.centaline.trans.bankRebate.service.ToBankRebateService;
-import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
-import com.centaline.trans.bankRebate.vo.ToBankRebateVO;
-import com.centaline.trans.utils.DateUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 /**
  * Description:银行返利
  * @author wbwangxj
@@ -43,15 +42,15 @@ import com.centaline.trans.utils.DateUtil;
 public class BankRebateListController {
 	
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private ToBankRebateInfoService toBankRebateInfoService;
-	
+
 	@Autowired
 	private ToBankRebateService toBankRebateService;
 	
 	@Autowired(required = true)
-    UamSessionService uamSessionService;
+    private UamSessionService uamSessionService;
+
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 	
 	/**
 	 * 初始化页面
@@ -73,12 +72,10 @@ public class BankRebateListController {
 	 * @return
 	 */
 	@RequestMapping(value="/deleteCompany")
-	public String deleteCompany(HttpServletRequest request,String[] guaranteeCompId) {
-		
-		for (String guaCompId : guaranteeCompId) {
-			toBankRebateService.deleteByGuaranteeCompId(guaCompId);
-			toBankRebateInfoService.deleteRebateInfoByGuaranteeCompId(guaCompId);
-		}
+	public String deleteCompany(String[] guaranteeCompId) {
+
+		toBankRebateService.deleteByGuaranteeCompId(guaranteeCompId);
+
 		return "redirect:bankRebateList";
 	}
 
@@ -105,22 +102,14 @@ public class BankRebateListController {
 	 */
 	@RequestMapping(value="/saveNewBankRebate")
 	@ResponseBody
-	public AjaxResponse<String> saveNewBankRebate(HttpServletRequest request,Model model,ToBankRebateInfoVO info,ToBankRebate toBankRebate) {
+	public AjaxResponse<String> saveNewBankRebate(HttpServletRequest request,Model model,ToBankRebateInfoVO info) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		ToBankRebate record = new ToBankRebate();
-		Date applyTime = new Date();
-		record.setApplyTime(applyTime);
-		record.setApplyPerson(toBankRebate.getApplyPerson());
-		record.setComment(toBankRebate.getComment());
-		record.setCompanyAccount(toBankRebate.getCompanyAccount());
-		record.setGuaranteeCompany(toBankRebate.getGuaranteeCompany());
-		record.setRebateTotal(toBankRebate.getRebateTotal());
-		record.setGuaranteeCompId(generateToken(applyTime));
-		record.setStatus("0");//未提交
-		toBankRebateService.insertSelective(record);
 		try {
-			//保存新增对象
-			toBankRebateInfoService.saveBankRebateInfoVO(info,generateToken(applyTime));
+			Date applyTime = new Date();
+			info.getToBankRebate().setApplyTime(applyTime);
+			info.getToBankRebate().setGuaranteeCompId(generateToken(applyTime));
+			info.getToBankRebate().setStatus("0");//未提交
+			toBankRebateService.insertBankRebate(info);
 		} catch (Exception e) {
 			response.setSuccess(false);
     		response.setMessage(e.getMessage());
@@ -139,18 +128,10 @@ public class BankRebateListController {
 	 * @return
 	 */
 	@RequestMapping(value="/bankRebateUpdate")
-	public String bankRebateUpdate(Long pkid, Model model, HttpServletRequest request,String guaranteeCompId) {
-		SessionUser user = uamSessionService.getSessionUser();
-		
-		ToBankRebateInfoVO toBankRebateInfoVO = new ToBankRebateInfoVO();
-		//查询修改记录列表
-		List<ToBankRebateInfo> toBankRebateInfoList = toBankRebateInfoService.selectRebateInfoByGuaranteeCompId(guaranteeCompId);
-		ToBankRebate toBankRebate = toBankRebateService.selectByPrimaryKey(pkid);
-		
-		toBankRebateInfoVO.setToBankRebateInfoList(toBankRebateInfoList);
-		model.addAttribute("user", user);
-		model.addAttribute("toBankRebate", toBankRebate);
-		model.addAttribute("toBankRebateInfoVO",toBankRebateInfoVO);
+	public String bankRebateUpdate(Model model,String guaranteeCompId) {
+		ToBankRebateInfoVO vo = toBankRebateService.selectRebateByGuaranteeCompId(guaranteeCompId);
+		model.addAttribute("org",uamUserOrgService.getOrgById(vo.getToBankRebate().getDeptId()));
+		model.addAttribute("rebate",vo);
 		return "bankRebate/bankRebateUpdate";
 	}
 	
@@ -163,18 +144,10 @@ public class BankRebateListController {
 	 */
 	@RequestMapping(value = "submitChangeBankRebate")
 	@ResponseBody
-	public AjaxResponse<String> submitChangeBankRebate(ToBankRebateInfoVO toBankRebateInfoVO,String guaranteeCompany,String companyAccount,BigDecimal rebateTotal,String comment,String guaranteeCompId, HttpServletRequest request,Model model) {
+	public AjaxResponse<String> submitChangeBankRebate(ToBankRebateInfoVO toBankRebateInfoVO) {
 		AjaxResponse<String> response = new AjaxResponse<String>();
-		ToBankRebate toBankRebate = new ToBankRebate();
-		toBankRebate.setCompanyAccount(companyAccount);
-		toBankRebate.setComment(comment);
-		toBankRebate.setGuaranteeCompany(guaranteeCompany);
-		toBankRebate.setGuaranteeCompId(guaranteeCompId);
-		toBankRebate.setRebateTotal(rebateTotal);
 		try{
-		//保存修改对象
-			toBankRebateInfoService.saveToBankRebateInfoVO(toBankRebateInfoVO);
-			toBankRebateService.updateByGuaranteeCompId(toBankRebate);
+			toBankRebateService.updateBankRebate(toBankRebateInfoVO);
 		}
 		catch(Exception e){
     		response.setSuccess(false);
@@ -182,6 +155,23 @@ public class BankRebateListController {
     		logger.error("保存失败！"+e.getCause());
     	}
 		return response;
+	}
+
+	/**
+	 * 删除担保公司返利案件
+	 * @param request
+	 * @param guaranteeCompId
+	 * @return
+	 */
+	@RequestMapping(value="/deleteBankRebateInfo",method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse<String> deleteToBankRebateInfo(long pkid) {
+		try {
+			toBankRebateService.deleteTobankRebateInfo(pkid);
+			return new AjaxResponse<>();
+		}catch (Exception e){
+			return new AjaxResponse<>(false,e.getMessage());
+		}
 	}
 	
 	/**
@@ -210,7 +200,7 @@ public class BankRebateListController {
 		 toBankRebate.setApplyTime(applyTime);
 		 toBankRebate.setGuaranteeCompId(generateToken(applyTime));
 		 toBankRebate.setStatus("0");
-		 toBankRebateService.insertSelective(toBankRebate);
+		 // toBankRebateService.insertSelective(toBankRebate);
 		ArrayList<ToBankRebateInfo> inIncomes = new ArrayList<ToBankRebateInfo>();
 		String  ex_message = "导入成功";
 		try {
@@ -284,9 +274,9 @@ public class BankRebateListController {
 			ex_message = "文件读取异常";
 		}
 		//插入数据
-		for(ToBankRebateInfo toBankRebateInfo:inIncomes){
-			toBankRebateInfoService.insertSelective(toBankRebateInfo);
-		}
+		// for(ToBankRebateInfo toBankRebateInfo:inIncomes){
+		// 	toBankRebateInfoService.insertSelective(toBankRebateInfo);
+		// }
     	request.setAttribute("ex_message",ex_message );
 		return "redirect:bankRebateList";
 	}
@@ -301,7 +291,7 @@ public class BankRebateListController {
 	public String exportMatrixLeaderSheet(HttpServletResponse response) throws IOException{  
 	    response.setHeader("Content-Disposition","attachment; filename="+new String(("返利导入格式").getBytes("gb2312"),"ISO-8859-1")+".xls");  
 	    OutputStream out = response.getOutputStream();  
-	    toBankRebateInfoService.exportMatrixLeaderSheet(out);  
+	    // toBankRebateInfoService.exportMatrixLeaderSheet(out);
 	    out.close();  
 	    return null;  
 	} 

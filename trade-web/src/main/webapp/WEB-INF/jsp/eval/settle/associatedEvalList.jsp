@@ -56,7 +56,8 @@ display: none;}
 	                                <div class="col-lg-5 col-md-5">
 	                                        <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
 	                                        <div class="col-lg-9 col-md-9">
-	                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
+	                                            <select  id="finOrgId" class="form-control select_control">
+												</select>
 	                                        </div>
 	                                </div>
 	                                <div class="col-lg-5 col-md-5">
@@ -156,9 +157,9 @@ display: none;}
 										<p>评：{{item.evalCode}}</p>
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
-									<td>贷款权证</td>
-									<td>经纪人</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
+									<td></td>
+									<td></td>
 									<td>
 										{{item.APPLY_DATE}}
 									</td>
@@ -187,6 +188,9 @@ display: none;}
 
         		//初始化数据
         	    reloadGrid();
+        		
+        	  	//获取评估公司
+        		getEvaFinOrg('finOrgId');
         		 // 查询
      			$('#searchButton').click(function() {
      				reloadGrid();
@@ -229,7 +233,7 @@ display: none;}
         		 data1.search_propertyAddr = propertyAddr;
         		 data1.search_caseCode = caseCode;
         		 data1.search_evalCode = evalCode;
-        	    data1.search_finOrgID = $("#evalCompany").val();
+        	    data1.search_finOrgID = $("#finOrgId").val();
 				data1.search_applyDate=$('#dtBegin_0').val();
 				return data1;
         	}
@@ -302,26 +306,31 @@ display: none;}
 				});
 			}
 		
-			/* function radioYuCuiOrgSelectCallBack(array){
-			    if(array && array.length >0){
-			        $("#txt_proOrgId").val(array[0].name);
-					$("#h_proOrgId").val(array[0].id);
-
-				}else{
-					$("#txt_proOrgId").val("");
-					$("#h_proOrgId").val("");
-				}
+			/**
+			 * 获取评估公司 格式化
+			 * @param finOrgId
+			 */
+			function getEvaFinOrg(finOrgId){
+				var url = "/manage/queryEvaCompany";
+				$.ajax({
+					async: true,
+					type:'POST',
+					url:ctx+url,
+					dataType:'json',
+					success:function(data){
+						var html = '<option value="" selected>请选择</option>';
+						if(data != null){
+							$.each(data,function(i,item){
+								html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
+							});
+						}					
+						$('#'+finOrgId).empty();
+						$('#'+finOrgId).append(html);
+					},
+					error : function(errors) {
+					}
+				});
 			}
-			function selectUserBack(array){
-				if(array && array.length >0){
-			        $("#inTextVal").val(array[0].username);
-					$("#inTextVal").attr('hVal',array[0].userId);
-
-				}else{
-					$("#inTextVal").val("");
-					$("#inTextVal").attr('hVal',"");
-				}
-			}  */
 
 	    </script>
 	    </content> 

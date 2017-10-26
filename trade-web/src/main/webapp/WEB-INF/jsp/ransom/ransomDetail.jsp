@@ -201,9 +201,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='APPLY'}"> active
+										    <c:when test="${!empty actTasks['APPLY']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='APPLY'}"> complete
+										    <c:when test="${empty actTasks['APPLY']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -227,9 +227,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='SIGN'}"> active
+										    <c:when test="${!empty actTasks['SIGN']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='SIGN'}"> complete
+										    <c:when test="${empty actTasks['SIGN']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -254,9 +254,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='PAYLOAN_ONE'}"> active
+										    <c:when test="${empty actTasks['PAYLOAN_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='PAYLOAN_ONE'}"> complete
+										    <c:when test="${!empty actTasks['PAYLOAN_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -280,9 +280,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='CANCELDIYA_ONE'}"> active
+										    <c:when test="${empty actTasks['CANCELDIYA_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='CANCELDIYA_ONE'}"> complete
+										    <c:when test="${!empty actTasks['CANCELDIYA_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -306,9 +306,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='RECEIVE_ONE'}"> active
+										    <c:when test="${empty actTasks['RECEIVE_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='RECEIVE_ONE'}"> complete
+										    <c:when test="${!empty actTasks['RECEIVE_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -332,9 +332,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='PAYCLEAR'}"> active
+										    <c:when test="${empty actTasks['PAYCLEAR']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='PAYCLEAR'}"> complete
+										    <c:when test="${!empty actTasks['PAYCLEAR']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -382,9 +382,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='ODEPAYLOAN_TWO'}"> active
+											    <c:when test="${empty actTasks['ODEPAYLOAN_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='ODEPAYLOAN_TWO'}"> complete
+											    <c:when test="${!empty actTasks['ODEPAYLOAN_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -403,9 +403,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='CANCELDIYA_TWO'}"> active
+											    <c:when test="${empty actTasks['CANCELDIYA_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='CANCELDIYA_TWO'}"> complete
+											    <c:when test="${!empty actTasks['CANCELDIYA_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -424,9 +424,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.taskProperty=='RECEIVE_TWO'}"> active
+											    <c:when test="${empty actTasks['RECEIVE_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.taskProperty!='RECEIVE_TWO'}"> complete
+											    <c:when test="${!empty actTasks['RECEIVE_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -491,26 +491,26 @@
 										<label class="control-label sign_left_small">
 											<font color=" red" class="mr5">*</font> 借款金额
 							 			</label>
-								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney }&nbsp;&nbsp;万</c:if>
+								 			&nbsp;<c:if test="${!empty moneyVo.borrowerMoney }">${moneyVo.borrowerMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 面签金额 </label> 
-											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney }&nbsp;&nbsp;万</c:if>
+											&nbsp;<c:if test="${!empty moneyVo.interViewMoney }">${moneyVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 还贷金额</label> 
-											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney }&nbsp;&nbsp;万</c:if>	
+											&nbsp;<c:if test="${!empty moneyVo.repayLoanMoney }">${moneyVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
 									</div>
 								</div>
 								<div class="line">
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 贷款费用</label>
-											&nbsp;  ${detailVo.interest}&nbsp;‰。每天
+											&nbsp;  ${moneyVo.interest}&nbsp;‰。每天
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small" style="width: 133px;"><font color=" red" class="mr5">*</font>是否委托公正&nbsp;&nbsp;</label>
-											<c:if test="${detailVo.isEntrust == 1 }">是</c:if>
-											<c:if test="${detailVo.isEntrust == 0 }">否</c:if>
+											<c:if test="${moneyVo.isEntrust == 1 }">是</c:if>
+											<c:if test="${moneyVo.isEntrust == 0 }">否</c:if>
 									</div>
 								</div>
 								<div class="ibox-content">

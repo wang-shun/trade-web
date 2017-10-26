@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,8 +20,15 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.common.enums.RansomDiyaEnum;
 import com.centaline.trans.common.enums.RansomPartEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -63,6 +71,14 @@ public class RansomServiceImpl implements RansomService{
 	private WorkFlowManager workFlowManager;
 	@Autowired
 	RansomDiscontinueService ransomDiscontinueService;
+	@Autowired
+	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
 	
 	@Override
 	public ToRansomDetailVo getRansomDetail(String ransomCode) {
@@ -124,6 +140,37 @@ public class RansomServiceImpl implements RansomService{
 		return plans;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public StartProcessInstanceVo updateRansomIsStart(String ransomCode,String caseCode) {
+		
+		int count = ransomMapper.updateRansomIsStart(ransomCode);
+		if(count == 0){
+			throw new BusinessException("赎楼数据更新失败");
+		}
+		SessionUser user = uamSessionService.getSessionUser();
+		//赎楼流程启动
+		Map<String,Object> defValsMap = new HashMap<String,Object>();
+		defValsMap.put("sessionUser", user.getUsername());
+		String processDfId = propertyUtilsService.getProcessDfId("ransom_process");
+		
+		StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDfId, ransomCode, defValsMap);
+		List<TaskVo> tasks = taskService.listTasks(pVo.getId(), false, user.getUsername()).getData();
+		if (tasks != null && !tasks.isEmpty()) {
+			pVo.setActiveTaskId(tasks.get(0).getId() + "");
+		}
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey("ransom_process");
+		wf.setCaseCode(caseCode);
+		wf.setBizCode(ransomCode);
+		wf.setProcessOwner(user.getId());
+		wf.setProcessDefinitionId(processDfId);
+		wf.setInstCode(pVo.getId());
+		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+		toWorkFlowService.insertSelective(wf);
+		return pVo;
+	}
+	
 	@Override
 	public int updateRansomApply(ToRansomSubmitVo submitVo) {
 		
@@ -170,6 +217,9 @@ public class RansomServiceImpl implements RansomService{
 		if(signPlan ==0){
 			throw new BusinessException("面签计划时间更新失败!");
 		}
+		//提交任务
+		taskService.submitTask(submitVo.getTaskId());
+		
 		return applyCount;
 	}
 
@@ -181,7 +231,7 @@ public class RansomServiceImpl implements RansomService{
 	}
 	
 	@Override
-	public int updateRansomSign(ToRansomSubmitVo submitVo,int count) {
+	public int updateRansomSign(ToRansomSubmitVo submitVo) {
 		SessionUser user = uamSessionService.getSessionUser();
 		ToRansomSignVo signVo = new ToRansomSignVo();
 		signVo.setRansomCode(submitVo.getRansomCode());
@@ -217,7 +267,8 @@ public class RansomServiceImpl implements RansomService{
 			throw new BusinessException("陪同还贷计划时间更新失败!");
 		}
 		
-		
+		//检查是否有二抵
+		int count =  ransomMapper.queryErdi(submitVo.getRansomCode());
 		if(count>0){
 			planVo.setPartCode(RansomDiyaEnum.PAYLOAN_TWO.getPart());
 			
@@ -233,6 +284,17 @@ public class RansomServiceImpl implements RansomService{
 			}
 		}
 
+		//完成任务流程
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		
+		if(count >0){
+			variables.add(new RestVariable("erdi", true));
+		}else{
+			variables.add(new RestVariable("erdi", false));
+		}
+		workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
+		
+		
 		return result;
 	}
 
@@ -317,17 +379,21 @@ public class RansomServiceImpl implements RansomService{
 			}
 		}
 		
+		//完成任务流程
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
+		
 		return result;
 	}
 	
 	@Override
-	public int updateRansomCancel(String ransomCode, Integer diyaType, Date cancelTime) {
+	public int updateRansomCancel(ToRansomSubmitVo submitVo) {
 		
 		SessionUser user = uamSessionService.getSessionUser();
-		
+		Integer diyaType = submitVo.getDiyaType();
 		ToRansomCancelVo cancelVo = new ToRansomCancelVo();
-		cancelVo.setRansomCode(ransomCode);
-		cancelVo.setCancelTime(cancelTime);
+		cancelVo.setRansomCode(submitVo.getRansomCode());
+		cancelVo.setCancelTime(submitVo.getCancelDiyaTime());
 		cancelVo.setDiyaType(diyaType.toString());
 		cancelVo.setUpdateUser(user.getId());
 		cancelVo.setCreateUser(user.getId());
@@ -341,17 +407,22 @@ public class RansomServiceImpl implements RansomService{
 		if(result ==0){
 			throw new BusinessException("注销抵押数据插入失败!");
 		}
+		
+		//完成任务流程
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
+		
 		return result;
 	}
 
 	@Override
-	public int updateRansomPermit(String ransomCode, Integer diyaType,
-			Date permitTime) {
+	public int updateRansomPermit(ToRansomSubmitVo submitVo) {
+		Integer diyaType = submitVo.getDiyaType();
 		SessionUser user = uamSessionService.getSessionUser();
 		
 		ToRansomPermitVo permitVo = new ToRansomPermitVo();
-		permitVo.setRansomCode(ransomCode);
-		permitVo.setRedeemTime(permitTime);
+		permitVo.setRansomCode(submitVo.getRansomCode());
+		permitVo.setRedeemTime(submitVo.getPermitTime());
 		permitVo.setDiyaType(diyaType.toString());
 		permitVo.setUpdateUser(user.getId());
 		permitVo.setCreateUser(user.getId());
@@ -365,16 +436,22 @@ public class RansomServiceImpl implements RansomService{
 		if(result ==0){
 			throw new BusinessException("领取产证数据插入失败!");
 		}
+		
+		//完成任务流程
+		List<RestVariable> variables = new ArrayList<RestVariable>();	
+		workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
+		
 		return result;
 	}
 
 	@Override
-	public int updateRansomPayment(String ransomCode, Date paymentTime) {
+	public int updateRansomPayment(ToRansomSubmitVo submitVo) {
+		
 		SessionUser user = uamSessionService.getSessionUser();
 		
 		ToRansomPaymentVo paymentVo = new ToRansomPaymentVo();
-		paymentVo.setRansomCode(ransomCode);
-		paymentVo.setPaymentTime(paymentTime);
+		paymentVo.setRansomCode(submitVo.getRansomCode());
+		paymentVo.setPaymentTime(submitVo.getPaymentTime());
 		paymentVo.setUpdateUser(user.getId());
 		paymentVo.setPartCode(RansomPartEnum.PAYCLEAR.getCode());
 		paymentVo.setCreateUser(user.getId());
@@ -383,10 +460,24 @@ public class RansomServiceImpl implements RansomService{
 			throw new BusinessException("回款结清数据插入失败!");
 		}		
 		//完结赎楼单
-		int count = ransomMapper.updateCaseStatusComplete(ransomCode);
+		int count = ransomMapper.updateCaseStatusComplete(submitVo.getRansomCode());
 		if(count ==0){
 			throw new BusinessException("数据更新失败!");
 		}	
+		
+		//完成任务流程
+		List<RestVariable> variables = new ArrayList<RestVariable>();
+		workFlowManager.submitTask(variables, submitVo.getTaskId(), submitVo.getProcessInstanceId(), user.getId(), submitVo.getCaseCode());		
+		
+		//flow完结
+		ToWorkFlow flow=new ToWorkFlow();
+		flow.setBusinessKey("ransom_process");
+		flow.setCaseCode(submitVo.getCaseCode());
+		flow.setBizCode(submitVo.getRansomCode());
+		ToWorkFlow ransomFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
+		ransomFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+		toWorkFlowService.updateByPrimaryKeySelective(ransomFlow);
+		
 		return result;
 	}
 
@@ -419,7 +510,16 @@ public class RansomServiceImpl implements RansomService{
 	@Override
 	public ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode) {
 		ToRansomMortgageVo mortgageVo = new ToRansomMortgageVo();
-		mortgageVo = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		List<ToRansomMortgageVo> mortgageVoList = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+		
+		int count = ransomMapper.queryErdi(ransomCode);
+		
+		if(count == 0) {
+			mortgageVo = mortgageVoList.get(0);
+		}else {
+			
+		}
+		
 		return mortgageVo;
 	}
 	
@@ -481,12 +581,6 @@ public class RansomServiceImpl implements RansomService{
 	}
 
 	@Override
-	public int updateRansomIsStart(String ransomCode) {
-		
-		return ransomMapper.updateRansomIsStart(ransomCode);
-	}
-
-	@Override
 	public List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode) {
 		return ransomMapper.getPlanTimeInfoByRansomCode(ransomCode);
 	}
@@ -535,5 +629,15 @@ public class RansomServiceImpl implements RansomService{
 		ransomListFormMapper.updateRansomTailUserByRansomCode(tailVo);
 		ransomListFormMapper.updateRansomCaseUserByRansomCode(caseVo);
 		return true;
+	}
+
+	@Override
+	public Map<String,String> getActTasks(String ransomCode) {
+		List<String> tasks = ransomListFormMapper.getRansomActTasks(ransomCode);
+		Map<String,String> map = new HashMap<String,String>();
+		for(String str:tasks){
+			map.put(str, str);
+		}
+		return map;
 	}
 }

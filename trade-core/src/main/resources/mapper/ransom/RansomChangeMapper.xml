@@ -6,7 +6,7 @@
 		UPDATE sctrans.T_RA_APPLY 
 		SET 
 			LOANOFFICER = #{loanOfficer,jdbcType=VARCHAR},
-			APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP},
+			<!-- APPLY_TIME = #{applyTime,jdbcType=TIMESTAMP}, -->
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
 			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
 		WHERE 
@@ -16,7 +16,7 @@
 	<update id="updateRansomSignInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomSignVo">
 		UPDATE sctrans.T_RA_INTERVIEW
 		SET 
-			INTERVIEW_TIME = #{signTime,jdbcType=TIMESTAMP},
+			<!-- INTERVIEW_TIME = #{signTime,jdbcType=TIMESTAMP}, -->
 			INTERVIEW_MONEY = #{signMoney,jdbcType=DECIMAL},
 			INTEREST = #{interest,jdbcType=VARCHAR},
 			IS_ENTRUST = #{isEntrust,jdbcType=VARCHAR},
@@ -40,7 +40,7 @@
 	<update id="updatePayloanInfo" parameterType="com.centaline.trans.ransom.entity.ToRansomMortgageVo">
 		UPDATE sctrans.T_RA_REPAY 
 		SET 
-			REPAY_TIME = #{mortgageTime,jdbcType=TIMESTAMP},
+			<!-- REPAY_TIME = #{mortgageTime,jdbcType=TIMESTAMP}, -->
 			REPAY_MONEY = #{repayLoanMoney,jdbcType=DECIMAL},
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
 			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP} 

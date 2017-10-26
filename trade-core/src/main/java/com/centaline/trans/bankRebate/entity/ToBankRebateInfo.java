@@ -23,6 +23,8 @@ public class ToBankRebateInfo {
 
     private BigDecimal rebateBusiness;
 
+    private Long caseId;
+
     public Long getPkid() {
         return pkid;
     }
@@ -36,7 +38,7 @@ public class ToBankRebateInfo {
     }
 
     public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode == null ? null : caseCode.trim();
+        this.caseCode = caseCode;
     }
 
     public String getCcaiCode() {
@@ -44,17 +46,23 @@ public class ToBankRebateInfo {
     }
 
     public void setCcaiCode(String ccaiCode) {
-        this.ccaiCode = ccaiCode == null ? null : ccaiCode.trim();
+        this.ccaiCode = ccaiCode;
     }
 
-   
+    public String getGuaranteeCompId() {
+        return guaranteeCompId;
+    }
+
+    public void setGuaranteeCompId(String guaranteeCompId) {
+        this.guaranteeCompId = guaranteeCompId;
+    }
 
     public String getBankName() {
         return bankName;
     }
 
     public void setBankName(String bankName) {
-        this.bankName = bankName == null ? null : bankName.trim();
+        this.bankName = bankName;
     }
 
     public BigDecimal getRebateMoney() {
@@ -81,11 +89,11 @@ public class ToBankRebateInfo {
         this.rebateBusiness = rebateBusiness;
     }
 
-	public String getGuaranteeCompId() {
-		return guaranteeCompId;
-	}
+    public Long getCaseId() {
+        return caseId;
+    }
 
-	public void setGuaranteeCompId(String guaranteeCompId) {
-		this.guaranteeCompId = guaranteeCompId;
-	}
+    public void setCaseId(Long caseId) {
+        this.caseId = caseId;
+    }
 }

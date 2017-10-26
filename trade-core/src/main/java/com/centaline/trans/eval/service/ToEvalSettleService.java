@@ -3,6 +3,7 @@ package com.centaline.trans.eval.service;
 import java.util.List;
 
 import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.mgr.entity.TsFinOrg;
 /***
  * 
  * @author wbwangxj
@@ -30,6 +31,9 @@ public interface ToEvalSettleService {
     int newSettleFeeByCaseCode(ToEvalSettle record);
     
     ToEvalSettle findToCaseByCaseCode(String caseCode);
+    
+    //根据评估公司编号查询评估公司
+    TsFinOrg findTsFinOrgByfinOrgCode(String finOrgCode);
     
     //待财务审批案件信息及其他相关信息
     List<ToEvalSettle> findCaseCodesByStauts();

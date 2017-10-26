@@ -80,7 +80,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode); 
 		ToEvaPricingVo toEvaPricingVo=null;
 		if(evaCode!=null && evaCode.length()>0){
-		        toEvaPricingVo = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
+		        toEvaPricingVo = toEvaPricingMapper.findEvaPricingDetailByEvaCode(evaCode);//查询询价信息
 		}
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);

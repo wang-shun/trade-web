@@ -10,23 +10,27 @@
     <result column="REBATE_MONEY" property="rebateMoney" jdbcType="DECIMAL" />
     <result column="REBATE_WARRANT" property="rebateWarrant" jdbcType="DECIMAL" />
     <result column="REBATE_BUSINESS" property="rebateBusiness" jdbcType="DECIMAL" />
+    <result column="CASE_ID" property="caseId" jdbcType="BIGINT" />
+
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, CCAI_CODE, GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, REBATE_WARRANT, 
-    REBATE_BUSINESS
+    br.PKID , br.CASE_CODE, br.CCAI_CODE, br.GUARANTEE_COMP_ID, br.BANK_NAME, br.REBATE_MONEY, br.REBATE_WARRANT,
+    br.REBATE_BUSINESS,c.PKID CASE_ID
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_BANK_REBATE_INFO
-    where PKID = #{pkid,jdbcType=BIGINT}
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
   <select id="selectRebateInfoByGuaranteeCompId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_BANK_REBATE_INFO
-    where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

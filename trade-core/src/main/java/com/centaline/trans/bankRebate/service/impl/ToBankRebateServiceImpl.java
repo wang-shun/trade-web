@@ -1,5 +1,9 @@
 package com.centaline.trans.bankRebate.service.impl;
 
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
+import com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,58 +11,62 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.repository.ToBankRebateMapper;
 import com.centaline.trans.bankRebate.service.ToBankRebateService;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
+@Transactional
 public class ToBankRebateServiceImpl implements ToBankRebateService {
 	
-	@Autowired(required = true)
+	@Autowired
 	ToBankRebateMapper toBankRebateMapper;
+	@Autowired
+	private ToBankRebateInfoMapper toBankRebateInfoMapper;
+
+
 	@Override
-	public int deleteByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.deleteByPrimaryKey(pkid);
+	public void insertBankRebate(ToBankRebateInfoVO info) {
+		toBankRebateMapper.insertSelective(info.getToBankRebate());
+		List<ToBankRebateInfo> toBankRebateInfoList = info.getToBankRebateInfoList();
+		for (ToBankRebateInfo toBankRebateInfo : toBankRebateInfoList) {
+			toBankRebateInfo.setGuaranteeCompId(info.getToBankRebate().getGuaranteeCompId());
+			toBankRebateInfoMapper.insertSelective(toBankRebateInfo);
+		}
 	}
 
 	@Override
-	public int insert(ToBankRebate record) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.insert(record);
+	public void deleteByGuaranteeCompId(String[] guaCompIds) {
+		for(String compid : guaCompIds){
+			toBankRebateInfoMapper.deleteRebateInfoByGuaranteeCompId(compid);
+			toBankRebateMapper.deleteByGuaranteeCompId(compid);
+		}
 	}
 
 	@Override
-	public int insertSelective(ToBankRebate record) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.insertSelective(record);
+	public ToBankRebateInfoVO selectRebateByGuaranteeCompId(String guaCompId) {
+		ToBankRebateInfoVO vo = new ToBankRebateInfoVO();
+		vo.setToBankRebate(toBankRebateMapper.selectRebateByGuaranteeCompId(guaCompId));
+		vo.setToBankRebateInfoList(toBankRebateInfoMapper.selectRebateInfoByGuaranteeCompId(guaCompId));
+		return vo;
 	}
 
 	@Override
-	public ToBankRebate selectByPrimaryKey(Long pkid) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.selectByPrimaryKey(pkid);
+	public void deleteTobankRebateInfo(Long pkid) {
+		toBankRebateInfoMapper.deleteByPrimaryKey(pkid);
 	}
 
 	@Override
-	public int updateByPrimaryKeySelective(ToBankRebate record) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.updateByPrimaryKeySelective(record);
-	}
-
-	@Override
-	public int updateByPrimaryKey(ToBankRebate record) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.updateByPrimaryKey(record);
-	}
-
-	@Override
-	public int deleteByGuaranteeCompId(String guaCompId) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.deleteByGuaranteeCompId(guaCompId);
-	}
-
-	@Override
-	public int updateByGuaranteeCompId(ToBankRebate toBankRebate) {
-		// TODO Auto-generated method stub
-		return toBankRebateMapper.updateByGuaranteeCompId(toBankRebate);
+	public void updateBankRebate(ToBankRebateInfoVO info) {
+		toBankRebateMapper.updateByPrimaryKeySelective(info.getToBankRebate());
+		for(ToBankRebateInfo bankRebateInfo : info.getToBankRebateInfoList()){
+			if(bankRebateInfo!=null && bankRebateInfo.getPkid()!=null){
+				toBankRebateInfoMapper.updateByPrimaryKeySelective(bankRebateInfo);
+			}else if(bankRebateInfo!=null && StringUtils.isNotBlank(bankRebateInfo.getCcaiCode())){
+				bankRebateInfo.setGuaranteeCompId(info.getToBankRebate().getGuaranteeCompId());
+				toBankRebateInfoMapper.insertSelective(bankRebateInfo);
+			}
+		}
 	}
 
 }

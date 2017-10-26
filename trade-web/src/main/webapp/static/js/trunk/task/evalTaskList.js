@@ -146,7 +146,7 @@ function initData(page){
 	var loan=$("#loan").val();
 	// caseCode与ctmCode
 	var caseCode =  "";
-	var ctmCode = "";
+	var ccaiCode = "";
 	if (inTextVal != null && inTextVal.trim() != "") {
 		var inTextType = $('#inTextType').val();
 		if (inTextType == '0') {

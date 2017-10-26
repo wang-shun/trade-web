@@ -191,7 +191,7 @@
 										<iframe frameborder="no" border="0" marginwidth="0"
 											marginheight="0" scrolling="auto" allowtransparency="yes"
 											overflow:auto;
-												style="height: 1068px; width: 100%;"
+												style="height: 400px; width: 100%;"
 											src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 									</c:if>
 								</c:if>
@@ -238,7 +238,7 @@
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估申请</h4>
 									<div class="row">
-									    <label class="col-sm-3 control-label">评估类型：<aist:dict id="evalType" name="evalType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvalReportProcess.evalType}" /></label>
+									    <label class="col-sm-3 control-label">评估类型：<aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}" /></label>
 										<label class="col-sm-3 control-label">评估公司：${toEvalReportProcessVo.finOrgName}</label>
 										<label class="col-sm-3 control-label">评估公司联系人：${toEvalReportProcessVo.evaComContact}</label>
 									</div>
@@ -250,6 +250,12 @@
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNum}&nbsp;份</label>
 										<label class="col-sm-3 control-label">申请评估日期：<fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></label>
+									</div>
+									
+									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估上报</h4>
+									 <div class="row">
+									    <label class="col-sm-3 control-label">评估上报日期：${toEvalReportProcessVo.forwardDate}&nbsp;份</label>
+										<label class="col-sm-3 control-label">预计出评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.toIssueDate}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>出具评估报告</h4>

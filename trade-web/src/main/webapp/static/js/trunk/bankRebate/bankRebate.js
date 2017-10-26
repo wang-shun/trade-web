@@ -1,257 +1,213 @@
-//清空
-$('#myCaseListCleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
-	$("input[name='dtEnd']").val('');
-	$("#caseStatus").val("");
-	$("#applyer").val("");
-	$("#finOrgId").val("");
-});
-
 var ctx = $("#ctx").val();
-var index = 1;
-function addOrg() {
-	var txt='<tr id="trId' + index + '"><td><input name="loanMoney"';
-	txt +='	id="loanMoney" type="text" class="form-control input-one" placeholder="请在此输入成交编号">';
-	txt += $("#loanMoney").html()
-    txt += '</input></td>';
-    txt +='<td >'
-    txt+= '<a href="">查看成交</a></td>';
-	txt +='<td ><aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="" /></td>';
-	txt +='<td><input id="rebateMoney" name="loanMoney" value="" type="text" class="form-control input-one" placeholder="" value="" /></td>';
-	txt +='<td><input id="warrantMoney" name="restMoney" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
-	txt +='<td><input id="businessMoney" name="" value="" type="text" class="form-control input-one" placeholder="" value="${tailinsVo.restMoney } /></td>';
-	txt +='<td><a href="javascript:removeTr('+ index + ');">删除</a></td></tr></tbody>';
-	$("#addInput").before(txt);
-	$("#addMoneyLine").css("display","none");
-	index++;
-}
+var index = 1;//记录页面现有的案件数量
+var banklist;//记录银行列表模板
+/**
+ * 银行返利 部分需要页面初始化的参数
+ * 及初始化页面的一些方法
+ */
+function pageInit(idx,bank){
+	index = idx;
+	banklist = bank;
+	//关联案件表格初始化
+    $(".eloanApply-table").aistGrid(
+        {
+            ctx : ctx,
+            queryId : 'queryCastListForRelation',
+            templeteId : 'queryCastListItemList',
+            rows : '6',
+            gridClass : 'table table_blue mt20 table-striped table-bordered table-hover customerinfo',
+            data : '',
+            wrapperData : {
+                ctx : ctx
+            },
+            columns : [
+                {
+                    colName : "<span class='sort'  onclick='caseCodeSort();'' >案件编号</span><i id='caseCodeSorti' class='fa fa-sort-desc fa_down'></i>",
+                    sortColumn : "CASE_CODE",
+                    sord : "desc",
+                    sortActive : true
+                }, {
+                    colName : "状态"
+                }, {
+                    colName : "产证地址"
+                }, {
+                    colName : "买家"
+                }, {
+                    colName : "卖家"
+                }, {
+                    colName : "操作"
+                } ]
+        });
 
+    // 关联案件 点击事件绑定
+    $('.eloanApply-table').on("click",'.linkCase',function() {
+        var caseCode = $(this).attr("caseCode");
+        var caseId = $(this).attr("caseId");
+        var ccaiCode = $(this).attr("ccaiCode");
+        var hidden = $('#ccai_'+clickIndex);
+        var show = hidden.prev("input");
+        if(show){
+            show.val(caseCode);
+        }
+        hidden.val(ccaiCode);
+        var href = $('#info').find('tr:eq('+(clickIndex+1)+') a');
+        href.attr('target','_blank');
+        href.attr('href',ctx+'/case/caseDetail?caseId='+caseId);
+        $('#caseModal').modal('hide');
+    });
+
+    // 案件查询按钮
+    $('#caseSearchButton').click(function() {
+        reloadCaseGrid();
+    });
+    $('#addRecord').click(function () {
+        var txt = '<tr id="tr_' + index + '"><td>';
+        txt += '<input class="form-control" type="text" name="toBankRebateInfoList['+index+'].caseCode" readonly placeholder="请选择案件" onclick="showCase('+index+')">'
+        txt += '<input id="ccai_'+index+'" type="hidden" name="toBankRebateInfoList['+index+'].ccaiCode" />';
+        txt += '</td>';
+        txt += '<td >';
+        txt += '<a>查看案件</a></td>';
+        txt += '<td width="17%">';
+        txt += banklist.replace("{index}",index).replace("{index}",index);
+        txt += '</td>';
+        txt += '<td width="17%"><input id="rebateMoney_' + index + '" name="toBankRebateInfoList[' + index + '].rebateMoney" type="text" class="form-control"  value="" /></td>';
+        txt += '<td width="12%"><input id="warrantMoney_' + index + '" name="toBankRebateInfoList[' + index + '].rebateWarrant" type="text" class="form-control"  value=""  readonly /></td>';
+        txt += '<td width="12%"><input id="businessMoney_' + index + '" name="toBankRebateInfoList[' + index + '].rebateBusiness" type="text" class="form-control"  value=""  readonly /></td>';
+        txt += '<td><span><a href="javascript:removeTr(' + index + ');"><font>删除</font></a></span></td></tr></tbody>';
+        $('#info tbody').append(txt)
+        index++;
+    });
+    //提交按钮事件绑定
+    $('#submitBtn').click(function () {
+        var guaranteeCompany = $("#guaranteeCompany").val();
+        if (guaranteeCompany.length==0) {
+            window.wxc.alert("请选择担保公司！");
+            return;
+        }
+        var total = parseFloat($('#rebateMoney').val());
+        var count = 0;
+        var check = true;
+        $('#info').find("tr:gt(0)").each(function(index,tr){
+            var rebateMoneyi = $(tr).find('td:eq(3)').find('input');
+            if(isNaN($(rebateMoneyi).val())){
+                window.wxc.alert("请输入正确的返利金额！");
+                check = false;
+                return true;
+            }else{
+                count +=  parseFloat(rebateMoneyi.val());
+            }
+            var ccaiCode = $(tr).find('td:eq(0)').find('input:eq(1)').val();
+            var bankName = $(tr).find('td:eq(2) select').val();
+            if(!ccaiCode || ccaiCode.length==0){
+                window.wxc.alert("请选择案件！");
+                check = false;
+                return true;
+            }
+            if(!bankName || bankName.length==0){
+                window.wxc.alert("请选择返利银行！");
+                check = false;
+                return true;
+            }
+        });
+        if(!check) return;
+        if (count == total) {
+            window.wxc.confirm("确定保存吗？", {
+                "wxcOk": function () {
+                    save(true);
+                }
+            });
+        } else {
+            window.wxc.alert("返利单明细【返利金额】之和与【总金额】不匹配，请检查！");
+        }
+    });
+}
+/**
+ * 显示案件选择表格
+ * @type {number} 点击的表格行数
+ */
+var clickIndex = 0;
+function showCase(index){
+    clickIndex = index;//记录点击的行号
+    $('#caseModal').modal("show");
+}
+/**
+ * 删除一行记录
+ * @param index 行号
+ * @param type 删除类型 如果为edit 则进行ajax请求
+ */
 function removeTr(index) {
-	$("#trId" + index).remove();
-	$("#addMoneyLine").css("display","block");
-	
+    // TODO 此处有坑 后续处理 移除后索引并没更新 新添加的索引不会使用删除的索引
+    var pkid = $('#pkId_'+index);
+    if(pkid.length > 0){
+        ajaxDeleteInfo(pkid.val(),index);
+    }else{
+        $("#tr_" + index).remove();
+        cal();//重新计算金额
+    }
+}
+/**
+ * 删除银行返利案件信息，并删除tr
+ * @param pkid
+ * @param index
+ */
+function ajaxDeleteInfo(pkid,index){
+    window.wxc.confirm("删除后信息无法恢复，确认删除？",{"wxcOk":function(){
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: ctx+'/bankRebate/deleteBankRebateInfo',
+            data: {pkid:pkid},
+            dataType: "json",
+            beforeSend: function () {
+                $.blockUI({
+                    message: $("#salesLoading"),
+                    css: {
+                        'border': 'none',
+                        'z-index': '9999'
+                    }
+                });
+                $(".blockOverlay").css({
+                    'z-index': '9998'
+                });
+            },
+            success: function (data) {
+                $.unblockUI();
+                if (data.success) {
+                    $("#tr_" + index).remove();
+                    cal();//重新计算金额
+                } else {
+                    if (data.message) {
+                        window.wxc.alert("删除信息失败:" + data.message);
+                    }
+                }
+            },
+            error: function () {
+                $.unblockUI();
+                window.wxc.alert("删除信息出错");
+            }
+        });
+    }});
 }
 
-/*条件查询*/
-$('#searchButton').click(function(){
-    searchMethod(1)
-});
+function reloadCaseGrid() {
+    var data = {};
+    var propertyAddr = $.trim($("#propertyAddr").val());
+    var caseCode = $.trim($("#caseCodet").val());
+    var caseName = $.trim($("#caseNamet").val());
 
-//search
-function searchMethod(page){
-	$("#batchappro").attr("disabled", true);
-	$("#caseAdd").attr("disabled", true);
-	var data = getQueryParams(page);
-    aist.wrap(data);
-	reloadGrid(data);
-}
+    data.propertyAddr = propertyAddr;
+    data.caseCode = caseCode;
 
-/*获取查询参数*/
-function getQueryParams(page){
-	
-	if(!page){
-		page=1;
-	}
-	//案件状态
-	var status = $("#caseStatus  option:selected").val().trim();
-
-	//结算费用
-	var settleFee = $("#endfee").val();
-
-	//费用调整类型
-	var feeChangeReason = $('#costUpdateType option:selected').val();
-
-
-	//评估公司
-	var finOrgID = $('#finOrgId').val();
-
-	var params = {
-		search_status : status,
-		search_settleFee : settleFee,
-		//search_loadWarrant : loadWarrant,
-		search_feeChangeReason : feeChangeReason,
-		search_finOrgID : finOrgID,
-		queryId : 'queryEvalWaitEndList',
-		rows : 10,
-	    page : page
-	};
-	
-	return params;	
-}
-
-/*获取银行返利案件列表*/
-function reloadGrid(data) {
-	var ctx = $("#ctx").val();
-	
-	$.ajax({
-		async: true,
-        url:ctx+ "/quickGrid/findPage" ,
-        method: "post",
-        dataType: "json",
-        data: data,
-        beforeSend: function () {  
-        	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-			$(".blockOverlay").css({'z-index':'9998'});
-        },  
-        success: function(data){
-        	$.unblockUI();
-        	var myCaseEvalList = template('evalWaitAccountList' , data);
-        	$("#t_body_data_contents").empty();
-        	$("#t_body_data_contents").html(myCaseEvalList);
-			// 显示分页 
-            initpage(data.total,data.pagesize,data.page, data.records);
+    $(".eloanApply-table").reloadGrid({
+        ctx : ctx,
+        rows : '6',
+        queryId : 'queryCastListForRelation',
+        templeteId : 'queryCastListItemList',
+        wrapperData : {
+            ctx : ctx
         },
-        error: function (e, jqxhr, settings, exception) {
-        	$.unblockUI();   	 
-        }  
-  });
-}
-
-/*分页栏*/
-function initpage(totalCount,pageSize,currentPage,records) {
-	
-	if(totalCount>1500){
-		totalCount = 1500;
-	}
-	var currentTotalstrong=$('#currentTotalPage').find('strong');
-	if (totalCount<1 || pageSize<1 || currentPage<1){
-		$(currentTotalstrong).empty();
-		$('#totalP').text(0);
-		$("#pageBar").empty();
-		return;
-	}
-	$(currentTotalstrong).empty();
-	$(currentTotalstrong).text(currentPage+'/'+totalCount);
-	$('#totalP').text(records);
-	
-	
-	$("#pageBar").twbsPagination({
-		totalPages:totalCount,
-		visiblePages:9,
-		startPage:currentPage,
-		first:'<i class="icon-step-backward"></i>',
-		prev:'<i class="icon-chevron-left"></i>',
-		next:'<i class="icon-chevron-right"></i>',
-		last:'<i class="icon-step-forward"></i>',
-		showGoto:true,
-		onPageClick: function (event, page) {
-			//reloadGrid(page);
-			searchMethod(page);
-	    }
-	});
-}
-
-
-/*全选框绑定全选/全不选属性*/
-$('#checkAllNot').click(function(){
-	var my_checkboxes = $('input[name="my_checkbox"]');
-	if($(this).prop('checked')){
-		for(var i=0; i<my_checkboxes.length; i++){
-			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
-		}
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
-	}else{
-		for(var i=0; i<my_checkboxes.length; i++){
-			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
-		}
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
-	}
-});
-
-
-/*单选框*/
-function _checkbox(){
-	var my_checkboxes = $('input[name="my_checkbox"]');
-	var flag =false;
-	var count=0;
-	$.each(my_checkboxes, function(j, item){
-		if($('input[name="my_checkbox"]:eq('+j+')').prop('checked')){
-			flag=true;
-			++count;
-		}
-	});
-	if(flag){
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
-		if(count==my_checkboxes.length){
-			$('#checkAllNot').prop('checked', true);
-		}else if(count<my_checkboxes.length){
-			$('#checkAllNot').prop('checked', false);
-		}
-	}else{
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
-		$('#checkAllNot').prop('checked', false);
-	}
-}
-
-
-/**
- * 新增结算单
- */
-
-function caseAdd(){
-	var ids = new Array();
-	var checkeds=$('input[name="my_checkbox"]:checked');
-	$.each(checkeds, function(i, items){
-		var $td = $(items).parent();
-		var id = $('input[name="case_code"]',$td).val();
-		ids.push(id);
-	});
-	var ctx = $("#ctx").val();
-	window.location.href = ctx + "/eval/settle/newEndForm?caseCodes="+ids;
-	
-}
-
-
-/**
- * 批量审批
- */
-$('#batchappro').click(function() {
-	var ids = new Array();
-	var checkeds=$('input[name="my_checkbox"]:checked');
-	$.each(checkeds, function(i, items){
-		var $td = $(items).parent();
-		var id = $('input[name="case_code"]',$td).val();
-		ids.push(id);
-	});
-	var ctx = $("#ctx").val();
-	
-	window.location.href = ctx + "/eval/settle/majorAppro?caseCodes="+ids;
-});
-
-/**
- * 导出excel（2013年之后版本）
- */
-function exportToExcel() {
-	var params = {};
-	params.search_status = $("#caseStatus  option:selected").val().trim();
-	params.search_settleFee = $("#endfee").val();
-	params.search_feeChangeReason = $('#costUpdateType option:selected').val();
-	params.search_finOrgID = $('#finOrgId').val();
-
-	var displayColomn = new Array;
-	displayColomn.push('caseCode');
-	displayColomn.push('PROPERTY_ADDR');
-	displayColomn.push('FEE_CHANGE_REASON');
-	displayColomn.push('FIN_ORG_ID');
-	displayColomn.push('APPLY_DATE');
-	displayColomn.push('ISSUE_DATE');
-	displayColomn.push('EVAL_REAL_CHARGES');
-	displayColomn.push('SETTLE_FEE');
-	displayColomn.push('REJECT_CAUSE');
-	displayColomn.push('STATUS');
-
-	var colomns = '&colomns=' + displayColomn;
-	var url = "/quickGrid/findPage?xlsx&";
-	var ctx = $("#ctx").val();
-	var queryId = '&queryId=queryEvalWaitEndList';
-	url = ctx + url + jQuery.param(params) + queryId  + colomns;
-	$('#excelForm').attr('action', url);
-	$('#excelForm').method="post" ;
-	$('#excelForm').submit();
+        data : data
+    })
 }
 /**
  * 计算返利分成和合计
@@ -260,7 +216,6 @@ function cal(){
     var total = parseFloat($('#rebateMoney').val());
     var count = 0;
     $('#info').find("tr:gt(0)").each(function(index,tr){
-        if(tr.attr(id)=='add')  return true;//跳过add行的计算
         var rebateMoneyi = $(tr).find('td:eq(3)').find('input');
         var rebateWarranti = $(tr).find('td:eq(4)').find('input');
         var rebateBusinessi = $(tr).find('td:eq(5)').find('input');

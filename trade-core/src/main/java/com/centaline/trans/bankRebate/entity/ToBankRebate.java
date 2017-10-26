@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ToBankRebate {
-    private Long pkid;
+    private String pkid;
 
     private String caseCode;
 
@@ -24,11 +24,13 @@ public class ToBankRebate {
 
     private String guaranteeCompId;
 
-    public Long getPkid() {
+    private String deptId;
+
+    public String getPkid() {
         return pkid;
     }
 
-    public void setPkid(Long pkid) {
+    public void setPkid(String pkid) {
         this.pkid = pkid;
     }
 
@@ -102,5 +104,13 @@ public class ToBankRebate {
 
     public void setGuaranteeCompId(String guaranteeCompId) {
         this.guaranteeCompId = guaranteeCompId == null ? null : guaranteeCompId.trim();
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
     }
 }

@@ -360,7 +360,7 @@ function resetPlanModal(){
                 });
             }else {
                 window.wxc.error("请先填写交易计划变更！",{"wxcOk":function () {
-                    ('#plan-modal-form').modal("hide");
+                    $('#plan-modal-form').modal("hide");
                 }})
             }
         },
@@ -574,13 +574,57 @@ function serviceRestart(){
     }});
 }
 
+//选择的权证类型
+var chooseType;
+//选择过户or贷款权证modal
+function showChoose(){
+	
+	chooseType = null;
+	var warrant = $('#warr').html();
+	var loan = $('#loan').html();
+
+	var addHtml = '<div class="col-lg-12">';
+	if((warrant && warrant.trim().length > 0) && (loan && loan.trim().length > 0)){	
+		addHtml += '<a href="javascript:showOrgCp(1)"><div class="contact-box change_width_left">贷款权证</div></a>';
+		addHtml += '<a href="javascript:showOrgCp(2)"><div class="contact-box change_width_left">过户权证</div></a>';
+
+	}else if(loan && loan.trim().length > 0){
+		addHtml += '<a href="javascript:showOrgCp(1)"><div class="contact-box change_width_left">贷款权证</div></a>';
+	}else if(warrant && warrant.trim().length > 0){
+		addHtml += '<a href="javascript:showOrgCp(2)"><div class="contact-box change_width_left">过户权证</div></a>';
+	}else{
+		window.wxc.alert("案件无过户或贷款权证");
+		return;
+	}
+	addHtml += '</div>';
+	
+	$("#leading-choose").empty();
+	$("#leading-choose").html(addHtml);
+
+    $('.contact-box').each(function() {
+        animationHover(this, 'pulse');
+    });
+    $('#lead-modal-choose').modal("show");
+}
+
+
+
 /**
  * 权证变更
  */
-function showOrgCp() {
+function showOrgCp(param) {
+	
+	$('#lead-modal-choose').modal("hide");
+	if(param == 1){
+		chooseType = "loan";
+	}else if(param == 2){
+		chooseType = "warrant";
+	}
+	
+	
 	var caseCode = $('#caseCode').val();
-	//获取贷款/过户权证,根据案件负责人
-	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode;
+	//获取贷款/过户权证
+	var url = "/case/getLoanOrWarrantList?caseCode="+caseCode +"&type="+chooseType;
 	var ctx = $("#ctx").val();
 	
 	$.ajax({
@@ -601,43 +645,6 @@ function showOrgCp() {
 		}
 	});
 
-}
-
-/**
- * 选择权证提交
- */
-function leadingChangeSubmit(){
-	
-	var leadingId = $('#leading-modal-data-show').val();
-	window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
-		var caseCode = $("#caseCode").val();
-		var instCode = $("#instCode").val();
-		
-		var url = "/case/changeLeadingUser";
-		var ctx = $("#ctx").val();
-		var params = '&userId=' + leadingId + '&caseCode=' + caseCode+"&instCode="+instCode;
-
-		$.ajax({
-			cache : false,
-			async : true,
-			type : "POST",
-			url : ctx + url,
-			dataType : "json",
-			timeout : 10000,
-			data : params,
-			success : function(data) {
-				if(data.success){
-					window.wxc.success("变更成功");
-					location.reload();
-				}else{
-					window.wxc.error(data.message);
-				}
-				
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-			}
-		});
-	}});
 }
 
 /**
@@ -682,7 +689,7 @@ function showLeadingModal(data) {
  * @param index
  */
 function changeLeadingUser(index) {
-    window.wxc.confirm("您是否确认进行责任人变更？",{"wxcOk":function(){
+    window.wxc.confirm("您是否确认进行变更？",{"wxcOk":function(){
         var caseCode = $("#caseCode").val();
         var instCode = $("#instCode").val();
         var userId = $("#user_" + index).val();
@@ -690,7 +697,7 @@ function changeLeadingUser(index) {
         var url = "/case/changeLeadingUser";
         var ctx = $("#ctx").val();
         url = ctx + url;
-        var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode;
+        var params = '&userId=' + userId + '&caseCode=' + caseCode+"&instCode="+instCode +"&chooseType="+chooseType;
 
         $.ajax({
             cache : false,
@@ -769,10 +776,14 @@ function evalApply(){
 		dataType:'json',
 		success:function(data){
 			if(data.success){
-				if(data.content == 1){//询价已完成,可以评估申请
+				/**
+				 * modify wbcaiyx 2017/10/26
+				 * 无关询价，注释
+				 */				
+				/*if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
 					}});*/
 					/**

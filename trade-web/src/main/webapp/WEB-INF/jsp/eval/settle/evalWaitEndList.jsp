@@ -17,6 +17,7 @@
 		<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
 		<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
@@ -37,9 +38,10 @@
 		<!-- index_css -->
 
 		<!-- index_css -->
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+		<!-- index_css -->
+		<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
 		<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 		<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
 		<link rel="stylesheet" href="<c:url value='/css/workflow/myCaseList.css' />" />
@@ -71,11 +73,15 @@
 				display: inline-block;
 			}
 			.table thead tr th {
-	   		 background-color: #4bccec;
-		    font-size: 14px;
-		    font-weight: normal;
-		    color: #fff;
-		}
+				 background-color: #4bccec;
+				font-size: 14px;
+				font-weight: normal;
+				color: #fff;
+			}
+			.apply_box{
+				padding: 30px 15px 50px 15px;
+				border-radius: 0px;
+			}
 		</style>
 		<content tag="pagetitle">评估结算案件列表</content>
     </head>
@@ -102,7 +108,7 @@
 							<div id="dateDiv_0" style="padding-left:45px;">
 								<label class="sign_left_two control-label">结算费用</label>
 								<div class="sign_right big_pad">
-									<input type="text" class="" id="endfee" name="endfee">
+									<input type="text" class="form-control data_style" id="endfee" name="endfee">
 								</div>
 							</div>
 						</div>
@@ -205,24 +211,27 @@
                                  <div class="modal-content animated fadeIn apply_box">
                                  	<%-- <input type="hidden" value="${caseCode}" id="caseCode" /> --%>
                                      <form action="" class="form_list clearfix" style="margin-bottom: 20px;">
-                                         <div class="form_tan">
+                                         <div class="line">
                                              <label class="control-label">
                                             		     请输入无需结算原因：
                                              </label>
                                              <input class="input_type input_extent" placeholder="请输入" value="" style="width:320px" id="noEndCause"/>
                                          </div>
-                                         <div class="form_tan tan_space">
-                                             <button type="button" class="btn btn-success" id="noEnd2" onclick="">
-                                                 <i class="icon iconfont"></i>&nbsp;确认
-                                             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                             <button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
+                                         <div class="line">
+											 <div class="add_btn text-center" style="margin:30px 126px;">
+												 <button type="button" class="btn btn-success" id="noEnd2" onclick="">
+													 <i class="icon iconfont"></i>&nbsp;确认
+												 </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												 <button type="button" class="btn btn-default"
+														 data-dismiss="modal">关闭</button>
+											 </div>
                  						</div>
                                      </form>
                                      <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a; </i></button>
 								 </div>
 							</div>
 				</div>
+
 
     <input type="hidden" id="ctx" value="${ctx}" />
         <!-- End page wrapper-->

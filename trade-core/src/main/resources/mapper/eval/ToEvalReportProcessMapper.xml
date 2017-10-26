@@ -380,7 +380,7 @@
   	   WHERE 
   	     CASE_CODE=#{caseCode,jdbcType=VARCHAR}
   	  AND
-  	     STATUS != '7'
+  	     STATUS != '7' AND STATUS != '6' 
   </select>
   
   <select id="findToEvalReportProcessByEvalCode" parameterType="java.lang.String" resultMap="BaseResultMap">

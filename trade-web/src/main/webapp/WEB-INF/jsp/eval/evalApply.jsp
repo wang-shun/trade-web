@@ -148,6 +148,7 @@
 							<input type="button" class="btn btn-success submit_From" value="提交">
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">
+							<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
 							<input type="button" class="btn btn-success submit_save" value="保存">
 							</c:if>
 						    <input type="button" id="closeButton" class="btn btn-grey ml5" value="关闭">

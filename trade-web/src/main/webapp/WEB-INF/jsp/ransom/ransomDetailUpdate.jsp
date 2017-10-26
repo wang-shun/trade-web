@@ -66,7 +66,7 @@
 							<label class="control-label sign_left_small">
 							<font color=" red" class="mr5">*</font>主贷人姓名</label> 
 							<select class="input_type yuanwid" id="borrowerName">
-								<option value="">请选择</option>
+								<!-- <option value="">请选择</option> -->
 								<option value="${guestInfo.get(0).guestName }">${guestInfo.get(0).guestName }</option>
 								<option value="${guestInfo.get(1).guestName }">${guestInfo.get(1).guestName }</option>
 							</select>
@@ -91,19 +91,24 @@
 								<tbody>
 									<tr>
 										<td>
-										<aist:dict id="finOrgCode" name="finOrgCode" clazz=" select_control yuanwid " display="select" dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" />
+										<aist:dict id="finOrgCode" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
+										dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" />
 										</td>
 										<td>
-											<aist:dict id="mortgageType" name="mortgageType" clazz=" select_control yuanwid " display="select" dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
+											<aist:dict id="mortgageType" name="mortgageType" clazz=" select_control yuanwid " display="select" 
+											dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
 										</td>
 										<td>
-											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " display="select" dictType="71015" defaultvalue="${tailinsVo.diyaType }" />
+											<aist:dict id="diyaType" name="diyaType" clazz=" select_control yuanwid " 
+											display="select" dictType="71015" defaultvalue="${tailinsVo.diyaType }" />
 										</td>
 										<td>
-											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  value="<fmt:formatNumber value='${ tailinsVo.loanMoney * 10000}' type='number' pattern='#0.00' />"> 万
+											<input id="loanMoney" name="loanMoney" type="text" class="form-control input-one" placeholder="单位：万元"  
+											value="<fmt:formatNumber value='${ tailinsVo.loanMoney/10000 }' type='number' pattern='#0.00' />"> 万
 									    </td>
 										<td>
-											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" value="<fmt:formatNumber value='${tailinsVo.restMoney * 10000}' type='number' pattern='#0.00' />"> 万
+											<input id="restMoney" name="restMoney" type="text" class="form-control input-one" placeholder="单位：万元" 
+											value="<fmt:formatNumber value='${tailinsVo.restMoney/10000 }' type='number' pattern='#0.00' />"> 万
 										</td>
 									</tr>
 								</tbody>
@@ -111,7 +116,8 @@
 							</table>
 							<div class="form_content">
 								<label class="control-label sign_left_small">借款金额总计</label> 
-								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" value="<fmt:formatNumber value='${ caseVo.borroMoney * 10000}' type='number' pattern='#0.00' />">
+								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" 
+								value="<fmt:formatNumber value='${ caseVo.borroMoney /10000}' type='number' pattern='#0.00' />">
 								<span>万</span>
 							</div>
 						</div>
@@ -161,7 +167,7 @@
 								<td>注销抵押</td>
 								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.receiveOneCode != null }">
@@ -169,7 +175,7 @@
 								<td>领取产证</td>
 								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 					</c:if>
@@ -179,7 +185,7 @@
 								<td>陪同还贷(一抵)</td>
 								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.payTwoCode != null }">
@@ -187,7 +193,7 @@
 								<td>陪同还贷(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.payTwoTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelOneCode != null }">
@@ -195,7 +201,7 @@
 								<td>注销抵押(一抵)</td>
 								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.cancelTwoCode != null }">
@@ -203,7 +209,7 @@
 								<td>注销抵押(二抵)</td>
 								<td><fmt:formatDate value='${taskVo.cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="javascript:void(0)">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskVo.receiveOneCode != null }">
@@ -228,7 +234,7 @@
 							<td>回款结清</td>
 							<td><fmt:formatDate value='${taskVo.paymentTime }' pattern='yyyy-MM-dd'/></td>
 							<td>${taskVo.doUser }</td>
-							<td><a href="javascript:void(0)">前往修改</a></td>
+							<td><a href="${ctx}/ransomChange/paymentView?ransomCode=${tailinsVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 				</tbody>

@@ -119,6 +119,7 @@ text-decoration: underline !important;
 </style>
 </head>
 <body>
+<input type="hidden" id="userId" value="${userId}" />
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <%-- <jsp:include page="/WEB-INF/jsp/case/glCaseDiv.jsp"></jsp:include> 合流jsp/cyx--%>
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -287,11 +288,11 @@ text-decoration: underline !important;
  							<p class="big">
 								<a href="{{ctx}}/eval/detail?caseCode={{item.CASE_CODE}}&evaCode={{item.EVA_CODE}}"  target="_blank">{{item.EVA_CODE}}</a>
 								{{if item.SUBSCRIBE_COUNT == 0}}
-									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
+									<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.EVA_CODE}}" isSubscribe="true">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe644;</i>
 									</span>
 								{{else}}
-									<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
+									<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.EVA_CODE}}" isSubscribe="false">
 										<i class="iconfont_s  markstar star_subscribe" status="1">&#xe63e;</i>
 									</span>
 								{{/if}}
