@@ -597,10 +597,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="ibox-content">
-									跟进信息
-									<h2 class="title">案件跟进</h2>
-									<div id="caseCommentList" class="view-content"></div>
+								<div class="ibox-content border-bottom clearfix space_box noborder">
+									<div id="caseCommentList" class="add_form"></div>
 								</div>
 							</div>
 						</div>
@@ -639,7 +637,8 @@
 
 	<!-- main End -->
 	<content tag="local_script">
-	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
@@ -659,6 +658,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
+	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	

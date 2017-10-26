@@ -122,7 +122,9 @@
 							<select name="" class="form-control select_control" id="caseStatus">
 								<option value="" selected="selected">请选择</option>
 								<option value="0">未提交</option>
-								<option value="1">未核对</option>
+								<option value="1">已驳回</option>
+								<!--<option value="5">已提交总监审批中</option>-->
+								<option value="6">已提交财务审批中</option>
 							</select>
 						</div>
 					</div>
@@ -285,7 +287,7 @@
 									</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>小张</td>
+                                    <td></td>
 									<td>{{item.REJECT_CAUSE}}</td>
 									
 									<td>
@@ -293,14 +295,16 @@
 						 				<span class="yes_color">未提交</span>
 					    			{{/if}}
 									{{if item.STATUS=='1'}}
-						 				<span class="yes_color">未核对</span>
+						 				<span class="yes_color">已驳回</span>
 					    			{{/if}}
 									{{if item.STATUS=='6'}}
 						 				<span class="yes_color">已提交财务审批中</span>
 					    			{{/if}}
 									</td>
 									<td class="center">
-									<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">修改</a>
+									{{if item.STATUS=='1'}}
+						 				<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">修改</a>
+					    			{{/if}}
 									<a onclick="noEnd({{item.pkId}})" target="_blank">无需结算</a>
                         			</td>
 									

@@ -2,11 +2,11 @@ package com.centaline.api;
 
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.centaline.trans.api.service.CaseApiService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.*;
 import com.centaline.trans.common.enums.CcaiFlowResultEnum;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +18,8 @@ public class EvalApiServiceTest extends AbstractServiceTest {
 	EvalApiService evalApiService;
 	@Autowired
 	UamSessionService uamSessionService;
+	@Autowired
+	UamUserOrgService uamUserOrgService;
 	@Test
 	public void evalRebateFeedBackTest(){
 		SessionUser user = uamSessionService.getSessionUserById("BE72FFF387DE4D0EB5F05ED4187BC25C");
@@ -50,8 +52,16 @@ public class EvalApiServiceTest extends AbstractServiceTest {
 
 	@Test
 	public void syncBankRebate(){
-		ApiResultData result = evalApiService.evalBankRebateSync();
-		System.out.println(result);
+		// ApiResultData result = evalApiService.evalBankRebateSync();
+		// System.out.println(result);
+	}
+	@Test
+	public void getUserCode(){
+		String id = "ACDA326A51DA4415A24FB7C65F0C213A";
+		SessionUser user = uamSessionService.getSessionUserById(id);
+		System.out.println(user.getEmployeeCode());
+		User u = uamUserOrgService.getUserById(id);
+		System.out.println(u.getEmployeeCode());
 	}
 
 }

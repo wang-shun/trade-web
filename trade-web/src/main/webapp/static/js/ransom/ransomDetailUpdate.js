@@ -12,13 +12,15 @@ $(document).ready(function(){
 			submitUpdateRansom();
 		}
 	});
+<<<<<<< HEAD
 	$("#close").click(function(){
 		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){
 			window.close();
 		}});
 	});
+=======
+>>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
 });
-
 
 	/**
 	 * 赎楼单修改

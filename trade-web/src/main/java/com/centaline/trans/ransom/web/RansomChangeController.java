@@ -1,5 +1,6 @@
 package com.centaline.trans.ransom.web;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,12 +199,12 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		//公共基本信息
 		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
-//		ToRansomCancelVo cancelVo = ransomService.getCancelInfo(ransomCode);
+		Map<String,Date> cancelMap = ransomService.getCancelInfo(ransomCode);
 		
 		request.setAttribute("partCode", partCode);
 		request.setAttribute("count", count);
 		request.setAttribute("detailVo", detailVo);
-//		request.setAttribute("cancelVo", cancelVo);
+		request.setAttribute("cancelMap", cancelMap);
 		
 		return "ransom/ransomCancelChange";
 	}
@@ -212,7 +213,7 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 	 * 领取产证
 	 * @param ransomCode
 	 * @param partCode
-	 * @param count 0:一抵 1:二抵
+	 * @param count 0:一抵  1:二抵
 	 * @param request
 	 * @return
 	 */
@@ -221,12 +222,12 @@ private Logger logger = LoggerFactory.getLogger(this.getClass());
 		
 		//公共基本信息
 		ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
-//		ToRansomPermitVo permitVo = ransomService.getPermitInfo(ransomCode);
+		Map<String,Date> permitMap = ransomService.getPermitInfo(ransomCode);
 		
 		request.setAttribute("partCode", partCode);
 		request.setAttribute("count", count);
 		request.setAttribute("detailVo", detailVo);
-//		request.setAttribute("permitVo", permitVo);
+		request.setAttribute("permitMap", permitMap);
 		
 		return "ransom/ransomPermitChange";
 	}
