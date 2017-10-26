@@ -1111,6 +1111,10 @@ function hlts(){
 }
 
 function ransomSuspend(caseCode, ransomCode){
+	if(ransomCode==null || ransomCode=="" || caseCode==null || caseCode==""){
+		window.wxc.alert("赎楼单编号或案件编号不存在，请核实数据");
+		return;
+	}
 	var ctx = $("#ctx").val();
 	var url = ctx + "/task/ransomDiscontinue/isCanBeSuspend";
 	var params =  {ransomCode : ransomCode};

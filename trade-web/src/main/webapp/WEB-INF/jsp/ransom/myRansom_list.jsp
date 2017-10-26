@@ -337,7 +337,7 @@ text-decoration: underline !important;
 			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
 		{{if item.RANSOM_STATUS != 1}}
-			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}')" />
+			<input type="button" class="btn btn-success" value="中止" onclick="ransomSuspend('{{item.CASE_CODE}}','{{item.RANSOM_CODE}}')" />
 		{{/if}}
 	</td>
   </tr>
