@@ -399,6 +399,43 @@
 	});
 	
 	/**
+	 * 询价申请
+	 */
+	function evaPricingApply(){
+	    var info = "系统已存在与此案件相关的询价记录，是否关联？";
+	    var caseCode = $('#caseCode').val();
+	    var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
+	    $.ajax({
+	        cache : false,
+	        async : true,
+	        url:url,
+	        type:'POST',
+	        dataType:'json',
+	        success : function(data) {
+	            if(data.success){
+	                if(data.content){
+	                	window.wxc.alert("系统已存在与此案件相关的询价记录!");
+	                    /*window.wxc.confirm(info,{'wxcOk':function(){
+
+	                    },'wxcCancel':function(){
+	                        //新增询价
+	                        var ctx = $("#ctx").val();
+	                        window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+	                    }});*/
+	                }else{
+	                    var ctx = $("#ctx").val();
+	                    window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+	                }
+	            }else{
+	                window.wxc.error(data.message);
+	            }
+	        },
+	        error : function(XMLHttpRequest, textStatus, errorThrown) {
+	        }
+	    });
+
+	}
+	/**
 	 * 评估申请
 	 */
 	function evalApply(){
@@ -497,6 +534,10 @@
 						id="btnCaseView" lang="${caseCode}">
 						<i class="iconfont icon">&#xe642;</i>案件视图
 					</button>
+					<a role="button" class="btn btn-primary btn-xm btn-activity"
+						href="javascript:evaPricingApply()">询价申请</a>
+					<a role="button" class="btn btn-primary btn-xm btn-activity"
+									href="javascript:evalApply()">评估申请</a>			
 				</div>
 			</div>
 		</div>
@@ -847,8 +888,9 @@
 
 			<div class="form-btn">
 				<div class="text-center">
-				<button class="btn btn-success btn-space" onclick="javascript:evalApply()"
-						id="btnSave">发起评估申请</button>
+				<!-- 任哥和文档要求评估申请放在案件操作里面 -->
+				<!-- <button class="btn btn-success btn-space" onclick="javascript:evalApply()"
+						id="btnSave">发起评估申请</button> -->
 					<button class="btn btn-success btn-space" onclick="save(false)"
 						id="btnSave">保存</button>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>

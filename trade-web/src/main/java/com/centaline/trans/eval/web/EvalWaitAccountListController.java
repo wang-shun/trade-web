@@ -220,7 +220,7 @@ public class EvalWaitAccountListController {
 		for (String caseCode : caseCodes) {
 			//System.out.println(rejectCause);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(0));//0:修改状态，未提交
+			toEvalSettle.setStatus(String.valueOf(1));//1:修改状态，已驳回
 			toEvalSettle.setCaseCode(caseCode);
 			toEvalSettleService.updateByCaseCode(toEvalSettle);
 			

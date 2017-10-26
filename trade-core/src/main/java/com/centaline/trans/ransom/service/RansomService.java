@@ -142,7 +142,7 @@ public interface RansomService {
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode);
+	Map<String,Date> getMortgageInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 陪同还贷信息查询，并判断存在二抵
@@ -156,14 +156,14 @@ public interface RansomService {
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomCancelVo getCancelInfo(String ransomCode);
+	Map<String,Date> getCancelInfo(String ransomCode);
 	
 	/**
 	 * 查询领取产证信息
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomPermitVo getPermitInfo(String ransomCode);
+	Map<String,Date> getPermitInfo(String ransomCode);
 	
 	/**
 	 * 查询回款结清信息
