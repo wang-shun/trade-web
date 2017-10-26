@@ -37,9 +37,10 @@
 		<!-- index_css -->
 
 		<!-- index_css -->
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+		<!-- index_css -->
+		<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
 		<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 		<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
 		<link rel="stylesheet" href="<c:url value='/css/workflow/myCaseList.css' />" />
@@ -102,7 +103,7 @@
 							<div id="dateDiv_0" style="padding-left:45px;">
 								<label class="sign_left_two control-label">结算费用</label>
 								<div class="sign_right big_pad">
-									<input type="text" class="" id="endfee" name="endfee">
+									<input type="text" class="form-control data_style" id="endfee" name="endfee">
 								</div>
 							</div>
 						</div>
