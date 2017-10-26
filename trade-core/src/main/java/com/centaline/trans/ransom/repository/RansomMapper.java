@@ -165,7 +165,7 @@ public interface RansomMapper {
 	 * @param ransomCode 赎楼编号
 	 * @return
 	 */
-	ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode);
+	List<ToRansomMortgageVo> getMortgageInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询陪同还贷信息,并判断存在二抵
