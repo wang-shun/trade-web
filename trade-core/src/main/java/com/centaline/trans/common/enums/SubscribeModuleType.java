@@ -6,6 +6,7 @@ package com.centaline.trans.common.enums;
 public enum SubscribeModuleType {
 
     CASE("1001", "案例"),
+    EVAL("2001", "评估"),
     NOT_FOUND("0000", "未知的枚举类型");
 
     private String value;

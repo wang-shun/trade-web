@@ -193,7 +193,7 @@ text-decoration: underline !important;
                         	&#xe604;
                      	</i>
                    	</th>
-					<th ><span class="sort" sortColumn="CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+					<th ><span class="sort" sortColumn="EVA_CODE" sord="desc" onclick="caseCodeSort();" >评估编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 					<th >任务名</th>
 					<th >产证地址</th>
 					<th >贷款权证</th>
@@ -303,19 +303,19 @@ text-decoration: underline !important;
 				
 			<td class="t-left">
 				<p class="big">
-                	<a href="{{ctx}}/case/caseDetail?caseId={{item.PKID}}" target="_blank">{{item.CASE_CODE}}</a>
+                	<a href="{{ctx}}/eval/detail?evaCode={{item.EVA_CODE}}&caseCode={{item.CASE_CODE}}" target="_blank">{{item.EVA_CODE}}</a>
 					{{if item.SUBSCRIBE_COUNT == 0}}
-						<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.CASE_CODE}}" isSubscribe="true">
+						<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.EVA_CODE}}" isSubscribe="true">
                         	<i class="iconfont_s markstar star_subscribe" status="1">&#xe644;</i>
                     	</span>
 					{{else}}
-						<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.CASE_CODE}}" isSubscribe="false">
+						<span style="cursor: pointer;" class="starmack subscribe active"  moduleCode="{{item.EVA_CODE}}" isSubscribe="false">
 							<i class="iconfont_s markstar star_subscribe" status="1">&#xe63e;</i>
 						</span>
 					{{/if}}
 				</p>
 				<p>
-					<i class="tag_sign">c</i>{{item.CCAI_CODE}}
+					<i class="tag_sign">案</i>{{item.CASE_CODE}}
 				</p>
 			</td>
 

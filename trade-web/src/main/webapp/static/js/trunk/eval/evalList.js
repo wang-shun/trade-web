@@ -101,7 +101,7 @@ function reloadGrid(data) {
 			mycase_initpage(data.total,data.pagesize,data.page, data.records);
 			demoPoshytip();
 			$("#evalList").subscribeToggle({
-				moduleType:"1001",
+				moduleType:"2001",
 				subscribeType:"2001"
 			});
 

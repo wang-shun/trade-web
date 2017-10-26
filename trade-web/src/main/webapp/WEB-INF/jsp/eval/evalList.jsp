@@ -203,7 +203,7 @@ text-decoration: underline !important;
 						<thead>
 							<tr>
 								<th></th>
-								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+								<th ><span class="sort" sortColumn="ERP.EVA_CODE" sord="desc" onclick="caseCodeSort();" >评估编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >产权地址</th>
 								<th >评估公司</th>
 								<th >买房</th>
