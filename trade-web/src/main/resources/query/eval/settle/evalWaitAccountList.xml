@@ -29,7 +29,7 @@
 	</formatters>
 	<query id="queryEvalWaitEndList">
 		<searchCondition>
-            <condition field="a.FIN_ORG_ID" name="finOrgID" label="评估公司" searchType="Like" showType="" showCallback="" defaultValue=""/>
+            <condition field="b.FIN_ORG_ID" name="finOrgID" label="评估公司ID" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.SETTLE_FEE" name="settleFee" label="结算费用" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.STATUS" name="status" label="案件状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.FEE_CHANGE_REASON" name="feeChangeReason" label="费用调整类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
@@ -97,11 +97,13 @@
 			select b.CASE_CODE as caseCode,b.EVA_CODE as evalCode,b.FIN_ORG_ID,b.APPLY_DATE,b.ISSUE_DATE,b.EVA_PRICE,
 				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS,a.SETTLE_NOT_REASON,
 				c.PROPERTY_ADDR,
-				d.EVAL_REAL_CHARGES
+				d.EVAL_REAL_CHARGES,
+				fin.FIN_ORG_NAME EVA_COMPANY
 			from sctrans.T_TO_EVA_SETTLE a inner join 
 			sctrans.T_TO_EVA_REPORT_PROCESS b on a.CASE_CODE = b.CASE_CODE
 			inner join sctrans.T_TO_PROPERTY_INFO c on a.CASE_CODE = c.CASE_CODE
 			inner join sctrans.T_TO_EVA_REBATE d on a.CASE_CODE = d.CASE_CODE
+			INNER JOIN sctrans.T_TS_FIN_ORG fin ON b.FIN_ORG_ID = fin.FIN_ORG_CODE
 			  WHERE 1=1
 					and a.STATUS = '5'	
      				
@@ -116,6 +118,7 @@
 		<grid>
 			<table-row>
 				<column name="ID" title="TASKID" hidden="true" />
+				<column type="both" name="EVA_COMPANY" title="评估公司" width="90" isSort="true"/>
 				<column  name="pkId"   title="主键"  index="" default="" checkbox=""  customDict="" sysDict="" format="" width="0" isSort="" align="" halign="" resizable="" />
 				<column type="both" name="caseCode" index="" checkbox="" title="案件编号" display="案件编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>
 				<column type="both" name="evalCode" index="" checkbox="" title="评估单编号" display="评估单编号" customDict="" sysDict="" format="" width="90" isSort="" align="" halign="" order="" resizable=""/>

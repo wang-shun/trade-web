@@ -181,6 +181,12 @@ table tbody select, input {
 									<tbody id="case-link"></tbody>
 								</table>
 							</div>
+							<div class="text-center page_box">
+								<span id="currentTotalPage"><strong ></strong></span>
+								<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagergoto">
+								</div>  
+						    </div> 
 						</div>
 					</div>
 				</div>
@@ -328,25 +334,7 @@ table tbody select, input {
 	<script src="<c:url value='/static/js/morris/raphael-min.js' />"></script> 
 	<!-- index_js -->
 	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-	<!-- 上传附件相关 --> 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
-	<script src="<c:url value='/js/ransom/addRansom.js' />"></script>
-	<script src="<c:url value='/js/trunk/task/loanerProcessList.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-	<!-- 上传附件 结束 --> <!-- 附件保存修改相关 --> 
+	<!-- 附件保存修改相关 --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
@@ -359,7 +347,7 @@ table tbody select, input {
 	<!-- 引入弹出框js文件 --> 
 	<script src="<c:url value='/js/common/xcConfirm.js' />"></script> 
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
-	
+	<script src="<c:url value='/js/ransom/addRansom.js' />"></script>
 	
 	
 	<script id="template_ransomCaseLink" type="text/html">
@@ -372,9 +360,9 @@ table tbody select, input {
         		<td>
 					<input type="hidden" value="{{item.propertyAddr}}" />
 					<p class="big">{{item.propertyAddr}}</p>
-					<p class="big">{{item.agentName}} / {{item.grpName}}</p>
+	
 				</td>
-        		<td>交易顾问:{{item.realName}}</td>
+        		<td>经办人:{{item.realName}}</td>
         		<td>{{item.seller}}</td>
         		<td>{{item.buyer}}</td>
         		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" class="btn btn-success linkCase" name="linkCase">关联 </button></td>

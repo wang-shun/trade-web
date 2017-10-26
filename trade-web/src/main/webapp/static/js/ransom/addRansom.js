@@ -1,5 +1,5 @@
 $(document).ready( function() {
-//	debugger;
+
    $("#submitBtn").click(function(){
  	  if(!checkFormSubmit() && checkForm()){
  		  //return false;
@@ -11,7 +11,7 @@ $(document).ready( function() {
    
    
    function submitNewRansom(){
-	  debugger;
+
 	  var totalArr = [];
 	  var caseCode = $('#content_caseCode').text();
 	  
@@ -172,7 +172,7 @@ $(document).ready( function() {
   * @returns
   */
  function checkLink(caseCode){
-	 debugger;
+
 	 
 	 $.ajax({
 			url:ctx+ "/ransomList/queryRansomCode" ,
@@ -181,7 +181,7 @@ $(document).ready( function() {
 			async: false,
 			data: {caseCode:caseCode},
 			success : function(data) {
-				debugger;
+	
 				if(data.status == "0"){
 					window.wxc.success("案件关联成功！"); 
 					window.location.href = ctx+"/ransomList/ransomLinkInfo?caseCode=" + caseCode;
@@ -205,7 +205,6 @@ $(document).ready( function() {
  }
  
 	function showPop() {
-		debugger;
 		$("#myModal").show();
 		$(".modal-backdrop").show();
 		reloadDetail();
@@ -214,14 +213,16 @@ $(document).ready( function() {
 	 /**
 	  * 关联案件信息查询
 	  */
-	 function reloadDetail(){
-	 	debugger;
+	 function reloadDetail(page){
 	 	var url = ctx + '/quickGrid/findPage';
 	 	var caseCode = $('#caseCodet').val().trim();
 	 	var propertyAddr = $('#propertyAddr').val().trim();
 	 	var sellerName = $('#sellerName').val().trim();
 	 	var data = {};
-	 	data.page = 1;
+	 	data.page =1;
+	 	if(page) {
+	 		data.page = page;
+		}
 	 	data.rows = 10;
 	 	data.queryId = "queryRansomCaseLink";
 	 	data.argu_caseCode = caseCode;
@@ -240,13 +241,46 @@ $(document).ready( function() {
 	         	$.unblockUI();
 	         	var html = template('template_ransomCaseLink',data);
 	       		$('#case-link').html(html);
+	       		// 显示分页 
+	              initpage(data.total,data.pagesize,data.page, data.records);
 	         }
 	 	});	
 	 }
 	 
+	//分页
+	 function initpage(totalCount,pageSize,currentPage,records){
+	 	if(totalCount>1500){
+	 		totalCount = 1500;
+	 	}
+	 	var currentTotalstrong=$('#currentTotalPage').find('strong');
+	 	if (totalCount<1 || pageSize<1 || currentPage<1){
+	 		$(currentTotalstrong).empty();
+	 		$('#totalP').text(0);
+	 		$("#pageBar").empty();
+	 		return;
+	 	}
+	 	$(currentTotalstrong).empty();
+	 	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	 	$('#totalP').text(records);
+	 	
+	 	$("#pageBar").twbsPagination({
+	 		totalPages:totalCount,
+	 		visiblePages:9,
+	 		startPage:currentPage,
+	 		first:'<i class="fa fa-step-backward"></i>',
+	 		prev:'<i class="fa fa-chevron-left"></i>',
+	 		next:'<i class="fa fa-chevron-right"></i>',
+	 		last:'<i class="fa fa-step-forward"></i>',
+	 		showGoto:true,
+	 		onPageClick: function (event, page) {
+	 			 //console.log(page);
+	 			reloadDetail(page);
+	 	    }
+	 	});
+	 }
+	 
 	//查询
 	$('#searchButton').click(function() {
-		debugger;
 		reloadDetail();
 	});
 	
@@ -260,7 +294,6 @@ $(document).ready( function() {
 	 * @returns
 	 */
 	function choseRoleChange(){
-		debugger; 
 		var custName = $("#custName").val();
 		var sellTel = $("#sellTel").val();
 		var buyTel = $("#buyTel").val();

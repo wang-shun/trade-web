@@ -37,9 +37,9 @@
 		<!-- index_css -->
 
 		<!-- index_css -->
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/base.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
-		<link rel="stylesheet" href="<c:url value='/static/trans/css/common/input.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
 		<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 		<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
 		<link rel="stylesheet" href="<c:url value='/css/workflow/myCaseList.css' />" />
@@ -110,14 +110,17 @@
 					<div class="form_content">
 						<label class="sign_left_two control-label">贷款权证</label>
 						<div class="sign_right big_pad">
-							<select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
+							<select id="inTextType" data-placeholder="搜索条件设定" class="form-control select_control" onchange="intextTypeChange()">
 									<option value="1" selected>产证地址</option>
 									<option value="0">案件编号</option>
 									<option value="2">评估单编号</option>
 									
 							 </select>
-							 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
+
 						</div>
+					</div>
+					<div class="form_content">
+						<input id="inTextVal" type="text" class="form-control data_style">
 					</div>
 				</div>
 				<div class="row m-t-sm">
@@ -148,7 +151,7 @@
                                     <th>评估公司</th>
                                     <th>
                                     	<p class="aa">评估申请日期</p>
-                                    	<p class="aa">&nbsp;&nbsp;&nbsp;&nbsp;出报告日期</p>
+                                    	<p class="aa">出报告日期</p>
                                     </th> 
                                     <!-- <th>评估费实收</th>
                                     <th>评估值</th>
@@ -196,6 +199,7 @@
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <!-- 评估无需结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/noEndEvalList.js' />"></script>
         
@@ -220,7 +224,7 @@
 										<p>申：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
 									</td>
-									<td>出具评估报告</td>
+									<td></td>
                                     <td>{{item.SETTLE_NOT_REASON}}</td>
                                 </tr>
 						{{/each}}
