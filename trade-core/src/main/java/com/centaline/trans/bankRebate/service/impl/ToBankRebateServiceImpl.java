@@ -2,7 +2,7 @@ package com.centaline.trans.bankRebate.service.impl;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
-import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
@@ -11,9 +11,9 @@ import com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper;
 import com.centaline.trans.bankRebate.repository.ToBankRebateMapper;
 import com.centaline.trans.bankRebate.service.ToBankRebateService;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
-import com.centaline.trans.cases.entity.ToCaseInfo;
-import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.common.enums.BankRebateStatusEnum;
+import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.service.ToApproveRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,10 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 	private EvalApiService evalApiService;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private ToApproveRecordService toApproveRecordService;
+	//银行返利 审批类型
+	private static String BANK_REBATE_APPROVE_TYPE = "22";
 
 	@Override
 	public void insertBankRebate(ToBankRebateInfoVO info) {
@@ -145,12 +149,22 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 
 	@Override
 	public void submitCcai(ToBankRebateInfoVO info) {
-		ApiResultData result = evalApiService.evalBankRebateSync(info,uamSessionService.getSessionUser().getId());
+		SessionUser user = uamSessionService.getSessionUser();
+		ApiResultData result = evalApiService.evalBankRebateSync(info,user.getId());
 		if(result.isSuccess()){
 			ToBankRebate rebate = info.getToBankRebate();
 			rebate.setStatus(BankRebateStatusEnum.SUBMIT.getCode());
 			rebate.setSubmitTime(new Date());
 			toBankRebateMapper.updateByPrimaryKeySelective(rebate);
+
+			ToApproveRecord record = new ToApproveRecord();
+			record.setOperator(user.getId());
+			record.setPartCode("BankRebate");
+			record.setApproveType(BANK_REBATE_APPROVE_TYPE);
+			record.setContent("提交审批");
+			record.setOperatorTime(new Date());
+			record.setCaseCode(info.getToBankRebate().getGuaranteeCompId());//以批次号作为查询条件
+			toApproveRecordService.saveToApproveRecord(record);
 		}else{
 			throw new BusinessException(result.getMessage());
 		}
