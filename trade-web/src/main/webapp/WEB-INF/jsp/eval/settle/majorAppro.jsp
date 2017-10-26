@@ -42,9 +42,8 @@
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <span>待结算审批列表</span>
         <div id="wrapper" class="Index">
-       			<!-- Main view -->
                     <div class="bonus-table">
-                        <table>
+                        <table class="table table_blue table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>案件编号</th>
@@ -377,7 +376,10 @@
 					});
 					var ctx = $("#ctx").val();
 					
-		 			window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					window.wxc.confirm("确定批量审批通过吗？",{"wxcOk":function(){
+						window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					}});
+		 			
 	 	    })
 
 	    </script>
