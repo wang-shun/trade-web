@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -79,13 +80,15 @@ public class CaseCloseController {
 		request.setAttribute("operator", user != null ? user.getId():"");
 		toAccesoryListService.getAccesoryListCaseClose(request, caseCode);
 		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
-		ToApproveRecord tar = new ToApproveRecord();
-		tar.setCaseCode(caseCode);
-		tar.setPartCode(OldActivitiFormKey.CaseCloseFirstApprove.getTaskDefinitionKey());
-		tar.setProcessInstance(String.valueOf(request.getAttribute("processInstanceId")));
-		List<ToApproveRecord> tarList = toApproveRecordService.queryToApproveRecords(tar);
-		if(tarList != null && tarList.size() > 0) {
-			request.setAttribute("notFirstTimeSubmit", 1);
+		if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
+			ToApproveRecord tar = new ToApproveRecord();
+			tar.setCaseCode(caseCode);
+			tar.setPartCode(OldActivitiFormKey.CaseCloseFirstApprove.getTaskDefinitionKey());
+			tar.setProcessInstance(String.valueOf(request.getAttribute("processInstanceId")));
+			List<ToApproveRecord> tarList = toApproveRecordService.queryToApproveRecords(tar);
+			if(tarList != null && tarList.size() > 0) {
+				request.setAttribute("notFirstTimeSubmit", 1);
+			}
 		}
 		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
 		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
