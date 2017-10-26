@@ -18,9 +18,6 @@ $(document).ready(function() {
 		moduleType:"1001",
 		subscribeType:"2001"
 	});
-	$("#mortageService").change(function(){
-		mortageService();
-	});
 	var caseCode = $("#caseCode").val();
 	var evaCode = $("#evaCode").val();
 	//评估操作记录

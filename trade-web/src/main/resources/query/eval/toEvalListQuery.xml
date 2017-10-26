@@ -175,6 +175,7 @@
 			<baseSql>
 				<![CDATA[
 					SELECT DISTINCT
+					    A.STATUS AS CASE_STATUS,
 					    A.PKID AS ID,
 						A.CASE_CODE,
 						B.AGENT_CODE,
@@ -189,6 +190,7 @@
 						ERP.EVA_CODE, 
 						loan.REAL_NAME as LOANNAME,
 						ast.REAL_NAME as ASSITNAME,
+						TER.STATUS as REBATE_STATUS,
 						(select Count(PKID) FROM sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=ERP.EVA_CODE ) as SUBSCRIBE_COUNT
 					FROM
 					sctrans.T_TO_EVA_REPORT_PROCESS AS ERP
@@ -197,6 +199,7 @@
 					LEFT JOIN sctrans.T_TS_FIN_ORG AS FO ON ERP.FIN_ORG_ID=FO.FIN_ORG_CODE
 					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='loan') loan ON A.CASE_CODE=loan.CASE_CODE
 					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='assistant') ast ON A.CASE_CODE=ast.CASE_CODE
+					LEFT JOIN T_TO_EVA_REBATE TER ON A.CASE_CODE=TER.CASE_CODE
 					LEFT JOIN (
 						   SELECT DISTINCT 
 						       TG1.CASE_CODE, 
@@ -325,7 +328,9 @@
 				<column type="both" name="SYS_CREATE_TIME" index="" checkbox="" display="上报时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SYS_FINSH_TIME" index="" checkbox="" display="完成时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />		
+				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REBATE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>

@@ -3,6 +3,7 @@ package com.centaline.trans.eval.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +16,13 @@ import org.springframework.stereotype.Service;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.cases.entity.ToCaseParticipant;
 import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
+import com.centaline.trans.common.enums.EvalPropertyEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
@@ -33,7 +36,10 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
+import com.centaline.trans.eval.entity.ToEvaInvoice;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
+import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.repository.ToEvaInvoiceMapper;
 import com.centaline.trans.eval.service.EvaProcessService;
 import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
@@ -70,6 +76,8 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	private ToEvaPricingMapper toEvaPricingMapper;
 	@Autowired
     private ToSignMapper toSignMapper;
+	@Autowired
+	private ToEvaInvoiceMapper toEvaInvoiceMapper;
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -321,5 +329,34 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 			   logger.error("评估申请保存失败！",e);
 		 }
 		return response;
+	}
+
+	@Override
+	public AjaxResponse<?> saveEvalToSettle(String evals) {
+		   AjaxResponse<String> response = new AjaxResponse<String>();
+		   ToEvalReportProcess toEvalReportProcess = null;
+          //待结算的评估编号list
+		  List<String> list = JSONObject.parseArray(evals, String.class);
+		  if(list==null){
+		  }
+		  for(String evaCode:list){
+			    
+			  
+			  //toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);
+			  toEvalReportProcess.setEvalProperty(EvalPropertyEnum.PGBD.getCode());
+			  toEvalReportProcess.setEvaCode(evaCode);
+			  toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
+			  ToEvaInvoice toEvaInvoice = toEvaInvoiceMapper.selectByEvaCode(evaCode);
+			  if(toEvaInvoice!=null){//TODO 待确认发票申请状态
+				  ToEvalSettle toEvalSettle = new ToEvalSettle();
+				  toEvalSettle.setFeeChangeReason("");
+			  }
+			  
+			  
+		  }
+		
+		  //遍历 查询出评估对象，更改结算状态为      、查询出是否有发票税点、爆单、退费流程、入待结算
+		  
+		return  null;
 	}
 }
