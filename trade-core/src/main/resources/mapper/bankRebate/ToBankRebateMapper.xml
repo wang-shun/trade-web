@@ -13,10 +13,11 @@
     <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
     <result column="GUARANTEE_COMP_ID" property="guaranteeCompId" jdbcType="VARCHAR" />
     <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+    <result column="SUBMIT_TIME" property="submitTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, APPLY_TIME, GUARANTEE_COMPANY, COMPANY_ACCOUNT, REBATE_TOTAL, APPLY_PERSON, 
-    STATUS, COMMENT, GUARANTEE_COMP_ID, DEPT_ID
+    STATUS, COMMENT, GUARANTEE_COMP_ID, DEPT_ID, SUBMIT_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -39,11 +40,11 @@
     insert into sctrans.T_TO_BANK_REBATE (PKID, CASE_CODE, APPLY_TIME, 
       GUARANTEE_COMPANY, COMPANY_ACCOUNT, REBATE_TOTAL, 
       APPLY_PERSON, STATUS, COMMENT, 
-      GUARANTEE_COMP_ID, DEPT_ID)
+      GUARANTEE_COMP_ID, DEPT_ID, SUBMIT_TIME)
     values (newid(), #{caseCode,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP},
       #{guaranteeCompany,jdbcType=VARCHAR}, #{companyAccount,jdbcType=VARCHAR}, #{rebateTotal,jdbcType=DECIMAL}, 
       #{applyPerson,jdbcType=VARCHAR}, #{status,jdbcType=NVARCHAR}, #{comment,jdbcType=VARCHAR}, 
-      #{guaranteeCompId,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR})
+      #{guaranteeCompId,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, #{submitTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebate" >
     insert into sctrans.T_TO_BANK_REBATE
@@ -79,6 +80,9 @@
       <if test="deptId != null" >
         DEPT_ID,
       </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
        newid(),
@@ -111,6 +115,9 @@
       </if>
       <if test="deptId != null" >
         #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="submitTime != null" >
+        #{submitTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -147,6 +154,9 @@
       <if test="deptId != null" >
         DEPT_ID = #{deptId,jdbcType=VARCHAR},
       </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=CHAR}
   </update>
@@ -175,6 +185,9 @@
       <if test="deptId != null" >
         DEPT_ID = #{deptId,jdbcType=VARCHAR},
       </if>
+      <if test="submitTime != null" >
+        SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
   </update>
@@ -190,7 +203,8 @@
       STATUS = #{status,jdbcType=NVARCHAR},
       COMMENT = #{comment,jdbcType=VARCHAR},
       GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR},
-      DEPT_ID = #{deptId,jdbcType=VARCHAR}
+      DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP}
     where PKID = #{pkid,jdbcType=CHAR}
   </update>
 

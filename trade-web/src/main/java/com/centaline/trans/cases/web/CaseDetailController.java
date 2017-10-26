@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.centaline.trans.cases.repository.ToCaseRecvMapper;
 import com.centaline.trans.cases.service.*;
+import com.centaline.trans.common.enums.*;
 import com.centaline.trans.task.entity.*;
 import com.centaline.trans.task.service.*;
 
@@ -64,17 +65,6 @@ import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.common.entity.ToServChangeHistroty;
-import com.centaline.trans.common.enums.CaseParticipantEnum;
-import com.centaline.trans.common.enums.CasePropertyEnum;
-import com.centaline.trans.common.enums.DepTypeEnum;
-import com.centaline.trans.common.enums.LampEnum;
-import com.centaline.trans.common.enums.SubscribeModuleType;
-import com.centaline.trans.common.enums.SubscribeType;
-import com.centaline.trans.common.enums.TransDictEnum;
-import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.enums.TransPositionEnum;
-import com.centaline.trans.common.enums.WorkFlowEnum;
-import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.TgServItemAndProcessorService;
@@ -2173,7 +2163,7 @@ public class CaseDetailController {
 						tsTransPlanHistory.setChangerId(sessionUser.getId());
 						tsTransPlanHistory.setChangeReason(whyChanges[i]);
 						tsTransPlanHistory.setAppverPartCode(partCode);
-						tsTransPlanHistory.setAuditResult(0);//默认为待审核状态
+						tsTransPlanHistory.setAuditResult(ToApproveRecordEnum.DEFUALT.getCode());//默认为待审核状态
 						int res1=transplanServiceFacade.insertTsTransPlanHistorySelective(tsTransPlanHistory);
 						if(res1==0){
 							return AjaxResponse.fail("交易计划历史变更失败！");
