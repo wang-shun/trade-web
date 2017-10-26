@@ -75,7 +75,10 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 				String isEntrust = ransomMoneyVo.getIsEntrust();
 				
 				BigDecimal loanMoney = ransomMoneyVo.getRepayLoanMoney();
-				repayLoanMoney.add(loanMoney);
+				if(loanMoney == null) {
+					loanMoney = null;
+				}else repayLoanMoney.add(loanMoney);
+				
 				
 				moneyVo.setRansomCode(ransomMoneyVo.getRansomCode());
 				moneyVo.setBorrowerMoney(borrowerMoney);
