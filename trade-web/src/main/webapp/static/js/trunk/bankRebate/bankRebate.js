@@ -109,7 +109,8 @@ function pageInit(idx,bank){
                 return true;
             }
         });
-        if (check && count == total) {
+        if(!check) return;
+        if (count == total) {
             window.wxc.confirm("确定保存吗？", {
                 "wxcOk": function () {
                     save(true);
