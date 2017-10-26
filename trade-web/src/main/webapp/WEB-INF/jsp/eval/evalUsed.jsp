@@ -91,7 +91,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 领取人</label> 
-								<input class="input_type sign_right_two" name="reveiver" id="reveiver" value="${toEvalReportProcessVo.reveiver}"/>
+								<input class="input_type sign_right_two" name="receiver" id="receiver" value="${toEvalReportProcessVo.receiver}"/>
 							</div>
 						</li>
 						<li>
