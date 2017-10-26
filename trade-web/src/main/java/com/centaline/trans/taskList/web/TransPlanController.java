@@ -187,6 +187,7 @@ public class TransPlanController {
 			toApproveRecord.setProcessInstance(transPlanVO.getProcessInstanceId());
 			toApproveRecord.setPartCode(transPlanVO.getPartCode());
 			toApproveRecord.setOperator(sessionUser.getId());
+			toApproveRecord.setApproveType("5");//交易计划变更审批类型
 			toApproveRecord.setContent(audit==true?"交易变更审核通过！":"交易变更审核不通过！");
 			toApproveRecord.setOperatorTime(new Date());
 			loanlostApproveService.saveLoanlostApprove(toApproveRecord);
