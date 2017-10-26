@@ -500,35 +500,37 @@
 
                         <div class="form_content" id="notApproves"
                              style="display: none">
-                            <c:forEach items="${notApproves}" var="notApprove">
-                                <div class="col-sm-6">
-                                    <input type="checkbox" value="${notApprove.code}"
-                                           name="notApprove" class="btn btn-white"
-                                           onClick="appendNotApprove(this.checked,'${notApprove.name}');">
-                                    <label>${notApprove.name}</label>
-                                </div>
-                            </c:forEach>
-
-                            <c:if test="${not empty users }">
-                                <div class="col-sm-6">&nbsp;</div>
-                                <div class="col-sm-6">&nbsp;</div>
-                                <div class="col-sm-6">分配人员：</div>
-                                <div class="col-sm-6">&nbsp;</div>
-                                <c:forEach items="${users}" var="user" varStatus="var">
+                            <div class="row">
+                                <c:forEach items="${notApproves}" var="notApprove">
                                     <div class="col-sm-6">
-                                        <c:if test="${user.position=='warrant' or user.position=='loan'}">
-                                            <input type="checkbox" value="${user.userName }"
-                                                   name="members" class="btn btn-white" >
-                                        <label>${user.realName}<%--${var.index eq 0 ? '前台':'后台' }--%>
-                                            (
-                                            <c:if test="${user.position=='warrant'}">过户权证</c:if>
-                                            <c:if test="${user.position=='loan'}">贷款权证</c:if>
-                                            )
-                                            </label>
-                                        </c:if>
+                                        <input type="checkbox" value="${notApprove.code}"
+                                               name="notApprove" class="btn btn-white"
+                                               onClick="appendNotApprove(this.checked,'${notApprove.name}');">
+                                        <label>${notApprove.name}</label>
                                     </div>
                                 </c:forEach>
-                            </c:if>
+                            </div>
+                            <p></p>
+                            <div class="row">
+                                <c:if test="${not empty users }">
+                                    <div class="col-sm-6">分配人员：</div>
+                                    <c:forEach items="${users}" var="user" varStatus="var">
+                                        <div class="col-sm-6">
+                                            <c:if test="${user.position=='warrant' or user.position=='loan'}">
+                                                <input type="checkbox" value="${user.userName }"
+                                                       name="members" class="btn btn-white" >
+                                                <label>${user.realName}<%--${var.index eq 0 ? '前台':'后台' }--%>
+                                                    (
+                                                    <c:if test="${user.position=='warrant'}">过户权证</c:if>
+                                                    <c:if test="${user.position=='loan'}">贷款权证</c:if>
+                                                    )
+                                                </label>
+                                            </c:if>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>
+                            </div>
+
 
                         </div>
                     </div>
