@@ -360,7 +360,7 @@ function resetPlanModal(){
                 });
             }else {
                 window.wxc.error("请先填写交易计划变更！",{"wxcOk":function () {
-                    ('#plan-modal-form').modal("hide");
+                    $('#plan-modal-form').modal("hide");
                 }})
             }
         },
