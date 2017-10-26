@@ -179,14 +179,14 @@ public interface RansomMapper {
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomCancelVo getCancelInfoByRansomCode(String ransomCode);
+	List<ToRansomCancelVo> getCancelInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询领取产证信息
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomPermitVo getPermitInfoByRansomCode(String ransomCode);
+	List<ToRansomPermitVo> getPermitInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询回款结清信息

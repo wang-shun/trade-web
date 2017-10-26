@@ -210,6 +210,7 @@
 	<script
 		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<script
 		src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
@@ -242,10 +243,21 @@
 						url:url,
 						data:jsonData,
 						dataType:"json",
+						beforeSend:function(){
+							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+							$(".blockOverlay").css({'z-index':'9998'});
+						},
 						success:function(data){
+							$.unblockUI();
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
-									window.close();
+									if(window.opener)
+									{
+										 window.opener.location.reload();
+										 window.close();
+									} else {
+										 window.location.href = "${ctx }/task/ransom/taskList";
+									}
 								}});
 							}else{
 								window.wxc.error("提交失败!");
@@ -253,6 +265,7 @@
 							
 						},
 						error : function(errors) {
+							$.unblockUI();
 							window.wxc.error("查询失败!");
 						}
 					});
