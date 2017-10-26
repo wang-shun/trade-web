@@ -17,6 +17,7 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
@@ -29,6 +30,13 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	/**
+	 * 赎楼详情金额信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomMoneyVo> getRansomDetailMoneyInfo(String ransomCode);
 	
 	/**
 	 * 查询赎楼单列表信息数据by caseCode
