@@ -69,6 +69,8 @@ public class ToEvalReportProcess {
     
     private String finOrgName;
     
+    private String evalProperty;
+    
 
     public Long getPkid() {
         return pkid;
@@ -299,7 +301,12 @@ public class ToEvalReportProcess {
 	public void setChangeInfo(String changeInfo) {
 		this.changeInfo = changeInfo;
 	}
-	
-	
-    
+
+	public String getEvalProperty() {
+		return evalProperty;
+	}
+
+	public void setEvalProperty(String evalProperty) {
+		this.evalProperty = evalProperty;
+	}
 }

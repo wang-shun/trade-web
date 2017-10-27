@@ -227,7 +227,7 @@ function reloadGrid(data) {
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
 			$("#evalTaskList").subscribeToggle({
-				moduleType:"1001",//模块类型1001为案件类型
+				moduleType:"2001",//模块类型2001为评估类型
 				subscribeType:"2001"//模块功能类型2001为收藏
 			});
         }

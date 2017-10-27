@@ -226,7 +226,6 @@ function checkDate(id){
 
 //查询
 function searchMethod(page) {
-	debugger;
 	if(!page) {
 		page = 1;
 	}
@@ -239,6 +238,7 @@ function searchMethod(page) {
 	params.page = page;
 	params.rows = 10;
 	params.queryId = "ransomListItemList";
+	debugger;
 	console.log(params);
 	reloadGrid(params);
  

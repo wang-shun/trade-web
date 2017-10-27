@@ -114,6 +114,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	public boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent, String caseCode, String ransomCode) {
 		ToRansomCaseVo ransomCaseVo = new ToRansomCaseVo();
 		ransomCaseVo.setCaseCode(caseCode);
+		ransomCaseVo.setRansomCode(ransomCode);
 		//work_flow
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_suspend"));

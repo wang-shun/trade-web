@@ -17,7 +17,6 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
 
-
 	@Override
 	public int insertSelective(ToWorkFlow record) {
 		 toWorkFlowMapper.insertSelective(record);

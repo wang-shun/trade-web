@@ -109,5 +109,12 @@ public interface EvaProcessService {
 	 * @return
 	 */
 	AjaxResponse<?> saveUsed(ToEvalReportProcess toEvalReportProcess,String taskId);
+	
+	/**
+	 * 评估单入结算表
+	 * @param toEvalReportProcess
+	 * @return
+	 */
+	AjaxResponse<?> saveEvalToSettle(String evals);
 
 }

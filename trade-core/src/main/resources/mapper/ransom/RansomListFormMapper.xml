@@ -31,26 +31,19 @@
 	
 	<select id="getRansomPlanTime" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
 		 SELECT 
-			RANSOM_CODE ransomCode,
-			PART_CODE partCode,
-			EST_PART_TIME estPartTime,
-			REMARK remark,
-			CREATE_TIME createTime,
-			CREATE_USER createUser,
-			UPDATE_TIME updateTime,
-			UPDATE_USER updateUser 
-	FROM 
-		sctrans.T_RA_PLAN 
-	WHERE 
-		RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
-			AND 
-				PART_CODE IN(
-					SELECT 
-						PART_CODE 
-							FROM sctrans.T_RA_PLAN 
-								WHERE 
-									RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
-							)
+			pl.RANSOM_CODE ransomCode,
+			pl.PART_CODE partCode,
+			pl.EST_PART_TIME estPartTime,
+			(SELECT TOP 1 CHANGE_REASON FROM sctrans.T_RA_PLAN_HISTORY his WHERE his.PART_CODE = pl.PART_CODE ORDER BY his.CREATE_TIME DESC) remark,
+			pl.CREATE_TIME createTime,
+			pl.CREATE_USER createUser,
+			pl.UPDATE_TIME updateTime,
+			pl.UPDATE_USER updateUser 
+		FROM 
+			sctrans.T_RA_PLAN pl
+		WHERE 
+			pl.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
+			
 	</select>
 	
 	<select id="getPartCode" resultType="java.lang.String">
@@ -79,7 +72,7 @@
 	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
-		SELECT * FROM sctrans.T_RA_CASE WHERE 1=1
+		SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4)
 		<if test="caseCode != null and caseCode != ''">
 			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		</if>
@@ -345,8 +338,13 @@
 			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
 		</if>
 		ISSTOP = #{isstop,jdbcType=VARCHAR}
-		WHERE
-			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE RANSOM_STATUS NOT IN(3,4)
+		<if test="caseCode != null and caseCode != ''">
+			 AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		</if>
+		<if test="ransomCode != null and ransomCode != ''">
+			 AND RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		</if>
 	</update>
 	
 	<update id="updateRansomCaseByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
@@ -545,5 +543,58 @@
 
 		WHERE
 			tw.BIZ_CODE= #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getRansomStatusAndPart" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT 
+			rac.RANSOM_CODE ransomCode,
+			rac.RANSOM_STATUS ransomStatus,
+			act.TASK_DEF_KEY_ partCode,
+			tw.INST_CODE instCode
+		FROM sctrans.T_RA_CASE rac
+			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE
+			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
+		WHERE 
+			rac.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insertRansomPlanHis" parameterType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		INSERT INTO 
+			sctrans.T_RA_PLAN_HISTORY(
+				RANSOM_CODE,
+				PART_CODE,
+				OLD_EST_PART_TIME,
+				NEW_EST_PART_TIME,
+				CHANGE_REASON,
+				CHANGER_ID,
+				CHANGE_TIME,				
+				CREATE_USER,
+				CREATE_TIME
+		) VALUES(
+				#{ransomCode,jdbcType=VARCHAR}, 
+				#{partCode,jdbcType=VARCHAR}, 
+				#{oldEstPartTime,jdbcType=TIMESTAMP}, 
+				#{newEstPartTime,jdbcType=TIMESTAMP},
+				#{reason,jdbcType=VARCHAR}, 
+				#{createUser,jdbcType=VARCHAR}, 
+				#{createTime,jdbcType=TIMESTAMP}, 
+				#{createUser,jdbcType=VARCHAR}, 
+				#{createTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	
+	<select id="getRansomPlanChangeRecordByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomPlanVo">
+		SELECT
+			PART_CODE partCode,
+			OLD_EST_PART_TIME oldEstPartTime,
+			NEW_EST_PART_TIME newEstPartTime,
+			(SELECT REAL_NAME FROM sctrans.SYS_USER WHERE ID = CHANGER_ID) changeName,
+			CHANGE_TIME changeTime,
+			CHANGE_REASON reason
+		FROM
+			sctrans.T_RA_PLAN_HISTORY
+		WHERE
+			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+	
 	</select>
 </mapper>

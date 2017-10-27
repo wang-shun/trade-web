@@ -9,7 +9,8 @@ package com.centaline.trans.common.enums;
 public enum FeeChangeTypeEnum {
 	FPSD("1", "发票税点"),
     TBG("2", "退报告"),
-    BD("3", "爆单");
+    BD("3", "爆单"),
+	WD("4","无");
 
     private String code;
     private String name;

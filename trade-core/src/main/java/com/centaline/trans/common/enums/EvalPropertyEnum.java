@@ -8,10 +8,9 @@ package com.centaline.trans.common.enums;
  */
 public enum EvalPropertyEnum {
 	
-	PGYX("61001001", "有效"),
-	PGGQ("61001002", "挂起"),
-	PGBD("61001003", "爆单"),
-	PGBH("61001004", "驳回");
+	PGYX("71001001", "有效"),
+	PGGQ("71001002", "无效"),
+	PGBD("71001003", "结算");
     
     private String name;
 

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.centaline.trans.common.enums.PartCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -189,34 +190,35 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				.findTransPlanByCaseCode(caseCode);
 		TransPlanVO transPlanVO = new TransPlanVO();
 		for (ToTransPlan toTransPlan : list) {
-			if (toTransPlan.getPartCode().equals("LoanRelease")) {/* 放款 */
+
+			if (PartCodeEnum.FK.getCode().equals(toTransPlan.getPartCode())) {/* 放款 */
 				transPlanVO.setEstPartTimeFk(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidFk(toTransPlan.getPkid());
-			} else if (toTransPlan.getPartCode().equals("RatePayment")) { /*缴税Pt*/
+			} else if (PartCodeEnum.JS.getCode().equals(toTransPlan.getPartCode())) { /*缴税Pt*/
 				transPlanVO.setEstPartTimePt(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidPt(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("Guohu")) {/* 过户 */
+			}else if (PartCodeEnum.GH.getCode().equals(toTransPlan.getPartCode())) {/* 过户 */
 				transPlanVO.setEstPartTimeGh(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidGh(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("HouseBookGet")) {/* 领证 */
+			}else if (PartCodeEnum.LZ.getCode().equals(toTransPlan.getPartCode())) {/* 领证 */
 				transPlanVO.setEstPartTimeLz(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidLz(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("CommercialLoansSigned")) { /*商贷面签Cs*/
+			}else if (PartCodeEnum.SDMQ.getCode().equals(toTransPlan.getPartCode())) { /*商贷面签Cs*/
 				transPlanVO.setEstPartTimeCs(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidCs(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("BusinessLoanAssessmentReport")) { /*商贷出评估报告Br*/
+			}else if (PartCodeEnum.SDCPG.getCode().equals(toTransPlan.getPartCode())) { /*商贷出评估报告Br*/
 				transPlanVO.setEstPartTimeBr(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidBr(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("CommercialLendingCompleted")) {/*商贷批贷完成Cc*/
+			}else if (PartCodeEnum.SDPD.getCode().equals(toTransPlan.getPartCode())) {/*商贷批贷完成Cc*/
 				transPlanVO.setEstPartTimeCc(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidCc(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("ProvidentFundLoanBookApplication")) { /*公积金贷款预约申请Pa*/
+			}else if (PartCodeEnum.GJJDK.getCode().equals(toTransPlan.getPartCode())) { /*公积金贷款预约申请Pa*/
 				transPlanVO.setEstPartTimePa(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidPa(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("ProvidentFundSigned")) { /*公积金面签Pfs*/
+			}else if (PartCodeEnum.GJJMQ.getCode().equals(toTransPlan.getPartCode())) { /*公积金面签Pfs*/
 				transPlanVO.setEstPartTimePfs(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidPfs(toTransPlan.getPkid());
-			}else if (toTransPlan.getPartCode().equals("ProvidentFundLoanCompletion")) { /*公积金批贷完成Pfc*/
+			}else if (PartCodeEnum.GJJPD.getCode().equals(toTransPlan.getPartCode())) { /*公积金批贷完成Pfc*/
 				transPlanVO.setEstPartTimePfc(toTransPlan.getEstPartTime());
 				transPlanVO.setPkidPfc(toTransPlan.getPkid());
 			}
@@ -247,7 +249,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanPt.setCaseCode(transPlanVO.getCaseCode());
 					toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPt);
 				} else {
-					toTransPlanPt.setPartCode("RatePayment");
+					toTransPlanPt.setPartCode(PartCodeEnum.JS.getCode());
 					if (toTransPlanMapper.findTransPlan(toTransPlanPt) == null) {
 						toTransPlanMapper.insertSelective(toTransPlanPt);
 					}
@@ -263,7 +265,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanGh.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanGh);
 			} else {
-				toTransPlanGh.setPartCode("Guohu");
+				toTransPlanGh.setPartCode(PartCodeEnum.GH.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanGh) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanGh);
 				}
@@ -279,7 +281,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanLz.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanLz);
 			} else {
-				toTransPlanLz.setPartCode("HouseBookGet");
+				toTransPlanLz.setPartCode(PartCodeEnum.LZ.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanLz) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanLz);
 				}
@@ -295,7 +297,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanCs.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanCs);
 			} else {
-				toTransPlanCs.setPartCode("CommercialLoansSigned");
+				toTransPlanCs.setPartCode(PartCodeEnum.SDMQ.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanCs) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanCs);
 				}
@@ -311,7 +313,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanBr.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanBr);
 			} else {
-				toTransPlanBr.setPartCode("BusinessLoanAssessmentReport");
+				toTransPlanBr.setPartCode(PartCodeEnum.SDCPG.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanBr) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanBr);
 				}
@@ -327,7 +329,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanCc.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanCc);
 			} else {
-				toTransPlanCc.setPartCode("CommercialLendingCompleted");
+				toTransPlanCc.setPartCode(PartCodeEnum.SDPD.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanCc) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanCc);
 				}
@@ -343,7 +345,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanPa.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPa);
 			} else {
-				toTransPlanPa.setPartCode("ProvidentFundLoanBookApplication");
+				toTransPlanPa.setPartCode(PartCodeEnum.GJJDK.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanPa) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanPa);
 				}
@@ -359,7 +361,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanPfs.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPfs);
 			} else {
-				toTransPlanPfs.setPartCode("ProvidentFundSigned");
+				toTransPlanPfs.setPartCode(PartCodeEnum.GJJMQ.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanPfs) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanPfs);
 				}
@@ -375,7 +377,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 				toTransPlanPfc.setCaseCode(transPlanVO.getCaseCode());
 				toTransPlanMapper.updateByPrimaryKeySelective(toTransPlanPfc);
 			} else {
-				toTransPlanPfc.setPartCode("ProvidentFundLoanCompletion");
+				toTransPlanPfc.setPartCode(PartCodeEnum.GJJPD.getCode());
 				if (toTransPlanMapper.findTransPlan(toTransPlanPfc) == null) {
 					toTransPlanMapper.insertSelective(toTransPlanPfc);
 				}
@@ -392,7 +394,7 @@ public class TransplanServiceFacadeImpl implements TransplanServiceFacade {
 					toTransPlanMapper
 							.updateByPrimaryKeySelective(toTransPlanFk);
 				} else {
-					toTransPlanFk.setPartCode("LoanRelease");
+					toTransPlanFk.setPartCode(PartCodeEnum.FK.getCode());
 					if (toTransPlanMapper.findTransPlan(toTransPlanFk) == null) {
 						toTransPlanMapper.insertSelective(toTransPlanFk);
 					}

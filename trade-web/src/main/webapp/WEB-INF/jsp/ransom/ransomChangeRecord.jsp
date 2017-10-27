@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix='fmt' uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,13 +44,47 @@
                 <h2 class="title text-center">变更记录查看详情</h2>
 	        	<div  style="width: 1070px;height: 100%;top: 88px;">
 					<table class="table table_blue table-striped table-bordered table-hover ">
-						<!-- <thead>
-							<tr><th></th><th></th></tr>
-						</thead> -->
-						<tbody id="record-detail"></tbody>
+						<thead>
+							<tr>
+								<th >赎楼编号</th>
+								<th >环节</th>
+								<th >变更前计划时间</th>
+								<th >变更后计划时间</th>
+								<th >变更人</th>
+								<th >变更时间</th>
+								<th >变更理由</th>							
+							</tr>
+						</thead>
+						<tbody id="record-detail">
+							<c:forEach items="${plans }" var="record">
+								<tr>
+									<td>${ransomCode }</td>
+									<td>
+										<aist:dict id="ransomPart" name ="ransomPart" display="label" dictType="RANSOM_PART_CODE"
+													dictCode="${record.partCode }" />
+									<td>
+										<fmt:formatDate value='${record.oldEstPartTime }' pattern='yyyy-MM-dd'/>
+									</td>
+									<td>
+										<fmt:formatDate value='${record.newEstPartTime }' pattern='yyyy-MM-dd'/>
+									</td>
+									<td>${record.changeName }</td>
+									<td>
+										<fmt:formatDate value='${record.changeTime }' pattern='yyyy-MM-dd'/>
+									</td>
+									<td>${record.reason }</td>
+								</tr>
+							</c:forEach>
+						</tbody>
 					</table>
           			</div>
             </div>
+            
+           <div class="add_btn text-center mt20">
+	   		<div class="more_btn">
+   	    		<button id="closeButton" type="button" class="btn btn_blue" onclick="window.close()">关闭</button>
+			</div>
+		</div>
         </div>
         <content tag="local_script">
         <script src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
@@ -59,101 +94,6 @@
 		<!-- 提示 -->
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomChangeRecord.js'/>" type="text/javascript"></script>
-		
-		<script id="template_timeRecord" type= "text/html">
-			{{each rows as item index}}
-				{{if item.PART_CODE == "APPLY" }}
-					<tr>
-						<td>申请时间</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "SIGN" }}
-					<tr>
-						<td>面签时间</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "PAYLOAN_ONE"}}
-					<tr>
-						<td>陪同还贷时间(一抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "PAYLOAN_TWO"}}
-					<tr>
-						<td>陪同还贷时间(二抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "CANCELDIYA_ONE" }}
-					<tr>
-						<td>注销抵押时间(一抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "CANCELDIYA_TWO" }}
-					<tr>
-						<td>注销抵押时间(二抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "RECEIVE_ONE" }}
-					<tr>
-						<td>领取产证时间(一抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "RECEIVE_TWO" }}
-					<tr>
-						<td>领取产证时间(二抵)</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-				{{if item.PART_CODE == "PAYCLEAR" }}
-					<tr>
-						<td>回款结清时间</td>
-						<td>变更理由</td>
-					</tr>
-					<tr>
-						<td>{{item.EST_PART_TIME}}</td>
-						<td>{{item.REMARK}}</td>
-					</tr>
-				{{/if}}
-			{{/each}}
-		</script>
 		</content>
     </body>
 </html>

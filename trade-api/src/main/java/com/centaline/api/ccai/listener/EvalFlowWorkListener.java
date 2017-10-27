@@ -7,6 +7,10 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.bankRebate.entity.ToBankRebate;
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
+import com.centaline.trans.bankRebate.service.ToBankRebateService;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.cases.service.ToCaseParticipantService;
@@ -36,7 +40,7 @@ import com.centaline.trans.message.activemq.vo.MQEvalMessage;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.TsTaskDelegateService;
-
+import javafx.util.Pair;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -50,10 +54,7 @@ import org.springframework.stereotype.Component;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 导入成功的评估信息消费者
@@ -79,6 +80,9 @@ public class EvalFlowWorkListener {
 
 	@Autowired
 	private ToEvalRebateService toEvalRebateService;
+
+	@Autowired
+	private ToBankRebateService toBankRebateService;
 
 	@Autowired
 	private ToCaseInfoMapper toCaseInfoMapper;
@@ -187,6 +191,14 @@ public class EvalFlowWorkListener {
 			}else if(MQCaseMessage.EVAREFUND_TYPE.equals(message.getType())){
 				startProcessEvaRefund(message.getEvalCode());
 				mqlog.setStatus("0");
+			}else if(WorkFlowEnum.BANK_REBATE_PROCESS.getCode().equals(message.getFlowType())){
+				//银行返利报告
+				if(MQEvalMessage.STARTFLOW_TYPE.equals(message.getType())){
+					startProcessBankRebate(message.getEvalCode());
+					mqlog.setStatus("0");
+				}else{
+					throw new BusinessException("银行返利消息:未识别的操作.");
+				}
 			}else {
 				mqlog.setOpertation(message.getType());
 				mqlog.setStatus("-1");
@@ -520,6 +532,57 @@ public class EvalFlowWorkListener {
 			throw new BusinessException(org.getOrgName()+"["+info.getArCode()+"]部门下未获取到权证经理");
 		}
 		
+	}
+
+
+	/**
+	 * 开启银行返利报告审批流程
+	 * @param caseCode
+	 */
+	private void startProcessBankRebate(String bkId) {
+		ToBankRebate rebate = toBankRebateService.selectById(bkId);
+		if(rebate!=null){
+			ToBankRebateInfoVO vo = toBankRebateService.selectRebateByGuaranteeCompId(rebate.getGuaranteeCompId());
+			StringBuilder msg = new StringBuilder();
+			Map<String,Pair<User,ToBankRebateInfo>> flowInfo = new HashMap<>();//保存启动流程需要的信息，验证通过后统一启动
+			for(ToBankRebateInfo info : vo.getToBankRebateInfoList()){
+				String caseCode = info.getCaseCode();
+				User manager = toCaseParticipantService.findCaseLeader(caseCode);
+				if(manager!=null){
+					flowInfo.put(caseCode,new Pair<>(manager,info));
+				}else{
+					msg.append("未获取到案件["+caseCode+"] 的权证经理");
+				}
+			}
+			if(msg.length()>0){
+				throw new BusinessException(msg.toString());
+			}else{
+				//启动流程
+				for(String caseCode : flowInfo.keySet()){
+					Pair<User,ToBankRebateInfo> pair = flowInfo.get(caseCode);
+					User manager = pair.getKey();
+					ToBankRebateInfo info = pair.getValue();
+					engine.setAuthUserName(manager.getUsername());
+					Map<String, Object> defValsMap = new HashMap<>();
+					defValsMap.put("manager",manager.getUsername());
+					defValsMap.put("compId",info.getGuaranteeCompId());
+					ToWorkFlow toWorkFlow = new ToWorkFlow();
+					//启动流程引擎
+					StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.BANK_REBATE_PROCESS.getCode(),manager.getOrgId()), caseCode, defValsMap);
+					toWorkFlow.setInstCode(pIVo.getId());
+					toWorkFlow.setBusinessKey(WorkFlowEnum.BANK_REBATE_PROCESS.getCode());
+					toWorkFlow.setProcessDefinitionId(pIVo.getProcessDefinitionId());
+					toWorkFlow.setProcessOwner(manager.getId());
+					toWorkFlow.setCaseCode(caseCode);
+					toWorkFlow.setBizCode(caseCode);
+					toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
+					toWorkFlowService.insertSelective(toWorkFlow);
+					logger.info("银行返利报告编号[" + caseCode + "] 流程启动成功");
+				}
+			}
+		}else{
+			throw new BusinessException("银行返利信息["+bkId+"]不存在！");
+		}
 	}
 
 }

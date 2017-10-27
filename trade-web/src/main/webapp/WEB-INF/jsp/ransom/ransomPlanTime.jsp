@@ -46,7 +46,8 @@
         <div class="ibox-content border-bottom clearfix space_box">
             <h2 class="title text-center">如修改已经的录入时间计划，需录入变更理由</h2>
             <form method="get" class="form_list text-center" id="time-info">
-           		 <div class="line">
+            	<div id="dataBody"></div>
+           		<%--  <div class="line">
                     <div class="form_content">
                         <label class="control-label sign_left_small select_style mend_select" id="partCode0">申请时间</label>
                         <div class="input-group sign-right dataleft input-daterange" >
@@ -246,14 +247,15 @@
 	                         		 <input name="remark5"  class="teamcode input_type" placeholder="" value="${planMap['PAYCLEAR'].remark }" />
 	                         	</c:if>
 		                     </div>
-	              		</div>	
+	              		</div> --%>	
+             		</form>
                		<div> 
 						<div class="text-center">
-							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(1)" style="width: 110px;">保存</a>
-							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(2)" >变更记录查看</a>
+							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord()" style="width: 110px;">保存</a>
+							<a class="btn btn-success btn-space" href="javascript:checkChangeRecord()" >变更记录查看</a>
 						</div>
 					</div>
-                </form>
+                
         </div>
     </div>
         
@@ -263,17 +265,18 @@
 		<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 		<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
-      	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
+		
         <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 		<!-- 提示 -->
         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <script src="<c:url value='/js/poshytitle/src/jquery.poshytipuser.js' />"></script>
-        <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
+        <%-- <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script>  --%>
         
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
+
 		</content>
     </body>
 </html>

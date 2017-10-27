@@ -14,7 +14,7 @@ public class ToWorkFlow {
 	private String status;
 	private String bizCode;
 	private List<String> bizCodes;
-	
+
 	public Long getPkid() {
 		return pkid;
 	}

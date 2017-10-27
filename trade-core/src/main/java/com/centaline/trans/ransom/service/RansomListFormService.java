@@ -1,10 +1,11 @@
 package com.centaline.trans.ransom.service;
 
 import java.util.List;
-import java.util.Map;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
@@ -81,7 +82,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode);
+	ToRansomFormVo getRansomPlanTimeInfo(String ransomCode);
 	
 	/**
 	 * 赎楼时间计划信息
@@ -109,7 +110,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo);
+	AjaxResponse<String> updateRansomPlanTimeInfo(ToRansomFormVo ransomVo);
 	
 	/**
 	 * 赎楼时间计划信息更新
@@ -181,4 +182,12 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 获取赎楼单的所有计划时间变更记录
+	 * @author wbcaiyx
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode);
 }

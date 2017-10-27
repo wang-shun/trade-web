@@ -347,6 +347,7 @@
 				fileUpload = aistFileUpload;
 				fileUpload.init({
 					caseCode : $('#caseCode').val(),
+					bizCode : $('#ransomCode').val(),
 					partCode : "RansomMortgageOne",
 					fileUploadContainer : "ransomMortgageOnefileUploadContainer",
 					isAllUpdateY:false

@@ -169,4 +169,19 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 			throw new BusinessException(result.getMessage());
 		}
 	}
+
+	@Override
+	public ToBankRebate selectById(String id) {
+		return toBankRebateMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void updateToBankRebate(ToBankRebate bankRebate) {
+		toBankRebateMapper.updateByPrimaryKeySelective(bankRebate);
+	}
+
+	@Override
+	public void updateToBankRebateInfo(ToBankRebateInfo info) {
+		toBankRebateInfoMapper.updateByPrimaryKeySelective(info);
+	}
 }
