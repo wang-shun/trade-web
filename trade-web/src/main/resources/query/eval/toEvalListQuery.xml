@@ -187,7 +187,8 @@
 						ERP.STATUS,
 						ERP.SYS_CREATE_TIME,
 						ERP.SYS_FINSH_TIME,
-						ERP.EVA_CODE, 
+						ERP.EVA_CODE,
+						ERP.EVAL_PROPERTY, 
 						loan.REAL_NAME as LOANNAME,
 						ast.REAL_NAME as ASSITNAME,
 						TER.STATUS as REBATE_STATUS,
@@ -331,6 +332,7 @@
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CASE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REBATE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="EVAL_PROPERTY" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
