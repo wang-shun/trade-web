@@ -360,7 +360,7 @@
 				</p>
 			</td>
 			<td>
-				<p>
+				<p id="addr_{{index}}">
 					{{item.addr}}
 				</p>
 			</td>

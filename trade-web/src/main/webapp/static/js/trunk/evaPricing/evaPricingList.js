@@ -309,16 +309,19 @@ function gotoPage(obj){
 
 var preIndex = -1;
 var caseCode = '';
+var addr = '';
 function chooseTr(index){
 	if(preIndex == index){
 		$('#tr_'+preIndex).css('background','#ffffff');
 		preIndex = -1;
 		caseCode = '';
+		addr = '';
 	}else{
 		$('#tr_'+preIndex).css('background','#ffffff');
 		preIndex = index;
 		$('#tr_'+index).css('background','#aaaaaa');
 		caseCode = $('#p_'+index).text().trim();
+		addr = $('#addr_'+index).text().trim();
 	}
 }
 
@@ -407,12 +410,12 @@ function initpageModal(totalCount,pageSize,currentPage,records){
  * @returns
  */ 
 function evalApply(){
-	if(caseCode != ''){
+	if(caseCode != '' && addr != ''){
 		//关联案件
 		var pkid = $('#evaPricingId').val();
 		var evaCode = $('#evaCode').val();
 		
-		var data = "&pkid=" + pkid +"&caseCode=" + caseCode;
+		var data = "&pkid=" + pkid +"&caseCode=" + caseCode+"&addr="+addr;
 		$.ajax({
 			cache:true,
 			async:false,
@@ -421,7 +424,7 @@ function evalApply(){
 			data:data,
 			dataType:'json',
 			success:function(data){
-				if(data.content){
+				if(data.success){
 					window.location.href= ctx+"/task/eval/apply?evaCode="+evaCode+"&caseCode="+caseCode;
 				}else{
 					window.wxc.error('关联失败!');

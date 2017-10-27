@@ -202,13 +202,11 @@ public class EvaPricingListController {
 	 * @param caseCode
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping("evaPricingRelation")
 	@ResponseBody
-	public AjaxResponse<Boolean> evaPricingRelation(long pkid,String caseCode){
+	public AjaxResponse<String> evaPricingRelation(long pkid,String caseCode,String addr){
 		
-		boolean result = evaPricingService.evalRelation(pkid, caseCode);
-		return AjaxResponse.successContent(result);
+		return evaPricingService.updatEevalRelation(pkid, caseCode,addr);
 	}
 	
 	/**
