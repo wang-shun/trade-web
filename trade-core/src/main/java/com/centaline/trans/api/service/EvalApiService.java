@@ -1,10 +1,7 @@
 package com.centaline.trans.api.service;
 
-import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.api.vo.*;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
-
-import java.util.List;
 
 /**
  * 评估模块交互的接口
@@ -27,12 +24,20 @@ public interface EvalApiService {
 	CcaiAssessCompanyResultData getAllAssessCompany();
 
 	/**
-	 * 银行返利审批 同步到CCAI 财务进行审批
+	 * 银行返利审批 首次同步到CCAI 财务进行审批
 	 * @param info 银行返利申请信息
 	 * @param userId 申请人ID
 	 * @return
 	 */
 	ApiResultData evalBankRebateSync(ToBankRebateInfoVO info, String userId);
+
+	/**
+	 * 银行返利审批 同步到CCAI 财务进行审批
+	 * @param info 银行返利申请信息
+	 * @param userId 申请人ID
+	 * @return
+	 */
+	ApiResultData evalBankRebateModify(ToBankRebateInfoVO info, String userId);
 	/**
 	 * 获取CCAI中 返利银行列表
 	 * @return 返利银行名称 CCAI已名称作为唯一标识

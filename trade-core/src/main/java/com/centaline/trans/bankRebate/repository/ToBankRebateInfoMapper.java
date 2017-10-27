@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.common.MyBatisRepository;
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * @author wbwangxj
@@ -26,4 +28,13 @@ public interface ToBankRebateInfoMapper {
     int deleteRebateInfoByGuaranteeCompId(String guaCompId);
 
 	List<ToBankRebateInfo> selectRebateInfoByGuaranteeCompId(String guaranteeCompId);
+
+    /**
+     * 根据案件编号 申请批次号
+     * 获取 银行返利案件信息
+     * @param caseCode
+     * @param compId
+     * @return
+     */
+    ToBankRebateInfo selectToRebateInfoByCaseCodeAndCompId(@Param("caseCode") String caseCode,@Param("compId") String compId);
 }

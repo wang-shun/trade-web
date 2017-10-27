@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.basedata.remote.vo.Dict;
 import com.centaline.trans.bizwarn.entity.BizWarnInfo;
 import com.centaline.trans.bizwarn.repository.BizWarnInfoMapper;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -26,6 +28,8 @@ import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
+import com.centaline.trans.transplan.entity.ToTransPlan;
+import com.centaline.trans.transplan.repository.ToTransPlanMapper;
 
 
 @Service
@@ -46,6 +50,10 @@ public class CaseRecvServiceImpl implements CaseRecvService {
     private ToCcaiAttachmentMapper toCcaiAttachmentMapper;
     @Autowired
     private BizWarnInfoMapper bizWarnInfoMapper;
+	@Autowired
+	private UamBasedataService dictService;
+	@Autowired
+	private ToTransPlanMapper toTransPlanMapper;
 	@Override
 	public int deleteByPrimaryKey(String caseCode) {
 		return toCaseRecvMapper.deleteByPrimaryKey(caseCode);
@@ -58,8 +66,28 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 	 * 				判断是用insert or update;
 	 */
 	@Override
-	public void insertSelective(CaseRecvVO caseRecvVO) {	
+	public void insertSelective(CaseRecvVO caseRecvVO) {
 		String primaryCaseCode=caseRecvVO.getCaseCode();
+//		把预计网签时间和预计评估时间插入DB(transplan表)用于计算红绿灯
+//		预计网签时间
+		if(null!=caseRecvVO.getToCaseRecv().getEstSignTime()){
+			Dict dict = dictService.findDictByTypeAndCode("part_code", "TransSign");
+			ToTransPlan transSignTransPlan = new ToTransPlan();
+			transSignTransPlan.setCaseCode(primaryCaseCode);
+			transSignTransPlan.setPartCode(dict.getCode());
+			transSignTransPlan.setEstPartTime(caseRecvVO.getToCaseRecv().getEstSignTime());	
+			toTransPlanMapper.insertSelective(transSignTransPlan);
+		}
+//		预计评估申请时间
+		if(null!=caseRecvVO.getToCaseRecv().getEstEvlApplyTime()){
+			Dict dict = dictService.findDictByTypeAndCode("eval_part_code", "EvalReport");
+			ToTransPlan transSignTransPlan = new ToTransPlan();
+			transSignTransPlan.setCaseCode(primaryCaseCode);
+			transSignTransPlan.setPartCode(dict.getCode());
+			transSignTransPlan.setEstPartTime(caseRecvVO.getToCaseRecv().getEstEvlApplyTime());	
+			toTransPlanMapper.insertSelective(transSignTransPlan);
+		}
+				
 		ToPropertyInfo toPropertyInfo = caseRecvVO.getToPropertyInfo();
 		if(null!=toPropertyInfo){
 			ToPropertyInfo findToPropertyInfoByCaseCode = toPropertyInfoMapper.findToPropertyInfoByCaseCode(primaryCaseCode);
