@@ -268,11 +268,11 @@
 										{{item.STATUS}}
 									</td>
 									<td class="center">
-										{{if item.STATUS_OLD=='0'}}
+										{{if item.STATUS_OLD=='0' || item.STATUS_OLD=='-1'}}
 											<a href="${ctx}/bankRebate/bankRebateUpdate?guaranteeCompId={{item.GUARANTEE_COMP_ID}}" target="_blank">修改</a>
 											<a href="javascript:void(0)" onclick="submitBankRebate('{{item.GUARANTEE_COMP_ID}}')">提交</a>
 										{{/if}}
-										{{if item.STATUS_OLD=='1'}}
+										{{if item.STATUS_OLD=='1' || item.STATUS_OLD=='9'}}
 											<a href="${ctx}/bankRebate/details?guaranteeCompId={{item.GUARANTEE_COMP_ID}}">查看</a>
 										{{/if}}
                         			</td>
