@@ -38,9 +38,12 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -336,8 +339,15 @@ public class ToMortgageController {
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			// 不需要放款前报告
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
-			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
-
+			TaskVo taskVo = workFlowManager.getHistoryTask(processInstanceVO.getTaskId());
+			TaskHistoricQuery tq = new TaskHistoricQuery();
+			tq.setProcessInstanceId(taskVo.getProcessInstanceId());
+			tq.setTaskDefinitionKey(taskVo.getTaskDefinitionKey());
+			PageableVo  vo = workFlowManager.listHistTasks(tq);
+			
+			if(vo.getData().size() == 1){
+				workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+			}
 			// 提交流程之后需要更新贷款专员
 			SessionUser user = uamSessionService.getSessionUser();
 			toMortgage.setLoanAgent(user.getId());
