@@ -86,7 +86,6 @@
 		<if test="ransomCode != null and ransomCode != ''">
 			and RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 		</if>
-		
 	</select>
 	
 	<select id="getGuestInfo" resultMap="guestMap">
