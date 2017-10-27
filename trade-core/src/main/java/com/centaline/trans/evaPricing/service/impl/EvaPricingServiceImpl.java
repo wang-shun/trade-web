@@ -3,6 +3,7 @@ package com.centaline.trans.evaPricing.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,9 +13,21 @@ import org.springframework.stereotype.Service;
 
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
+import com.aist.uam.auth.remote.UamSessionService;
+import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.repository.ToCaseMapper;
+import com.centaline.trans.common.enums.TransJobs;
+import com.centaline.trans.common.enums.WorkFlowStatus;
+import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.entity.ToWorkFlow;
+import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
+import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.repository.ToEvaPricingMapper;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
@@ -44,6 +57,18 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	UamUserOrgService uamUserOrgService;
 	@Autowired
 	private ToEvalReportProcessMapper toEvalReportProcessMapper;
+	@Autowired
+	private PropertyUtilsService propertyUtilsService;
+	@Autowired
+	private ProcessInstanceService processInstanceService;
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
+	@Autowired
+	private UamSessionService uamSessionService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired
+	private TaskService taskService;
 
 	@Override
 	public ToEvaPricingVo findEvaPricingDetailByPKID(Long PKID,String evaCode) {
@@ -57,8 +82,12 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		return vo;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<String> insertEvaPricing(ToEvaPricingVo vo) {
+	public AjaxResponse<String> insertEvaPricing(ToEvaPricingVo vo) {
+		SessionUser user = uamSessionService.getSessionUser();
+		String userId = user.getId();
+		
 		BigDecimal evaPrice = vo.getTotalPrice();
 		BigDecimal originPrice = vo.getOriginPrice();
 		
@@ -96,7 +125,34 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			
 			evaCodes.add(evaCode);
 		}
-		return evaCodes;
+		
+		if(evaCodes.size() > 0 ){
+			for(String evaCode : evaCodes){
+				//启动流程
+				String processDefId = propertyUtilsService.getProcessDfId("evaPricing_process");
+				Map<String, Object> vals = new HashMap<String,Object>();
+				//目前为内勤本身
+				//查询内勤
+//				vals.put("assistant", user.getUsername());
+				List<User>  assiss = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(user.getServiceDepId(),TransJobs.TNQZL.getCode());
+				if(assiss == null || assiss.size() <= 0){
+					throw new BusinessException("查无内勤助理!");
+				}
+				vals.put("assistant", assiss.get(0).getUsername());
+				StartProcessInstanceVo pVo = processInstanceService.startWorkFlowByDfId(processDefId, evaCode, vals);
+	
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setBusinessKey("evaPricing_process");
+				wf.setCaseCode(!StringUtils.isEmpty(vo.getCaseCode())?vo.getCaseCode():evaCode);
+				wf.setBizCode(evaCode);
+				wf.setProcessOwner(userId);
+				wf.setProcessDefinitionId(processDefId);
+				wf.setInstCode(pVo.getId());
+				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
+				toWorkFlowService.insertSelective(wf);
+			}
+		}
+		return AjaxResponse.success();
 	}
 
 	@Override
@@ -114,7 +170,19 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			}
 		}
 		
-		
+		if(vo.getIsSubmit() == 1){
+			List<RestVariable> variables = new ArrayList<RestVariable>();
+			workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, null);
+			
+			//flow完结
+			ToWorkFlow flow=new ToWorkFlow();
+			flow.setBusinessKey("evaPricing_process");
+			flow.setCaseCode(!StringUtils.isEmpty(vo.getCaseCode())?vo.getCaseCode():vo.getEvaCode());
+			flow.setBizCode(vo.getEvaCode());
+			ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
+			evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+			toWorkFlowService.updateByPrimaryKeySelective(evaPricingFlow);
+		}
 	}
 	
 	@Override
@@ -163,14 +231,29 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	}
 
 	@Override
-	public ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode) {
-		return toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
-	}
-
-	@Override
-	public int updateEvaPricingDetail(Long pkid, String isValid, String reason) {
-		int count = toEvaPricingMapper.updateEvaPricingDetail(pkid, isValid, reason.length()>255?reason.substring(0, 255):reason);
-		return count;
+	public AjaxResponse<String> updateEvaPricingDetail(ToEvaPricingVo toEvaPricingVo) {
+		AjaxResponse<String> result = new AjaxResponse<String>();
+		
+		String reason = toEvaPricingVo.getReason();
+		int count = toEvaPricingMapper.updateEvaPricingDetail(toEvaPricingVo.getPkid(), toEvaPricingVo.getIsValid(), reason.length()>255?reason.substring(0, 255):reason);
+		if(count ==0){
+			result.setSuccess(false);
+			result.setMessage("数据更新失败");
+			return result;
+		}
+		taskService.submitTask(toEvaPricingVo.getTaskId());
+//		List<RestVariable> variables = new ArrayList<RestVariable>();
+//		workFlowManager.submitTask(variables, toEvaPricingVo.getTaskId(), toEvaPricingVo.getProcessInstanceId(), null, null);
+		
+		//flow完结
+		ToWorkFlow flow=new ToWorkFlow();
+		flow.setBusinessKey("evaPricing_process");
+		flow.setCaseCode(!StringUtils.isEmpty(toEvaPricingVo.getCaseCode())?toEvaPricingVo.getCaseCode():toEvaPricingVo.getEvaCode());
+		flow.setBizCode(toEvaPricingVo.getEvaCode());
+		ToWorkFlow evaPricingFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
+		evaPricingFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
+		toWorkFlowService.updateByPrimaryKeySelective(evaPricingFlow);
+		return result;
 	}
 
 	@Override
@@ -185,20 +268,22 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 			return result;
 		}
 		//检查是否已有询价申请记录及是否已完成,区分
-		ToEvaPricingVo evaPricing =  toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
-		if(evaPricing != null){
-			if("0".equals(evaPricing.getStatus())){
-				result.setSuccess(false);
-				result.setMessage("系统已存在与此案件相关的未完成的询价申请记录,请完成询价申请!");
-				return result;
-			}else if("1".equals(evaPricing.getStatus())){
-				//1：询价已完成,可以评估申请
-				result.setContent(1);
-				return result;
-			}
+		/*List<ToEvaPricingVo> evaPricings =  toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+		if(evaPricings != null){
+			for(ToEvaPricingVo evaPricing:evaPricings){
+				if("0".equals(evaPricing.getStatus())){
+					result.setSuccess(false);
+					result.setMessage("系统已存在与此案件相关的未完成的询价申请记录,请完成询价申请!");
+					return result;
+				}else if("1".equals(evaPricing.getStatus())){
+					//1：询价已完成,可以评估申请
+					result.setContent(1);
+					return result;
+				}
+			}	
 		}
 		//2：无询价申请记录或询价无效,需要先询价
-		result.setContent(2);
+		result.setContent(2);*/
 		return result;
 	}
 

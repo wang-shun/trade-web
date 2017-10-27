@@ -20,8 +20,11 @@ import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.enums.RansomStopStatusEnum;
+import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
+import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.service.RansomDiscontinueService;
@@ -63,6 +66,9 @@ public class RansomDiscontinueController {
 	
 	@Autowired
 	private RansomDiscontinueService ransomDiscontinueService;
+	
+	@Autowired
+	private ToWorkFlowService toWorkFlowService;
 	
 	/**
 	 * 赎楼中止申请,这个方法是为通过流程ID进入赎楼申请准备的

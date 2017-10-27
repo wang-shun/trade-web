@@ -143,6 +143,7 @@
 	<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 	<!-- 交易单编号 -->
 	<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+	<input type="hidden" id="ransomCode" name="ransomCode" value="${ransomCode}">
 	<%-- 原有数据对应id --%>
 	<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 	<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
@@ -210,9 +211,11 @@
 	<script
 		src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
 	<script	src="${ctx}/transjs/task/loanlostApprove.js"></script>
+	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<script
 		src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script
 		src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
@@ -235,24 +238,46 @@
 				$("#aprrove").click(function(){
 					var jsonData = $('#submitDiscontinue').serializeArray();
 					var url = "${ctx}/task/ransomDiscontinue/aprroSubmit";
-					
 					$.ajax({
 						async:false,
 						type:"POST",
 						url:url,
 						data:jsonData,
 						dataType:"json",
+						complete: function() {  
+			            	$.unblockUI();  
+		                    $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+						    $(".blockOverlay").css({'z-index':'1900'});
+			                 if(status=='timeout'){//超时,status还有success,error等值的情况
+				          	  Modal.alert(
+							  {
+							    msg:"抱歉，系统处理超时。"
+							  });
+					  		 $(".btn-primary").one("click",function(){
+					  				parent.$.fancybox.close();
+					  			});	 
+					                } 
+					            } , 
 						success:function(data){
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
-									window.close();
+									$.unblockUI();
+									if(window.opener)
+									{
+										 window.opener.location.reload();
+										 window.close();
+									} else {
+										 window.location.href = "${ctx }/task/ransom/taskList";
+									}
 								}});
 							}else{
+								$.unblockUI();
 								window.wxc.error("提交失败!");
 							}
 							
 						},
 						error : function(errors) {
+							$.unblockUI();
 							window.wxc.error("查询失败!");
 						}
 					});

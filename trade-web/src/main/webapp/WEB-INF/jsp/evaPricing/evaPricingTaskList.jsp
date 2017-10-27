@@ -261,8 +261,8 @@ text-decoration: underline !important;
 			</td>
 
 			<td class="t-left">
-				<p>			
-					{{item.PROPERTY_ADDR}}				 
+				<p class="demo-top" title="{{item.PROPERTY_ADDR}}">			
+					{{item.PROPERTY_ADDR.substring(0,10)}}				 
 				</p>
 			</td>
 			<td>

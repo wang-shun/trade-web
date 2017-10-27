@@ -10,14 +10,12 @@ import com.centaline.trans.engine.entity.ToOutTimeTask;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.repository.ToWorkFlowMapper;
 import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.mortgage.entity.ToMortLoaner;
 
 @Service
 public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 
 	@Autowired
 	private ToWorkFlowMapper toWorkFlowMapper;
-
 
 	@Override
 	public int insertSelective(ToWorkFlow record) {
@@ -110,7 +108,7 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	public List<String> queryAllInstCodesByCaseCode(String caseCode) {
 		return toWorkFlowMapper.queryAllInstCodesByCaseCode(caseCode);
 	}
-
+	
 	@Override
 	public ToWorkFlow queryToWorkFlowByCaseCodeAndStatus(ToWorkFlow record) {
 		return toWorkFlowMapper.queryToWorkFlowByCaseCodeAndStatus(record);
@@ -150,5 +148,10 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Override
 	public ToWorkFlow queryToWorkFlowByCaseCodeBusKey(ToWorkFlow record) {
 		return toWorkFlowMapper.queryToWorkFlowByCaseCodeBusKey(record);
+	}
+
+	@Override
+	public List<String> queryAllInstCodesByBizCode(String bizCode,String businessKey) {
+		return toWorkFlowMapper.queryAllInstCodesByBizCode(bizCode,businessKey);
 	}	
 }

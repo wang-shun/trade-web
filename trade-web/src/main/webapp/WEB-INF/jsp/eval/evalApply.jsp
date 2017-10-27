@@ -80,11 +80,11 @@
 								<label class="control-label sign_left_two"> <i
 									style="color:red">* </i> 评估类型选择
 								</label>
-								<aist:dict id="reportType" name="reportType" clazz="select_control sign_right_two" display="select" dictType="EVAL_TYPE"  ligerui='none' onchange="evaTypeChange()"></aist:dict>
+								<aist:dict id="reportType" name="reportType" clazz="select_control sign_right_two" display="select" defaultvalue="${toEvalReportProcessVo.reportType}" dictType="EVAL_TYPE"  ligerui='none' onchange="evaTypeChange()"></aist:dict>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">原购入价</label>
-								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcess.ornginPrice}" style="visibility:hidden" onkeyup="checkNum(this)">
+								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcessVo.ornginPrice / 10000.00}" style="visibility:hidden" onkeyup="checkNum(this)">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -97,24 +97,24 @@
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">评估公司联系人</label> 
-								<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact" value="${toEvalReportProcess.evaComContact}">
+								<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact" value="${toEvalReportProcessVo.evaComContact}">
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two">联系方式</label> 
-								<input class="input_type sign_right_two"  name="contactWay" id="contactWay" value="${toEvalReportProcess.contactWay}">
+								<input class="input_type sign_right_two"  name="contactWay" id="contactWay" value="${toEvalReportProcessVo.contactWay}">
 							</div>
 						</li>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 房龄</label>
-								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply" value="${toEvalReportProcess.houseAgeApply}">
+								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply" value="${toEvalReportProcessVo.houseAgeApply}">
 								<div class="input-group date_icon">
 									<span class="danwei">年</span>
 								</div>
 							</div>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>询价值</label> 
-								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult" value="${toEvalReportProcess.inquiryResult}">
+								<input class="input_type sign_right_two"  name="inquiryResult" id="inquiryResult" value="${toEvalReportProcessVo.inquiryResult / 10000.00}">
 								<div class="input-group date_icon">
 									<span class="danwei">万</span>
 								</div>
@@ -124,7 +124,7 @@
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>评估报告份数</label>  							
-								<input class="input_type sign_right_two"  name="reportNum" id="reportNum" value="${toEvalReportProcess.reportNum}">												
+								<input class="input_type sign_right_two"  name="reportNum" id="reportNum" value="${toEvalReportProcessVo.reportNum}">												
 							</div>
 							
 							<!-- <div class="form_content">
@@ -135,7 +135,7 @@
 							</div> -->
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 申请评估日期</label> 
-								<input class="input_type sign_right_two"  value='' name="applyDate" id="applyDate" value="${toEvalReportProcess.applyDate}"/>
+								<input class="input_type sign_right_two"   name="applyDate" id="applyDate" value="<fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/>"/>
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
 								</div>
@@ -144,8 +144,14 @@
 						
 					</ul>
 					<p class="text-center">
-							<input type="button" class="btn btn-success submit_From" value="提交"> 
-						    <a type="button" href="${ctx}/eloan/Eloanlist" class="btn btn-grey ml5">关闭</a>
+					        <c:if test="${source == null}">
+							<input type="button" class="btn btn-success submit_From" value="提交">
+							</c:if>
+							<c:if test="${source == 'evalDetails'}">
+							<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+							<input type="button" class="btn btn-success submit_save" value="保存">
+							</c:if>
+						    <input type="button" id="closeButton" class="btn btn-grey ml5" value="关闭">
 					</p>
 				</form>
 			</div>
@@ -183,8 +189,21 @@
 					if (!checkForm()) {
 						return;
 					}
-					saveEvalApply();
+					submitEvalApply('${ctx}/task/eval/submitApply','评估申请提交成功');
 				});
+				
+				$('.submit_save').click(function() {
+					if (!checkForm()) {
+						return;
+					}
+					submitEvalApply('${ctx}/task/eval/saveApply','评估申请提交成功');
+				});
+				
+		});
+		
+		//关闭
+		$('#closeButton').click(function() {
+			window.close();
 		});
 		
 		/*获取评估公司列表*/
@@ -206,9 +225,9 @@
 			  });
 		}
 		
-		function saveEvalApply(){
+		function submitEvalApply(url,message){
 			var jsonData = $("#evalApplyForm").serializeArray();
-			var url = "${ctx}/task/eval/submitApply";			
+			//var url = "${ctx}/task/eval/submitApply";			
 			
 			$.ajax({
 				cache : false,
@@ -234,8 +253,8 @@
 					$.unblockUI();
 				},
 				success : function(data) {
-					window.wxc.success("评估申请提交成功",{"wxcOk":function(){
-							window.location.href = ctx + "/task/eval/evalTaskList";
+					window.wxc.success(message,{"wxcOk":function(){
+						window.close();
 					}});
 				},
 				error : function(errors) {

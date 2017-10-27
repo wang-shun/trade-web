@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.alibaba.druid.util.StringUtils;
+import com.centaline.trans.cases.entity.ToCaseParticipant;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.mgr.service.TsSupService;
@@ -104,6 +107,9 @@ public class GuohuApproveController {
 	@Autowired
 	private ToMortgageTosaveService toMortgageTosaveService;
 
+	@Autowired
+	private ToCaseParticipantService toCaseParticipantService;
+
 	@RequestMapping("process")
 	public String doProcesss(HttpServletRequest request,
 							 HttpServletResponse response,String caseCode,String source,String processInstanceId){
@@ -163,10 +169,17 @@ public class GuohuApproveController {
 		}
 
 		ToCase te=toCaseService.findToCaseByCaseCode(caseCode);
-		String orgId = te.getOrgId();
+
+		//获取案件办理人
+		ToCaseParticipant vo = new ToCaseParticipant();
+		vo.setCaseCode(caseCode);
+		//案件参与人信息
+		List<ToCaseParticipant> caseParticipants = toCaseParticipantService.findToCaseParticipantByCondition(vo);
+
+		/*String orgId = te.getOrgId();
 		List<User> users = new ArrayList<User>();
 		User cpUser = uamUserOrgService.getUserById(caseBaseVO.getAgentManagerInfo().getCpId());
-		users.add(cpUser);
+		users.add(cpUser);*/
 
 		User guohuUser = null;
 		TaskHistoricQuery query =new TaskHistoricQuery();
@@ -182,12 +195,12 @@ public class GuohuApproveController {
 			throw new BusinessException("没有找到过户环节处理人！");
 		}
 
-		users.add(guohuUser);
+		//users.add(guohuUser);
 
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(processInstanceId);
 		//"operation_process:40:645454"修改了流程图需在这改为最新流程图的流程id
 		if(workF!=null &&"TjTrade:9:1235105".compareTo(workF.getProcessDefinitionId())<=0){
-			request.setAttribute("users", users);
+			request.setAttribute("users", caseParticipants);
 		}
 
 
@@ -199,7 +212,7 @@ public class GuohuApproveController {
 		if(StringUtils.isEmpty(accompanyReason)){
 			return "";
 		}
-		String code[] = accompanyReason.split(";");
+		String[] code = accompanyReason.split(";");
 		String accompanyReasonCN = "";
 		for(int i =0;i<code.length;i++){
 			Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",code[i]);

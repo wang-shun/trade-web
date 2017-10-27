@@ -51,10 +51,6 @@
 <link href="<c:url value='/css/common/xcConfirm.css' />"
 	rel="stylesheet">
 <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 <script type="text/javascript">
 	var teamProperty = "${teamProperty}";
@@ -401,6 +397,82 @@
 	$("input[type='text'],select").focus(function() {
 		$(this).css("border-color", "rgb(229, 230, 231)");
 	});
+	
+	/**
+	 * 询价申请
+	 */
+	function evaPricingApply(){
+	    var info = "系统已存在与此案件相关的询价记录，是否关联？";
+	    var caseCode = $('#caseCode').val();
+	    var url = ctx+'/case/checkEvaPricing?caseCode='+caseCode;
+	    $.ajax({
+	        cache : false,
+	        async : true,
+	        url:url,
+	        type:'POST',
+	        dataType:'json',
+	        success : function(data) {
+	            if(data.success){
+	                if(data.content){
+	                	window.wxc.alert("系统已存在与此案件相关的询价记录!");
+	                    /*window.wxc.confirm(info,{'wxcOk':function(){
+
+	                    },'wxcCancel':function(){
+	                        //新增询价
+	                        var ctx = $("#ctx").val();
+	                        window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+	                    }});*/
+	                }else{
+	                    var ctx = $("#ctx").val();
+	                    window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+	                }
+	            }else{
+	                window.wxc.error(data.message);
+	            }
+	        },
+	        error : function(XMLHttpRequest, textStatus, errorThrown) {
+	        }
+	    });
+
+	}
+	/**
+	 * 评估申请
+	 */
+	function evalApply(){
+		
+		var ctx = $("#ctx").val();
+		var caseCode = $('#caseCode').val();
+		//判断是否已有评估申请流程	
+		var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
+		$.ajax({
+			url:url,
+			type:'POST',
+			dataType:'json',
+			success:function(data){
+				if(data.success){
+					if(data.content == 1){//询价已完成,可以评估申请
+						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+					}else if(data.content == 2){//无询价,进入询价申请
+						/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+							window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+						}});*/
+						/**
+						 * modify 无询价直接评估 
+						 * @author xiefei1
+						 * date 2017/10/25
+						 */
+						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+					}
+				}else{
+					window.wxc.alert(data.message);
+				}
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown) {
+
+			}
+		});
+		
+	}
 </script>
 <style type="text/css">
 .radio.radio-inline>label {
@@ -462,6 +534,10 @@
 						id="btnCaseView" lang="${caseCode}">
 						<i class="iconfont icon">&#xe642;</i>案件视图
 					</button>
+					<a role="button" class="btn btn-primary btn-xm btn-activity"
+						href="javascript:evaPricingApply()">询价申请</a>
+					<a role="button" class="btn btn-primary btn-xm btn-activity"
+									href="javascript:evalApply()">评估申请</a>			
 				</div>
 			</div>
 		</div>
@@ -812,6 +888,9 @@
 
 			<div class="form-btn">
 				<div class="text-center">
+				<!-- 任哥和文档要求评估申请放在案件操作里面 -->
+				<!-- <button class="btn btn-success btn-space" onclick="javascript:evalApply()"
+						id="btnSave">发起评估申请</button> -->
 					<button class="btn btn-success btn-space" onclick="save(false)"
 						id="btnSave">保存</button>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>

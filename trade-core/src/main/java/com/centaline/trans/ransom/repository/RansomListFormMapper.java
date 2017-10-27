@@ -17,7 +17,9 @@ import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomLinkVo;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
 @MyBatisRepository
 public interface RansomListFormMapper {
@@ -28,6 +30,13 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	/**
+	 * 赎楼详情金额信息
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomMoneyVo> getRansomDetailMoneyInfo(String ransomCode);
 	
 	/**
 	 * 查询赎楼单列表信息数据by caseCode
@@ -202,4 +211,42 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	boolean updateRansomCaseUserByRansomCode(ToRansomCaseVo caseVo);
+	
+	/**
+	 * 获取已完成任务信息
+	 * @param ransomCode
+	 * @return
+	 */
+	VRansomFinishTaskVo getRansomTaskInfo(String ransomCode);
+	
+	/**
+	 * 获取当前存在的任务
+	 * @param ransomCode
+	 * @return
+	 */
+	List<String> getRansomActTasks(String ransomCode);
+	
+	/**
+	 * 计划时间用
+	 * @author wbwumf
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomCaseVo> getRansomStatusAndPart(String ransomCode);
+	
+	/**
+	 * 计划时间变更记录表
+	 * @author wbcaiyx
+	 * @param vo
+	 * @return
+	 */
+	int insertRansomPlanHis(ToRansomPlanVo vo);
+	
+	/**
+	 * 获取计划时间变更记录
+	 * @author wbcaiyx
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode);
 }

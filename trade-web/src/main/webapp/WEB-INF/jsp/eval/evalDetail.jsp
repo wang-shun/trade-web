@@ -63,18 +63,8 @@
 	<input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
 	<input type="hidden" id="processDefinitionId"
 		value="${toWorkFlow.processDefinitionId}" />
+		
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-
-	<script>
-		var resourceDistributionBtn = false;
-		<%if (request.getAttribute("msg") == null || request.getAttribute("msg") == "") {%>
-		<%} else {%>
-			window.wxc.alert("<%=request.getAttribute("msg")%>");
-		<%}%>
-		<shiro:hasPermission name="TRADE.CASE.DISTRIBUTION">
-		 resourceDistributionBtn = true;
-		</shiro:hasPermission>
-	</script>
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
@@ -124,7 +114,7 @@
 														<table>
 															<tr>
 															<td>评估公司变更</td>
-															<td>是<input type="radio" name="changeItem">&nbsp&nbsp&nbsp&nbsp&nbsp否
+															<td>是<input type="radio" name="changeItem">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;否
 															<input type="radio" name="changeItem"></td>
 															</tr>
 															<tr>
@@ -168,11 +158,11 @@
 														<div class="col-lg-3">
 															<input name="caseCode" value="${caseCode}" id="hid_case_code" type="hidden">
 															<input name="evaCode" value="${evaCode}" id="hid_case_code" type="hidden">
-															<input name="source" value="caseDetails" type="hidden">
+															<input name="source" value="evalDetails" type="hidden">
 															<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
 															<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
 																<c:forEach items="${myTasks}" var="item">
-																	<option value="${item.taskDefinitionKey }">${item.name }</option>
+																	<option value="${item.formKey }">${item.name }</option>
 																</c:forEach>
 															</select>
 														</div>
@@ -201,7 +191,7 @@
 										<iframe frameborder="no" border="0" marginwidth="0"
 											marginheight="0" scrolling="auto" allowtransparency="yes"
 											overflow:auto;
-												style="height: 1068px; width: 100%;"
+												style="height: 400px; width: 100%;"
 											src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 									</c:if>
 								</c:if>
@@ -217,8 +207,8 @@
 
 				<!-- 相关信息 -->
 				<div class="panel " id="aboutInfo" style="min-height: 800px;">
-					<!-- <a style="float: right; margin-right: 12px; margin-top: 10px;"
-						href="javascript:showChangeFormModal();">修改</a> -->
+					 <a style="float: right; margin-right: 12px; margin-top: 10px;"
+						href="javascript:showChangeFormModal();">修改</a>
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#eval_info" data-toggle="tab">评估信息</a></li>
@@ -238,7 +228,7 @@
 							        <h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估询价</h4>
 									<div class="row">
 										<label class="col-sm-3 control-label">询价类型：<aist:dict id="evalPriceType" name="evalPriceType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvaPricingVo.evaType}" /></label>
-										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">询价值：${toEvaPricingVo.totalPrice / 10000.00}&nbsp;万元</label>
 										<label class="col-sm-3 control-label">询价时间：<fmt:formatDate value="${toEvaPricingVo.evalTime}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									<div class="row">
@@ -248,25 +238,31 @@
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估申请</h4>
 									<div class="row">
-									    <label class="col-sm-3 control-label">评估类型：<aist:dict id="evalType" name="evalType" display="label" dictType="EVAPRICING_TYPE" dictCode="${toEvalReportProcess.evalType}" /></label>
+									    <label class="col-sm-3 control-label">评估类型：<aist:dict id="evalType" name="evalType" display="label" dictType="EVAL_TYPE" dictCode="${toEvalReportProcessVo.reportType}" /></label>
 										<label class="col-sm-3 control-label">评估公司：${toEvalReportProcessVo.finOrgName}</label>
 										<label class="col-sm-3 control-label">评估公司联系人：${toEvalReportProcessVo.evaComContact}</label>
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcessVo.contactWay}</label>
 										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年</label>
-										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNum}&nbsp;份</label>
 										<label class="col-sm-3 control-label">申请评估日期：<fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									
+									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估上报</h4>
+									 <div class="row">
+									    <label class="col-sm-3 control-label">评估上报日期：<fmt:formatDate value="${toEvalReportProcessVo.forwardDate}" type="date" pattern="yyyy-MM-dd"/></label>
+										<label class="col-sm-3 control-label">预计出评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.toIssueDate}" type="date" pattern="yyyy-MM-dd"/></label>
+									</div>
+									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>出具评估报告</h4>
 									<div class="row">
 										<label class="col-sm-3 control-label">实际出具评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></label>
 										<label class="col-sm-3 control-label">收取报告日期：<fmt:formatDate value="${toEvalReportProcessVo.reportGetDate}" type="date" pattern="yyyy-MM-dd"/></label>
-										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice}&nbsp;万元</label>
+										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
 										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年</label>
@@ -350,20 +346,71 @@
 							
 							<!-- 调佣审批 -->
 						    <div class="tab-pane fade" id="message_info">
-								<%-- 	<div class="row">
-									     <label class="col-sm-3 control-label">调佣事项：${toEvaCommissionChange.changeChargesItem}</label>
-									     <label class="col-sm-3 control-label">调佣类型：${toEvaCommissionChange.changeChargesType}</label>
-									     <label class="col-sm-3 control-label">调佣对象：${toEvaCommissionChange.houseAgeApply}</label>
-									</div>
-									<div class="row">
-									     <label class="col-sm-3 control-label">调佣金额：${toEvaCommissionChange.houseAgeApply}</label>
-									     <label class="col-sm-3 control-label">调佣事由：${toEvaCommissionChange.changeChargesCause}</label>
+								<div class="row">
+									     <label class="col-sm-3 control-label">调佣事项：${evalChangeCommVO.changeChargesType}</label>
+									     <label class="col-sm-3 control-label">调佣类型：${evalChangeCommVO.changeChargesType}</label>
+									     <label class="col-sm-3 control-label">调佣事由：${evalChangeCommVO.changeChargesCause}</label>
 									</div>
 									<div class="content">
-										<table id="gridTable_message"></table>
-								        <div id="gridPager_message"></div>
-									 </div> --%>
-							</div>
+										<table style="width: 100%;height: 600px;" class="table-hover">
+								            <thead>
+								            <tr>
+								                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+								            </tr>
+								            </thead>
+								            <tbody>
+								            <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
+								            <tr>
+								                    <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" readonly="readonly"></td>
+								                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"  readonly="readonly"></td>
+								                    <td><span class="aa"></span><span>%</span></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"  readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }" readonly="readonly"></td>
+								                </tr>
+								            </c:forEach>
+								                <tr>
+								                    <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
+								                </tr>
+								                <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
+								                <tr>
+								                    <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }" readonly="readonly"></td>
+								                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }" readonly="readonly"></td>
+								                    <td><span class="aa"></span><span>%</span></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }" readonly="readonly"></td>
+								                </tr>
+								                </c:forEach>
+								              
+								                <tr></tr><tr></tr>
+								                
+								                <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
+								                <tr>
+								                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" readonly="readonly"></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" readonly="readonly"></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" readonly="readonly"></td>
+								                    <td></td>
+								                    <td></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" readonly="readonly"></td>
+								                    <td></td>
+								                </tr>
+								                </c:forEach>
+								                <tr>
+								                    <td></td>
+								                    <td></td>
+								                    <td>合计:</td>
+								                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px" readonly="readonly"></td>
+								                    <td><span id="totalPacentage"></span><span>%</span></td>
+								                    <td>单数合计:</td>
+								                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px" readonly="readonly"></td>
+								                </tr>
+								            </tbody>
+								        </table>
+									 </div>
+							   </div>
 								
 							<!-- 评估退费 -->
 							<div class="tab-pane fade" id="refund_info">

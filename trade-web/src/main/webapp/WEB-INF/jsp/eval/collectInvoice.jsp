@@ -329,19 +329,15 @@ function save(b) {
             });
         },
         success: function(data){
-            $.unblockUI();
-            console.log(data);
-            if (b) {
-                if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
-                }
-                var ctx = $("#ctx").val();
-                window.location.href=ctx+ "/task/myTaskList";
-            }else{
-            	if (data.message) {
-                    window.wxc.alert("提交成功"+data.message);
-                }
-            }
+        	$.unblockUI();	
+			if(!data.success){
+				 window.wxc.alert(data.message);						 
+				 }else{					 
+				 window.wxc.success("保存成功。",{"wxcOk":function(){
+                     window.close();
+                     window.opener.callback();
+                 }});
+				 }
         },
         error:function(){
         	window.wxc.alert("提交信息出错。。");
@@ -373,6 +369,7 @@ function checkForm() {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 <!-- caseBaseInfo -->
 <link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
@@ -609,12 +606,14 @@ function checkForm() {
 			<font color=" red">*</font>调佣对象与调佣金额如下表：
 		</div>
 		<hr>
-			<table style="width: 100%;height: 600px;" class="table-hover">
-            <thead>
-            <tr>
-                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
-            </tr>
-            </thead>
+			<table style="width: 100%;height: 300px;" class="table-hover">
+			<c:if test="${!empty evalChangeCommVO.coPersonList}">
+	            <thead>
+		            <tr>
+		                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+		            </tr>
+	            </thead>
+            </c:if>
             <tbody>
             <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
             <tr>
@@ -642,16 +641,16 @@ function checkForm() {
                 </tr>
                 </c:forEach>
               
-                <tr></tr><tr></tr>
+                <tr></tr>
                 
                 <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
                 <tr>
-                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" readonly="readonly"></td>
+                    <td>${warrantPersonList.position }${s.count}:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" readonly="readonly"></td>
                     <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" readonly="readonly"></td>
                     <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                     <td></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" readonly="readonly"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].shareReason" value="${warrantPersonList.shareReason }" style="width: 120px" readonly="readonly"></td>
                     <td></td>
                 </tr>
                 </c:forEach>

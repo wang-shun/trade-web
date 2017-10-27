@@ -21,9 +21,9 @@
 						FIN_ORG_CODE FIN_ORG_CODE,
 						MORTGAGE_TYPE MORTGAGE_TYPE,
 						DIYA_TYPE DIYA_TYPE,
-						LOAN_MONEY LOAN_MONEY,
-						REST_MONEY REST_MONEY,
-						(LOAN_MONEY - REST_MONEY) ACTUALMoney 
+						LOAN_MONEY/10000 LOAN_MONEY,
+						REST_MONEY/10000 REST_MONEY,
+						(LOAN_MONEY - REST_MONEY)/10000 ACTUALMoney 
 					FROM
 						sctrans.T_RA_TAILINS
 					WHERE
@@ -77,7 +77,7 @@
 		<grid>
 			<table-row>
 				<column type="both" name="borrName" display="借款人" hide="true"/>
-				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter1"/>
+				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter"/>
 				<column type="both" name="borrMoney" display="借款金额"   />
 				<column type="both" name="comOrgName" display="申请机构"   />
 				<column type="both" name="stopReason" display="中止原因"   />
@@ -204,14 +204,14 @@
 					INNER  JOIN sctrans.T_TO_CASE cas ON cas.CASE_CODE = ca.CASE_CODE 
 					LEFT JOIN  sctrans.T_RA_CASE tr ON cas.CASE_CODE =tr.CASE_CODE
 					WHERE 
-						tr.RANSOM_CODE is NULL
+						(tr.RANSOM_CODE is NULL
 						OR 
-							tr.RANSOM_STATUS = '4'
-					<ifNotNull casecode>
-						AND ca.CASE_CODE = #casecode#
+							tr.RANSOM_STATUS = '4')
+					<ifNotNull caseCode>
+						AND ca.CASE_CODE = #caseCode#
 					</ifNotNull>
 					<ifNotNull propertyAddr>
-						AND pro.PROPERTY_ADDR = #propertyAddr#
+						AND pro.PROPERTY_ADDR like '%'+ #propertyAddr# +'%'
 					</ifNotNull>
 					<ifNotNull sellerName>
 						AND guest.GUEST_NAME = #sellerName#
@@ -228,7 +228,7 @@
 			<table-row>
 				<column type="both" name="pkid" display="PKID"/>
 				<column type="both" name="caseCode" display="案件编号"/>
-				<column type="virtual" name="propertyAddr" display="产证地址" />
+				<column type="both" name="propertyAddr" display="产证地址" />
 				<column type="both" name="agentName" display="经纪人姓名"/>
 				<column type="virtual" name="grpName" display="经纪人部门" />
 				<column type="both" name="seller" display="卖家"/>

@@ -11,6 +11,7 @@ import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
 import com.centaline.trans.ransom.entity.ToRansomPermitVo;
@@ -34,7 +35,7 @@ public interface RansomMapper {
 	 */
 	ToRansomDetailVo getRansomDetailInfoByCaseCode(String ransomCode);
 	
-	ToRansomDetailVo getRansomDetailInfoByCodes(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
+	List<ToRansomDetailVo> getRansomDetailInfoByCodes(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
 	/**
 	 * 根据赎楼编号获取计划 时间
@@ -124,12 +125,6 @@ public interface RansomMapper {
 	 */
 	int updateCaseStatusComplete(String ransomCode);
 	
-	/**
-	 * 根据caseCode查询案件信息
-	 * @param caseCode
-	 * @return
-	 */
-	ToRansomCaseVo getRansomCaseInfoByCaseCode(String caseCode);
 	
 	/**
 	 * 根据caseCode查询尾款信息
@@ -164,21 +159,28 @@ public interface RansomMapper {
 	 * @param ransomCode 赎楼编号
 	 * @return
 	 */
-	ToRansomMortgageVo getMortgageInfoByRansomCode(String ransomCode);
+	List<ToRansomMortgageVo> getMortgageInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据ransomCode查询陪同还贷信息,并判断存在二抵
+	 * @param ransomCode 赎楼编号
+	 * @return
+	 */
+	ToRansomMortgageVo getMortgageInfo(@Param("ransomCode")String ransomCode,@Param("isEr")Integer isEr);
 	
 	/**
 	 * 根据ransomCode查询注销抵押信息
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomCancelVo getCancelInfoByRansomCode(String ransomCode);
+	List<ToRansomCancelVo> getCancelInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询领取产证信息
 	 * @param ransomCode
 	 * @return
 	 */
-	ToRansomPermitVo getPermitInfoByRansomCode(String ransomCode);
+	List<ToRansomPermitVo> getPermitInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 根据ransomCode查询回款结清信息
@@ -214,4 +216,11 @@ public interface RansomMapper {
 	int updateRansomIsStart(String ransomCode);
 	
 	List<ToRansomPlanVo> getPlanTimeInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 查询案件的赎楼信息
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomFormVo getRansomInfoByCaseCode(String caseCode);
 }

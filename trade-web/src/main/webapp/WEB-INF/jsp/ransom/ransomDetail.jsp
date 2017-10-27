@@ -74,7 +74,33 @@
 		border-radius: 50%;
 		background-size: 80px 108px;
 		vertical-align: middle;
-		background-image:url(../../static/img/a5.png);
+		background-image:url(../static/img/a5.png);
+	}
+	.shuxian{
+		position: absolute;
+		height: 129px;
+		width: 40%;
+		top: 20px;
+		left: 50%;
+		border-left: 8px solid #ccc;
+		border-bottom: 8px solid #ccc;
+	}
+	.bs-wizard > .bs-wizard-step > .change_shuxian{
+		position: absolute;
+		height: 129px;
+		width: 40%;
+		top: 20px;
+		left: -90px;
+		border-right: 8px solid #ccc;
+		border-bottom: 8px solid #ccc;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .change_shuxian{
+		border-right-color: #5bc0de;
+		border-bottom-color: #5bc0de;
+	}
+	.col-lg-1 .bs-wizard-info strong{
+		display: block;
+		width: 200px;
 	}
 </style>
 </head>
@@ -85,44 +111,64 @@
 	<input type="hidden" id="caseCode" value="${detailVo.caseCode}">
 	<div class="wrapper wrapper-content animated fadeInUp">
 		<div class="ibox-content" id="reportOne">
-			<h2 class="title">赎楼清尾</h2>  
-			<small class="pull-right">编号：${detailVo.ransomCode}</small>
 			<div class="row">
-				<div class="col-lg-9">
-					<div class="row" id="">
-						<div class="col-lg-5" id="cluster_info">
-							<dl class="dl-horizontal">
-								<dt>借款人</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" id="borrowerUser"> ${detailVo.borrowName }</a>
-								</dd>
-								<dt>房屋地址</dt>
-								<dd>${detailVo.addr }</dd>
-							</dl>
-						</div>
-						<div class="col-lg-4" id="cluster_info">
-							<dl class="dl-horizontal">
-								<dt>合作机构</dt>
-								<dd>${detailVo.comOrgName }</dd>
-								<dt>信贷员</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
-								</dd>
-							</dl>
-						</div>
-						<div class="col-lg-3">
-							<dl class="dl-horizontal">
-								<dt>金融权证</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>
-								</dd>
-								<dt>经纪人</dt>
-								<dd>
-									<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
-								</dd>
-							</dl>
+				<h2 class="col-sm-8 title">赎楼清尾</h2>
+				<small class="col-sm-2 pull-right">编号：${detailVo.ransomCode}</small>
+				<div class="col-sm-2 m-b-md">
+					<h4>关联案件</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4" id="cluster_info">
+					<dl class="dl-horizontal">
+						<dt>借款人</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.borrowTel }" id="borrowerUser"> ${detailVo.borrowName }</a>
+						</dd>
+						<dt>房屋地址</dt>
+						<dd>${detailVo.addr }</dd>
+					</dl>
+				</div>
+				<div class="col-sm-3" id="cluster_info">
+					<dl class="dl-horizontal">
+						<dt>合作机构</dt>
+						<dd>${detailVo.comOrgName }</dd>
+						<dt>信贷员</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.creditTel }"> ${detailVo.credit }</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="col-lg-3">
+					<dl class="dl-horizontal">
+						<dt>金融权证</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.financialTel }">${detailVo.financial }</a>
+						</dd>
+						<dt>经纪人</dt>
+						<dd>
+							<a data-toggle="popover" data-placement="right" data-content="${detailVo.agentPhone }">${detailVo.agentName }</a>
+						</dd>
+					</dl>
+				</div>
+				<div class="col-lg-2">
+					<div class="feed-activity-list">
+						<div class="feed-element">
+							<div class="pull-lef contract-icon-block">
+								<div class="icon icon_blue iconfont">&#xe607;</div>
+							</div>
+							<div class="media-body">
+								<strong><a>${detailVo.caseCode }</a></strong><br />经办人 <strong>${detailVo.leadingProcessName }</strong>
+								<br />
+							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+			<br>
+
+			<div class="row">
+				<div class="col-lg-10">
 					<br>
 					<div class="row">
 						<div class="col-lg-12">
@@ -131,9 +177,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='DEAL'}"> active
+										    <c:when test=""> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='DEAL'}"> complete
+										    <c:when test=""> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -155,9 +201,9 @@
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='APPLY'}"> active
+										    <c:when test="${!empty actTasks['APPLY']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='APPLY'}"> complete
+										    <c:when test="${empty actTasks['APPLY']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -181,9 +227,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='SIGN'}"> active
+										    <c:when test="${!empty actTasks['SIGN']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='SIGN'}"> complete
+										    <c:when test="${empty actTasks['SIGN']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -191,6 +237,7 @@
 									<div class="progress">
 										<div class="progress-bar"></div>
 									</div>
+									<div class="shuxian"></div>
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
@@ -207,9 +254,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYLOAN_ONE'}"> active
+										    <c:when test="${empty actTasks['PAYLOAN_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYLOAN_ONE'}"> complete
+										    <c:when test="${!empty actTasks['PAYLOAN_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -220,7 +267,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${mortgageMap['PAYLOAN_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -233,9 +280,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_ONE'}"> active
+										    <c:when test="${empty actTasks['CANCELDIYA_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_ONE'}"> complete
+										    <c:when test="${!empty actTasks['CANCELDIYA_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -246,7 +293,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${cancelMap['CANCELDIYA_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -259,9 +306,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='RECEIVE_ONE'}"> active
+										    <c:when test="${empty actTasks['RECEIVE_ONE']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='RECEIVE_ONE'}"> complete
+										    <c:when test="${!empty actTasks['RECEIVE_ONE']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -272,7 +319,7 @@
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
-											<dd><strong><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></strong></dd>
+											<dd><strong><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></strong></dd>
 										</dl>
 									</div>
 									<div class="bs-wizard-info text-center">
@@ -285,9 +332,9 @@
 								<div
 									class="col-lg-2 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.ransomProperty=='PAYCLEAR'}"> active
+										    <c:when test="${empty actTasks['PAYCLEAR']}"> active
 										   </c:when>  
-										    <c:when test="${caseVo.ransomProperty!='PAYCLEAR'}"> complete
+										    <c:when test="${!empty actTasks['PAYCLEAR']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	
@@ -295,6 +342,7 @@
 									<div class="progress">
 										<div class="progress-bar"></div>
 									</div>
+									<div class="change_shuxian"></div>
 									<a href="#" class="bs-wizard-dot"></a>
 									<div class="time-up">
 										<dl>
@@ -334,9 +382,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='ODEPAYLOAN_TWO'}"> active
+											    <c:when test="${empty actTasks['ODEPAYLOAN_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='ODEPAYLOAN_TWO'}"> complete
+											    <c:when test="${!empty actTasks['ODEPAYLOAN_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -345,6 +393,11 @@
 											<div class="progress-bar"></div>
 										</div>
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${mortgageMap['PAYLOAN_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -355,9 +408,9 @@
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='CANCELDIYA_TWO'}"> active
+											    <c:when test="${empty actTasks['CANCELDIYA_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='CANCELDIYA_TWO'}"> complete
+											    <c:when test="${!empty actTasks['CANCELDIYA_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -366,6 +419,11 @@
 											<div class="progress-bar"></div>
 										</div>
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${cancelMap['CANCELDIYA_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -376,9 +434,9 @@
 									<div
 										class="col-lg-1 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${caseVo.ransomProperty=='RECEIVE_TWO'}"> active
+											    <c:when test="${empty actTasks['RECEIVE_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${caseVo.ransomProperty!='RECEIVE_TWO'}"> complete
+											    <c:when test="${!empty actTasks['RECEIVE_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -386,7 +444,13 @@
 										<div class="progress">
 											<div class="progress-bar"></div>
 										</div>
+
 										<a href="#" class="bs-wizard-dot"></a>
+										<div class="time-up">
+											<dl>
+												<dd><strong><fmt:formatDate value="${permitMap['RECEIVE_TWO'] }" pattern="yyyy-MM-dd"/></strong></dd>
+											</dl>
+										</div>
 										<div class="bs-wizard-info text-center">
 											<dl>
 												<dd>
@@ -411,25 +475,7 @@
 							</div>
 						</div>
 				</div>
-				<div class="col-lg-3">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="m-b-md">
-								<h4>关联案件</h4>
-							</div>
-						</div>
-					</div>
-					<div class="feed-activity-list">
-						<div class="feed-element">
-							<div class="pull-lef contract-icon-block">
-								<div class="icon icon_blue iconfont">&#xe607;</div>
-							</div>
-							<div class="media-body">
-								<strong><a>${detailVo.caseCode }</a></strong><br />经办人 <strong>${detailVo.leadingProcessName }</strong>
-								<br />
-							</div>
-						</div>
-					</div>
+				<div class="col-lg-2">
 				</div>
 			</div>
 		</div>
@@ -460,26 +506,26 @@
 										<label class="control-label sign_left_small">
 											<font color=" red" class="mr5">*</font> 借款金额
 							 			</label>
-								 			&nbsp;<c:if test="${!empty detailVo.borrowMoney }">${detailVo.borrowMoney }&nbsp;&nbsp;万</c:if>
+								 			&nbsp;<c:if test="${!empty moneyVo.borrowerMoney }">${moneyVo.borrowerMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 面签金额 </label> 
-											&nbsp;<c:if test="${!empty detailVo.interViewMoney }">${detailVo.interViewMoney }&nbsp;&nbsp;万</c:if>
+											&nbsp;<c:if test="${!empty moneyVo.interViewMoney }">${moneyVo.interViewMoney/10000 }&nbsp;&nbsp;万</c:if>
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 还贷金额</label> 
-											&nbsp;<c:if test="${!empty detailVo.repayLoanMoney }">${detailVo.repayLoanMoney }&nbsp;&nbsp;万</c:if>	
+											&nbsp;<c:if test="${!empty moneyVo.repayLoanMoney }">${moneyVo.repayLoanMoney/10000 }&nbsp;&nbsp;万</c:if>	
 									</div>
 								</div>
 								<div class="line">
 									<div class="form_content interval">
 										<label class="control-label sign_left_small"><fontcolor=" red" class="mr5">*</font> 贷款费用</label>
-											&nbsp;  ${detailVo.interest}&nbsp;‰。每天
+											&nbsp;  ${moneyVo.interest}&nbsp;‰。每天
 									</div>
 									<div class="form_content interval">
 										<label class="control-label sign_left_small" style="width: 133px;"><font color=" red" class="mr5">*</font>是否委托公正&nbsp;&nbsp;</label>
-											<c:if test="${detailVo.isEntrust == 1 }">是</c:if>
-											<c:if test="${detailVo.isEntrust == 0 }">否</c:if>
+											<c:if test="${moneyVo.isEntrust == 1 }">是</c:if>
+											<c:if test="${moneyVo.isEntrust == 0 }">否</c:if>
 									</div>
 								</div>
 								<div class="ibox-content">
@@ -504,13 +550,13 @@
 													<td>面签时间</td><td><fmt:formatDate value="${signVo.signTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${signTime}" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>陪同还贷时间(一抵)</td><td><fmt:formatDate value="${mortgageVo.mortgageTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${morTime }" pattern="yyyy-MM-dd"/></td>
+													<td>陪同还贷时间(一抵)</td><td><fmt:formatDate value="${mortgageMap['PAYLOAN_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${morTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>注销抵押时间(一抵)</td><td><fmt:formatDate value="${cancelVo.cancelTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${canTime }" pattern="yyyy-MM-dd"/></td>
+													<td>注销抵押时间(一抵)</td><td><fmt:formatDate value="${cancelMap['CANCELDIYA_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${canTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitVo.redeemTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
+													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
 													<td>回款结清时间(一抵)</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
@@ -518,13 +564,13 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="ibox-content">
+								<div class="ibox-content" >
 									<h2 class="title">操作记录</h2>
-									<div>
+									<!-- <div>
 										<button class="btn btn-success btn-space" onclick="getOperateLogRansom()">只看赎楼</button>
 										<button class="btn btn-success btn-space" onclick="getOperateLogList()" id="btnSubmit">全部流程</button>
-									</div>
-									<div class="tab-content">
+									</div> -->
+									<div class="tab-content" style="margin-top: 35px">
 										<div class="tab-pane active fade in">
 											<div class="jqGrid_wrapper row">
 												<table id="operation_history_table"></table>
@@ -551,10 +597,8 @@
 										</div>
 									</div>
 								</div>
-								<div class="ibox-content">
-									跟进信息
-									<h2 class="title">案件跟进</h2>
-									<div id="caseCommentList" class="view-content"></div>
+								<div class="ibox-content border-bottom clearfix space_box noborder">
+									<div id="caseCommentList" class="add_form"></div>
 								</div>
 							</div>
 						</div>
@@ -593,7 +637,8 @@
 
 	<!-- main End -->
 	<content tag="local_script">
-	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
+	<script src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
+	
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<script src="<c:url value='/static/js/plugins/stickup/stickUp.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
@@ -613,6 +658,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
+	<script src="<c:url value='/js/ransom/ransomDetail.js'/>" type="text/javascript"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	

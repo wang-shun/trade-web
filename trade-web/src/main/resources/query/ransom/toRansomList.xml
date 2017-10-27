@@ -25,12 +25,13 @@
 							toc.AGENT_NAME,
 							toc.GRP_NAME,
 							rac.BORROWER_NAME,
-							rac.COM_ORG_CODE,
+							(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = rac.COM_ORG_CODE) COM_ORG_CODE,
 							rac.RANSOM_STATUS,
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
 							rac.UPDATE_TIME,
-							rac.ISAPPLY ISAPPLY
+							rac.ISAPPLY ISAPPLY,
+							act.SUSPENSION_STATE_ suspenState
 						FROM sctrans.T_RA_CASE rac
 						INNER JOIN sctrans.T_TO_PROPERTY_INFO pro ON pro.CASE_CODE = rac.CASE_CODE
 						INNER JOIN sctrans.T_TO_CASE_INFO toc ON toc.CASE_CODE = pro.CASE_CODE
@@ -42,13 +43,19 @@
 						LEFT JOIN sctrans.T_RA_CANCEL can ON can.RANSOM_CODE = rep.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_REDEEM red ON red.RANSOM_CODE = can.RANSOM_CODE
 						LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
+						LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE AND tw.STATUS = 0
+						LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
 						WHERE 1 = 1 
+						<ifNotNull ransomCode>
+							AND rac.RANSOM_CODE = #ransomCode#
+						</ifNotNull>
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
-						<ifNotNull ransomProperty>
-							AND RANSOM_PROPERTY = #ransomProperty#
-						</ifNotNull>
+
+						<if test="ransomProperty != null and ransomProperty != 'DEAL'">
+							AND act.TASK_DEF_KEY_ = #ransomProperty#
+						</if>
 						<ifNotNull teamCode>
 							AND AGENT_NAME = #AGENT_NAME# 
 						</ifNotNull>
@@ -63,23 +70,61 @@
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMAPPLY'">
-							AND app.CREATE_TIME = #start# AND app.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND app.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND app.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMINTERVIEW'">
-							AND inter.CREATE_TIME = #start# AND inter.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND inter.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND inter.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMREPAYMENT'">
-							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND rep.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND rep.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMDIYA'">
-							AND can.CREATE_TIME = #start# AND can.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND can.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND can.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMPERMIT'">
-							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND rep.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND rep.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMPAYMENT'">
-							AND pay.CREATE_TIME = #start# AND pay.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND pay.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND pay.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
+						</if>
+						<if test="ransomSearchTime=='RANSONDEAL'">
+							<ifNotNull start>
+								AND tai.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND tai.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 				]]>
 			</baseSql>
@@ -100,7 +145,8 @@
 					rac.STOP_REASON,
 					rac.BORRO_MONEY,
 					rac.UPDATE_TIME,
-					rac.isApply
+					rac.isApply,
+					act.SUSPENSION_STATE_
 			</groupSql>
 		</searchSql>
 		<grid>
@@ -129,7 +175,7 @@
 				
 				<column type="both" name="BORRO_MONEY" index="" checkbox="" display="借款金额" customDict="" sysDict="" />
 				<column type="both" name="ISAPPLY" index="" checkbox="" display="是否已申请" customDict="" sysDict="" /> 
-			
+				<column type="both" name="suspenState" display="暂停状态"/>
 			</table-row>
 		</grid>
 	</query>
@@ -219,55 +265,73 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
-						rc.CASE_CODE,
-						rc.RANSOM_CODE,
-						rc.RANSOM_PROPERTY,
-				
-						CASE app.PART_CODE WHEN 'DEAL' THEN rt.PLAN_TIME END dealTime,
-						CASE app.PART_CODE WHEN 'APPLY' THEN app.APPLY_TIME END applyTime,
-						CASE ri.PART_CODE WHEN 'SIGN' THEN ri.INTERVIEW_TIME END signTime,
-						CASE rr.PART_CODE WHEN 'PAYLOAN_ONE' THEN rr.REPAY_TIME END paylonOne,
-				
-						CASE rr.PART_CODE WHEN 'PAYLOAN_TWO' THEN rr.REPAY_TIME END paylonTwo,
-						CASE rca.PART_CODE WHEN 'CANCELDIYA_ONE' THEN rca.CANCEL_TIME END cancelOne,
-						CASE rca.PART_CODE WHEN 'CANCELDIYA_TWO' THEN rca.CANCEL_TIME END cancelTwo,
-				 
-						CASE rre.PART_CODE WHEN 'RECEIVE_ONE' THEN rre.REDEEM_TIME END receiveOne,
-						CASE rre.PART_CODE WHEN 'RECEIVE_TWO' THEN rre.REDEEM_TIME END receiveTwo,
-						CASE rp.PART_CODE WHEN 'PAYCLEAR' THEN rp.PAYMENT_TIME END payclear,
-					
-						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE rc.UPDATE_USER = sy.ID) UPDATE_USER
-					FROM sctrans.T_RA_CASE rc
-						LEFT JOIN sctrans.T_RA_TAILINS rt ON rc.RANSOM_CODE = rt.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_INTERVIEW ri ON ri.RANSOM_CODE = rt.CASE_CODE
-						LEFT JOIN sctrans.T_RA_REPAY rr ON rr.RANSOM_CODE = ri.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_CANCEL rca ON rca.RANSOM_CODE = rr.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_REDEEM rre ON rre.RANSOM_CODE = rca.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = rre.RANSOM_CODE
-						LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = rp.RANSOM_CODE
-						WHERE rc.RANSOM_CODE = #ransomCode#
+					SELECT 
+						cas.CASE_CODE caseCode,
+						cas.RANSOM_CODE ramsomCode,
+						act.TASK_DEF_KEY_ taskProperty,
+						app.PART_CODE appPart,
+						app.APPLY_TIME appTime,
+						vie.PART_CODE viePart,
+						vie.INTERVIEW_TIME vieTime,
+						rr1.PART_CODE paylonePart,
+						rr1.REPAY_TIME payoneTime,	
+						rr2.PART_CODE payltwoPart,
+						rr2.REPAY_TIME paytwoTime,
+						rca1.PART_CODE cancelonePart,
+						rca1.CANCEL_TIME canceloneTime,
+						rca2.PART_CODE canceltwoPart,
+						rca2.CANCEL_TIME canceltwoTime,
+						rre1.PART_CODE receiveonePart,
+						rre1.REDEEM_TIME receiveoneTime,
+						rre2.PART_CODE receivetwoPart,
+						rre2.REDEEM_TIME receivetwoTime,	
+						rp.PART_CODE paymentPart,
+						rp.PAYMENT_TIME paymentTime,
+						(SELECT REAL_NAME FROM sctrans.SYS_USER sy WHERE sy.ID = tw.UPDATE_BY ) doUser
+					FROM sctrans.T_RA_CASE cas 
+					LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
+					LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_
+					LEFT JOIN sctrans.T_RA_APPLY app ON app.RANSOM_CODE = cas.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_INTERVIEW vie ON vie.RANSOM_CODE = cas.RANSOM_CODE
+					LEFT JOIN sctrans.T_RA_REPAY rr1 ON rr1.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_ONE'
+					LEFT JOIN sctrans.T_RA_REPAY rr2 ON rr2.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_TWO'
+					LEFT JOIN sctrans.T_RA_CANCEL rca1 ON rca1.RANSOM_CODE = cas.RANSOM_CODE AND rca1.PART_CODE = 'CANCELDIYA_ONE'
+					LEFT JOIN sctrans.T_RA_CANCEL rca2 ON rca2.RANSOM_CODE = cas.RANSOM_CODE AND rca2.PART_CODE = 'CANCELDIYA_TWO'
+					LEFT JOIN sctrans.T_RA_REDEEM rre1 ON rre1.RANSOM_CODE = cas.RANSOM_CODE AND rre1.PART_CODE = 'RECEIVE_ONE'
+					LEFT JOIN sctrans.T_RA_REDEEM rre2 ON rre2.RANSOM_CODE = cas.RANSOM_CODE AND rre2.PART_CODE = 'RECEIVE_TWO'
+					LEFT JOIN sctrans.T_RA_PAYMENT rp ON rp.RANSOM_CODE = cas.RANSOM_CODE
+					WHERE tw.BIZ_CODE = #ransomCode#
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY rc.CASE_CODE DESC
+			  ORDER BY cas.CASE_CODE DESC
 			</orderBySql>
 		</searchSql>
 		<grid>
 			<table-row>
 				
-				<column type="both" name="RANSOM_PROPERTY" display="赎楼环节" customDict=""  />
-				<column type="virtual" name="RANSOM_PROPERTY_NAME" display="赎楼环节名" referencecol="RANSOM_PROPERTY" customDict="qqcdDictRansomPart"/>	
-
-				<column type="both" name="DEAL_TIME" display="受理完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="APPLY_TIME" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="INTERVIEW_TIME" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="REPAY_TIME" display="陪同还贷完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="CANCEL_TIME" display="注销抵押完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="REDEEM_TIME" display="领取产证完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
-				<column type="both" name="PAYMENT_TIME" display="回款结清完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="taskProperty" display="赎楼环节" customDict=""  />
+				<column type="virtual" name="taskPropertyName" display="赎楼环节名(已完成的环节)" referencecol="taskProperty" customDict="qqcdDictRansomPart"/>	
+				<column type="both" name="appPart" display="申请环节"  />
+				<column type="both" name="viePart" display="面签环节" />
+				<column type="both" name="paylonePart" display="陪同还贷环节(一抵)" />
+				<column type="both" name="payltwoPart" display="陪同还贷环节(二抵)" />
+				<column type="both" name="cancelonePart" display="注销抵押环节(一抵)" />
+				<column type="both" name="canceltwoPart" display="注销抵押环节(二抵)"  />
+				<column type="both" name="receiveonePart" display="领取产证环节(一抵)" />
+				<column type="both" name="receivetwoPart" display="领取产证环节(二抵)"  />
+				<column type="both" name="paymentPart" display="回款结清"  />
 				
-				<column type="both" name="UPDATE_USER" display="执行人" />
+				<column type="both" name="appTime" display="申请完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="vieTime" display="面签完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="payoneTime" display="陪同还贷完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paytwoTime" display="陪同还贷完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="canceloneTime" display="注销抵押完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="canceltwoTime" display="注销抵押完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="receiveoneTime" display="领取产证完成时间(一抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="receivetwoTime" display="领取产证完成时间(二抵)" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="paymentTime" display="回款结清完成时间" beanFormatter="dateFormatter" expType="date" expFmt="yyyy-MM-dd"/>
+				<column type="both" name="doUser" display="执行人" />
 			</table-row>
 		</grid>
 	</query>

@@ -6,8 +6,8 @@ import com.aist.common.utils.excel.annotation.ExcelField;
 
 public class ToBankRebateVO {
 	
-	@ExcelField(title = "成交编号")
-    private String ccaiCode;
+	@ExcelField(title = "案件编号")
+    private String caseCode;
 
     @ExcelField(title = "银行")
     private String bankName;
@@ -20,13 +20,13 @@ public class ToBankRebateVO {
     
     @ExcelField(title = "业务返利金额")
     private String rebateBusiness;
-   
-    public String getCcaiCode() {
-		return ccaiCode;
+
+	public String getCaseCode() {
+		return caseCode;
 	}
 
-	public void setCcaiCode(String ccaiCode) {
-		this.ccaiCode = ccaiCode;
+	public void setCaseCode(String caseCode) {
+		this.caseCode = caseCode;
 	}
 
 	public String getBankName() {
@@ -60,10 +60,4 @@ public class ToBankRebateVO {
 	public void setRebateBusiness(String rebateBusiness) {
 		this.rebateBusiness = rebateBusiness;
 	}
-
-	
-	
-    
-    
-    
 }

@@ -60,10 +60,12 @@
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
 	var approveType = "${approveType }";
+	var mpkid = "${editCaseDetailVO.mpkid }";
 	var processInstanceId = "${processInstanceId}";
 	var finishYear = "${editCaseDetailVO.finishYear}";
 	var finOrgCode = "${editCaseDetailVO.finOrgCode}";
-	var custCode = "${ editCaseDetailVO.custCode}";
+	var custCode = "${editCaseDetailVO.custCode}";
+	var notFirstTimeSubmit = "${notFirstTimeSubmit}";
 	if("${idList}" != "") {
 		var idList = eval("("+"${idList}"+")");
 	} else {
@@ -127,6 +129,7 @@
 													<input type="hidden" id="operator" name="operator" value="${operator }">
 													<%-- 原有数据对应id --%>
 
+													<input type="hidden" id="mpkid" name="mpkid" value="${editCaseDetailVO.mpkid }">
 													<input type="hidden" id="initPayPkid" name="initPayPkid" value="${editCaseDetailVO.initPayPkid }">
 													<input type="hidden" id="secPayPkid" name="secPayPkid" value="${editCaseDetailVO.secPayPkid }">
 													<input type="hidden" id="lastPayPkid" name="lastPayPkid" value="${editCaseDetailVO.lastPayPkid }">
@@ -163,7 +166,7 @@
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">
-																付款金额(一期) </label> <input class="input_type yuanwid"  
+																付款金额(一期) </label> <input class="input_type yuanwid" readonly="readonly"
 																value="<fmt:formatNumber value='${ editCaseDetailVO.initAmount}' type='number' pattern='#0.00' />" 
 															    id="initAmount" name="initAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
@@ -172,9 +175,9 @@
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(一期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left input-daterange"
+																class="input-group sign-right dataleft pull-left"
 																data-date-format="yyyy-mm-dd">
-																<input  class="input_type yuanwid datatime"
+																<input  class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.initPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															       id="initPayTime" name="initPayTime">
 															</div>
@@ -189,7 +192,7 @@
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(二期)</label>
-															<input class=" input_type yuanwid"
+															<input class=" input_type yuanwid" readonly="readonly"
 															value="<fmt:formatNumber value='${editCaseDetailVO.secAmount }' type='number' pattern='#0.00' />" 
 															id="secAmount" name="secAmount" onkeyup="checkNum(this)"> 
 															<span class="date_icon">万元</span>
@@ -199,9 +202,9 @@
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(二期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left input-daterange"
+																class="input-group sign-right dataleft pull-left"
 																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
-																<input  class="input_type yuanwid datatime"
+																<input  class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.secPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															       id="secPayTime" name="secPayTime"">
 															</div>
@@ -215,7 +218,8 @@
 													<div class="line">
 														<div class="form_content">
 															<label class="control-label sign_left_small">付款金额(三期)</label>
-															<input class=" input_type yuanwid" value="<fmt:formatNumber value='${editCaseDetailVO.lastAmount}' type='number' pattern='#0.00' />" 
+															<input class=" input_type yuanwid" readonly="readonly"
+															value="<fmt:formatNumber value='${editCaseDetailVO.lastAmount}' type='number' pattern='#0.00' />" 
 															      id="lastAmount" name="lastAmount" onkeyup="checkNum(this)"> <span class="date_icon">万元</span>
 														</div>
 														<div class="form_content mt3">
@@ -223,9 +227,9 @@
 																class="control-label sign_left_small select_style mend_select">
 																付款时间(三期) </label>
 															<div
-																class="input-group sign-right dataleft pull-left input-daterange"
+																class="input-group sign-right dataleft pull-left"
 																data-date-format="yyyy-mm-dd"> <!-- input-daterange -->
-																<input class="input_type yuanwid datatime"
+																<input class="input_type yuanwid datatime" readonly="readonly"
 																	value="<fmt:formatDate  value='${editCaseDetailVO.lastPayTime }' type='both' pattern='yyyy-MM-dd' />" 
 															        id="lastPayTime" name="lastPayTime"">
 															</div>
@@ -518,11 +522,11 @@
 														<label
 															class="control-label sign_left_small select_style mend_select">
 															领他项证时间 </label>
-														<div
-															class="input-group sign-right dataleft input-daterange pull-left"
+														<div id="tazhengArrDateDIV"
+															class="input-group sign-right dataleft pull-left input-daterange"
 															data-date-format="yyyy-mm-dd">
-															<input  class="input_type yuanwid datatime" disabled="disabled"
-																readonly="readonly"  id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
+															<input  class="input_type yuanwid datatime"
+																id="tazhengArrDate" name="tazhengArrDate" onfocus="this.blur()"
 												value="<fmt:formatDate  value='${editCaseDetailVO.tazhengArrDate}' type='both' pattern='yyyy-MM-dd'/>">
 														</div>
 													</div>
@@ -534,11 +538,11 @@
 													</div>
 													<div class="form_content mt3">
 														<label
-															class="control-label sign_left_small select_style mend_select">
+															class="control-label sign_left_small select_style mend_select ">
 															放款时间 </label>
-														<div
-															class="input-group sign-right dataleft pull-left">
-															<input  class="input_type yuanwid datatime" disabled="disabled"
+														<div  id="lendDateDIV"
+															class="input-group sign-right dataleft pull-left input-daterange">
+															<input  class="input_type yuanwid datatime"
 																value="<fmt:formatDate  value='${editCaseDetailVO.lendDate }'  type='both' pattern='yyyy-MM-dd' />" 
 													          id="lendDate" name="lendDate" readonly="readonly"  onfocus="this.blur()">
 														</div>
@@ -665,7 +669,7 @@
 	<!-- 改版引入的新的js文件 -->
     <script src="${ctx}/js/common/textarea.js?v=1.0.1"></script> 
 	<script src="${ctx}/js/common/common.js?v=1.0.1"></script>
-	
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 		<script>
@@ -742,6 +746,15 @@
 	            calendarWeeks: false,
 	            autoclose: true
 	        });
+	        $('#guestNameDown').attr("readonly","readonly");
+	        $('#guestPhoneDown').attr("readonly","readonly");
+	        $('#guestNameUp').attr("readonly","readonly");
+	        $('#guestPhoneUp').attr("readonly","readonly");
+	        if(notFirstTimeSubmit == 1){
+	        }else{
+	        	$('#tazhengArrDate').attr("disabled","disabled");
+	        	$('#lendDate').attr("disabled","disabled");
+	        }
 		});
 		
 		/*贷款折扣自动补全*/
@@ -918,81 +931,15 @@
 		/**保存数据*/
 		function save(b) {
 			var jsonData = $("#caseCloseform").serializeArray();
-
+			var tazhengArrDateData = {name:"tazhengArrDate",value:$("#tazhengArrDate").val()};
+			var lendDateData = {name:"lendDate",value:$("#lendDate").val()};
+			jsonData.push(tazhengArrDateData);
+			jsonData.push(lendDateData);
+			debugger
 			var conPrice = Number($('input[name=conPrice]').val());
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
 			var lastAmount = Number($('input[name=lastAmount]').val());
-//			var compensateAmount = Number($('input[name=compensateAmount]').val());
-
-			if(initAmount>0){
-				if(null == $('input[name=initPayTime]').val() || '' == $('input[name=initPayTime]').val()){
-					window.wxc.alert("首付付款时间不能为空!");
-					$('input[name=initPayTime]').focus();
-					return false;
-				}
-
-				if ($('select[name=initPayType]').val() == '') {
-					window.wxc.alert("首付付款方式不能为空!");
-					$('select[name=initPayType]').focus();
-					return false;
-				}
-
-			}
-			if(secAmount>0){
-				if(null == $('input[name=secPayTime]').val() || '' == $('input[name=secPayTime]').val()){
-					window.wxc.alert("二期付款时间不能为空!");
-					$('input[name=secPayTime]').focus();
-					return false;
-				}
-
-				if ($('select[name=secPayType]').val() == '') {
-					window.wxc.alert("二期付款方式不能为空!");
-					$('select[name=secPayType]').focus();
-					return false;
-				}
-
-			}
-			if(lastAmount>0){
-				if(null == $('input[name=lastPayTime]').val() || '' == $('input[name=lastPayTime]').val()){
-					window.wxc.alert("尾款付款时间不能为空!");
-					$('input[name=lastPayTime]').focus();
-					return false;
-				}
-
-				if ($('select[name=lastPayType]').val() == '') {
-					window.wxc.alert("尾款付款方式不能为空!");
-					$('select[name=lastPayType]').focus();
-					return false;
-				}
-
-			}
-			/* if(compensateAmount>0){
-				if(null == $('input[name=compensatePayTime]').val() || '' == $('input[name=compensatePayTime]').val()){
-					window.wxc.alert("装修补偿款时间不能为空!");
-					$('input[name=compensatePayTime]').focus();
-					return false;
-				}
-
-				if ($('select[name=compensatePayType]').val() == '') {
-					window.wxc.alert("装修补偿款方式不能为空!");
-					$('select[name=compensatevPayType]').focus();
-					return false;
-				}
-
-			} */
-
-			if (conPrice!=initAmount+secAmount+lastAmount) {//天津版本无装修补偿款  compensateAmount
-				window.wxc.alert("付款信息项之和必须等于合同价!");
-				$('input[name=conPrice]').focus();
-				return false;
-			}
-
-			if (Number($('input[name=conPrice]').val()) <= 0) {
-				window.wxc.alert("合同价必须大于0!");
-				$('input[name=conPrice]').focus();
-				return false;
-			}
 
 			var url = ctx+"/task/CaseClose/saveCaseClose";
 			if(b) {
@@ -1010,9 +957,7 @@
 					$(".blockOverlay").css({'z-index':'9998'});
 				},
 				complete: function() {
-					if(!b){
-						$.unblockUI();
-					}
+					$.unblockUI();
 					 if(status=='timeout'){//超时,status还有success,error等值的情况
 					  Modal.alert(
 					  {
@@ -1029,8 +974,8 @@
 								window.wxc.success("处理成功",{"wxcOk":function(){
 									if(window.opener)
 									{
+										 window.opener.location.reload();
 										 window.close();
-										 window.opener.callback();
 									} else {
 										 window.location.href = "${ctx }/task/myTaskList";
 									}
@@ -1051,10 +996,10 @@
 			txt += "<input type='hidden' name='pkidDown' value='0'/>";
 			txt += "<div class='form_content'>";
 			txt += "<label class='control-label sign_left_small'>买家姓名</label>";
-			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value=''></div>";
+			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameDown\" name=\"guestNameDown\" value=''></div>";
 			txt += "<div class=\"form_content\">";
 			txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
-			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value=''></div>";
+			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneDown\" name=\"guestPhoneDown\" value=''></div>";
 			txt += '<span class=""></span>';
 			txt += '</div>';
 			// alert(txt);
@@ -1068,10 +1013,10 @@
 			txt += "<input type='hidden' name='pkidUp' value='0'/>";
 			txt += "<div class='form_content'>";
 			txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
-			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value=''></div>";
+			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameUp\" name=\"guestNameUp\" value=''></div>";
 			txt += "<div class=\"form_content\">";
 			txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
-			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
+			txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneUp\" name=\"guestPhoneUp\" value=''></div>";
 			txt += '<span class=""></span>';
 			txt += '</div>';
 			// alert(txt);
@@ -1112,10 +1057,10 @@
 							txt += "<input type='hidden' name='pkidDown' value='"+value.pkid+"'/>";
 							txt += "<div class='form_content'>";
 							txt += "<label class='control-label sign_left_small'>买家姓名</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value='"+value.guestName+"'></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameDown\" name=\"guestNameDown\" value='"+value.guestName+"'></div>";
 							txt += "<div class='form_content'>";
 							txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
-							txt += "<input type=\"text\"  style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value='"+value.guestPhone+"'></div>";
+							txt += "<input type=\"text\"  style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneDown\" name=\"guestPhoneDown\" value='"+value.guestPhone+"'></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';
 							$("#guestDownDiv").before(txt);
@@ -1125,10 +1070,10 @@
 							txt += "<input type='hidden' name='pkidUp' value='"+value.pkid+"'/>";
 							txt += "<div class='form_content'>";
 							txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value='"+value.guestName+"'></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameUp\" name=\"guestNameUp\" value='"+value.guestName+"'></div>";
 							txt += "<div class='form_content'>";
 							txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value='"+value.guestPhone+"'></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneUp\" name=\"guestPhoneUp\" value='"+value.guestPhone+"'></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';		
 							$("#guestUpDiv").before(txt);
@@ -1141,10 +1086,10 @@
 							txt += "<input type='hidden' name='pkidDown' value='0'/>";
 							txt += "<div class='form_content'>";
 							txt += "<label class='control-label sign_left_small'>买家姓名</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameDown\" value=''></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameDown\" name=\"guestNameDown\" value=''></div>";
 							txt += "<div class='form_content'>";
 							txt += "<label class=\"control-label sign_left_small\">买家电话</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneDown\" value=''></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneDown\" name=\"guestPhoneDown\" value=''></div>";
 							txt += '<span class=""><span>';
 							txt += '</div>';
 							// alert(txt);
@@ -1155,10 +1100,10 @@
 							txt += "<input type='hidden' name='pkidUp' value='0'/>";
 							txt += "<div class='form_content'>";
 							txt += "<label class='control-label sign_left_small'>卖家姓名</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestNameUp\" value=''></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestNameUp\" name=\"guestNameUp\" value=''></div>";
 							txt += "<div class=\"form_content\">";
 							txt += "<label class=\"control-label sign_left_small\">卖家电话</label>";
-							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" name=\"guestPhoneUp\" value=''></div>";
+							txt += "<input type=\"text\" style='margin-left:4px;' class=\"input_type yuanwid\" id=\"guestPhoneUp\" name=\"guestPhoneUp\" value=''></div>";
 							txt += '<span class=""></span>';
 							txt += '</div>';
 							// alert(txt);

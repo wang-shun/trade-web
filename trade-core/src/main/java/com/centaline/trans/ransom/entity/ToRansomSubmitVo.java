@@ -15,6 +15,9 @@ public class ToRansomSubmitVo {
 	 * 案件编号
 	 */
 	private String caseCode;
+	
+	private String partCode;
+	
 	/**
 	 * 任务id
 	 */
@@ -252,8 +255,11 @@ public class ToRansomSubmitVo {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-	
-	
-	
+	public String getPartCode() {
+		return partCode;
+	}
+	public void setPartCode(String partCode) {
+		this.partCode = partCode;
+	}
 	
 }

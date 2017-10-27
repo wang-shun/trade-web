@@ -22,23 +22,19 @@
         <!-- 分页控件 -->
         <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
         <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
+        <link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
 	rel="stylesheet">
 	<link
 	href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"
 	rel="stylesheet">
 	<style>
-		.bonus-m-con .bonus-search{margin-left:15px;}
-		.case-num{
-text-decoration: underline !important;
-}
-.case-num:HOVER{
-text-decoration: underline !important;
-}
-.case-num:visited{
- text-decoration: underline !important;
-}
-.hideDiv{
-display: none;}
+        .apply_box{
+            padding: 30px 15px 50px 15px;
+            border-radius: 0px;
+        }
 	</style>
     </head>
     
@@ -46,9 +42,8 @@ display: none;}
     <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
     <span>待结算审批列表</span>
         <div id="wrapper" class="Index">
-       			<!-- Main view -->
                     <div class="bonus-table">
-                        <table>
+                        <table class="table table_blue table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>案件编号</th>
@@ -108,34 +103,41 @@ display: none;}
 					 	<!-- <button class="btn btn-primary" id="btnSave">提交</button> -->
 					</div>
           </div>
-        	<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                             <div class="modal-dialog" style="width: 1070px;">
-                                 <div class="modal-content animated fadeIn apply_box">
-                                 	<%-- <input type="hidden" value="${caseCode}" id="caseCode" /> --%>
-                                     <form action="" class="form_list clearfix" style="margin-bottom: 20px;">
-                                         <div class="form_tan">
-                                         	<button type="button" class="close" data-dismiss="modal"
-													aria-hidden="true">×</button>
-                                             <label class="control-label">
-                                            		     审批驳回意见：
-                                             </label>
-                                             <input class="input_type input_extent" placeholder="请输入" value="" style="width:420px" id="rejectCause"/>
-                                         </div>
-                                         <div class="form_tan tan_space">
-                                             <button type="button" class="btn btn-success" id="doSure" onclick="">
-                                                 <i class="icon iconfont"></i>&nbsp;确认
-                                             </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                             <!-- <button type="button" class="btn btn-success" id="cancel" onclick="">
-                                                 <i class="icon iconfont"></i>&nbsp;取消
-                                             </button> -->
-                                             <button type="button" class="btn btn-default"
-													data-dismiss="modal">关闭</button>
-                 						</div>
-                                     </form>
-                                    <!--  <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a; </i></button> -->
-								 </div>
-							</div>
-				</div>
+        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
+            <div class="modal-dialog" style="width: 1070px;">
+                <div class="modal-content animated fadeIn apply_box">
+                    <%-- <input type="hidden" value="${caseCode}" id="caseCode" /> --%>
+                    <form action="" class="form_list clearfix" style="margin-bottom: 20px;">
+                        <div class="line">
+                            <%--<button type="button" class="close" data-dismiss="modal"
+                                    aria-hidden="true">×</button>
+                            <label class="control-label">
+                                审批驳回意见：
+                            </label>
+                            <input class="input_type input_extent" placeholder="请输入" value="" style="width:420px" id="rejectCause"/>--%>
+
+                            <label class="control-label">
+                                审批驳回意见：
+                            </label>
+                            <input class="input_type input_extent" placeholder="请输入" value="" style="width:420px" id="rejectCause"/>
+                        </div>
+                        <div class="line">
+                            <div class="add_btn text-center" style="margin:30px 126px;">
+                                <button type="button" class="btn btn-success" id="doSure" onclick="">
+                                    <i class="icon iconfont"></i>&nbsp;确认
+                                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <!-- <button type="button" class="btn btn-success" id="cancel" onclick="">
+                                    <i class="icon iconfont"></i>&nbsp;取消
+                                </button> -->
+                                <button type="button" class="btn btn-default"
+                                        data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                    </form>
+                    <button type="button" class="close close_blue" data-dismiss="modal"><i class="iconfont icon_rong"> &#xe60a; </i></button>
+                </div>
+            </div>
+        </div>
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
         <content tag="local_script"> 
@@ -166,11 +168,11 @@ display: none;}
                                     <td>{{item.caseCode}}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.FIN_ORG_ID}}</td>
+                                    <td>{{item.EVA_COMPANY}}</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>备注信息</td>
-									<td>贷款权证</td>
+                                    <td></td>
+									<td>{{item.LOAN}}</td>
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
 					 
@@ -374,7 +376,10 @@ display: none;}
 					});
 					var ctx = $("#ctx").val();
 					
-		 			window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					window.wxc.confirm("确定批量审批通过吗？",{"wxcOk":function(){
+						window.location.href = ctx+"/eval/settle/majorIsAppro?caseCodes="+ids;
+					}});
+		 			
 	 	    })
 
 	    </script>

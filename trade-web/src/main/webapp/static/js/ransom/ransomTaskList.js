@@ -203,6 +203,10 @@ function reloadGrid(data) {
 				moduleType:"1001",//模块类型1001为案件类型
 				subscribeType:"2001"//模块功能类型2001为收藏
 			});
+        },
+        error:function(data){
+        	 $.unblockUI();
+        	 window.wxc.error("请求查询出错");
         }
   });
 }

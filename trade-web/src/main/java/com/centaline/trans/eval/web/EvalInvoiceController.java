@@ -83,8 +83,6 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "collectInvoice")
 	public String toCollectInvoice(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
 		ToEvaInvoice toEvaInvoice = null;
 		List<ToEvaInvoice> toEvaInvoiceList = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
 		if(toEvaInvoiceList.size()>0){
@@ -92,7 +90,6 @@ public class EvalInvoiceController {
 			 model.addAttribute("toEvaInvoice", toEvaInvoice);
 		}
 		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
-		request.setAttribute("ctx", ctx);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		model.addAttribute("caseCode", caseCode);
 		return "eval/collectInvoice";
@@ -259,12 +256,9 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "invoiceAudit")
 	public String toInvoiceAudit(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
 		ToEvaInvoice toEvaInvoice = toEvaInvoiceService.selectByCaseCodeWithEvalCompany(caseCode);
 		model.addAttribute("toEvaInvoice", toEvaInvoice);
 		model.addAttribute("caseCode", caseCode);
-		request.setAttribute("ctx", ctx);
 		return "eval/invoiceAudit";
 	}
 	/**
@@ -274,9 +268,6 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "invoiceApply")
 	public String toInvoiceApply(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
-		request.setAttribute("ctx", ctx);
 		model.addAttribute("caseCode", caseCode);
 		return "eval/invoiceApply";
 	}
@@ -287,9 +278,6 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "issueInvoice")
 	public String toIssueInvoice(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
-		request.setAttribute("ctx", ctx);
 		ToEvaInvoice toEvaInvoice = null;
 		List<ToEvaInvoice> list = toEvaInvoiceService.selectByCaseCodeWithEvaPointer(caseCode);
 		if(list.size()>0){
@@ -306,11 +294,7 @@ public class EvalInvoiceController {
 	 */
 	@RequestMapping(value = "issueInvoiceChangeComm")
 	public String toIssueInvoiceChangeComm(HttpServletRequest request,Model model,String caseCode) {
-		App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
-		String ctx = app.genAbsoluteUrl();
-		
-		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
-		request.setAttribute("ctx", ctx);
+		EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVOFromDB(caseCode);
 		model.addAttribute("caseCode", caseCode);
 		model.addAttribute("evalChangeCommVO", evalChangeCommVO);
 		return "eval/issueInvoiceChangeComm";

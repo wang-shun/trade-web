@@ -10,23 +10,28 @@
     <result column="REBATE_MONEY" property="rebateMoney" jdbcType="DECIMAL" />
     <result column="REBATE_WARRANT" property="rebateWarrant" jdbcType="DECIMAL" />
     <result column="REBATE_BUSINESS" property="rebateBusiness" jdbcType="DECIMAL" />
+    <result column="CASE_ID" property="caseId" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="REPORT_CODE" property="reportCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    PKID, CASE_CODE, CCAI_CODE, GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, REBATE_WARRANT, 
-    REBATE_BUSINESS
+    br.PKID , br.CASE_CODE, br.CCAI_CODE, br.GUARANTEE_COMP_ID, br.BANK_NAME, br.REBATE_MONEY, br.REBATE_WARRANT,
+    br.REBATE_BUSINESS,c.PKID CASE_ID,br.APPLY_ID, br.REPORT_CODE
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_BANK_REBATE_INFO
-    where PKID = #{pkid,jdbcType=BIGINT}
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.PKID = #{pkid,jdbcType=BIGINT}
   </select>
   
   <select id="selectRebateInfoByGuaranteeCompId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from sctrans.T_TO_BANK_REBATE_INFO
-    where GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.GUARANTEE_COMP_ID = #{guaranteeCompId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
@@ -42,10 +47,11 @@
   <insert id="insert" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
     insert into sctrans.T_TO_BANK_REBATE_INFO (PKID, CASE_CODE, CCAI_CODE, 
       GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, 
-      REBATE_WARRANT, REBATE_BUSINESS)
+      REBATE_WARRANT, REBATE_BUSINESS,APPLY_ID, REPORT_CODE)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, 
       #{guaranteeCompId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{rebateMoney,jdbcType=DECIMAL}, 
-      #{rebateWarrant,jdbcType=DECIMAL}, #{rebateBusiness,jdbcType=DECIMAL})
+      #{rebateWarrant,jdbcType=DECIMAL}, #{rebateBusiness,jdbcType=DECIMAL}, #{applyId,jdbcType=VARCHAR},
+      #{reportCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
     insert into sctrans.T_TO_BANK_REBATE_INFO
@@ -74,6 +80,12 @@
       <if test="rebateBusiness != null" >
         REBATE_BUSINESS,
       </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="reportCode != null" >
+        REPORT_CODE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -99,6 +111,12 @@
       </if>
       <if test="rebateBusiness != null" >
         #{rebateBusiness,jdbcType=DECIMAL},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCode != null" >
+        #{reportCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -126,6 +144,12 @@
       <if test="rebateBusiness != null" >
         REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL},
       </if>
+      <if test="applyId != null" >
+        APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportCode != null" >
+        REPORT_CODE = #{reportCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -137,7 +161,9 @@
       BANK_NAME = #{bankName,jdbcType=VARCHAR},
       REBATE_MONEY = #{rebateMoney,jdbcType=DECIMAL},
       REBATE_WARRANT = #{rebateWarrant,jdbcType=DECIMAL},
-      REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL}
+      REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL},
+      APPLY_ID = #{applyId,jdbcType=VARCHAR},
+      REPORT_CODE = #{reportCode,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

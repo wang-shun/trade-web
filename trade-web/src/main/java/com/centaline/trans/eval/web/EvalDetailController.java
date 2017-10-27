@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
-import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.service.EvalDetailService;
-import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.task.service.ActRuTaskService;
 
 /**
@@ -27,11 +25,7 @@ public class EvalDetailController {
 	@Autowired(required = true)
 	UamSessionService uamSessionService;
 	@Autowired
-	private WorkFlowManager workFlowManager;
-	@Autowired
 	ActRuTaskService actRuTaskService;
-	@Autowired
-	ToEvalReportProcessService toEvalReportProcessService;
 	@Autowired
 	EvalDetailService evalDetailService;
 	/**
@@ -48,7 +42,7 @@ public class EvalDetailController {
 	@RequestMapping(value = "/detail/reject")
 	@ResponseBody
 	public AjaxResponse<?> evalReject(HttpServletRequest request,String caseCode,String evaCode){
-		return evalDetailService.evalReject(request, caseCode, evaCode);
+		return evalDetailService.submitEvalReject(request, caseCode, evaCode);
 	}
 	
 	@RequestMapping(value = "/detail/saveEvaComChangeItems")

@@ -166,6 +166,7 @@ function reloadGrid(data) {
 			  $("#evaluateList").html(myTaskList);
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
+              demoPoshytip();
         }
   });
 }
@@ -260,8 +261,8 @@ function gotoPage(obj){
 		window.open(url);
 	}else  if(sVal == '1'){
 		if(caseCode != null && caseCode !="" && caseCode != undefined){//已关联交易案件
-			//直接给询价编号
-			window.open(ctx+"/task/eval/apply?evaCode="+evaCode);
+			//直接给询价编号和caseCode
+			window.open(ctx+"/task/eval/apply?evaCode="+evaCode+"&caseCode="+caseCode);
 		}else{
 			var data = {};
 		    data.queryId = "queryEvalApplyList";
@@ -333,7 +334,7 @@ function evalApply(){
 			dataType:'json',
 			success:function(data){
 				if(data.content){
-					window.location.href= ctx+"/task/eval/apply?evaCode="+evaCode;
+					window.location.href= ctx+"/task/eval/apply?evaCode="+evaCode+"&caseCode="+caseCode;
 				}else{
 					window.wxc.error('关联失败!');
 				}
@@ -346,4 +347,16 @@ function evalApply(){
 		window.wxc.info('请选择一条数据!');
 	}
 	
+}
+
+function demoPoshytip(){
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
 }

@@ -18,9 +18,6 @@ $(document).ready(function() {
 		moduleType:"1001",
 		subscribeType:"2001"
 	});
-	$("#mortageService").change(function(){
-		mortageService();
-	});
 	var caseCode = $("#caseCode").val();
 	var evaCode = $("#evaCode").val();
 	//评估操作记录
@@ -31,11 +28,11 @@ $(document).ready(function() {
 	
 	//审批记录
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'11');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'18');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'16');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'17');
 	
 	var width = $('.jqGrid_wrapper').width();
 	$('#operation_history_table').setGridWidth(width);
@@ -60,10 +57,27 @@ $(document).ready(function() {
 	
 	//附件		
 	getShowAttachment();
-	//业绩记录/收费情况查询
-	//queryPer();
+	
+	$("#sel_changeFrom").change(function(){
+		$("#changeForm-form").attr('action','../'+$("#sel_changeFrom").val());
+
+    });
+	$("#sel_changeFrom").change();
+	$("#changeForm-form").submit(function(){
+		$('#changeForm-modal-form').modal("hide");
+	});
+	$("#changeForm-form").submit(function(){
+		if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+			window.wxc.alert('请选择要修改的项目！');
+			return false;
+		}
+	});
 
 });
+
+function showChangeFormModal(){
+	$('#changeForm-modal-form').modal("show");
+}
 
 function getOperateLogList(evaCode){
 	var url = "/quickGrid/findPage";
@@ -436,10 +450,11 @@ function evalComChange(evaCode){
 
 //评估公司变更调佣
 function transferCommission(){
+	var caseCode = $("#caseCode").val();
 	window.wxc.confirm("确定评估公司变更调佣？",{"wxcOk":function(){
-		var caseCode = $("#caseCode").val();
+		
 		$.ajax({
-			url:ctx+"/eval/collectInvoice",
+			url:ctx+"/eval/detail/checkTransferCommission",
 			method:"post",
 			dataType:"json",
 			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
@@ -462,8 +477,7 @@ function transferCommission(){
 				
 				}else{
 					$.unblockUI();
-					window.location.href=ctx+"/eval/collectInvoice";
-					window.wxc.alert("驳回成功");
+					window.location.href=ctx+"/eval/changeEvalComAudit?caseCode="+caseCode;
 				}
 			}
 		});

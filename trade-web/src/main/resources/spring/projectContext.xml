@@ -705,7 +705,26 @@
     <bean name="qqEvaPricingStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
     	<property name="dictType" value="EVA_STATUS"></property>
     </bean>
-    
+    <!-- 银行返利状态 -->
+    <bean name="qqcdDictBankRebateStatus" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_status"></property>
+    </bean>
+    <!-- 银行返利 担保公司 -->
+    <bean name="qqcdDictBankRebateGuarantee" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_guarantee"></property>
+    </bean>
+    <!-- 银行返利 银行名称 -->
+    <bean name="qqcdDictBankRebateBank" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+        <property name="dictType" value="bank_rebate_bank"></property>
+    </bean>
+    <!-- 评估待结算状态 -->
+    <bean name="evalAccountStatus"  class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="eval_account_status"></property>
+    </bean>
+    <!-- 费用调整类型 -->
+    <bean name="feeChangeType"  class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="fee_change_type"></property>
+    </bean>
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

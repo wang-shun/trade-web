@@ -2,17 +2,15 @@ package com.centaline.trans.ransom.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.TgGuestInfo;
-import com.centaline.trans.ransom.entity.ToRansomApplyVo;
-import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
-import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
-import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
-import com.centaline.trans.ransom.entity.ToRansomPermitVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
-import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
+import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
+import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
 
 public interface RansomListFormService {
 	/**
@@ -21,6 +19,8 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	int addRansomDetail(ToRansomCaseVo trco);
+	
+	ToRansomMoneyVo getRansomDetailMoneyInfo(String ransomCode);
 	
 	/**
 	 * 查询赎楼单列表
@@ -82,7 +82,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode);
+	ToRansomFormVo getRansomPlanTimeInfo(String ransomCode);
 	
 	/**
 	 * 赎楼时间计划信息
@@ -110,7 +110,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo);
+	AjaxResponse<String> updateRansomPlanTimeInfo(ToRansomFormVo ransomVo);
 	
 	/**
 	 * 赎楼时间计划信息更新
@@ -176,4 +176,18 @@ public interface RansomListFormService {
 	 */
 	int queryCountMonthRansomsByUserId(String userId);
 	
+	/**
+	 * 获取已完成任务信息
+	 * @param ransomCode
+	 * @return
+	 */
+	VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode);
+	
+	/**
+	 * 获取赎楼单的所有计划时间变更记录
+	 * @author wbcaiyx
+	 * @param ransomCode
+	 * @return
+	 */
+	List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode);
 }

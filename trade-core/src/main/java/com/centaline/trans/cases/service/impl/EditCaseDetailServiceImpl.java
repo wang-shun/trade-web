@@ -658,19 +658,37 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     
     /**
      * update by wbshume
+     * 2017-10-24
+     * 结案归档页面数据修改问题：
+     * ①如果是第一次提交：不允许修改数据
+     * ②如果是第二次提交：只允许修改过户之后的信息：领证时间、放款时间
      */
     @Override
     public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO)
     {
-        /* 执行上下家删除操作 */
-        if (editCaseDetailVO.getGuestPkid() != null && editCaseDetailVO.getGuestPkid().size() > 0)
+    	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
+    		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
+    			ToMortgage record = new ToMortgage();
+    			record.setPkid(editCaseDetailVO.getMpkid());
+    			if(editCaseDetailVO.getLendDate() != null) {
+    				record.setLendDate(editCaseDetailVO.getLendDate());
+    			}
+    			if(editCaseDetailVO.getTazhengArrDate() != null) {
+    				record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
+    			}
+    			toMortgageMapper.update(record);
+    		}
+    	}
+    	
+         //执行上下家删除操作 
+        /*if (editCaseDetailVO.getGuestPkid() != null && editCaseDetailVO.getGuestPkid().size() > 0)
         {
             for (Long pkid : editCaseDetailVO.getGuestPkid())
             {
                 tgGuestInfoMapper.deleteByPrimaryKey(pkid);
             }
         }
-        /** 上家 */
+        *//** 上家 *//*
         TgGuestInfo tgGuestInfoUP = new TgGuestInfo();
         tgGuestInfoUP.setCaseCode(editCaseDetailVO.getCaseCode());
         tgGuestInfoUP.setTransPosition("30006001");
@@ -693,7 +711,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 下家 */
+        *//** 下家 *//*
         TgGuestInfo tgGuestInfoDown = new TgGuestInfo();
         tgGuestInfoDown.setTransPosition("30006002");
         tgGuestInfoDown.setCaseCode(editCaseDetailVO.getCaseCode());
@@ -716,7 +734,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 首付款 */
+        *//** 首付款 *//*
         ToPayment toPaymentInit = new ToPayment();
         toPaymentInit.setAmount(editCaseDetailVO.getInitAmount() != null ? editCaseDetailVO.getInitAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentInit.setPayTime(editCaseDetailVO.getInitPayTime());
@@ -736,7 +754,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 二次付款 */
+        *//** 二次付款 *//*
         ToPayment toPaymentSec = new ToPayment();
         toPaymentSec.setAmount(editCaseDetailVO.getSecAmount() != null ? editCaseDetailVO.getSecAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentSec.setPayTime(editCaseDetailVO.getSecPayTime());
@@ -756,7 +774,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             }
         }
 
-        /** 尾款付款 */
+        *//** 尾款付款 *//*
         ToPayment toPaymentLast = new ToPayment();
         toPaymentLast.setAmount(editCaseDetailVO.getLastAmount() != null ? editCaseDetailVO.getLastAmount().multiply(new BigDecimal(10000)) : null);
         toPaymentLast.setPayTime(editCaseDetailVO.getLastPayTime());
@@ -774,7 +792,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             {
                 toPaymentMapper.insertSelective(toPaymentLast);
             }
-        }
+        }*/
 
         /** 装修补偿款 */ //天津版本无此项
         /*ToPayment toPaymentCompensate = new ToPayment();

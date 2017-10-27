@@ -17,6 +17,7 @@ import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.common.enums.RansomStatusEnum;
 import com.centaline.trans.common.enums.RansomStopStatusEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -113,6 +114,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	public boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent, String caseCode, String ransomCode) {
 		ToRansomCaseVo ransomCaseVo = new ToRansomCaseVo();
 		ransomCaseVo.setCaseCode(caseCode);
+		ransomCaseVo.setRansomCode(ransomCode);
 		//work_flow
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_suspend"));
@@ -122,6 +124,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
 			if(examContent.equals("pass")) {
 				ransomCaseVo.setIsstop(RansomStopStatusEnum.STOPED.getCode());
+				ransomCaseVo.setRansomStatus(RansomStatusEnum.STOPED.getCode());
 			}else {
 				ransomCaseVo.setIsstop(RansomStopStatusEnum.UNSTOP.getCode());
 			}

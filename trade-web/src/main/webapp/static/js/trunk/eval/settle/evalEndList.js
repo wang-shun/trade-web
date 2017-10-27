@@ -17,7 +17,35 @@ $(document).ready(function(){
 			todayBtn : 'linked',
 			language : 'zh-CN'
 		});
+	//获取评估公司
+	getEvaFinOrg('finOrgId');
 });
+
+/**
+ * 获取评估公司 格式化
+ * @param finOrgId
+ */
+function getEvaFinOrg(finOrgId){
+	var url = "/manage/queryEvaCompany";
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:ctx+url,
+		dataType:'json',
+		success:function(data){
+			var html = '<option value="" selected>请选择</option>';
+			if(data != null){
+				$.each(data,function(i,item){
+					html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+				});
+			}					
+			$('#'+finOrgId).empty();
+			$('#'+finOrgId).append(html);
+		},
+		error : function(errors) {
+		}
+	});
+}
 
 /*条件查询*/
 $('#searchButton').click(function(){
@@ -30,6 +58,14 @@ function searchMethod(page){
     aist.wrap(data);
 	reloadGrid(data);
 }
+
+//清空
+$('#myCaseListCleanButton').click(function() {
+	$("#caseStatus").val("");
+	$("#dtBegin_0").val('');
+	$('#inTextVal').val("");
+	$('#finOrgId').val("")
+});
 
 /*获取查询参数*/
 function getQueryParams(page){
@@ -60,7 +96,7 @@ function getQueryParams(page){
 		}
 	}
 	//评估公司
-	var finOrgID = $('#evalCompany').val();
+	var finOrgID = $('#finOrgId').val();
 	var params = {
 		search_status : status,
 		search_propertyAddr : propertyAddr,
@@ -166,14 +202,15 @@ $('#checkAllNot').click(function(){
 	if($(this).prop('checked')){
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
-			$("#batEnd").attr("disabled", false);
-			$("#caseChangeTeamButton").attr("disabled", false);
+			
 		}
+		$("#batEnd").attr("disabled", false);
 	}else{
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
-			$("#batEnd").attr("disabled", true);
+			
 		}
+		$("#batEnd").attr("disabled", true);
 	}
 });
 
@@ -229,7 +266,7 @@ function exportToExcel() {
 		}
 	}
 	//评估公司
-		var finOrgID = $('#evalCompany').val();
+		var finOrgID = $('#finOrgId').val();
 		var params = {};
 		params.search_status = status;
 		params.search_propertyAddr = propertyAddr;
@@ -241,7 +278,7 @@ function exportToExcel() {
 		var displayColomn = new Array;
 		displayColomn.push('caseCode');
 		displayColomn.push('PROPERTY_ADDR');
-		displayColomn.push('FIN_ORG_ID');
+		displayColomn.push('EVA_COMPANY');
 		displayColomn.push('APPLY_DATE');
 		displayColomn.push('ISSUE_DATE');
 		displayColomn.push('EVAL_REAL_CHARGES');
@@ -264,7 +301,7 @@ function exportToExcel() {
 /**
  * 批量结算
  */
-function batEnd(){
+$('#batEnd').click(function(){
 	var ids = new Array();
 	var checkeds=$('input[name="my_checkbox"]:checked');
 	$.each(checkeds, function(i, items){
@@ -277,8 +314,8 @@ function batEnd(){
 	window.wxc.confirm("确定批量结算吗？",{"wxcOk":function(){
 		window.location.href = ctx + "/eval/settle/batEnd?caseCodes="+ids;
 	}});
-	
-}
+});
+
 
 /**所搜条件的设定*/
 function intextTypeChange(){

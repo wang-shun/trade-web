@@ -1,113 +1,158 @@
 <!DOCTYPE html>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-
+<%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@include file="/WEB-INF/jsp/tbsp/common/taglibs.jspf"%>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>首页</title>
-       <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
-        <link href="<c:url value='/fonts/font-awesome/css/font-awesome.min.css' />" rel="stylesheet"/>
-        <link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
-        <!-- IonRangeSlider -->
-        <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
-        <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
-        <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
-        <%-- <link href="<c:url value='/css/style.min.css' />" rel="stylesheet">  --%>
-        <link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
-        <!-- Gritter -->
-        <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-        <!-- 分页控件 -->
-        <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
-        <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
-	rel="stylesheet">
-	<link
-	href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"
-	rel="stylesheet">
-	<style>
-		.bonus-m-con .bonus-search{margin-left:15px;}
-		.case-num{
-text-decoration: underline !important;
-}
-.case-num:HOVER{
-text-decoration: underline !important;
-}
-.case-num:visited{
- text-decoration: underline !important;
-}
-.hideDiv{
-display: none;}
-	</style>
-    </head>
-    
-    <body class="pace-done">
-    <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-    <span>评估结算案件列表</span>
-        <div id="wrapper" class="Index">
-       			<!-- Main view -->
-                <div class="main-bonus">
-                    <div class="bonus-wrap">
-                        <div class="ibox-content bonus-m-con">
-                            <div class="row">
-                                <div class="col-lg-5 col-md-5">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">评估公司</label>
-                                        <div class="col-lg-9 col-md-9">
-                                            <input type="text" class="form-control" id="evalCompany" name="evalCompany">
-                                        </div>
-                                </div>
-                                <div class="col-lg-5 col-md-5">
-                                    <div class="form-group">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">结算时间</label>
-                                         <div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-											<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value=""> 
-											
-										</div>
-                                    </div>
-                                </div>
-                                 <div class="col-lg-5 col-md-5">
-                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
-                                        <div class="col-lg-9 col-md-9">
-												<select name="" class="form-control" id="caseStatus">
-													<option value="" selected="selected">请选择</option>
-													<option value="4">已结算</option>
-													<option value="3">未结算</option>
-												</select>
-                                          <!--  <aist:dict id="caseProperty" name="case_property" tag="myCaseList" display="select" dictType="30003" clazz="select_control sign_right_one_case"/> -->
-                                        </div>
-                                </div>
+        <title>评估结算案件列表</title>
+		<!-- Toastr style -->
+		<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 
-                            </div>
-                            <div >
-	             		 		<div id="select_div_1" >
-				           			<div >
-		                                 <select id="inTextType" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
-												<option value="1" selected>产证地址</option>
-												<option value="0">案件编号</option>
-												<option value="2">评估单编号</option>
-												
-										 </select>
-										 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
-										 <button id="searchButton" type="button" class="btn btn-success">查询</button>
-										 <shiro:hasPermission name="TRADE.CASE.LIST.EXPORT">  
-														<a data-toggle="modal" class="btn btn-success" onclick="javascript:exportToExcel()"  href="" id="exportBtn">导出到excel</a>
-													</shiro:hasPermission>&nbsp;&nbsp;&nbsp;&nbsp;
-										<button id="batEnd"  onclick="javascript:batEnd()" type="button" class="btn btn-success" disabled="true">批量结算</button> &nbsp;&nbsp;&nbsp;
-				                     </div>
-				                    
-								 </div>
-	                   			
+		<!-- Gritter -->
+		<link href="<c:url value='/js/plugins/gritter/jquery.gritter.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
+		<link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/animate.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/style.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/chosen/chosen.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
+
+		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet">
+		<link href="<c:url value='/css/transcss/case/myCaseList.css' />" rel="stylesheet">
+		<!-- 分页控件 -->
+		<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+		<link href="<c:url value='/css/transcss/case/case_filter.css' />" rel="stylesheet">
+
+		<!-- Data Tables -->
+		<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.bootstrap.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.responsive.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/plugins/dataTables/dataTables.tableTools.min.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" rel="stylesheet">
+
+		<!-- index_css -->
+
+		<!-- index_css -->
+		<link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+		<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+		<link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
+		<link rel="stylesheet" href="<c:url value='/css/workflow/myCaseList.css' />" />
+		<link rel="stylesheet" href="<c:url value='/css/workflow/newRecordpop.css' />" />
+		<!-- 必须CSS -->
+		<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
+
+		<style type="text/css">
+			.radio label {
+				margin-left: 10px;
+			}
+
+			.radio.radio-inline>input {
+				margin-left: 10px;
+			}
+
+			.checkbox.checkbox-inline>div {
+				margin-left: 25px;
+			}
+
+			.checkbox.checkbox-inline>input {
+				margin-left: 20px;
+			}
+			.date-info .col-md-12 .form-group:not(first-child){margin-bottom:0}
+			.text-center{text-align:center;}
+			#searchButton{margin-right:5px;}
+			.table_content .big a{
+				min-width: 140px;
+				display: inline-block;
+			}
+		</style>
+		<content tag="pagetitle">评估结算案件列表</content>
+    </head>
+
+    <body>
+	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="ibox-content border-bottom clearfix space_box">
+			<h1 class="title">
+				评估结算案件列表
+			</h1>
+			<!-- <form method="get" class="form-horizontal form_box"> -->
+				<div class="row clearfix">
+					<div class="form_content">
+						<label class="sign_left_two control-label">评估公司</label>
+						<div class="sign_right big_pad">
+							<select  id="finOrgId" class="form-control select_control">
+								</select>
+						</div>
+					</div>
+
+					<div class="row date-info clearfix">
+						<div class="form_content">
+							<div id="dateDiv_0" style="padding-left:45px;">
+								<label class="sign_left_two control-label">结算时间</label>
+								 <div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
+									<input id="dtBegin_0" name="dtBegin" class="form-control data_style" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value=""> 
+								</div>
 							</div>
-                          
-                        </div>
-                    </div>
-                    </div>
-                 
-                    <div class="bonus-table">
-                        <table>
-                            <thead>
-                                <tr>
+						</div>
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<div class="form_content">
+						<label class="sign_left_two control-label">状态</label>
+						<div class="sign_right big_pad">
+							<select name="" class="form-control select_control" id="caseStatus">
+								<option value="" selected="selected">请选择</option>
+								<option value="4">已结算</option>
+								<option value="3">未结算</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="row date-info clearfix">
+						<div class="form_content">
+							<div id="dateDiv_0" style="padding-left:45px;">
+								<div class="sign_right big_pad">
+									<select id="inTextType"  class="form-control select_control" data-placeholder="搜索条件设定" onchange="intextTypeChange()">
+											<option value="1" selected>产证地址</option>
+											<option value="0">案件编号</option>
+											<option value="2">评估单编号</option>
+											
+									 </select>
+
+								</div>
+							</div>
+
+						</div>
+						<div class="form_content">
+							<input id="inTextVal" type="text" class="form-control data_style">
+						</div>
+					</div>
+				</div>
+				<div class="row m-t-sm">
+					<div class="form_content">
+						<div class="more_btn">
+							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:exportToExcel()" id="exportBtn">导出到excel</a>
+							<button id="batEnd"  type="button" class="btn btn-success" disabled="true">批量结算</button>&nbsp;
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="table_content">
+					<table class="table table_blue table-striped table-bordered table-hover " >
+						<thead>
+						 <tr>
                                 	<th ><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
                                     <th>
                                     	案件编号
@@ -119,7 +164,7 @@ display: none;}
                                     <th>评估公司</th>
                                     <th>
                                     	<p class="aa">评估申请日期</p>
-                                    	<p class="aa">&nbsp;&nbsp;&nbsp;&nbsp;出报告日期</p>
+                                    	<p class="aa">出报告日期</p>
                                     </th> 
                                     <th>评估费实收</th>
                                     <th>评估值</th>
@@ -129,26 +174,30 @@ display: none;}
                                     <th>案件状态</th>
                                     <th>结算时间</th>
                                 </tr>
-                            </thead>
-                            <tbody id="t_body_data_contents">
-                                                              
-                            </tbody>
-                        </table>                     
-                    </div>
-                	<div class="text-center">
-						<span id="currentTotalPage"><strong class="bold"></strong></span>
-						<span class="ml15">共<strong class="bold" id="totalP"></strong>条</span>&nbsp;
-						<div id="pageBar" class="pagination my-pagination text-center m0"></div>  
-				    </div>
+						</thead>
+						<tbody id="t_body_data_contents">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+            <div class="text-center page_box">
+                <span id="currentTotalPage"><strong ></strong></span>
+                <span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+                <div id="pageBar" class="pagergoto">
                 </div>
             </div>
-            <!-- /Main view -->
         </div>
-         <form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+		<form action="#" accept-charset="utf-8" method="post" id="excelForm"></form>
+		
+        
+	</div>
+
+    <input type="hidden" id="ctx" value="${ctx}" />
         <!-- End page wrapper-->
         <!-- Mainly scripts -->
-        <content tag="local_script"> 
-        <%--  <script src="<c:url value='/js/bootstrap.min.js' />"></script> --%>
+        <content tag="local_script">
        <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
         <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
          <!-- 日期控件 -->
@@ -166,8 +215,11 @@ display: none;}
         <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
         <script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
         <script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
+        <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <!-- 评估结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/evalEndList.js' />"></script>
+        
+       <%--  <script	src="<c:url value='/js/trunk/bankRebate/bankRebateList.js' />"></script> --%>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="evalListTemp" type= "text/html">
                            {{each rows as item index}}
@@ -181,10 +233,10 @@ display: none;}
 					<input type='hidden' name='taskIds' value="{{item.ID}}" disabled>
 					
 				</td>
-                                     <td>{{item.caseCode}}
+                                     <td class="demo-left">{{item.caseCode}}
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-									<td>{{item.FIN_ORG_ID}}</td>
+									<td>{{item.EVA_COMPANY}}</td>
 									<td>
 										<p>评：{{item.APPLY_DATE}}</p>
 										<p>出：{{item.ISSUE_DATE}}</p>
@@ -192,21 +244,14 @@ display: none;}
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
 									 <td>{{item.EVA_PRICE}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td>小张</td>
+                                    <td></td>
 									<td>
-									{{if item.STATUS=='3'}}
-						 				<span class="yes_color">未结算</span>
-					    			{{/if}}
-									{{if item.STATUS=='4'}}
-						 				<span class="yes_color">已结算</span>
-					    			{{/if}}
+										<span class="yes_color">{{item.STATUS}}</span>
 									</td>
 									<td>{{item.SETTLE_TIME}}</td>
                                 </tr>
 						{{/each}}
 	    </script>
-	    
-	    
-	    </content> 
+	    </content>
           </body>
 </html>

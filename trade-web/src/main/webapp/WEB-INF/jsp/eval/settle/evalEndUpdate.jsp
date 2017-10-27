@@ -87,7 +87,7 @@
 									
 									<div class="height_line"></div>
 									<div class="row font-family" style=" margin-top:10px;">
-										<label class="col-sm-4 control-label">评估公司：${evalVO.finOrgId}</label>
+										<label class="col-sm-4 control-label">评估公司：${evalVO.evalCompany}</label>
 										<label class="col-sm-3 control-label">评估费实收金额:${evalVO.evalRealCharges}&nbsp;&nbsp;元</label>
 										<label class="col-sm-3 control-label">评估申请日期:${evalVO.applyDate}</label>
 									</div>

@@ -1,30 +1,3 @@
-/*加载银行返利*/
-$(document).ready(function(){
-	
-	$('#datepicker_0').datepicker({
-			format : 'yyyy-mm-dd',
-			weekStart : 1,
-			autoclose : true,
-			todayBtn : 'linked',
-			language : 'zh-CN'
-		});
-	
-	aist.sortWrapper({
-		reloadGrid : searchMethod
-	});
-	
-	var data = getQueryParams(1);
-    // 初始化列表
-    data.queryId = "bankRebate";
-    data.rows = 10;
-    data.page = 1;
-    aist.wrap(data);
-	//添加排序------------
-	reloadGrid(data);
-	
-	
-});
-
 var ctx = $("#ctx").val();
 //清空
 $('#myCaseListCleanButton').click(function() {
@@ -35,90 +8,102 @@ $('#myCaseListCleanButton').click(function() {
 	$("#finOrgId").val("");
 });
 
-var excelInUrl = "";
 //Excel modal
 function showExcelModal(){
-	excelInUrl = "/bankRebate/uploadExcelBankRebate?";
 	$('#excel-modal-form').modal("show");
-	
-	/*var toBankRebate = {
-			guaranteeCompany : $("#finOrgId").val(),
-			rebateTotal : $("#rebateMoney").val(),
-			companyAccount:$("#companyAccount").val(),
-			applyPerson:$("#applyer").val(),
-			applyTime:$("#applyTime").val()
-			//applyOrg:$("#applyOrg").val(),
-		};
-	toBankRebate = $.toJSON(toBankRebate);*/
-	
 }
-//Excel 导入
+// Excel 导入
 function excelIn(){
-	if(!checkFileTypeExcel())return false;
-	$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-	$(".blockOverlay").css({'z-index':'9998'});
-	var ctx = $("#ctx").val();
-	$('#excelInForm').attr('action', ctx + excelInUrl);
-	$('#excelInForm').method="post" ;
-	$('#excelInForm').submit();
+    if(!checkFileTypeExcel()) return;
+    var url = ctx+"/bankRebate/uploadExcelBankRebate";
+    var formData = new FormData();
+    formData.append("fileupload",$("#file")[0].files[0]);
+    var data = $("#excelInForm").serializeArray();
+    for(var i=0;i<data.length;i++){
+    	var value = data[i].value;
+    	if(!value || value.length==0){
+    		if(i==0){
+                window.wxc.error("请选择担保公司!");
+                return;
+			} else if(i==1){
+                window.wxc.error("请填写返利总金额");
+                return;
+			}
+		}else{
+    		if(i==1&&isNaN(value)){
+                window.wxc.error("请正确填写返利总金额");
+                return;
+			}else{
+                formData.append(data[i].name,value);
+			}
+		}
+	}
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: formData,
+        processData : false,// 告诉jQuery不要去设置Content-Type请求头
+        contentType : false,
+        beforeSend: function () {
+            $.blockUI({
+                message: $("#salesLoading"),
+                css: {
+                    'border': 'none',
+                    'z-index': '9999'
+                }
+            });
+            $(".blockOverlay").css({
+                'z-index': '9998'
+            });
+        },
+        success: function (data) {
+            $.unblockUI();
+            if (data.success) {
+                window.wxc.alert("导入成功",{"wxcOk":function(){
+                    window.location.href = ctx + "/bankRebate/bankRebateList";
+                }});
+            } else {
+                if (data.message) {
+                    window.wxc.error("导入失败:<br/> " + data.message);
+                }
+            }
+        },
+        error: function () {
+            window.wxc.error("提交信息出错");
+        }
+    });
 }
-
 function checkFileTypeExcel()
 {
-	var obj = $("#file")[0];
-    var ErrMsg="";
-    var FileMsg="";
-    var IsImg=false;
-    if(obj.value=="")return false;
-    var FileExt=obj.value.substr(obj.value.lastIndexOf(".")).toLowerCase();
-    var AllowExt=".xls .csv .xlsx .ods";
-    //判断文件类型是否允许上传
-    if(AllowExt!=0&&AllowExt.indexOf(FileExt)==-1) {
-        ErrMsg="\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt;
-        window.wxc.error(ErrMsg);
+    var obj = $("#file");
+    if(!obj || obj.val().length==0){
+        window.wxc.error("请选择导入文件!");
         return false;
-  	}
-
-	return true;
+	}
+	var fileName = obj.val();
+    var FileExt= fileName.substr(fileName.lastIndexOf(".")).toLowerCase();
+    var AllowExt=".xls .xlsx";
+    //判断文件类型是否允许上传
+    if(AllowExt.indexOf(FileExt)==-1) {
+        window.wxc.error("\n该文件类型不允许上传。请上传 "+AllowExt+" 类型的文件，当前文件类型为"+FileExt);
+        return false;
+    }
+    return true;
 }
 //新增按钮
 $("#addNewCase").click(function(){
 	window.location.href = ctx + "/bankRebate/newBankRebate";
 });
-//提交按钮
-/*$("#submit").click(function(){
-	var evalAccountShowVO = {
-			caseCode : $("#caseCode").val(),
-			settleFee : $("#editEndCost").val(),
-			updateReason:$("#updateCause").val()
-		};
-	evalAccountShowVO = $.toJSON(evalAccountShowVO);
-   	  $.ajax({
-				cache:false,
-				async:true,
-				type:"POST",
-				dataType:"json",
-				contentType: "application/json; charset=utf-8" ,
-				url:ctx+"/eval/settle/evalEndUpdateFee",
-				data:evalAccountShowVO,
-				success:function(data){
-					if(data.success){
-						location.href = "../settle/evalWaitEndList"
-					}else{
-						window.wxc.error(data.message);
-					}
-				},
-				
-		}); 
-	  	
- });*/
-
 
 /*条件查询*/
 $('#searchButton').click(function(){
     searchMethod(1)
 });
-
+function searchMethod(){
+    searchMethod(1);
+}
 //search
 function searchMethod(page){
 	$("#deleteButton").attr("disabled", true);
@@ -137,9 +122,14 @@ function getQueryParams(page){
 	var status = $("#caseStatus  option:selected").val().trim();
 
 	//申请日期
-	var closeTimeStart = $("#dtBegin_0").val();
-	var closeTimeEnd = $("#dtEnd_0").val();
-
+	var applyStart = $("#dtBegin_0").val();
+	var applyEnd = $("#dtEnd_0").val() ;
+	if(applyStart.length>0){
+        applyStart +=" 00:00:00.000";
+	}
+	if(applyEnd.length>0){
+        applyEnd+=" 23:59:59.999"
+	}
 	//申请人
 	var applyer = $('#applyer').val();
 
@@ -151,8 +141,8 @@ function getQueryParams(page){
 		search_status : status,
 		search_applyPerson : applyer,
 		search_guaranteeCompany : finOrgID,
-		argu_closeTimeStart : closeTimeStart,
-		argu_closeTimeEnd : closeTimeEnd,
+		argu_applyStart : applyStart,
+		argu_applyEnd : applyEnd,
 		queryId : 'bankRebate',
 		rows : 10,
 	    page : page
@@ -264,7 +254,6 @@ function _checkbox(){
 	}
 }
 
-
 /**
  *批量删除
  */
@@ -281,47 +270,52 @@ $('#deleteButton').click(function() {
 		window.location.href = ctx + "/bankRebate/deleteCompany?guaranteeCompId="+ids;
 	}});
 });
-
-
-
-
+//模板下载
+function showExcelIn(){
+    window.location.href = ctx + "/bankRebate/exportMatrixLeaderSheet"
+}
 /**
- * 导出excel（2013年之后版本）
+ * 提交银行返利申请
+ * @param compId
  */
-
-	function exportToExcel() {
- 		var params = {};
- 		params.search_status = $("#caseStatus  option:selected").val().trim();
- 		params.search_settleFee = $("#endfee").val();
- 		params.search_feeChangeReason = $('#costUpdateType option:selected').val();
- 		params.search_finOrgID = $('#finOrgId').val();
-
- 		var displayColomn = new Array;
- 		displayColomn.push('caseCode');
- 		displayColomn.push('PROPERTY_ADDR');
- 		displayColomn.push('FEE_CHANGE_REASON');
-		displayColomn.push('FIN_ORG_ID');
-		displayColomn.push('APPLY_DATE');
- 		displayColomn.push('ISSUE_DATE');
- 		displayColomn.push('EVAL_REAL_CHARGES');
- 		displayColomn.push('SETTLE_FEE');
- 		displayColomn.push('REJECT_CAUSE');
- 		displayColomn.push('STATUS');
- 		
- 		var colomns = '&colomns=' + displayColomn;
- 		var url = "/quickGrid/findPage?xlsx&";
- 		var ctx = $("#ctx").val();
- 		var queryId = '&queryId=bankRebate';
- 		url = ctx + url + jQuery.param(params) + queryId  + colomns;
- 		$('#excelForm').attr('action', url);
- 		$('#excelForm').method="post" ;
- 		$('#excelForm').submit();  
-    }
-
-	
-
-
-
-
-
-
+function submitBankRebate(compId){
+    window.wxc.confirm("确定提交到财务审批？",{"wxcOk":function(){
+        var url = ctx + "/bankRebate/submitCcai";
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data: {guaranteeCompId:compId},
+            beforeSend: function () {
+                $.blockUI({
+                    message: $("#salesLoading"),
+                    css: {
+                        'border': 'none',
+                        'z-index': '9999'
+                    }
+                });
+                $(".blockOverlay").css({
+                    'z-index': '9998'
+                });
+            },
+            success: function (data) {
+                $.unblockUI();
+                if (data.success) {
+                    window.wxc.alert("提交成功",{"wxcOk":function(){
+                        var ctx = $("#ctx").val();
+                        window.location.href = ctx + "/bankRebate/bankRebateList";
+                    }});
+                } else {
+                    if (data.message) {
+                        window.wxc.alert("提交失败:<br/>" + data.message);
+                    }
+                }
+            },
+            error: function () {
+                $.unblockUI();
+                window.wxc.alert("提交信息出错");
+            }
+        });
+    }});
+}

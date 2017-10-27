@@ -31,7 +31,7 @@ public enum WorkFlowEnum {
 	SPV_OUT("spv_out","businessKey"),
 	//案件流程重启
 	SERVICE_RESTART("caseReStart_Process","serviceRestartBusinesskey"),
-	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),	
+	COMLOAN_PROCESS("ComLoan_Process:4:645463","ComLoan_Process"),
 	LOANLOST_PROCESS("LoanLost_Process:10:950004","LoanLost_Process"),	
 	LOANER_PROCESS("Loaner_Process:5:1030036","Loaner_Process"),	
 	PSFLOAN_PROCESS("PSFLoan_Process:1:645460","PSFLoan_Process"),
@@ -45,7 +45,8 @@ public enum WorkFlowEnum {
 	//随便写的
 	COMANDPSFLOAN_PROCESS("PSFLoan_Process:1:645460","ComLoanAndPSFLoan_Process"),
 	OPERATION_PROCESS("operation_process:40:645454","processDefinitionId"),
-	REQ_STUFF("reqStuffProcess","reqStuffProcess");
+	REQ_STUFF("reqStuffProcess","reqStuffProcess"),
+	BANK_REBATE_PROCESS("bankRebateProcess","bankRebateProcess");//银行返利经理审批流程
 	private String name;
 	private String code;
 

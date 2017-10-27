@@ -310,19 +310,15 @@ function save(b) {
             });
         },
         success: function(data){
-            $.unblockUI();
-            console.log(data);
-            if (b) {
-                if (data) {
-                    window.wxc.alert("提交成功"+data);
-                }
-                var ctx = $("#ctx").val();
-                window.location.href=ctx+ "/task/myTaskList";
-            }else{
-            	if (data.message) {
-                    window.wxc.alert("提交成功"+data);
-                }
-            }
+        	$.unblockUI();	
+			if(!data.success){
+				 window.wxc.alert(data.message);						 
+				 }else{					 
+				 window.wxc.success("保存成功。",{"wxcOk":function(){
+                     window.close();
+                     window.opener.callback();
+                 }});
+				 }
         },
         error:function(){
         	window.wxc.alert("提交信息出错。。");
@@ -378,6 +374,7 @@ function checkForm() {
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/common/taskListByCaseCode.jsp"></jsp:include>
 <%-- <jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include> --%>
 <!-- caseBaseInfo -->
 <link href="<c:url value='/css/common/subscribe.css' />" rel="stylesheet">
@@ -580,80 +577,64 @@ function checkForm() {
 			<font color=" red">*</font>调佣对象与调佣金额如下表：
 		</div>
 		<hr>
-			<table style="width: 100%;height: 600px;" class="table-hover">
-            <thead>
-            <tr>
-                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
-            </tr>
-            </thead>
+			<table style="width: 100%;height: 300px;" class="table-hover">
+			<c:if test="${!empty evalChangeCommVO.coPersonList}">
+	            <thead>
+		            <tr>
+		                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+		            </tr>
+	            </thead>
+            </c:if>
             <tbody>
             <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
             <tr>
                     <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
                     <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" ></td>
-                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"></td>
+                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"  ></td>
                     <td><span class="aa"></span><span>%</span></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }"></td>
-                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }"></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"  ></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }" ></td>
+                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }" ></td>
                 </tr>
             </c:forEach>
-                <!-- <tr>
-                    <td>合作人1:</td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                </tr> -->
-                
-
                 <tr>
                     <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
                 </tr>
                 <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
                 <tr>
                     <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }"></td>
-                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }"></td>
+                    <input type="hidden" name="sharePersonList[${s.index}].position" value="${sharePerson.position }">
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }" ></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }" ></td>
+                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }" ></td>
                     <td><span class="aa"></span><span>%</span></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }"></td>
-                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }"></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }" ></td>
+                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }" ></td>
                 </tr>
                 </c:forEach>
-                <!-- <tr>
-                    <td>分成人2:</td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                    <td><input type="text" style="width: 120px"></td>
-                </tr> -->               
-                <tr></tr><tr></tr>
+              
+                <tr></tr>
                 
                 <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
                 <tr>
-                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }"></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px"></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px"></td>
+                    <td>${warrantPersonList.position }${s.count}:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" ></td>
+                    <input type="hidden" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }">
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" ></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" ></td>
                     <td></td>
                     <td></td>
-                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px"></td>
+                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].shareReason" value="${warrantPersonList.shareReason }" style="width: 120px" ></td>
                     <td></td>
                 </tr>
                 </c:forEach>
-
                 <tr>
                     <td></td>
                     <td></td>
                     <td>合计:</td>
-                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px"></td>
+                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px" ></td>
                     <td><span id="totalPacentage"></span><span>%</span></td>
                     <td>单数合计:</td>
-                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px"></td>
+                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px" ></td>
                 </tr>
             </tbody>
         </table>
@@ -768,17 +749,7 @@ function checkForm() {
 		                }
 		            });
 		            //页面加载时计算出百分比
-		            //var shareAmountArray=$('.shareAmount');
-		            //console.log(shareAmountArray);
 		            
-		            /* $('.shareAmount').each(function(){
-		            	var totalcomm=$("#ttlComm").val();
-		            	totalcomm=parseInt(totalcomm);
-		            	console.log(totalcomm);
-		                var sharePacentage=$(this).val()/totalcomm*100;
-		                sharePacentage=sharePacentage.toFixed(2)
-		            	$(this).parent().siblings().children(".aa").text(sharePacentage);
-		            }) */
 		            
 		            refeshShareAmount();
 		            getTotalSharePacentage();
@@ -788,26 +759,14 @@ function checkForm() {
 		                console.log($(this).val());
 		                //var totalcomm=10000;
 		                var totalcomm=$("#ttlComm").val();
-		                totalcomm=parseInt(totalcomm);
+		                totalcomm=parseFloat(totalcomm);
 		                var sharePacentage=$(this).val()/totalcomm*100;
 		                sharePacentage=sharePacentage.toFixed(2)
 		                console.log(sharePacentage);
 		                //$(this).parent().siblings().children(".aa").text(sharePacentage);
 		                console.log($(this).parent().siblings().children(".aa").text(sharePacentage));
 		                refeshShareAmount();
-		                getTotalSharePacentage();
-		              //计算总百分比
-		                /* var totalPacentage=0;
-		                var totalPacentageArray=new Array();
-		                $(".aa").each(function(){
-		                    totalPacentageArray.push(parseInt($(this).text()));
-		                })
-		                for(var i=0;i<totalPacentageArray.length;i++){
-		                    totalPacentage=totalPacentageArray[i]+totalPacentage;
-		                }
-		                console.log(totalPacentageArray);
-		                console.log(totalPacentage);
-		                $("#totalPacentage").text(totalPacentage);   */              
+		                getTotalSharePacentage();            
 		            }); 
 		            		            
 					})//end ready function
@@ -815,7 +774,7 @@ function checkForm() {
 					function refeshShareAmount(){
 						$('.shareAmount').each(function(){
 			            	var totalcomm=$("#ttlComm").val();
-			            	totalcomm=parseInt(totalcomm);
+			            	totalcomm=parseFloat(totalcomm);
 			            	console.log(totalcomm);
 			                var sharePacentage=$(this).val()/totalcomm*100;
 			                sharePacentage=sharePacentage.toFixed(2)
@@ -827,8 +786,9 @@ function checkForm() {
 						//计算总百分比
 		                var totalPacentage=0;
 		                var totalPacentageArray=new Array();
+		                //class aa 为把各个所占百分比加总起来
 		                $(".aa").each(function(){
-		                    totalPacentageArray.push(parseInt($(this).text()));
+		                    totalPacentageArray.push(parseFloat($(this).text()));
 		                })
 		                for(var i=0;i<totalPacentageArray.length;i++){
 		                    totalPacentage=totalPacentageArray[i]+totalPacentage;

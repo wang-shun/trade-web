@@ -1,10 +1,16 @@
 package com.centaline.trans.api.service.impl;
 
+import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.basedata.remote.UamBasedataService;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.*;
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
+import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.repository.ToCaseInfoMapper;
 import com.centaline.trans.eval.entity.ToEvalRebate;
@@ -34,6 +40,12 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 
 	@Autowired
 	private ToCaseInfoMapper toCaseInfoMapper;
+
+	@Autowired
+	private UamBasedataService uamBasedataService;
+
+	@Autowired
+	private UamUserOrgService uamUserOrgService;
 
 	@Override
 	public ApiResultData evalRebateFeedBack(FlowFeedBack result, CcaiEvalRebateVo info) {
@@ -89,35 +101,36 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	}
 
 	@Override
-	public ApiResultData evalBankRebateSync() {
+	public ApiResultData evalBankRebateSync(ToBankRebateInfoVO info,String userId) {
 		ApiResultData apiResult = new CcaiFlowApiResultData();
 		if(serviceIsEnable()){
-			//TODO 创建模拟数据 后面完成数据匹配
-			CcaiPostBankFlowInfo request = new CcaiPostBankFlowInfo();
-			CcaiBrokageBack base = new CcaiBrokageBack();
-			base.setBackID("7E15E28D-5527-4FAC-B8EB-1C3A3329C134");
-			base.setRecordEmpNo("TJ15110190");
-			base.setRecordDate(new Date());
-			base.setTotalMoney(new BigDecimal(200));
-			base.setRemark("银行返利申请.");
-			request.setBrokageBack(base);
-			List<CcaiBrokageBackDetail> details = new ArrayList<>();
-			CcaiBrokageBackDetail d1 = new CcaiBrokageBackDetail();
-			d1.setReportNo("TJZY-ZBZF1-1710-0021");
-			d1.setReturnMoney(new BigDecimal(100));
-			d1.setCertMoney(new BigDecimal(30));
-			d1.setBizMoney(new BigDecimal(70));
-			d1.setBankName("交通银行");
-			CcaiBrokageBackDetail d2 = new CcaiBrokageBackDetail();
-			d2.setReportNo("TJZY-ZBZF1-1710-0022");
-			d2.setReturnMoney(new BigDecimal(100));
-			d2.setCertMoney(new BigDecimal(70));
-			d2.setBizMoney(new BigDecimal(30));
-			d2.setBankName("交通银行");
-			details.add(d1);details.add(d2);
-			request.setBbdList(details);
-			String url =getServiceAddress()+"/CCAIData/PostBankFlowInfo";
-			apiResult = restTemplate.postForObject(url,request,CcaiFlowApiResultData.class);
+			User user = uamUserOrgService.getUserById(userId);
+			if(user!=null){
+				CcaiPostBankFlowInfo request = new CcaiPostBankFlowInfo();
+				CcaiBrokageBack base = new CcaiBrokageBack();
+				base.setBackID(info.getToBankRebate().getPkid());
+				base.setRecordEmpNo(user.getEmployeeCode());
+				base.setRecordDate(info.getToBankRebate().getApplyTime());
+				base.setTotalMoney(info.getToBankRebate().getRebateTotal());
+				base.setRemark(info.getToBankRebate().getComment());
+				request.setBrokageBack(base);
+				List<CcaiBrokageBackDetail> details = new ArrayList<>();
+				for(ToBankRebateInfo i : info.getToBankRebateInfoList()){
+					CcaiBrokageBackDetail detail = new CcaiBrokageBackDetail();
+					detail.setReportNo(i.getCcaiCode());
+					detail.setReturnMoney(i.getRebateMoney());
+					detail.setCertMoney(i.getRebateWarrant());
+					detail.setBizMoney(i.getRebateBusiness());
+					detail.setBankName(uamBasedataService.getDictValue("bank_rebate_bank",i.getBankName()));
+					details.add(detail);
+				}
+				request.setBbdList(details);
+				String url =getServiceAddress()+"/CCAIData/PostBankFlowInfo";
+				apiResult = restTemplate.postForObject(url,request,CcaiFlowApiResultData.class);
+			}else{
+				apiResult.setSuccess(false);
+				apiResult.setMessage("未获取到用户："+userId);
+			}
 		}else{
 			apiResult.setSuccess(true);
 			apiResult.setMessage("服务未开启，默认成功!");

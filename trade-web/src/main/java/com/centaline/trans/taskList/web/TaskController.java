@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.centaline.trans.common.enums.*;
 import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.*;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
@@ -44,11 +45,6 @@ import com.centaline.trans.cases.vo.CaseDetailShowVO;
 import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
-import com.centaline.trans.common.enums.AppTypeEnum;
-import com.centaline.trans.common.enums.ToAttachmentEnum;
-import com.centaline.trans.common.enums.TransDictEnum;
-import com.centaline.trans.common.enums.TransJobs;
-import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.common.service.ToPropertyInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
@@ -207,14 +203,14 @@ public class TaskController {
 			ctmCode=caseinfo.getCtmCode();
 		}
 		
-    	if(taskitem.equals("TransSign")) {//签约，读取数据
+    	if(PartCodeEnum.WQ.getCode().equals(taskitem)) {//签约，读取数据
     		getAccesoryList(request, taskitem);
     		request.setAttribute("transSign", signService.qureyGuestInfo(caseCode));
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		
     	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
     	    model.addAttribute("imgweb", app.genAbsoluteUrl());
-    	} else if(taskitem.equals("TransPlanFilling")) {//填写交易计划
+    	} else if(PartCodeEnum.JYJH.getCode().equals(taskitem)) {//填写交易计划
     		/*getAccesoryList(request, taskitem);*/
     		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/*抵押*/
     		
@@ -225,20 +221,25 @@ public class TaskController {
     		request.setAttribute("dy", dy==null?false:dy.getValue());
     		request.setAttribute("dk", dk);
     		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
-    	} else if(taskitem.equals("FirstFollow")) {//首次跟进
-    		initApproveRecord(request, caseCode, "0");/*无效审批*/
+    	}
+    	//已废弃,天津使用接单跟进
+    	/*else if("FirstFollow".equals(taskitem)) {//首次跟进
+    		initApproveRecord(request, caseCode, "0");*//*无效审批*//*
     		request.setAttribute("ctmCode", ctmCode);
         	request.setAttribute("firstFollow", firstFollowService.queryFirstFollow(caseCode));
-    	} else if(taskitem.equals("PurchaseLimit")){/*查限购*/
+    	}*/
+		//已废弃，天津使用缴税
+		/*else if("PurchaseLimit".equals(taskitem)){*//*查限购*//*
     		getAccesoryList(request, taskitem);
     		request.setAttribute("purchaseLimit", toPurchaseLimitSearchService.findToPlsByCaseCode(caseCode));
-    	} else if(taskitem.equals("Pricing")){/*核价*/
+    	} else if("Pricing".equals(taskitem)){*//*核价*//*
     		getAccesoryList(request, taskitem);
     		request.setAttribute("pricing", toPricingService.qureyPricing(caseCode));
-    	} else if(taskitem.equals("TaxReview")){/*审税*/
+    	} else if("TaxReview".equals(taskitem)){*//*审税*//*
     		getAccesoryList(request, taskitem);
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
-    	} else if (taskitem.equals("RatePayment")){/*缴税*/
+    	}*/
+    	else if (PartCodeEnum.JS.getCode().equals(taskitem)){/*缴税*/
 			getAccesoryList(request,taskitem);
 			ToRatePayment ratePayment=ratePaymentService.qureyToRatePayment(caseCode);
 			if(ratePayment!=null){
@@ -248,7 +249,7 @@ public class TaskController {
 				}
 			}
 			request.setAttribute("ratePayment",ratePayment);
-		} else if(taskitem.equals("Guohu")){/*过户*/
+		} else if(PartCodeEnum.GH.getCode().equals(taskitem)){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
         	//获取附件信息
@@ -269,31 +270,40 @@ public class TaskController {
 			if(dict!=null){
 				request.setAttribute("accompanyReason", dict.getChildren());
 			}
-    	} else if(taskitem.equals("LoanClose")) {/*贷款结清*/
+    	} else if(PartCodeEnum.DKJQ.getCode().equals(taskitem)) {/*贷款结清*/
     		request.setAttribute("loanClose", toCloseLoanService.qureyToCloseLoan(caseCode));
-    	} else if(taskitem.equals("PSFApply")) {/*纯公积金贷款申请*/
+    	}else if(PartCodeEnum.ZHDK.getCode().equals(taskitem)){//组合贷款 by wbzhouht
+			CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+			int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+			if ( cou >0) {
+				caseBaseVO.setLoanType("30004005");
+			}
+			request.setAttribute("source", source);
+			request.setAttribute("caseBaseVO", caseBaseVO);
+			toAccesoryListService.getAccesoryLists(request, taskitem);
+			MortStep mortStep = new MortStep();
+			mortStep.setCaseCode(caseCode);
+			Integer[] step = mortStepService.getMortStep(caseCode);
+			request.setAttribute("step", step[0]);
+			return "task"+UiImproveUtil.getPageType(request)+"/taskComAndPSFLoanProcess";
+		}
+
+    	else if(PartCodeEnum.GJJSQ.getCode().equals(taskitem)) {/*纯公积金贷款申请*/
     		getAccesoryList(request, taskitem);
     		ToTransPlan toTransPlan = new ToTransPlan();
     		toTransPlan.setPartCode(taskitem);
     		toTransPlan.setCaseCode(caseCode);
     		request.setAttribute("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
     		request.setAttribute("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));//--
-    	} else if(taskitem.equals("PSFSign")) {/*纯公积金贷款签约*/
+    	} else if(PartCodeEnum.GJJQY.getCode().equals(taskitem)) {/*纯公积金贷款签约*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("PSFSign", psfSignService.queryPSFSignNoBlank(caseCode));
-    	} else if(taskitem.equals("PSFApprove")) {/*纯公积金贷款审批*/
+    	} else if(PartCodeEnum.CGJJSP.getCode().equals(taskitem)) {/*纯公积金贷款审批*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("PSFApprove", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));//--30016003
-    	} else if(taskitem.equals("HouseBookGet")) {/*领证*/
-    		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
-
-    		// add zhangxb16 2016-2-22
-    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
-    		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
-    		
-    		getAccesoryListLingZheng(request, taskitem, (boolean)(psf==null?false:psf.getValue()), (boolean)(self==null?false:self.getValue()), (boolean)(com==null?false:com.getValue()));
+    	} else if(PartCodeEnum.LZ.getCode().equals(taskitem)) {/*领证*/
     		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
-    	} else if(taskitem.equals("LoanRelease")) {/*放款*/
+    	} else if(PartCodeEnum.FK.getCode().equals(taskitem)) {/*放款*/
     		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
     		boolean tz = !(boolean)(psf==null?false:psf.getValue());
     		getAccesoryList(request, taskitem);
@@ -304,7 +314,7 @@ public class TaskController {
     		}
     		request.setAttribute("tz", tz);
     		request.setAttribute("loanRelease", mortgage);
-    	} else if(taskitem.equals("SelfLoanApprove")) {/*SelfLoanApprove 自办贷款审批*/
+    	} else if(PartCodeEnum.ZBDKSP.getCode().equals(taskitem)) {/*SelfLoanApprove 自办贷款审批*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
     		request.setAttribute("SelfLoan", mortgage);
     		if(mortgage!=null && mortgage.getCustCode()!=null){
@@ -314,7 +324,7 @@ public class TaskController {
 				request.setAttribute("custName",guest.getGuestName());
 				}
 			};
-    	}else if(taskitem.equals("ComLoanProcess")){
+    	}else if(PartCodeEnum.AJDK.getCode().equals(taskitem)){
     		getAccesoryLists(request, taskitem);
     		MortStep mortStep = new MortStep();
     		mortStep.setCaseCode(caseCode);
@@ -331,12 +341,12 @@ public class TaskController {
         		request.setAttribute("evaCode", "");
     		}	
     	//新增交易顾问派单 流程
-    	}else if(taskitem.equals("LoanerProcess")){
+    	}else if(PartCodeEnum.PD.getCode().equals(taskitem)){
     		
     		ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
     		request.setAttribute("mortgage", mortgage);
     	
-    	}else if(taskitem.equals("LoanlostApply")){ /*贷款流失申请*/
+    	}else if(PartCodeEnum.DKLS.getCode().equals(taskitem)){ /*贷款流失申请*/
     		getAccesoryList(request, taskitem);   		
     		
     		/*贷款流失审批 添加流失原因*/
@@ -361,14 +371,14 @@ public class TaskController {
         	r.setPartCode("LoanlostApply");
         	r.setProcessInstance(instCode);
         	request.setAttribute("toApproveRecord", toApproveRecordService.queryToApproveRecord(r));
-    	}else if(taskitem.equals("EvaReportArise")){
+    	}else if(PartCodeEnum.ZBPG.getCode().equals(taskitem)){
     		getAccesoryList(request, taskitem);
     		request.setAttribute("toEguPricing", toEguPricingService.findIsFinalEguPricing(caseCode));	
-    	} else if(taskitem.equals("OfflineEva")) {/*线下评估报告发起*/
+    	} else if(PartCodeEnum.XXPG.getCode().equals(taskitem)) {/*线下评估报告发起*/
     		request.setAttribute("OfflineEva", offlineEvaService.queryOfflineEvaVO(instCode));
     		request.setAttribute("evaReport", toEvaReportService.findByProcessId(instCode));
-    	} else if(taskitem.equals("LoanlostApproveManager") || 
-    			taskitem.equals("LoanlostApproveDirector") || taskitem.equals("LoanlostApproveGeneralManager")  || taskitem.equals("LoanlostApproveSeniorManager")) {
+    	} else if(PartCodeEnum.SPFS.getCode().equals(taskitem) ||
+                PartCodeEnum.SPFS1.getCode().equals(taskitem) || PartCodeEnum.SPFS2.getCode().equals(taskitem) || PartCodeEnum.SPFS3.getCode().equals(taskitem)) {
     		request.setAttribute("caseDetail", loanlostApproveService.queryCaseInfo(caseCode,"LoanlostApply",instCode));
     		
     		ToMortgage mortgage= toMortgageService.findToSelfLoanMortgage(caseCode);			
@@ -382,12 +392,12 @@ public class TaskController {
     		String approveType = "1";/*流失审批*/
     		initApproveRecord(request, caseCode, approveType);  		
     		
-    	} else if(taskitem.equals("CaseCloseThirdApprove") || 
-    			taskitem.equals("CaseCloseFirstApprove") || taskitem.equals("CaseCloseSecondApprove")) {/*结案审批*/
+    	} else if(PartCodeEnum.JASP.getCode().equals(taskitem) ||
+                PartCodeEnum.JASP1.getCode().equals(taskitem) || PartCodeEnum.JASP2.getCode().equals(taskitem)) {/*结案审批*/
     		initApproveRecord(request, caseCode, "3");
-    	} else if(taskitem.equals("InvalidCaseApprove")) {
+    	} else if(PartCodeEnum.WXSP.getCode().equals(taskitem)) {
     		initApproveRecord(request, caseCode, "0");/*无效审批*/
-    	} else if(taskitem.equals("GuohuApprove")) {
+    	} else if(PartCodeEnum.GHSP.getCode().equals(taskitem)) {
     		initApproveRecord(request, caseCode, "2");/*过户审批*/
     		
     		//交易信息
@@ -405,7 +415,7 @@ public class TaskController {
     		if(dict!=null){
         		request.setAttribute("notApproves", dict.getChildren());
     		}
-    	} else if(taskitem.equals("CaseClose")) {/*结案审批，验证数据是否正确*/
+    	} else if(PartCodeEnum.JA.getCode().equals(taskitem)) {/*结案审批，验证数据是否正确*/
     		initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
     		
@@ -413,7 +423,7 @@ public class TaskController {
     		
     		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
     		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
-    	} else if(taskitem.equals("ServiceChangeApply")) {/*服务项变更*/
+    	} else if(PartCodeEnum.FWX.getCode().equals(taskitem)) {/*服务项变更*/
     		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
         		toWorkFlow.setCaseCode(caseCode);
@@ -424,11 +434,11 @@ public class TaskController {
     		initApproveRecord(request, caseCode, "4");
     		request.setAttribute("list", serviceChangeService.queryDelServChangeHistroty(caseCode));
     		request.setAttribute("addServ", serviceChangeService.queryAddServChangeHistroty(caseCode));
-    	} else if(taskitem.equals("ServiceChangeApprove")) {/*服务项审批*/
+    	} else if(PartCodeEnum.FWXSP.getCode().equals(taskitem)) {/*服务项审批*/
     		initApproveRecord(request, caseCode, "4");
     		request.setAttribute("newxm", serviceChangeService.qureyServChangeHistrotyInfo(caseCode).get("newServChange"));
     		request.setAttribute("delxm", serviceChangeService.qureyServChangeHistrotyInfo(caseCode).get("delServChange"));
-    	}else if(taskitem.equals("spvOutApply")) {/*资金监管解除申请*/
+    	}else if(PartCodeEnum.ZJJG.getCode().equals(taskitem)) {/*资金监管解除申请*/
     		getAccesoryList(request, taskitem);
         	ToSpv toSpv = toSpvService.queryToSpvByCaseCode(caseCode);
 
@@ -436,7 +446,7 @@ public class TaskController {
     		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
 
     		request.setAttribute("spvDeRecVo", spvDeRecVo);
-    	}else if(taskitem.equals("spvOutApprove")) {/*资金监管解除审批*/
+    	}else if(PartCodeEnum.ZJJGSP.getCode().equals(taskitem)) {/*资金监管解除审批*/
     		getAccesoryList(request, taskitem);
     		
     		initApproveRecord(request, caseCode, "6");
@@ -444,7 +454,7 @@ public class TaskController {
     		SpvDeRecVo spvDeRecVo = toSpvService.findByProcessInstanceId(instCode);
     		
     		request.setAttribute("spvDeRecVo", spvDeRecVo);
-    	}else if("serviceRestartApply".equals(taskitem)||"serviceRestartApprove".equals(taskitem)){
+    	}else if(PartCodeEnum.FWCQ.getCode().equals(taskitem)||PartCodeEnum.FWXSP.getCode().equals(taskitem)){
     		initApproveRecord(request, caseCode, "7");
      		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -459,7 +469,7 @@ public class TaskController {
     		plan.setCaseCode(caseCode);
     		plan.setPartCode("LoanRelease");//放款
     		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
-    	}else if("evalServiceRestartApply".equals(taskitem) || "evalServiceRestartApprove".equals(taskitem)){ //天津评估流程
+    	}else if(PartCodeEnum.PGCQ.getCode().equals(taskitem) || PartCodeEnum.PGCQSP.getCode().equals(taskitem)){ //天津评估流程
     		initApproveRecord(request, caseCode, "10");
      		if(instCode == null && caseCode != null) {
         		ToWorkFlow toWorkFlow = new ToWorkFlow();
@@ -617,38 +627,38 @@ public class TaskController {
     	request.setAttribute("processInstanceId", instCode);
 		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("taskitem", taskitem);
-		if(taskitem.equals("PurchaseLimit")){/*查限购*/
+		if("PurchaseLimit".equals(taskitem)){/*查限购*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("purchaseLimit", toPurchaseLimitSearchService.findToPlsByCaseCode(caseCode));
-    	} else if(taskitem.equals("Pricing")){/*核价*/
+    	} else if("Pricing".equals(taskitem)){/*核价*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("pricing", toPricingService.qureyPricing(caseCode));
-    	} else if(taskitem.equals("TaxReview")){/*审税*/
+    	} else if("TaxReview".equals(taskitem)){/*审税*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("taxReview", toTaxService.findToTaxByCaseCode(caseCode));
-    	}else if (taskitem.equals("RatePayment")){
+    	}else if ("RatePayment".equals(taskitem)){
     		getAccesoryList(request,taskitem);
     		request.setAttribute("ratePayment",ratePaymentService.qureyToRatePayment(caseCode));
-		} else if(taskitem.equals("Guohu")){/*过户*/
+		} else if("Guohu".equals(taskitem)){/*过户*/
         	/*过户申请信息*/
         	initApproveRecord(request, caseCode, "2");
     		getAccesoryListGuoHu(request, taskitem, caseCode);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
     		request.setAttribute("toMortgage", toMortgage);
-    	} else if(taskitem.equals("PSFApply")) {/*纯公积金贷款申请*/
+    	} else if("PSFApply".equals(taskitem)) {/*纯公积金贷款申请*/
     		getAccesoryList(request, taskitem);
     		ToTransPlan toTransPlan = new ToTransPlan();
     		toTransPlan.setPartCode(taskitem);
     		toTransPlan.setCaseCode(caseCode);
     		request.setAttribute("toTransPlan", transplanServiceFacade.findTransPlan(toTransPlan));
     		request.setAttribute("apply", toMortgageService.findToMortgageByMortTypeAndCaseCode(caseCode,"30016003"));
-    	} else if(taskitem.equals("PSFSign")) {/*纯公积金贷款签约*/
+    	} else if("PSFSign".equals(taskitem)) {/*纯公积金贷款签约*/
     		getAccesoryList(request, taskitem);
     		request.setAttribute("PSFSign", psfSignService.queryPSFSignNoBlank(caseCode));
-    	}else if(taskitem.equals("ComLoanProcess")){ //商贷保存
+    	}else if("ComLoanProcess".equals(taskitem)){ //商贷保存
     		getAccesoryLists(request, taskitem);
-    	}  else if(taskitem.equals("HouseBookGet")) {/*领证*/
+    	}  else if("HouseBookGet".equals(taskitem)) {/*领证*/
     		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
     		
     		// add zhangxb16 2016-2-22
@@ -729,12 +739,12 @@ public class TaskController {
 		List<ToAccesoryList> removeList = new ArrayList<ToAccesoryList>();
 		/*根据需求调整附件上传项目*/
 		for(ToAccesoryList tal:list) {
-			if(psf && (tal.getAccessoryCode().equals("third_part_right_cert") || tal.getAccessoryCode().equals("new_house_book"))) {/*公积金*/
+			if(psf && ("third_part_right_cert".equals(tal.getAccessoryCode()) || "new_house_book".equals(tal.getAccessoryCode()))) {/*公积金*/
 				removeList.add(tal);
 			}
 			
 			// add zhangxb16 2016-2-22
-			if(tal.getAccessoryCode().equals("third_part_right_cert") && psf==false && self==false && com==false){
+			if("third_part_right_cert".equals(tal.getAccessoryCode()) && psf==false && self==false && com==false){
 				removeList.add(tal);
 			}
 		}
@@ -765,7 +775,7 @@ public class TaskController {
 		/*根据需求调整附件上传项目*/
 		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
 		for(ToAccesoryList tal:list) {
-			if((toMortgage == null || toMortgage.getMortType() == null) && (tal.getAccessoryName().equals("抵押登记表") || tal.getAccessoryName().equals("商贷利率页"))) {/*无贷款*/
+			if((toMortgage == null || toMortgage.getMortType() == null) && ("抵押登记表".equals(tal.getAccessoryName()) || "商贷利率页".equals(tal.getAccessoryName()))) {/*无贷款*/
 				removeList.add(tal);
 			} else if(toMortgage != null && "30016003".equals(toMortgage.getMortType()) && "商贷利率页".equals(tal.getAccessoryName())) {
 				removeList.add(tal);
@@ -794,7 +804,7 @@ public class TaskController {
         List<ToAttachment> list = toAttachmentService.findToAttachmentByCaseCode(caseCode);
         if(list!=null && list.size()>0){
             for(ToAttachment attachment :list){
-                if(attachment.getPartCode().equals("property_research")){
+                if("property_research".equals(attachment.getPartCode())){
                     continue;
                 }
                 if(!StringUtils.isEmpty(attachment.getPreFileCode())){

@@ -11,7 +11,36 @@ $(document).ready(function(){
 	//添加排序------------
 	reloadGrid(data);
 	
+	//获取评估公司
+	getEvaFinOrg('finOrgId');
+	
 });
+
+/**
+ * 获取评估公司 格式化
+ * @param finOrgId
+ */
+function getEvaFinOrg(finOrgId){
+	var url = "/manage/queryEvaCompany";
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:ctx+url,
+		dataType:'json',
+		success:function(data){
+			var html = '<option value="" selected>请选择</option>';
+			if(data != null){
+				$.each(data,function(i,item){
+					html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+				});
+			}					
+			$('#'+finOrgId).empty();
+			$('#'+finOrgId).append(html);
+		},
+		error : function(errors) {
+		}
+	});
+}
 
 /*条件查询*/
 $('#searchButton').click(function(){
@@ -24,6 +53,13 @@ function searchMethod(page){
     aist.wrap(data);
 	reloadGrid(data);
 }
+
+//清空
+$('#myCaseListCleanButton').click(function() {
+	$("#noEnd").val("");
+	$("#inTextVal").val('');
+	$('#finOrgId').val("")
+});
 
 /*获取查询参数*/
 function getQueryParams(page){
@@ -52,7 +88,7 @@ function getQueryParams(page){
 		}
 	}
 	//评估公司
-	var finOrgID = $('#evalCompany').val();
+	var finOrgID = $('#finOrgId').val();
 	var params = {
 		search_settleNotReason : settleNotReason,
 		search_propertyAddr : propertyAddr,
@@ -134,15 +170,15 @@ $('#checkAllNot').click(function(){
 	var my_checkboxes = $('input[name="my_checkbox"]');
 	if($(this).prop('checked')){
 		for(var i=0; i<my_checkboxes.length; i++){
-			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
-			$("#renewbatEnd").attr("disabled", false);
-			$("#caseChangeTeamButton").attr("disabled", false);
+			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);	
 		}
+		$("#renewbatEnd").attr("disabled", false);
+
 	}else{
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
-			$("#renewbatEnd").attr("disabled", true);
 		}
+		$("#renewbatEnd").attr("disabled", true);
 	}
 });
 

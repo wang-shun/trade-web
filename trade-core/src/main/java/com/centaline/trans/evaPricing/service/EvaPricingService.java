@@ -23,7 +23,7 @@ public interface EvaPricingService {
 	 * 新增询价数据
 	 * @param vo
 	 */
-	List<String> insertEvaPricing(ToEvaPricingVo vo);
+	AjaxResponse<String> insertEvaPricing(ToEvaPricingVo vo);
 	
 	/**
 	 * 记录询价数据
@@ -65,20 +65,12 @@ public interface EvaPricingService {
 	boolean evalRelation(long pkid,String caseCode);
 	
 	/**
-	 * 根据案件号查询询价信息
-	 * @param caseCode
-	 * @return
-	 * @author jinwl6
-	 */
-	ToEvaPricingVo findEvaPricingDetailByCaseCode(String caseCode);
-	
-	/**
 	 * 询价详情更新
 	 * @param pkid
 	 * @param isValid
 	 * @param reason
 	 * @return
 	 */
-	int updateEvaPricingDetail(Long pkid,String isValid,String reason);
+	AjaxResponse<String> updateEvaPricingDetail(ToEvaPricingVo toEvaPricingVo);
 	
 }

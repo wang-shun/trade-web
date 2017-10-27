@@ -11,26 +11,7 @@
 <meta name="viewpoart" content="width=device-width, initial-scale=1.0">
 
 <title>新增赎楼单</title>
-<!-- 上传相关 -->
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/jquery.fancybox.css' />"
-	rel="stylesheet">
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/jquery.fileupload-ui.css' />"
-	rel="stylesheet">
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/select2_metro.css' />"
-	rel="stylesheet">
-<!-- 展示相关 -->
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/jquery-ui-1.10.3.custom.css' />"
-	rel="stylesheet">
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/bootstrap-tokenfield.css' />"
-	rel="stylesheet">
-<link
-	href="<c:url value='/css/trunk/JSPFileUpload/selectize.default.css' />"
-	rel="stylesheet">
+
 <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
 <!-- 备件相关结束 -->
 <link href="<c:url value='/static/css/bootstrap.min.css' />"
@@ -39,7 +20,7 @@
 	rel="stylesheet">
 
 <link href="<c:url value='/static/css/animate.css' />" rel="stylesheet">
-<link href="<c:url value='/static/css/style.css' />" rel="stylesheet">
+<link href="<c:url value='/css/style.css' />" rel="stylesheet">
 <link rel="stylesheet"
 	href="<c:url value='/static/iconfont/iconfont.css' />">
 <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
@@ -49,8 +30,7 @@
 	rel="stylesheet" />
 <link href="<c:url value='/static/trans/css/common/input.css' />"
 	rel="stylesheet" />
-<link href="<c:url value='/static/trans/css/common/table.css' />"
-	rel="stylesheet" />
+
 <link rel="stylesheet"
 	href="<c:url value='/static/iconfont/iconfont.css' />">
 <!-- stickUp fixed css -->
@@ -64,8 +44,7 @@
 	rel="stylesheet">
 
 <!-- index_css  -->
-<link rel="stylesheet"
-	href="<c:url value='/static/trans/css/spv/table.css' />" />
+
 <link rel="stylesheet"
 	href="<c:url value='/static/trans/css/spv/input.css' />" />
 <link rel="stylesheet"
@@ -82,8 +61,8 @@
 <link href="<c:url value='/css/jquery.editable-select.min.css' />"
 	rel="stylesheet">
 <!--弹出框样式  -->
-<link href="<c:url value='/css/common/xcConfirm.css' />"
-	rel="stylesheet">
+<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
+<link rel="stylesheet" href="<c:url value='/static/trans/css/common/table.css' />" />
 <!-- stickUp fixed css -->
 <script type="text/javascript">
 	var ctx = "${ctx}";
@@ -118,6 +97,7 @@ table tbody select, input {
 	margin: 10px;
 }
 </style>
+<content tag="pagetitle">新增赎楼单</content>	
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
@@ -181,6 +161,12 @@ table tbody select, input {
 									<tbody id="case-link"></tbody>
 								</table>
 							</div>
+							<div class="text-center page_box">
+								<span id="currentTotalPage"><strong ></strong></span>
+								<span class="ml15">共<strong  id="totalP"></strong>条</span>&nbsp;
+								<div id="pageBar" class="pagergoto">
+								</div>  
+						    </div> 
 						</div>
 					</div>
 				</div>
@@ -269,8 +255,10 @@ table tbody select, input {
 								<tbody id="tableInfo">
 									<tr id="trId0">
 										<td>
-											<aist:dict clazz="select_control yuanwid" id="finalOrg" name="finalOrg" display="select" 
-												defaultvalue="${toMortgage.mortType }" dictType="FINAL_ORG" />
+											<!-- 尾款机构  -->
+											<select id="finalOrg" name="finalOrg" class= "select_control yuanwid " ></select>
+											<%-- <aist:dict clazz="" id="finalOrg" name="finalOrg" display="select" 
+												defaultvalue="${toMortgage.mortType }" dictType="FINAL_ORG" /> --%>
 										</td>
 										<td>
 											<aist:dict id="finalType" name="finalType" clazz=" select_control yuanwid " display="select"
@@ -328,25 +316,7 @@ table tbody select, input {
 	<script src="<c:url value='/static/js/morris/raphael-min.js' />"></script> 
 	<!-- index_js -->
 	<script src="<c:url value='/static/js/plugins/datapicker/bootstrap-datepicker.js' />"></script>
-	<!-- 上传附件相关 --> 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/app.js' />"></script> 
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.ui.widget.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/tmpl.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/load-image.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-fp.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.fileupload-ui.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/clockface.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.inputmask.bundle.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.input-ip-address-control-1.0.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jquery.multi-select.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/form-fileupload.js' />"></script>
-	<script src="<c:url value='/js/ransom/addRansom.js' />"></script>
-	<script src="<c:url value='/js/trunk/task/loanerProcessList.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/aist.upload.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.js' />"></script>
-	<script src="<c:url value='/js/trunk/JSPFileUpload/jssor.slider.js' />"></script>
-	<!-- 上传附件 结束 --> <!-- 附件保存修改相关 --> 
+	<!-- 附件保存修改相关 --> 
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/template.js' />" type="text/javascript"></script>
@@ -359,7 +329,7 @@ table tbody select, input {
 	<!-- 引入弹出框js文件 --> 
 	<script src="<c:url value='/js/common/xcConfirm.js' />"></script> 
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> 
-	
+	<script src="<c:url value='/js/ransom/addRansom.js' />"></script>
 	
 	
 	<script id="template_ransomCaseLink" type="text/html">
@@ -372,17 +342,41 @@ table tbody select, input {
         		<td>
 					<input type="hidden" value="{{item.propertyAddr}}" />
 					<p class="big">{{item.propertyAddr}}</p>
-					<p class="big">{{item.agentName}} / {{item.grpName}}</p>
+	
 				</td>
-        		<td>交易顾问:{{item.realName}}</td>
+        		<td>经办人:{{item.realName}}</td>
         		<td>{{item.seller}}</td>
         		<td>{{item.buyer}}</td>
-        		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" class="btn btn-success linkCase" name="linkCase">关联 </button></td>
+        		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" 
+					class="btn btn-success linkCase" name="linkCase">关联 </button></td>
     		</tr>
     	{{/each}}		
 	</script>
 		 <script>
-
+		 $(document).ready(function(){
+			 getEvaFinOrg('finalOrg');
+		 });
+		 function getEvaFinOrg(finOrgId){
+				var url = "/manage/queryTailins";
+				$.ajax({
+					async: true,
+					type:'POST',
+					url:ctx+url,
+					dataType:'json',
+					success:function(data){
+						var html = '';
+						if(data != null){
+							$.each(data,function(i,item){
+								html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+							});
+						}					
+						$('#'+finOrgId).empty();
+						$('#'+finOrgId).append(html);
+					},
+					error : function(errors) {
+					}
+				});
+			}
 			/*******************************************************控件相关*********************************************************************/
 			// 日期控件
 			$('#date-picker2').datepicker({

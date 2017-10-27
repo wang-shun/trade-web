@@ -113,6 +113,10 @@ public class ToRansomCaseVo {
 	 */
 	private String isApply;
 	
+	private String partCode;
+	
+	private String instCode;
+	
     public Long getPkid() {
         return pkid;
     }
@@ -162,8 +166,7 @@ public class ToRansomCaseVo {
     }
 
     public BigDecimal getBorroMoney() {
-    	BigDecimal wan = new BigDecimal(10000.00);
-        return borroMoney.divide(wan);
+        return borroMoney;
     }
 
     public void setBorroMoney(BigDecimal borroMoney) {
@@ -280,6 +283,22 @@ public class ToRansomCaseVo {
 
 	public void setIsApply(String isApply) {
 		this.isApply = isApply;
+	}
+
+	public String getPartCode() {
+		return partCode;
+	}
+
+	public void setPartCode(String partCode) {
+		this.partCode = partCode;
+	}
+
+	public String getInstCode() {
+		return instCode;
+	}
+
+	public void setInstCode(String instCode) {
+		this.instCode = instCode;
 	}
 
 	@Override

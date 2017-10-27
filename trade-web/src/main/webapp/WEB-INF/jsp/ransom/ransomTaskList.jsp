@@ -217,7 +217,6 @@ text-decoration: underline !important;
 <script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 <!-- iCheck -->
 <script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
-<script src="<c:url value='/js/ransom/myRansomTaskList.js' />"></script> 
 <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 <!-- 分页控件  -->
 <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -226,8 +225,9 @@ text-decoration: underline !important;
 <script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
 <!-- 必须JS -->
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-<%-- <script data-main="${ctx}/js/trunk/task/mytask_queryFilter.js" src="<c:url value='/js/require.js' />"></script> --%>
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 
+<script src="<c:url value='/js/ransom/ransomTaskList.js' />"></script> 
 <script id="template_myTaskList" type= "text/html">
 	{{each rows as item index}}
 		{{if index%2 == 0}}
@@ -289,7 +289,7 @@ text-decoration: underline !important;
 				
 			<td class="t-left">
 				<p class="big">
-                	<a href="{{ctx}}/ransomList/ransom/ransomDetail?RANSOM_CODE={{item.RANSOM_CODE}}" target="_blank">{{item.RANSOM_CODE}}</a>
+                	<a href="{{ctx}}/ransomList/ransomDetail?ransomCode={{item.RANSOM_CODE}}" target="_blank">{{item.RANSOM_CODE}}</a>
 					{{if item.SUBSCRIBE_COUNT == 0}}
 						<span style="cursor: pointer;" class="starmack subscribe"  moduleCode="{{item.RANSOM_CODE}}" isSubscribe="true">
                         	<i class="iconfont_s markstar star_subscribe" status="1">&#xe644;</i>

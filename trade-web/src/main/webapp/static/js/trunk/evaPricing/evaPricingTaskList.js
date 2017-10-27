@@ -154,7 +154,7 @@ function reloadGrid(data) {
 			  $("#evaPricingTaskList").html(myTaskList);
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
-			
+              demoPoshytip();
         }
   });
 }
@@ -207,7 +207,17 @@ function initpage(totalCount,pageSize,currentPage,records)
 	});
 }
 
-
+function demoPoshytip(){
+	$('.demo-top').poshytip({
+		className: 'tip-twitter',
+		showTimeout: 1,
+		alignTo: 'target',
+		alignX: 'center',
+		alignY: 'top',
+		offsetX: 8,
+		offsetY: 5,
+	});
+}
 
 
 

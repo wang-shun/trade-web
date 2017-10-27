@@ -15,6 +15,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.service.ToCaseInfoService;
+import com.centaline.trans.common.enums.ToApproveRecordEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
@@ -39,6 +40,9 @@ import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TransPlanVO;
 import com.centaline.trans.utils.UiImproveUtil;
 
+/**
+ * @author wbzhouht
+ */
 @Controller
 @RequestMapping(value = "/task/transPlan")
 public class TransPlanController {
@@ -159,7 +163,7 @@ public class TransPlanController {
 						//修改交易计划
 						transplanServiceFacade.updateByPrimaryKeySelective(tp);
 						ts1.setPkid(Long.parseLong(pkids[i]));
-						ts1.setAuditResult(1);
+						ts1.setAuditResult(ToApproveRecordEnum.AGREE.getCode());
 						//修改交易计划历史记录为审核通过状态
 						transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
 						}else {
@@ -170,7 +174,7 @@ public class TransPlanController {
 					}
 				} else {
 					ts1.setPkid(Long.parseLong(pkids[i]));
-					ts1.setAuditResult(2);
+					ts1.setAuditResult(ToApproveRecordEnum.REJECT.getCode());
 					//修改交易计划历史记录为审核不通过状态
 					transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
 				}
@@ -187,6 +191,8 @@ public class TransPlanController {
 			toApproveRecord.setProcessInstance(transPlanVO.getProcessInstanceId());
 			toApproveRecord.setPartCode(transPlanVO.getPartCode());
 			toApproveRecord.setOperator(sessionUser.getId());
+			//交易计划变更审批类型
+			toApproveRecord.setApproveType("5");
 			toApproveRecord.setContent(audit==true?"交易变更审核通过！":"交易变更审核不通过！");
 			toApproveRecord.setOperatorTime(new Date());
 			loanlostApproveService.saveLoanlostApprove(toApproveRecord);

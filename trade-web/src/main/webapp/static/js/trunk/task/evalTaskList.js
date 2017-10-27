@@ -45,6 +45,7 @@ $(document).ready(function() {
 /*获取评估公司列表*/
 function getEvaCompanyList(pcode){
 	var friend = $("#finOrgId");
+	friend.append("<option value=''>请选择</option>");
 	friend.empty();
 	 $.ajax({
 	    url:ctx+"/manage/queryEvaCompany",
@@ -145,13 +146,13 @@ function initData(page){
 	var loan=$("#loan").val();
 	// caseCode与ctmCode
 	var caseCode =  "";
-	var ctmCode = "";
+	var ccaiCode = "";
 	if (inTextVal != null && inTextVal.trim() != "") {
 		var inTextType = $('#inTextType').val();
 		if (inTextType == '0') {
-			guestName = inTextVal.trim();
-		} else if (inTextType == '1') {
 			propertyAddr = inTextVal.trim();
+		} else if (inTextType == '1') {
+			custName = inTextVal.trim();
 		} else if (inTextType == '2') {
 			// 经纪人姓名
 			agentName = inTextVal.trim();
@@ -160,7 +161,7 @@ function initData(page){
 		}else if (inTextType == '4') {
 			caseCode = inTextVal.trim();
 		}else if (inTextType == '5') {
-			ctmCode = inTextVal.trim();
+			ccaiCode = inTextVal.trim();
 		}
 	}
 
@@ -172,7 +173,7 @@ function initData(page){
 			argu_isSubscribeFilter : isSubscribeFilter,
 			argu_processDfId : $("#processDfId").val(),
 			search_caseCode : caseCode,
-			search_ctmCode : ctmCode,
+			search_ccaiCode : ccaiCode,
 			search_minDateLamp : minDateLamp,
 			search_maxDateLamp : maxDateLamp,
 			search_ownerType : ownerType,
@@ -180,7 +181,7 @@ function initData(page){
 			search_agentName : agentName,
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
-			search_evalCompany:evalCompany,
+			search_finOrgId:evalCompany,
 			search_loan:loan,
 			argu_allType: allTypeFlag,
 			search_taskDfKey:taskDfKey,
@@ -226,7 +227,7 @@ function reloadGrid(data) {
 			  // 显示分页 
               initpage(data.total,data.pagesize,data.page, data.records);
 			$("#evalTaskList").subscribeToggle({
-				moduleType:"1001",//模块类型1001为案件类型
+				moduleType:"2001",//模块类型2001为评估类型
 				subscribeType:"2001"//模块功能类型2001为收藏
 			});
         }
