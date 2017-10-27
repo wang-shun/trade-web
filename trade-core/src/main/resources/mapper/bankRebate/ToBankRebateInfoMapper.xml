@@ -166,4 +166,12 @@
       REPORT_CODE = #{reportCode,jdbcType=VARCHAR}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  <select id="selectToRebateInfoByCaseCodeAndCompId" resultMap="BaseResultMap" >
+    select top 1
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.GUARANTEE_COMP_ID = #{compId,jdbcType=VARCHAR} and br.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+
 </mapper>
