@@ -322,7 +322,7 @@
 												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
-													<div class="form_content">
+													<%-- <div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
 															领证时间 </label>
@@ -332,7 +332,7 @@
 																id="realHtTime" readonly="readonly"
 												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
-													</div>
+													</div> --%>
 												</div>
 												<div class="line">
 													<div class="form_content">

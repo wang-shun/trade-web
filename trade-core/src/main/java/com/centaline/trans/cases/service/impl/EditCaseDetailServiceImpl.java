@@ -270,7 +270,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         ToGetPropertyBook toGetPropertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(caseCode);
         if (toGetPropertyBook != null)
         {
-            editCaseDetailVO.setRealPropertyGetTime(toGetPropertyBook.getRealPropertyGetTime());
+//            editCaseDetailVO.setRealPropertyGetTime(toGetPropertyBook.getRealPropertyGetTime());
+            editCaseDetailVO.setTazhengArrDate(toGetPropertyBook.getRealPropertyGetTime());
         }
 
         /* 贷款信息 */
@@ -292,7 +293,9 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setComDiscount(toMortgage.getComDiscount());
             editCaseDetailVO.setIsDelegateYucui(toMortgage.getIsDelegateYucui());
             editCaseDetailVO.setLendWay(toMortgage.getLendWay());
-            editCaseDetailVO.setTazhengArrDate(toMortgage.getTazhengArrDate());
+            if(toMortgage.getTazhengArrDate() != null) {
+            	editCaseDetailVO.setTazhengArrDate(toMortgage.getTazhengArrDate());
+            }
 
             editCaseDetailVO.setCustCode(toMortgage.getCustCode());
             editCaseDetailVO.setPrfApplyDate(toMortgage.getPrfApplyDate());
