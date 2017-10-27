@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -1419,7 +1420,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
 	@Override
 	public List<Map<String, String>> queryEguProInfo(String caseCode) {
 		// TODO Auto-generated method stub
-		return toEvalMapper.queryEguProInfo(caseCode);
+		List<Map<String, String>> list = toEvalMapper.queryEguProInfo(caseCode);
+		for(Map map:list){
+			BigDecimal price = (BigDecimal)map.get("price");
+			map.put("price",price.divide(new BigDecimal(10000d)));
+		}
+		return list;
+				
 	}
 	@Override
 	public ToMortgage findToMortgageByCaseCodeOnlyOne(String caseCode) {
