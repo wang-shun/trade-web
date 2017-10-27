@@ -125,7 +125,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				//评估结算信息
 				ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
 				//评估退费信息
-				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(caseCode);
+				ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByEvaCode(evaCode);
 				//调佣审批信息
 				//ToEvaCommissionChange toEvaCommissionChange = toEvaCommissionChangeService.selectByCaseCode(caseCode);
 				EvalChangeCommVO evalChangeCommVO = toEvaCommPersonAmountService.getFullEvalChangeCommVO(caseCode);
