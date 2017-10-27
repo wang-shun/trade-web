@@ -91,7 +91,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
+					<!-- SELECT
 						cas.CASE_CODE caseCode,
 						cas.STATUS status,
 						info.PROPERTY_ADDR addr,
@@ -104,9 +104,29 @@
 						LEFT JOIN sctrans.T_TO_EVA_PRICING ep ON ep.CASE_CODE = cas.CASE_CODE
 					WHERE
 						pri.PKID = #pkid#
-						<!-- AND (ep.STATUS IS NULL OR ep.STATUS ='2') -->
 						AND cas.CASE_PROPERTY IN('30003003')
-						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
+						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%' -->
+						
+				SELECT
+					cas.CASE_CODE caseCode,
+					cas.STATUS status,
+					info.PROPERTY_ADDR addr,
+					guest.GUEST_NAME buyerName
+				FROM
+					sctrans.T_TO_CASE cas 
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO info ON cas.CASE_CODE = info.CASE_CODE
+					LEFT JOIN sctrans.T_TG_GUEST_INFO guest ON cas.CASE_CODE = guest.CASE_CODE AND guest.TRANS_POSITION = '30006002'
+				WHERE
+					cas.CASE_PROPERTY != '30003005'
+					<ifNotNull caseCode>
+						AND cas.CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND info.PROPERTY_ADDR like '%'+ #propertyAddr# +'%'
+					</ifNotNull>
+					<ifNotNull buyerName>
+						AND guest.GUEST_NAME = #buyerName#
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -119,8 +139,8 @@
 				<column type="both" name="caseCode" display="案件编号"/>
 				<column type="both" name="status" display="案件状态" />
 				<column type="both" name="addr" display="物业地址" />
-				<column type="both" name="residenceName" display="询价产业地址"/>				
-				<column type="virtual" name="caseStatus" display="申请人" referencecol="status" customDict="qqcdDict30001"  />
+				<column type="both" name="buyerName" display="买方"/>				
+				<column type="virtual" name="caseStatus" display="案件状态" referencecol="status" customDict="qqcdDict30001"  />
 			</table-row>
 		</grid>
 	</query>

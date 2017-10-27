@@ -395,6 +395,9 @@ text-decoration: underline !important;
 									</span>
 								{{/if}}
 							</p>
+							<p>
+								<i class="tag_sign">c</i>{{item.CCAI_CODE}}
+							</p>
 						</td>
 
 						<td class="center">

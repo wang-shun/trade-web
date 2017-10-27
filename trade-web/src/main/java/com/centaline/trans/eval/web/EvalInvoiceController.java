@@ -153,6 +153,8 @@ public class EvalInvoiceController {
 		toApproveRecord.setCaseCode(caseCode);
 		toApproveRecord.setContent(content);
 		toApproveRecord.setCaseCode(caseCode);
+//		评估退费审批 字典类型
+		toApproveRecord.setApproveType("25");
 		//1是通过，0是没通过
 		//notApprove为空表示通过，不为空表示没通过
 		if(status.contains("1")){
