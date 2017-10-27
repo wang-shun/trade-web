@@ -217,7 +217,6 @@ text-decoration: underline !important;
 <script src="<c:url value='/js/plugins/chosen/chosen.jquery.js' />"></script> 
 <!-- iCheck -->
 <script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
-<script src="<c:url value='/js/ransom/myRansomTaskList.js' />"></script> 
 <script src="<c:url value='/js/plugins/autocomplete/jquery.autocomplete.js' />"></script>
 <!-- 分页控件  -->
 <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
@@ -226,8 +225,9 @@ text-decoration: underline !important;
 <script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
 <!-- 必须JS -->
 <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
-<%-- <script data-main="${ctx}/js/trunk/task/mytask_queryFilter.js" src="<c:url value='/js/require.js' />"></script> --%>
+<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 
+<script src="<c:url value='/js/ransom/ransomTaskList.js' />"></script> 
 <script id="template_myTaskList" type= "text/html">
 	{{each rows as item index}}
 		{{if index%2 == 0}}

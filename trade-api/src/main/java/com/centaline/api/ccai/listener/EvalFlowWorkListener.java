@@ -192,6 +192,7 @@ public class EvalFlowWorkListener {
 				startProcessEvaRefund(message.getEvalCode());
 				mqlog.setStatus("0");
 			}else if(WorkFlowEnum.BANK_REBATE_PROCESS.getCode().equals(message.getFlowType())){
+				//银行返利报告
 				if(MQEvalMessage.STARTFLOW_TYPE.equals(message.getType())){
 					startProcessBankRebate(message.getEvalCode());
 					mqlog.setStatus("0");
@@ -564,6 +565,7 @@ public class EvalFlowWorkListener {
 					engine.setAuthUserName(manager.getUsername());
 					Map<String, Object> defValsMap = new HashMap<>();
 					defValsMap.put("manager",manager.getUsername());
+					defValsMap.put("compId",info.getGuaranteeCompId());
 					ToWorkFlow toWorkFlow = new ToWorkFlow();
 					//启动流程引擎
 					StartProcessInstanceVo pIVo = startWorkFlowBase(propertyUtilsService.getProcessDfId(WorkFlowEnum.BANK_REBATE_PROCESS.getCode(),manager.getOrgId()), caseCode, defValsMap);
@@ -574,7 +576,6 @@ public class EvalFlowWorkListener {
 					toWorkFlow.setCaseCode(caseCode);
 					toWorkFlow.setBizCode(caseCode);
 					toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
-					toWorkFlow.setRemark(info.getGuaranteeCompId());
 					toWorkFlowService.insertSelective(toWorkFlow);
 					logger.info("银行返利报告编号[" + caseCode + "] 流程启动成功");
 				}

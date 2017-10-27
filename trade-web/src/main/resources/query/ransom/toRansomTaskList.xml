@@ -80,7 +80,7 @@
 							</otherwise>
 						</choose>
 						)
-						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE
+						INNER JOIN sctrans.T_RA_CASE AS tr ON tw.CASE_CODE = tr.CASE_CODE AND tr.RANSOM_STATUS NOT IN(3,4)
 						  WHERE  1 =1 
 						  <ifNotNull isIgnoreAssignee>
 						  	and ART.ASSIGNEE_ = #userLoginName# 
