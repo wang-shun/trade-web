@@ -1,17 +1,13 @@
 $(document).ready(function() {
-	$('.input-daterange').datepicker({
-		keyboardNavigation : false,
-		forceParse : false,
-		autoclose : true
-	});
+
 	var ctx = "${ctx}";
-	debugger;
 	getPlanDate();
 
 });
-
+var allPartCodes;
+var planDates;
+var changeData;
 function getPlanDate(){
-	debugger;
 	var ransomCode = $('#ransomCode').val();
 	var url = "/ransomList/getPlanTimeDate?ransomCode="+ransomCode;
 	$.ajax({
@@ -24,9 +20,11 @@ function getPlanDate(){
 				var obj = data.content;
 				//所有排列
 				if(obj.allPartCodes){
+					allPartCodes = obj.allPartCodes;
 					var html = "";
 					//已存在的计划时间数据
 					var planTimes = obj.planTimes;
+					planDates = planTimes;
 					$.each(obj.allPartCodes,function(i,pn){
 						var estTime = null;
 						var remark = null;
@@ -40,14 +38,17 @@ function getPlanDate(){
 						html += '<div class="line"><div class="form_content">';
 						html += '<label class="control-label sign_left_small select_style mend_select" id="partCode5">'+pn.name+'时间</label>';
 						html += '<div class="input-group sign-right dataleft input-daterange"  >';
-						html += '<input id="'+pn.partCode+'T" name="'+pn.partCode+'time"  class="form-control data_style" type="text" value="'+estTime+'"></div></div>';
+						html += '<input id="'+pn.partCode+'T" name="'+pn.partCode+'time"  class="form-control data_style" type="text" value="'+TimeToDate(estTime)+'"></div></div>';
 						html += '<div class="form_content"><label class="control-label sign_left_small">变更理由</label>';
-						html += '<input id="'+pn.partCode+'M" name="'+pn.partCode+'remark"  class="teamcode input_type" value="'+remark+'" />';
+						html += '<input id="'+pn.partCode+'M" name="'+pn.partCode+'remark"  class="teamcode input_type" value="'+checkNull(remark)+'" />';
 						html += '</div></div>';
 					});
 					$('#dataBody').empty();
 					$('#dataBody').html(html);
 					
+					/**
+					 * 2017/10/26
+					 */
 					//disbale判断
 					var status = obj.ransomStatus;
 					if(status =='3' || status == '4'){
@@ -56,7 +57,7 @@ function getPlanDate(){
 							$("#"+pn.partCode+"M").prop("disabled", "disabled");
 						});
 					}else if(status == '2'){
-						 if(obj.diyaNum == 1){
+						 /*if(obj.diyaNum == 1){
 							 //一抵申请无需操作
 							 if(obj.partOrders[0].partCode !='APPLY'){
 								 //当前任务顺序下标
@@ -134,8 +135,32 @@ function getPlanDate(){
 									}
 								}
 							}
-						 }
+						 }*/
+						
+						/**
+						 * 以上想复杂了，可以通过查询已经完成的所有任务流节点直接判断
+						 * @author wbcaiyx 2017/10/27
+						 * 
+						 */
+						var tasks =  obj.tasks;
+						if(tasks && tasks.length > 0){
+							$.each(obj.allPartCodes,function(i,pn){
+								$.each(tasks,function(k,tk){
+									if(tk.taskDefinitionKey == pn.partCode){
+										$("#"+pn.partCode+"T").prop("disabled", "disabled");
+										$("#"+pn.partCode+"M").prop("disabled", "disabled");
+									}
+								});
+							});
+						}				
 					}
+					 $('.input-daterange').datepicker({
+							format : 'yyyy-mm-dd',
+							weekStart : 1,
+							autoclose : true,
+							todayBtn : 'linked',
+							language : 'zh-CN'
+						});
 				}	
 			}
 		},
@@ -161,33 +186,112 @@ function loadTimeInfo(){
 }
 
 /**
- * 保存 i=1 ，查看变更记录 i = 2
- * @param i
- * @returns
+ * 计划时间更新
+ * @author wbcaiyx
  */
-function submitChangeRecord(i){
-	debugger;
+function submitChangeRecord(){
+
 	var ransomCode = $("#ransomCode").val();
-	var count = $("#count").val();
-	var ransomVo = getParams();
-	$.ajax({
-		url: ctx + "/ransomList/updateRansomPlanTime",
-		dataType:"json",
-		data:{ransomVo:JSON.stringify(ransomVo),flag:i,ransomCode:ransomCode,count:count},
-		type:"POST",
-		success: function(data){
-			
-			if(data.code == "1"){
-				window.wxc.alert("赎楼计划时间修改保存成功！");
-				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
-			}else if(data.code == "2"){
-				window.location.href = ctx + "/ransomList/ransomChangeRecord?ransomCode=" + ransomCode;
+	changeData = new Array();
+	if(checkFormAndgetChangeData()){
+		//新增的计划时间数据
+		var newData = getnewParams();
+		var data = {};
+		data.newData = newData;
+		data.changeData = changeData;
+		data.ransomCode = ransomCode;
+		
+		$.ajax({
+			url: ctx + "/ransomList/updateRansomPlanTime",
+			dataType:"json",
+			data:{ransomVo:JSON.stringify(data)},
+			type:"POST",
+			success: function(data){
+				if(data.success){
+					window.wxc.alert("赎楼计划时间修改保存成功！");
+					window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+				}else{
+					window.wxc.error(data.exception);
+				}
+				
+			},
+			error: function(data){
+				window.wxc.error(data.message);
 			}
-		},
-		error: function(data){
-			window.wxc.error(data.message);
+		});
+	}
+	
+}
+
+function checkChangeRecord(){
+	var ransomCode = $("#ransomCode").val();
+	window.location.href = ctx + "/ransomList/ransomChangeRecord?ransomCode=" + ransomCode;
+}
+
+/**
+ * 检查已有的数据是否被变更，变更需要理由
+ * @author wbcaiyx
+ */
+function  checkFormAndgetChangeData(){
+	//先挑选可以修改部分，再判断原先是否有数据，最后获取数据更新
+	var flag = true;
+	$.each(planDates,function(i,pd){
+		var disabled = $('#'+pd.partCode+'T').attr('disabled');
+		if(!disabled || disabled == undefined){
+			var newDate = $('#'+pd.partCode+'T').val();
+			var reason = $('#'+pd.partCode+'M').val();
+			if(newDate && newDate.length > 0 && newDate != TimeToDate(pd.estPartTime)){
+				if(reason ==null || reason == ''){
+					window.wxc.alert("变更理由为必填项!");
+					$('#'+pd.partCode+'M').focus();
+					$('#'+pd.partCode+'M').css('border-color',"red");
+					flag = false;
+					return false;
+				}else{	
+					//取原已有数据的更新数据
+					var resJson = {
+							partCode : pd.partCode,	
+							oldEstPartTime:pd.estPartTime,
+							newEstPartTime:new Date(newDate),
+							estPartTime:new Date(newDate),
+							reason:reason
+						}
+					changeData.push(resJson);
+				}	
+			}
 		}
 	});
+	return flag;
+}
+
+/**
+ * 新增的计划时间数据
+ *	@author wbcaiyx
+ */
+function getnewParams(){
+	var newTimeData = new Array();
+	$.each(allPartCodes,function(i,pd){
+		var disabled = $('#'+pd.partCode+'T').attr('disabled');
+		var timeVal = $('#'+pd.partCode+'T').val();
+		if((!disabled || disabled == undefined) && timeVal && timeVal.length > 0){
+			var flag = true;
+			$.each(planDates,function(p,pda){
+				if(pda.partCode == pd.partCode){
+					flag = false;
+					return false;
+				}
+			});
+			//原已有计划时间的数据不要
+			if(flag){
+				var resJson = {
+						partCode : pd.partCode,	
+						estPartTime:new Date(timeVal)
+					}
+				newTimeData.push(resJson);
+			}
+		}
+	});
+	return newTimeData;
 }
 
 /**
@@ -228,7 +332,7 @@ function getParams(){
 //			ransomCode:ransomCode,
 			partCode : partCode,	
 			estPartTime:estPartTime,
-			remark:remark
+			reason:remark
 		}
 		
 		array.push(resJson);
@@ -247,4 +351,20 @@ function getParams(){
 		str=str.replace(regEx,"-");
 		
 		return str;
+	}
+	
+	
+	function TimeToDate(dateTime){
+	    if(dateTime){
+	    	var date = new Date(dateTime);
+	 	    return date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate();
+	    }
+	    return '';
+	}
+	
+	function checkNull(data){
+		if(data){
+			return data;
+		}
+		return '';
 	}

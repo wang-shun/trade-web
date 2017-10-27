@@ -439,7 +439,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
         RestVariable restVariable = new RestVariable();
         restVariable.setName("GuohuApprove");
-        restVariable.setValue(GuohuApprove.equals("true"));
+        restVariable.setValue("true".equals(GuohuApprove));
         variables.add(restVariable);
         if (!StringUtil.isBlank(GuohuApprove_response))
         {

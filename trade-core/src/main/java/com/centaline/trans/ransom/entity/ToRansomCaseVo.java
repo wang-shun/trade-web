@@ -2,7 +2,6 @@ package com.centaline.trans.ransom.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 赎楼列表
@@ -115,6 +114,8 @@ public class ToRansomCaseVo {
 	private String isApply;
 	
 	private String partCode;
+	
+	private String instCode;
 	
     public Long getPkid() {
         return pkid;
@@ -290,6 +291,14 @@ public class ToRansomCaseVo {
 
 	public void setPartCode(String partCode) {
 		this.partCode = partCode;
+	}
+
+	public String getInstCode() {
+		return instCode;
+	}
+
+	public void setInstCode(String instCode) {
+		this.instCode = instCode;
 	}
 
 	@Override

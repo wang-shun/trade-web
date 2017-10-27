@@ -5,7 +5,7 @@
 
 $(document).ready(function(){
 	
-	$('.restMoney').change(function(){
+	$("input[name='restMoney']").bind("change",function(){
 		var borrowerMoney = 0.00;
 		for(var i = 0; i < $("#bank-org tr").length; i ++){
 			var restMoney =  parseInt($("#restMoney" + i + "").val() * 10000);
@@ -86,8 +86,13 @@ $(document).ready(function(){
 			type:"POST",
 			success: function(data){
 				window.wxc.success("提交成功!",{"wxcOk":function(){
-					window.close();
-//					window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+					if(window.opener)
+					{
+						window.opener.location.reload();
+						 window.close();
+					} else {
+						 window.location.href = "${ctx }/task/ransom/taskList";
+					}
 				}});
 			},
 			error: function(data){
@@ -96,6 +101,14 @@ $(document).ready(function(){
 		});
 	}
 
+	function checknum(obj){
+		debugger;
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	}
+	
 	/**
 	 * 判断信息不能为空
 	 * @returns

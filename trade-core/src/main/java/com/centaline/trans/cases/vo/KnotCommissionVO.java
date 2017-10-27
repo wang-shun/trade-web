@@ -242,5 +242,35 @@ public class KnotCommissionVO {
 	public void setProcessInstanceId(String processInstanceId) {
 		this.processInstanceId = processInstanceId;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "KnotCommissionVO{" +
+				"caseCode='" + caseCode + '\'' +
+				", partCode='" + partCode + '\'' +
+				", taskId='" + taskId + '\'' +
+				", processInstanceId='" + processInstanceId + '\'' +
+				", receivableAssessmentFee=" + receivableAssessmentFee +
+				", receivedAssessmentFee=" + receivedAssessmentFee +
+				", AssessmentFeeReturnable='" + AssessmentFeeReturnable + '\'' +
+				", receivableAgencyFee=" + receivableAgencyFee +
+				", receivedAgencyFee=" + receivedAgencyFee +
+				", AgenvyFeeReturnable='" + AgenvyFeeReturnable + '\'' +
+				", adjustmentAmount=" + adjustmentAmount +
+				", chargesAppoverStatus='" + chargesAppoverStatus + '\'' +
+				", chargesAppoverTime=" + chargesAppoverTime +
+				", chargesAppoverAuthor='" + chargesAppoverAuthor + '\'' +
+				", evaResult='" + evaResult + '\'' +
+				", evaCompany='" + evaCompany + '\'' +
+				", evaAppoverStatus='" + evaAppoverStatus + '\'' +
+				", evaAppoverTime=" + evaAppoverTime +
+				", getEvaAppoverAuthor='" + getEvaAppoverAuthor + '\'' +
+				", morageResult='" + morageResult + '\'' +
+				", morageBank='" + morageBank + '\'' +
+				", morageDrainAmount=" + morageDrainAmount +
+				", morageAppoverStatus='" + morageAppoverStatus + '\'' +
+				", morageAppoverTime=" + morageAppoverTime +
+				", morageAppoverAuthor='" + morageAppoverAuthor + '\'' +
+				'}';
+	}
 }

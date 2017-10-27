@@ -41,6 +41,7 @@ public class LoanReleaseController
     	CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
         request.setAttribute("source", source);
         request.setAttribute("caseBaseVO", caseBaseVO);
+        request.setAttribute("caseCode", caseCode);
         ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
         toAccesoryListService.getAccesoryList(request, taskitem);
 
