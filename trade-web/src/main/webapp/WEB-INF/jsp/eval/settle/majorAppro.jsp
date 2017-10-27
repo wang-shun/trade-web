@@ -172,7 +172,7 @@
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
                                     <td></td>
-									<td></td>
+									<td>{{item.LOAN}}</td>
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
 					 

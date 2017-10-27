@@ -56,6 +56,15 @@ function searchMethod(page){
 	reloadGrid(data);
 }
 
+//清空
+$('#myCaseListCleanButton').click(function() {
+	$("#caseStatus").val("");
+	$("#endfee").val('');
+	$('#costUpdateType').val("");
+	$('#loadWarrant').val("");
+	$('#finOrgId').val("");
+});
+
 /*获取查询参数*/
 function getQueryParams(page){
 	
@@ -74,12 +83,13 @@ function getQueryParams(page){
 //	}
 	
 	//费用调整类型
-	var feeChangeReason = $('#costUpdateType option:selected').val();
-//	if(costUpdateType==""){
-//		costUpdateType=null;
-//	}
+	//var feeChangeReason = $('#costUpdateType option:selected').val();
+	var feeChangeReason = $('#costUpdateType option:selected').text();
+	if(feeChangeReason=="请选择"){
+		feeChangeReason=null;
+	}
 	//贷款权证
-	//var loadWarrant = $('#loadWarrant').val();
+	var loadWarrant = $('#loadWarrant').val();
 //	if(loadWarrant==""){
 //		loadWarrant=null;
 //	}
@@ -91,7 +101,7 @@ function getQueryParams(page){
 	var params = {
 		search_status : status,
 		search_settleFee : settleFee,
-		//search_loadWarrant : loadWarrant,
+		search_loan : loadWarrant,
 		search_feeChangeReason : feeChangeReason,
 		search_finOrgID : finOrgID,
 		queryId : 'queryEvalWaitEndList',
@@ -288,6 +298,10 @@ function caseAdd(){
 		var id = $('input[name="case_code"]',$td).val();
 		ids.push(id);
 	});
+	if(ids.length>1){
+		window.wxc.alert("只能勾选一个案件编号，请检查！");
+		return;
+	}
 	var ctx = $("#ctx").val();
 	window.location.href = ctx + "/eval/settle/newEndForm?caseCodes="+ids;
 	
