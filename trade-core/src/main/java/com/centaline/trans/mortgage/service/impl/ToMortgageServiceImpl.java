@@ -1352,12 +1352,14 @@ public class ToMortgageServiceImpl implements ToMortgageService
     public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
             String partCode)
     {
-        toMortgage.setIsMainLoanBank("1");
-        ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
-        mortage.setLendDate(toMortgage.getLendDate());
-//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
-        mortage.setRemark(toMortgage.getRemark());
-        saveToMortgage(mortage);
+    		toMortgage.setIsMainLoanBank("1");
+    		ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
+    		if(mortage != null) {
+	    		mortage.setLendDate(toMortgage.getLendDate());
+	    		mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+	    		mortage.setRemark(toMortgage.getRemark());
+	    		saveToMortgage(mortage);
+	    	}
 
         /* 流程引擎相关 */
         List<RestVariable> variables = new ArrayList<RestVariable>();
