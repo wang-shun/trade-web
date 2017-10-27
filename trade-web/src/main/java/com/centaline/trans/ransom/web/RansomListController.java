@@ -329,13 +329,10 @@ public class RansomListController {
 	@RequestMapping("ransomChangeRecord")
 	public String changeRecord(String ransomCode, ServletRequest request) {
 		
-		ToRansomFormVo formVo	= ransomListFormService.getRansomPlanTimeInfo(ransomCode);
-		List<ToRansomPlanVo> planVo = null;
-		if(formVo != null) {
-			planVo = formVo.getPlanTimes();
-		}
+		List<ToRansomPlanVo> plans 	= ransomListFormService.getRansomPlanChangeRecordByRansomCode(ransomCode);
+
 		request.setAttribute("ransomCode", ransomCode);
-		request.setAttribute("planVo", planVo);
+		request.setAttribute("plans", plans);
 		return "ransom/ransomChangeRecord";
 	}
 	
@@ -473,52 +470,25 @@ public class RansomListController {
 	}
 	
 	/**
-	 * 赎楼计划时间
-	 * @param ransomVo json数组对象
-	 * @param flag 页面跳转标志 1：跳转详情页， 2：跳转时间计划明细页面
-	 * @param ransomCode 赎楼编号
-	 * @param count 判断是否存在二抵 0：否， 1： 是
+	 * 赎楼计划时间保存
+	 * @author wbcaiyx
+	 * @param ransomVo
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
 	@ResponseBody
-	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag,String ransomCode,String count) {
+	public AjaxResponse<String> updateRansomPlanTimeInfo(String ransomVo) {
 		
-		SessionUser user= uamSessionService.getSessionUser();
-		
-		try {
-			List<ToRansomPlanVo> planTimes = JSONObject.parseArray(ransomVo, ToRansomPlanVo.class);
-			List<String> partCodes = ransomListFormService.getRansomPlanCodeInfo(ransomCode);
+		ToRansomFormVo vo = JSONObject.parseObject(ransomVo, ToRansomFormVo.class);
+		AjaxResponse<String> result = null;
+		try{
+			result = ransomListFormService.updateRansomPlanTimeInfo(vo);
+		}catch (Exception e){
 			
-			for(ToRansomPlanVo part :planTimes) {
-				if(part.getEstPartTime() != null) {
-					if(partCodes.contains(part.getPartCode())) {
-						//update
-						part.setRansomCode(ransomCode);
-						part.setUpdateTime(new Date());
-						part.setUpdateUser(user.getId());
-						ransomListFormService.updateRansomPlanTimeInfo(part);
-					}else {
-						//insert
-						part.setRansomCode(ransomCode);
-						part.setUpdateTime(new Date());
-						part.setUpdateUser(user.getId());
-						part.setCreateTime(new Date());
-						part.setCreateUser(user.getId());
-						ransomListFormService.insertRansomPlanTimeInfo(part);
-					}
-				}
-			}
-			
-			String status = "赎楼计划时间修改成功！";
-			rs.setMessage(status);
-			rs.setCode(String.valueOf(flag));
-			return JSONObject.toJSONString(rs);
-		} catch (Exception e) {
-			logger.error("",e);
-			rs.setMessage(e.getMessage());
-			return  JSONObject.toJSONString(rs);
+			return AjaxResponse.failException(e);
 		}
+		return result;
 	}
 	
 	/**

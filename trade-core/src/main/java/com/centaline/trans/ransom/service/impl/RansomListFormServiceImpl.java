@@ -3,9 +3,7 @@ package com.centaline.trans.ransom.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.RansomPartEnum;
 import com.centaline.trans.common.enums.RansomPartOrderEnum;
+import com.centaline.trans.engine.service.TaskService;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.ransom.entity.RansomPartOrderVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -52,6 +54,8 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	private RansomMapper ransomMapper;
 	@Autowired
 	private UamSessionService uamSessionService;
+	@Autowired
+	private TaskService taskService;
 	
 	@Override
 	public int addRansomDetail(ToRansomCaseVo trco) {
@@ -169,6 +173,18 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 			data.setTwoPartCodes(RansomPartEnum.getDiyaTwoTwo());
 		}
 		
+		/**
+		 * 以上已OK的数据不动，另外write
+		 * @author wbcaiyx
+		 */
+		String instCode = casePartStatus.get(0).getInstCode();
+		//获取该实例已完成的任务
+		List<TaskVo> tasks =  new ArrayList<TaskVo>();
+		PageableVo taskData = taskService.listHistTasks(instCode, true);
+		if(taskData != null){
+			tasks = taskData.getData();
+		}
+		data.setTasks(tasks);
 		return data;
 	}
 
@@ -178,9 +194,37 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		return ransomListFormMapper.getPartCode(ransomCode);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public int updateRansomPlanTimeInfo(ToRansomPlanVo ransomPlanVo) {
-		return ransomListFormMapper.updateRansomPlanTimeInfoByRansomCode(ransomPlanVo);
+	public AjaxResponse<String> updateRansomPlanTimeInfo(ToRansomFormVo ransomVo) {
+
+		SessionUser user = uamSessionService.getSessionUser();
+		String ransomCode = ransomVo.getRansomCode();
+		List<ToRansomPlanVo> newData = ransomVo.getNewData();
+		List<ToRansomPlanVo> changeData = ransomVo.getChangeData();
+		//计划时间数据新增
+		for(ToRansomPlanVo vo :newData){
+			vo.setRansomCode(ransomCode);
+			vo.setCreateTime(new Date());
+			vo.setCreateUser(user.getId());
+			vo.setUpdateTime(new Date());
+			vo.setUpdateUser(user.getId());
+			ransomMapper.insertRansomPlanTime(vo);
+		}
+		
+		//计划时间变更数据更新及变更记录插入
+		for(ToRansomPlanVo vo :changeData){
+			vo.setRansomCode(ransomCode);
+			vo.setUpdateTime(new Date());
+			vo.setUpdateUser(user.getId());
+			ransomMapper.updateRansomPlanTime(vo);
+			//变更表数据插入
+			vo.setCreateTime(new Date());
+			vo.setCreateUser(user.getId());
+			ransomListFormMapper.insertRansomPlanHis(vo);
+		}
+		
+		return AjaxResponse.success();
 	}
 
 	@Override
@@ -347,6 +391,13 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 	public List getUpdateRansomInfo(String caseCode) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode) {
+		return ransomListFormMapper.getRansomPlanChangeRecordByRansomCode(ransomCode);
 	}
 
 }
