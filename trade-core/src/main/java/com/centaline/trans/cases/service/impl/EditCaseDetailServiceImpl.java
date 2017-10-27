@@ -668,15 +668,16 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     {
     	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
     		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
-    			ToMortgage record = new ToMortgage();
-    			record.setPkid(editCaseDetailVO.getMpkid());
-    			if(editCaseDetailVO.getLendDate() != null) {
-    				record.setLendDate(editCaseDetailVO.getLendDate());
+    			ToMortgage record = toMortgageService.findToMortgageById(editCaseDetailVO.getMpkid());
+    			if(record != null) {//自办贷款时，没有贷款数据
+    				if(editCaseDetailVO.getLendDate() != null) {
+    					record.setLendDate(editCaseDetailVO.getLendDate());
+    				}
+    				if(editCaseDetailVO.getTazhengArrDate() != null) {
+    					record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
+    				}
+    				toMortgageMapper.update(record);
     			}
-    			if(editCaseDetailVO.getTazhengArrDate() != null) {
-    				record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
-    			}
-    			toMortgageMapper.update(record);
     		}
     	}
     	
