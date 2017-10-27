@@ -748,9 +748,9 @@
 						//window.location.href = "${ctx }/task/myTaskList";
 					} else {
 						window.wxc.success("保存成功。",{"wxcOk":function(){
-								/*window.close();
-								window.opener.callback();*/
-                            window.location.href = "${ctx }/task/myTaskList";
+								window.close();
+								window.opener.callback();
+                            //window.location.href = "${ctx }/task/myTaskList";
 						}});
 					}
 				},

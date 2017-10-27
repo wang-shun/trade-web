@@ -304,6 +304,8 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			return result;
 		}
 		toEvaRefund.setCaseCode(caseCode);
+		//退费信息入表增加EvaCode
+		toEvaRefund.setEvaCode(toEvalReportProcess.getEvaCode());
 		int count = toEvaRefundService.insertSelective(toEvaRefund);
 		if(count <= 0){
 			result.setSuccess(false);
