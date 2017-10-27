@@ -77,7 +77,7 @@
 		<grid>
 			<table-row>
 				<column type="both" name="borrName" display="借款人" hide="true"/>
-				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter1"/>
+				<column type="both" name="applyTime" display="申请时间" beanFormatter="dateFormatter"/>
 				<column type="both" name="borrMoney" display="借款金额"   />
 				<column type="both" name="comOrgName" display="申请机构"   />
 				<column type="both" name="stopReason" display="中止原因"   />

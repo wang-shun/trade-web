@@ -122,13 +122,11 @@
 									<c:forEach items="${tailinsVoList }" var="tailinsVo" varStatus="status">
 										<tr id="tr${status.index }">
 											<td>
-											<%-- <aist:dict id="finOrgCode${status.index }" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
-											dictType="FINAL_ORG" defaultvalue="${tailinsVo.finOrgCode }" /> --%>
 											<select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select>
 											</td>
 											<td>
-												<aist:dict id="mortgageType${status.index }" name="mortgageType" clazz=" select_control yuanwid " display="select" 
-												dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
+												<aist:dict id="mortgageType${status.index }" name="mortgageType" clazz=" select_control yuanwid " 
+												display="select" dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
 											</td>
 											<td>
 												<input type="hidden" id="diyaType${status.index }" name="partCode" value="${tailinsVo.diyaType}">
@@ -136,12 +134,16 @@
 												display="label" dictType="71015" dictCode="${tailinsVo.diyaType }" defaultvalue="${tailinsVo.diyaType}" />
 											</td>
 											<td>
-												<input id="loanMoney${status.index }" name="loanMoney" type="text" class="restMoney form-control input-one" placeholder="单位：万元"  
-												value="<fmt:formatNumber value='${ tailinsVo.loanMoney/10000 }' type='number' pattern='#0.00' />"> 万
+												<input id="loanMoney${status.index }" name="loanMoney" type="text" 
+												class="input_type yuanwid" placeholder="单位：万元"  
+												value="<fmt:formatNumber value='${ tailinsVo.loanMoney/10000 }' type='number' pattern='#0.00' />" 
+												onkeyup="checkNum(this)">万
 										    </td>
 											<td>
-												<input id="restMoney${status.index }" name="restMoney" type="text" class="restMoney form-control input-one" placeholder="单位：万元" 
-												value="<fmt:formatNumber value='${tailinsVo.restMoney/10000 }' type='number' pattern='#0.00' />"> 万
+												<input id="restMoney${status.index }" name="restMoney" type="text" 
+												class="input_type yuanwid" placeholder="单位：万元" 
+												value="<fmt:formatNumber value='${tailinsVo.restMoney/10000 }' type='number' pattern='#0.00' />" 
+												onkeyup="checkNum(this)">万
 											</td>
 										</tr>
 									</c:forEach>
@@ -151,7 +153,7 @@
 							<div class="form_content">
 								<label class="control-label sign_left_small">借款金额总计</label> 
 								<input type="text" class="input_type yuanwid" id="borrowerMoney"name="borrowerMoney" 
-								value="<fmt:formatNumber value='${ caseVo.borroMoney /10000}' type='number' pattern='#0.00' />">
+								value="<fmt:formatNumber value='${ caseVo.borroMoney /10000}' type='number' pattern='#0.00' />" onkeyup="checkNum(this)">
 								<span>万</span>
 							</div>
 						</div>
@@ -316,6 +318,7 @@
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
+       	<script src="<c:url value='/js/common/common.js' />"></script> 
 		</content>
 	<script>
 	    $(document).ready(function () {

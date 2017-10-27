@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
         <link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" ">
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
+		
         <!-- 提示 -->
         <link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" />
         <style>
@@ -265,7 +266,6 @@
 		<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 		<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
-      	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
         <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 		<!-- 提示 -->
@@ -276,8 +276,7 @@
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
-        
-
+		<script src="<c:url value='/js/common/common.js' />"></script> 
 		</content>
     </body>
 </html>
