@@ -57,7 +57,24 @@ function checkPatch(formId){
 		}
 	return true;
 }
-
+function checkPatch1(formId){
+	var patchTimeBuy = formId.find("input[name='patchTimeBuy']").val();
+	if(patchTimeBuy==""){
+		window.wxc.alert("补件时间为必填项！");
+		formId.find("input[name='patchTimeBuy']").css("border-color","red");
+		return false;
+	}
+return true;
+}
+function checkPatch2(formId){
+	var patchTimeSell = formId.find("input[name='patchTimeSell']").val();
+	if(patchTimeSell==""){
+		window.wxc.alert("补件时间为必填项！");
+		formId.find("input[name='patchTimeSell']").css("border-color","red");
+		return false;
+	}
+return true;
+}
 function checkyuyueForm(formId){
 	if(formId.find("select[name=bookResult]").val() == "" || formId.find("select[name=bookResult]").val() == null){
 		window.wxc.alert("预约结果为必选项！");
@@ -78,15 +95,15 @@ function checkMortgageForm(formId){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name=mortTotalAmount]").val() == "" || formId.find("select[name=mortTotalAmount]").val()==null){
+	}else if(formId.find("input[name=mortTotalAmount]").val() == "" || formId.find("input[name=mortTotalAmount]").val()==null){
 		window.wxc.alert("贷款总额必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='mortType']").val() == ""){
+	}/*else if(formId.find("select[name='mortType']").val() == ""){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comAmount']").val() == ""){
+	}*/else if(formId.find("input[name='comAmount']").val() == ""){
 		window.wxc.alert('按揭贷款金额为必填项');
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
@@ -155,23 +172,23 @@ function checkCompleteMortgage(formId){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='mortType']").val() == ""){
+	}/*else if(formId.find("select[name='mortType']").val() == ""){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='lendWay']").val() == ""){
+	}*/else if(formId.find("select[name='lendWay']").val() == ""){
 		window.wxc.alert("放款方式必填项！");
 		formId.find("select[name='lendWay']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name=mortTotalAmount]").val() == null || formId.find("select[name=mortTotalAmount]").val()==""){
+	}else if(formId.find("input[name=mortTotalAmount]").val() == null || formId.find("input[name=mortTotalAmount]").val()==""){
 		window.wxc.alert("贷款总额必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='mortType']").val() == ""){
+	}/*else if(formId.find("select[name='mortType']").val() == ""){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comAmount']").val() == ""){
+	}*/else if(formId.find("input[name='comAmount']").val() == ""){
 		window.wxc.alert('按揭贷款金额为必填项');
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
@@ -253,11 +270,11 @@ function beforeSendLoanerProcess(formId){
 		window.wxc.alert("贷款总额为必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='mortType']").val() == ""){
+	}/*else if(formId.find("select[name='mortType']").val() == ""){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comAmount']").val() == ""){
+	}*/else if(formId.find("input[name='comAmount']").val() == ""){
 		window.wxc.alert("商贷金额为必填项！");
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
@@ -868,17 +885,40 @@ function finOrgCodeChange(val){
 function renderMortgagePatch(f,data){
 	var $content = data.content;
 	if($content){
-		
 		var isPatch = $content.isPatch;
 		var buyPatchStr = $content.buyPatchStr;
 		var sellPatchStr = $content.sellPatchStr;
 		var patchTimeBuy = $content.patchTimeBuy;
 		var patchTimeSell = $content.patchTimeSell;
+		var ischeckSell = $content.ischeckSell;
+		var ischeckBuy = $content.ischeckBuy;
 		if(isPatch && isPatch == "1"){
 			f.find("input[name=isPatch]").eq(0).prop('checked',true);
-			//alert('buyPatchStr'+buyPatchStr)
+			if(ischeckBuy && ischeckBuy == "1"){
+				f.find("input[name=ischeckBuy]").eq(0).prop('checked',true);
+				if(buyPatchStr){
+					var buyPatchArr =  buyPatchStr.split(",");
+					for( var i = 0; i<buyPatchArr.length; i++){
+						f.find("input:checkbox[value='"+buyPatchArr[i]+"']").prop('checked',true);
+					}
+				}
+			}else{
+				f.find("input[name=ischeckBuy]").eq(0).prop('checked',false);
+				$("#form_check").find("div.col-md-6").eq(0).children().hide();
+			}
+			if(ischeckSell && ischeckSell == "1"){
+				f.find("input[name=ischeckSell]").eq(0).prop('checked',true);
+				if(sellPatchStr){
+					var sellPatchArr =  sellPatchStr.split(",");
+					for( var i = 0; i<sellPatchArr.length; i++){
+						f.find("input:checkbox[value='"+sellPatchArr[i]+"']").prop('checked',true);
+					}
+				}
+			}else{
+				f.find("input[name=ischeckSell]").eq(0).prop('checked',false);
+				$("#form_check").find("div.col-md-6").eq(1).children().hide();
+			}
 			if(buyPatchStr){
-				//alert($("#form_check").text());
 				var buyPatchArr =  buyPatchStr.split(",");
 				for( var i = 0; i<buyPatchArr.length; i++){
 					f.find("input:checkbox[value='"+buyPatchArr[i]+"']").prop('checked',true);
@@ -902,6 +942,36 @@ function renderMortgagePatch(f,data){
 			}
 		}else if(isPatch && isPatch == "0"){
 			f.find("input[name=isPatch]").eq(1).prop('checked',true);
+			f.find("input[name=ischeckBuy]").eq(0).prop('checked',false);
+			f.find("input[name=ischeckSell]").eq(0).prop('checked',false);
+			var $arr1 = $("#form_check").find("input[name=sellPatch]");
+			for(var i = 0 ; i < $arr1.length; i++){
+				$arr1[i].checked = false;
+			}
+			var $arr2 = $("#form_check").find("input[name=buyPatch]");
+			for(var i = 0 ; i < $arr2.length; i++){
+				$arr2[i].checked = false;
+			}
+	 			if($($("#combujian").find("input")[0]).is(':checked')){
+	 				$("#checkbox1").show();
+	 				$("#form_check").show();
+	 				$("#form_check").next("div.marinfo").show();
+	 			}
+				if($($("#combujian").find("input")[1]).is(':checked')){
+					$("#checkbox1").hide();
+	 				$("#form_check").hide();
+	 				$("#form_check").next("div.marinfo").hide();
+	 			}
+				if($("#checkbox1").find("input").eq(0).is(':checked')){
+					$("#form_check").find("div.col-md-6").eq(0).children().show();
+				}else{
+					$("#form_check").find("div.col-md-6").eq(0).children().hide();
+				}
+				if($("#checkbox1").find("input").eq(1).is(':checked')){
+					$("#form_check").find("div.col-md-6").eq(1).children().show();
+				}else{
+					$("#form_check").find("div.col-md-6").eq(1).children().hide();
+				}
 			$("#form_check").hide();
 			$("#form_check").next("div.marinfo").hide();
 		}
@@ -958,7 +1028,7 @@ function renderMortgageSign(f,data){
 		f.find('input[name=custName]').val($content.custName);
 		f.find('input[name=coLender]').val($content.coLender);
 		f.find('select[name=custCode]').val($content.caseCode);
-		f.find('select[name=mortType]').val($content.mortType);
+		//f.find('select[name=mortType]').val($content.mortType);
 		f.find('select[name=lendWay]').val($content.lendWay);
 		f.find('input[name=houseNum]').val($content.houseNum);
 		f.find('input[name=comAmount]').val($content.comAmount);
@@ -966,7 +1036,7 @@ function renderMortgageSign(f,data){
 		f.find('input[name=prfAmount]').val($content.prfAmount);
 		f.find('input[name=prfYear]').val($content.prfYear);
 		f.find('input[name=comDiscount]').val($content.comDiscount);
-		f.find('select[name=mortTotalAmount]').empty().append("<option value='"+$content.mortTotalAmount+"'>"+$content.mortTotalAmount+"</option>")
+		f.find('input[name=mortTotalAmount]').val($content.mortTotalAmount);
 		//f.find('input[name=priCreditUnit]').val($content.priCreditUnit);
 		f.find('select[name=bank_type]').val($content.bank_type);
 		f.find('select[name=finOrgCode]').val($content.finOrgCode);
@@ -1007,9 +1077,9 @@ function renderMortgageComplete(f,data){
 			f.find('input[name=isMainLoanBank]').val($content.isMainLoanBank);
 			f.find('input[name=custName]').val($content.custName);
 			f.find('input[name=coLender]').val($content.coLender).attr("readonly",true);
-			f.find('select[name=mortTotalAmount]').empty().append("<option value='"+$content.mortTotalAmount+"'>"+$content.mortTotalAmount+"</option>").attr("disabled",true);
+			f.find('input[name=mortTotalAmount]').val($content.mortTotalAmount);
 			f.find('select[name=custCode]').val($content.caseCode).attr("disabled",true);
-			f.find('select[name=mortType]').val($content.mortType).attr("disabled",true);
+			//f.find('select[name=mortType]').val($content.mortType).attr("disabled",true);
 			f.find('select[name=lendWay]').val($content.lendWay).attr("disabled",true);
 			f.find('input[name=houseNum]').val($content.houseNum).attr("readonly",true);
 			f.find('input[name=comAmount]').val($content.comAmount).attr("readonly",true);
@@ -1752,8 +1822,51 @@ $(document).ready(function (){
  		}else if(currentIndex == 3){
  			var flag = false;
  			var is_patch = $("#mortgageForm_b").find("input[name=isPatch]:checked").val();
+ 			var ischeckBuy = $("#mortgageForm_b").find("input[name='ischeckBuy']:checked").val();
+ 			var ischeckSell = $("#mortgageForm_b").find("input[name='ischeckSell']:checked").val();
  			if(is_patch=="1"){
-	 			if(checkPatch($("#mortgageForm_b"))){
+ 				if(ischeckBuy == "1" && (ischeckSell == "" || ischeckSell == null || ischeckSell == undefined)){
+ 					var $arr1 = $("#form_check").find("input[name=sellPatch]");
+	    			for(var i = 0 ; i < $arr1.length; i++){
+	    				$arr1[i].checked = false;
+	    			}
+	    			$("#form_check").find("input[name=patchTimeSell]").val("");
+ 					if( !checkPatch1($("#mortgageForm_b"))){
+ 						return false;
+ 					};
+ 	
+ 				}
+ 				if(ischeckSell == "1" && (ischeckBuy == "" || ischeckBuy == null || ischeckBuy == undefined)){
+ 					var $arr = $("#form_check").find("input[name=buyPatch]");
+	    			for(var i = 0 ; i < $arr.length; i++){
+	    				$arr[i].checked = false;
+	    			}
+	    			$("#form_check").find("input[name=patchTimeBuy]").val("");
+ 					if(!checkPatch2($("#mortgageForm_b"))){
+ 						return false;
+ 					};
+ 				}
+ 				if(ischeckSell == "1" && ischeckBuy == "1"){
+ 					if(!checkPatch($("#mortgageForm_b"))){
+ 						return false;
+ 					};
+ 					
+ 				}
+ 				if( (ischeckBuy == "" || ischeckBuy == null || ischeckBuy == undefined) && (ischeckSell == "" || ischeckSell == null || ischeckSell == undefined)){
+ 					$("#bujian_b")[0].checked = false;
+	    			var $arr = $("#form_check").find("input[name=buyPatch]");
+	    			for(var i = 0 ; i < $arr.length; i++){
+	    				$arr[i].checked = false;
+	    			}
+	    			$("#bujian_s")[0].checked = false;
+	    			var $arr1 = $("#form_check").find("input[name=sellPatch]");
+	    			for(var i = 0 ; i < $arr1.length; i++){
+	    				$arr1[i].checked = false;
+	    			}
+	    			$("#form_check").find("input[name=patchTimeSell]").val("");
+	    			$("#form_check").find("input[name=patchTimeBuy]").val("");
+ 					
+ 				}
  					$.ajax({
  					    url:ctx+"/task/getMortgageInfo",
  					    method:"post",
@@ -1772,7 +1885,6 @@ $(document).ready(function (){
  					    }
  					   });
 	 				flag = true;
-	 			}
  			}else{
  				$.ajax({
 					    url:ctx+"/task/getMortgageInfo",
@@ -2174,7 +2286,7 @@ function getUrlParams(name){
 function getFormParams(formId){	
 	var custCode = formId.find("select[name='custCode']").val();	
 	var custName = formId.find("select[name='custCode']").find("option:selected").text();	
-	var mortType = formId.find("select[name='mortType']").val();	
+	var mortType = formId.find("input[name='mortType']").val();	
 	var mortTotalAmount = 0;
 	if(null != formId.find("input[name='mortTotalAmount']").val()  && "" != formId.find("input[name='mortTotalAmount']").val()){
 		mortTotalAmount = formId.find("input[name='mortTotalAmount']").val() * 10000;		

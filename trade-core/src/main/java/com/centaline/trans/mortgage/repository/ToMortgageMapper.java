@@ -16,6 +16,8 @@ public interface ToMortgageMapper {
 
     int update(ToMortgage record);
     
+    int update1(ToMortgage record);
+    
     int updateByPrimaryKey(ToMortgage record);
 
     int updateByTest(ToMortgage record);

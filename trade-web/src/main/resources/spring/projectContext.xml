@@ -717,7 +717,14 @@
     <bean name="qqcdDictBankRebateBank" class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
         <property name="dictType" value="bank_rebate_bank"></property>
     </bean>
-    
+    <!-- 评估待结算状态 -->
+    <bean name="evalAccountStatus"  class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="eval_account_status"></property>
+    </bean>
+    <!-- 费用调整类型 -->
+    <bean name="feeChangeType"  class="com.centaline.trans.common.service.impl.QuickQueryDictCustomDictServiceImpl">
+    	<property name="dictType" value="fee_change_type"></property>
+    </bean>
     <aop:aspectj-autoproxy expose-proxy="true"/>
 
 </beans>

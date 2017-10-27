@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.centaline.trans.engine.vo.TaskVo;
+
 /**
  * @author wbwumf
  *
@@ -112,6 +114,13 @@ public class ToRansomFormVo {
 	private List<RansomPartOrderVo> onePartCodes;
 	//二抵时，二抵的环节
 	private List<RansomPartOrderVo> twoPartCodes;
+	//已经完成的任务
+	private List<TaskVo> tasks;
+	
+	private List<ToRansomPlanVo> changeData;
+	
+	private List<ToRansomPlanVo> newData;
+	
 	
 	public Long getPkid() {
 		return pkid;
@@ -374,6 +383,30 @@ public class ToRansomFormVo {
 
 	public void setTwoPartCodes(List<RansomPartOrderVo> twoPartCodes) {
 		this.twoPartCodes = twoPartCodes;
+	}
+
+	public List<TaskVo> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<TaskVo> tasks) {
+		this.tasks = tasks;
+	}
+
+	public List<ToRansomPlanVo> getChangeData() {
+		return changeData;
+	}
+
+	public void setChangeData(List<ToRansomPlanVo> changeData) {
+		this.changeData = changeData;
+	}
+
+	public List<ToRansomPlanVo> getNewData() {
+		return newData;
+	}
+
+	public void setNewData(List<ToRansomPlanVo> newData) {
+		this.newData = newData;
 	}
 
 	@Override

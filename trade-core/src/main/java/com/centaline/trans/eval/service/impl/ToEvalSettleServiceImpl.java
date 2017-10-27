@@ -114,12 +114,14 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 				ToEvalSettle record = new ToEvalSettle();
 				record.setCaseCode(caseCode);
 				record.setEvaCode(evaCode);
+				record.setFeeChangeReason(FeeChangeTypeEnum.getName(feeChangeReason));
 				record.setStatus(EvalWaitAccountEnum.WTJ.getCode());//未提交
 				toEvalSettleMapper.insertSelective(record);
 		}else {
 				ToEvalSettle record = new ToEvalSettle();
 				record.setCaseCode(caseCode);
 				record.setEvaCode(evaCode);
+				record.setFeeChangeReason(FeeChangeTypeEnum.getName(feeChangeReason));
 				record.setStatus(EvalWaitAccountEnum.WXJS.getCode());//无需结算
 				toEvalSettleMapper.insertSelective(record);
 		}

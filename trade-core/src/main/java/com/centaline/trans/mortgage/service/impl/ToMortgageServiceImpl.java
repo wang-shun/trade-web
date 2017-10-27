@@ -236,9 +236,12 @@ public class ToMortgageServiceImpl implements ToMortgageService
         }else{
         		if("0".equals(toMortgage.getIsPatch())){
         			toMortgageMapper.updateIsPatch(toMortgage);
-        		}else{
+        		}else if("1".equals(toMortgage.getIsPatch())){
         			toMortgage = transformationStr(toMortgage);
                     toMortgageMapper.update(toMortgage);
+        		}else{
+        			toMortgage = transformationStr(toMortgage);
+                    toMortgageMapper.update1(toMortgage);
         		}
         		
         }

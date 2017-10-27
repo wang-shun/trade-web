@@ -186,6 +186,8 @@
 		FROM
 			sctrans.T_RA_PLAN rap
 			INNER JOIN sctrans.T_RA_CASE cas ON rap.RANSOM_CODE = cas.RANSOM_CODE
+		WHERE
+			cas.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getCompleteTimeByCode" resultType="java.util.HashMap">
