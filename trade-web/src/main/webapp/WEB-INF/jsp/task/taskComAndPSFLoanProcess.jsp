@@ -1239,7 +1239,6 @@ function checkInt(obj){
  		});
  		
 		$($("#combujian").find("input")[1]).change(function(){
-			alert(222);
 			if($($("#combujian").find("input")[1]).is(':checked')){
 				$("#checkbox1").hide();
  				$("#form_check").hide();

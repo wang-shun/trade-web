@@ -369,6 +369,7 @@ public class ToMortgageController {
 					workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
 					toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
 				}
+				return response;
 			}
 			
 
@@ -377,6 +378,7 @@ public class ToMortgageController {
 			response.setMessage("操作失败！" + e.getMessage());
 			e.printStackTrace();
 		}
+		response.setCode("1");
 		return response;
 	}
 
