@@ -202,10 +202,32 @@ public class RansomListController {
 	 */
 	@RequestMapping(value = "ransomLinkInfo")
 	public String ransomLinkInfo(String caseCode, ServletRequest request) {
-		ToRansomLinkVo ransomLinkVo = ransomService.getRansomLinkInfo(caseCode);
 
+		ToRansomLinkVo ransomLinkVo = ransomService.getRansomLinkInfo(caseCode);
 		request.setAttribute("ransomLinkVo", ransomLinkVo);
 		return "ransom/addRansom";
+		
+//		try {
+//			ResultNew rs = new ResultNew();
+//			String result = "-1";
+//			if(ransomLinkVo != null) {
+//				String message = "案件关联已被关联，请重新选择！";
+//				rs.setStatus(result);
+//				rs.setCode(result);
+//				rs.setMessage(message);
+//			}else {
+//				result = "0";
+//				rs.setStatus(result);
+//				rs.setCode(result);
+//				rs.setMessage(result);
+//			}
+//			return JSONObject.toJSONString(rs);
+//		} catch (Exception ex) {
+//			logger.error("", ex);
+//			rs.setStatus("0");
+//			rs.setMessage(ex.getMessage());
+//			return JSONObject.toJSONString(rs);
+//		}
 	}
 
 	/**
@@ -262,8 +284,8 @@ public class RansomListController {
 			Map<String, String> actTasks = ransomService.getActTasks(ransomCode);
 			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
 			// 新建赎楼单即是受理状态
-			List<ToRansomTailinsVo> ransomTailinsVo = ransomService.getTailinsInfoByRansomCode(ransomCode);
-			ToRansomTailinsVo tailinsVo = ransomTailinsVo.get(0);
+			List<ToRansomTailinsVo> ransomTailinsList = ransomService.getTailinsInfoByRansomCode(ransomCode);
+			ToRansomTailinsVo tailinsVo = ransomTailinsList.get(0);
 			// 申请
 			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
 			// 面签
@@ -555,9 +577,9 @@ public class RansomListController {
 	 */
 	private String generateEvaCode(){	
 		StringBuilder s = new StringBuilder();
-		s.append(EVA_CODE_PRE);
-		s.append(DateUtil.getFormatDate(new Date(), "yyyyMM"));
-		s.append(tocaseMapper.nextCaseCodeNumber());
+		s.append(EVA_CODE_PRE).append(DateUtil.getFormatDate(new Date(), "yyyyMM"))
+		 .append("-")
+		 .append(tocaseMapper.nextCaseCodeNumber());
 		return s.toString();
 	}
 
