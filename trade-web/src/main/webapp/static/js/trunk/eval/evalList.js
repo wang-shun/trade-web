@@ -330,6 +330,11 @@ $('#settleButton').click(function() {
 	  $("input[name='my_checkbox']:checked").each(function(i){//把所有被选中的复选框的值存入数组
 		  evalCodeArr[i] =$(this).val();
 	  });
+	  
+	  if(evalCodeArr.length==0){
+		  window.wxc.alert("未选择结算项");
+		  return false;
+	  }
 	
 	$.ajax({
 		async: true,

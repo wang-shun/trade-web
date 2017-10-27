@@ -18,6 +18,7 @@ function show(fileId) {
 
 function getShowAttachment() {
 	var caseCode = $("#caseCode").val();
+	//TODO 赎楼单号
 	$.ajax({
 		type : 'post',
 		cache : false,
