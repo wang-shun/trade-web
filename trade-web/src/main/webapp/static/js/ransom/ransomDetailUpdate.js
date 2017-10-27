@@ -86,8 +86,13 @@ $(document).ready(function(){
 			type:"POST",
 			success: function(data){
 				window.wxc.success("提交成功!",{"wxcOk":function(){
-					window.close();
-//					window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+					if(window.opener)
+					{
+						window.opener.location.reload();
+						 window.close();
+					} else {
+						 window.location.href = "${ctx }/task/ransom/taskList";
+					}
 				}});
 			},
 			error: function(data){

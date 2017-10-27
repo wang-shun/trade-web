@@ -123,6 +123,9 @@
 										<tr id="tr${status.index }">
 											<td>
 											<select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select>
+											<aist:dict id="finOrgCode${status.index }" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
+											dictType="RETAINAGE_TYPE" defaultvalue="${tailinsVo.finOrgCode }" />
+											<%-- <select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select> --%>
 											</td>
 											<td>
 												<aist:dict id="mortgageType${status.index }" name="mortgageType" clazz=" select_control yuanwid " 
