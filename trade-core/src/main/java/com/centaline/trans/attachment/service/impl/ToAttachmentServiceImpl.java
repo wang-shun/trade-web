@@ -69,7 +69,7 @@ public class ToAttachmentServiceImpl implements ToAttachmentService {
 			toAttachment.setCaseCode(fileUploadVO.getCaseCode());
 			toAttachment.setPartCode(fileUploadVO.getPartCode());
 			toAttachment.setFileName(fileUploadVO.getPicName().get(i));
-			
+			toAttachment.setBizCode(fileUploadVO.getBizCode());
 			int length = toAttachment.getFileName().length();
 			int index = toAttachment.getFileName().lastIndexOf(".");
 			toAttachment.setFileCat(fileUploadVO.getPicName().get(i).substring(index+1, length));
