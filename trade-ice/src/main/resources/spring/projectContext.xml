@@ -250,12 +250,6 @@
      <bean name="qqcdBuyerPhone"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
     	<property name="transPosition" value="30006002"></property>
     </bean>
-    <bean name="evalAccountStatus"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
-    	<property name="dictType" value="eval_account_status"></property>
-    </bean>
-    <bean name="feeChangeType"  class="com.centaline.trans.common.service.impl.QuickQueryGuestInfoPhoneCustomDictServiceImpl">
-    	<property name="dictType" value="fee_change_type"></property>
-    </bean>
 
     <aop:aspectj-autoproxy expose-proxy="true"/>
 </beans>

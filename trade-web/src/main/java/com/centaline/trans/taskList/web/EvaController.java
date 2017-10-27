@@ -231,6 +231,22 @@ public class EvaController {
 	 * @param processInstanceId
 	 * @return
 	 */
+	@RequestMapping(value = "submitUsed")
+	@ResponseBody
+	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
+	    return evaProcessService.submitUsed(toEvalReportProcess, taskId);
+	}
+	
+	/**
+	 * 使用评估报告保存
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
 	@RequestMapping(value = "saveUsed")
 	@ResponseBody
 	public AjaxResponse<?> saveUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){

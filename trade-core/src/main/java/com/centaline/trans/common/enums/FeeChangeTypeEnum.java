@@ -29,7 +29,7 @@ public enum FeeChangeTypeEnum {
     public static String getName(String code) {
         for (FeeChangeTypeEnum cte : FeeChangeTypeEnum.values()) {
             if (code.equalsIgnoreCase(cte.getCode()))
-                return cte.getCode();
+                return cte.getName();
         }
         return null;
     }

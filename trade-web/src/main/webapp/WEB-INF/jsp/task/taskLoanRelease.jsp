@@ -116,7 +116,7 @@
                         <div class="form_content" id="data_1_forBank">
                             <label class="control-label sign_left select_style mend_select">
                                 	放款时间<font color=" red" class="mr5" >*</font>
-                            </label><!-- 在谷歌浏览器中可能出现日期选择插件无法显示的问题，但是火狐和360浏览器都正常显示，可能是不兼容或者浏览器设置导致的问题 -->
+                            </label>
                             <div class="input-group sign-right dataleft input-daterange pull-left date" data-date-format="yyyy-mm-dd">
                                 <input type="text" class="input_type yuanwid datatime" id="lendDate" name="lendDate" onfocus="this.blur()"
 								value="<fmt:formatDate  value='${loanRelease.lendDate}' type='both' pattern='yyyy-MM-dd'/>" >

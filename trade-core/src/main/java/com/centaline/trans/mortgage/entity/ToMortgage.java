@@ -240,7 +240,31 @@ public class ToMortgage {
 	 */
 	private String coLender;
 	
-    public String getCoLender() {
+	
+	private String ischeckBuy;//买方是否补件
+	
+	private String ischeckSell;//卖方是否补件
+	
+	
+	
+	
+    public String getIscheckBuy() {
+		return ischeckBuy;
+	}
+
+	public void setIscheckBuy(String ischeckBuy) {
+		this.ischeckBuy = ischeckBuy;
+	}
+
+	public String getIscheckSell() {
+		return ischeckSell;
+	}
+
+	public void setIscheckSell(String ischeckSell) {
+		this.ischeckSell = ischeckSell;
+	}
+
+	public String getCoLender() {
 		return coLender;
 	}
 

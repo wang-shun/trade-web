@@ -4,6 +4,7 @@
 		<customDict id="qqcdDictMortType" beanName="qqcdDictMortType"/>
 		<customDict id="qqcdDictDiyaType" beanName="qqcdDictDiyaType"/>	
 		<customDict id="qqcdDictFinalOrg" beanName="qqcdDictFinalOrg"/>	
+		<customDict id="qqcdDictRetaType" beanName="qqcdDictRetaType"/>	
 	</dicts>
 	<formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -18,14 +19,14 @@
 			<baseSql>
 				<![CDATA[
 					SELECT
-						FIN_ORG_CODE FIN_ORG_CODE,
-						MORTGAGE_TYPE MORTGAGE_TYPE,
+						(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = tai.FIN_ORG_CODE) comOrgName,
+						MORTGAGE_TYPE retaType,
 						DIYA_TYPE DIYA_TYPE,
 						LOAN_MONEY/10000 LOAN_MONEY,
 						REST_MONEY/10000 REST_MONEY,
 						(LOAN_MONEY - REST_MONEY)/10000 ACTUALMoney 
 					FROM
-						sctrans.T_RA_TAILINS
+						sctrans.T_RA_TAILINS tai
 					WHERE
 						RANSOM_CODE = #ransomcode#
 				]]>
@@ -38,10 +39,10 @@
 		</searchSql>
 		<grid>
 			<table-row>
-				<column type="both" name="FIN_ORG_CODE" display="尾款机构Code" hide="true"/>
-				<column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="FIN_ORG_CODE" customDict="qqcdDictFinalOrg"/>
-				<column type="both" name="MORTGAGE_TYPE" display="尾款类型"   />
-				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="MORTGAGE_TYPE" customDict="qqcdDictMortType"/>
+				<column type="both" name="comOrgName" display="尾款机构" />
+				<!-- <column type="virtual" name="tailOrgName" display="尾款机构名" referencecol="FIN_ORG_CODE" customDict="qqcdDictFinalOrg"/> -->
+				<column type="both" name="retaType" display="尾款类型"   />
+				<column type="virtual" name="retaTypeName" display="尾款类型名" referencecol="retaType" customDict="qqcdDictRetaType"/>
 				<column type="both" name="DIYA_TYPE" display="抵押类型"  />
 				<column type="virtual" name="diyaTypeName" display="抵押类型名" referencecol="DIYA_TYPE" customDict="qqcdDictDiyaType"/>				
 				<column type="both" name="LOAN_MONEY" display="贷款金额" />

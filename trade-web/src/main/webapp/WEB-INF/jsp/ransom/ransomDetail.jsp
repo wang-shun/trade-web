@@ -177,9 +177,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='DEAL'}"> active
+										    <c:when test=""> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='DEAL'}"> complete
+										    <c:when test=""> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	

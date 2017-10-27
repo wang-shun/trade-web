@@ -359,7 +359,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 			  toEvalSettle.setCaseCode(toEvalReportProcess.getCaseCode());
 			  toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 			  ToEvaInvoice toEvaInvoice = toEvaInvoiceMapper.selectByEvaCode(evaCode);
-			  
 			  ToEvaRefund toEvaRefund = toEvaRefundMapper.selectByCaseCode(toEvalReportProcess.getCaseCode());
 			  if(EvalStatusEnum.YBD.getCode().equals(toEvalReportProcess.getStatus())){
 				  toEvalSettle.setFeeChangeReason(FeeChangeTypeEnum.BD.getCode());
