@@ -74,7 +74,7 @@
 		border-radius: 50%;
 		background-size: 80px 108px;
 		vertical-align: middle;
-		background-image:url(../../static/img/a5.png);
+		background-image:url(../static/img/a5.png);
 	}
 	.shuxian{
 		position: absolute;

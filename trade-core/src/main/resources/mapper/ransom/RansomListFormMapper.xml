@@ -79,7 +79,7 @@
 	
 	
 	<select id="getRansomCase" resultMap="BaseResultMap">
-		SELECT * FROM sctrans.T_RA_CASE WHERE 1=1
+		SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4)
 		<if test="caseCode != null and caseCode != ''">
 			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		</if>
@@ -345,8 +345,13 @@
 			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
 		</if>
 		ISSTOP = #{isstop,jdbcType=VARCHAR}
-		WHERE
-			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE RANSOM_STATUS NOT IN(3,4)
+		<if test="caseCode != null and caseCode != ''">
+			 AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		</if>
+		<if test="ransomCode != null and ransomCode != ''">
+			 AND RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+		</if>
 	</update>
 	
 	<update id="updateRansomCaseByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomCaseVo">

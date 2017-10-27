@@ -95,7 +95,7 @@
 			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
-		WHERE 1=1 
+		WHERE ra.RANSOM_STATUS NOT IN(3,4)
 		<if test="ransomCode != null">
 			AND ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 		</if>
