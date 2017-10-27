@@ -98,7 +98,10 @@
 					<div class="row">
 						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.SUSPEND">
 							<a role="button" id="casePause" class="btn btn-primary btn-xm"
-											href="javascript:casePause()">案件挂起 </a>
+											href="javascript:casePause()">
+											<c:if test="${toCase.caseProperty == '30003004' }">案件恢复</c:if>
+											<c:if test="${toCase.caseProperty != '30003004' }">案件挂起</c:if>
+											 </a>
 						</shiro:hasPermission>
 						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.PLANCHANGE">
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
