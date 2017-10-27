@@ -5,9 +5,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -24,22 +27,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aist.common.exception.BusinessException;
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.User;
 import com.alibaba.fastjson.JSONObject;
+import com.centaline.trans.cases.repository.ToCaseMapper;
 import com.centaline.trans.cases.web.ResultNew;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
-import com.centaline.trans.ransom.entity.ToRansomCancelVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.entity.ToRansomDetailVo;
 import com.centaline.trans.ransom.entity.ToRansomFormVo;
-import com.centaline.trans.ransom.entity.ToRansomMortgageVo;
 import com.centaline.trans.ransom.entity.ToRansomPaymentVo;
-import com.centaline.trans.ransom.entity.ToRansomPermitVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomSignVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
@@ -55,64 +57,73 @@ import com.centaline.trans.utils.DateUtil;
 
 /**
  * 赎楼单列表控制器
+ * 
  * @author wbwumf
  *
  */
 @Controller
 @RequestMapping(value = "/ransomList")
 public class RansomListController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	/**
+	 * 赎楼编码前缀
+	 */
+	private static String EVA_CODE_PRE = "SL-TJ-";
 	
+	@Autowired
+	private ToCaseMapper tocaseMapper;
 	@Autowired(required = true)
 	private AddRansomFormService addRansomFormService;
 	@Autowired(required = true)
 	private RansomListFormService ransomListFormService;
-	@Autowired(required=true)
-	private  RansomService ransomService;
 	@Autowired(required = true)
-    UamUserOrgService uamUserOrgService;
+	private RansomService ransomService;
+	@Autowired(required = true)
+	UamUserOrgService uamUserOrgService;
 	@Autowired
 	private UamSessionService uamSessionService;
-	
-	ResultNew rs=new ResultNew();
-	
-	
+
+	ResultNew rs = new ResultNew();
+
 	/**
-	 * 页面跳转 
+	 * 页面跳转
+	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="*/{keyFlag}")
-	public String caseProcess(Model model, ServletRequest request,@PathVariable String keyFlag){
-		model.addAttribute("flag",keyFlag);
+	@RequestMapping(value = "*/{keyFlag}")
+	public String caseProcess(Model model, ServletRequest request, @PathVariable String keyFlag) {
+		model.addAttribute("flag", keyFlag);
 		return "ransom/" + keyFlag;
 	}
-	
+
 	/**
 	 * 新建赎楼单
+	 * 
 	 * @param model
 	 * @param jsonStr
 	 * @param request
 	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value="addRansom")
+	@RequestMapping(value = "addRansom")
 	@ResponseBody
-	public String addRansom(@RequestParam String jsonStr){
-		
+	public String addRansom(@RequestParam String jsonStr) {
+
 		String result = "-1";
-		SessionUser user= uamSessionService.getSessionUser();
-		
+		SessionUser user = uamSessionService.getSessionUser();
+
 		try {
 			List<ToRansomFormVo> list = JSONObject.parseArray(jsonStr, ToRansomFormVo.class);
-			String ransomCode = new StringBuffer().append("TJ-SL-").append(getCalendarTime()).toString(); //赎楼单编号
+			String ransomCode = generateEvaCode(); // 赎楼单编号
 			String caseCode = list.get(0).getCaseCode();
 			List<ToRansomFormVo> ransomList = new ArrayList<ToRansomFormVo>();
-			
+
 			for (int i = 0; i < list.size(); i++) {
 				ToRansomFormVo ransomFormVo = new ToRansomFormVo();
-				
+
 				ransomFormVo.setCaseCode(caseCode);
 				ransomFormVo.setRansomCode(ransomCode);
 				ransomFormVo.setSignTime(list.get(0).getSignTime());
@@ -120,19 +131,20 @@ public class RansomListController {
 				ransomFormVo.setFinOrgCode(list.get(i).getFinOrgCode());
 				ransomFormVo.setMortgageType(list.get(i).getMortgageType());
 				ransomFormVo.setDiyaType(list.get(i).getDiyaType());
-				ransomFormVo.setLoanMoney((list.get(i).getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
-				ransomFormVo.setRestMoney((list.get(i).getRestMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
+				ransomFormVo
+						.setLoanMoney((list.get(i).getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
+				ransomFormVo
+						.setRestMoney((list.get(i).getRestMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
 				ransomFormVo.setCreateTime(new Date());
 				ransomFormVo.setCreateUser(user.getId());
 				ransomFormVo.setUpdateTime(new Date());
 				ransomFormVo.setUpdateUser(user.getId());
-				
+
 				ransomList.add(ransomFormVo);
 			}
-			
+
 			addRansomFormService.addRansomForm(ransomList);
-			
-			
+
 			ToRansomPlanVo planVo = new ToRansomPlanVo();
 			planVo.setRansomCode(ransomCode);
 			planVo.setPartCode("APPLY");
@@ -142,15 +154,15 @@ public class RansomListController {
 			planVo.setUpdateTime(new Date());
 			planVo.setUpdateUser(user.getId());
 			ransomListFormService.insertRansomPlanTimeInfo(planVo);
-			
+
 			result = "0";
-			if("0".equals(result)){
+			if ("0".equals(result)) {
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(result);
 
 				ToRansomCaseVo trco = new ToRansomCaseVo();
-				//赎楼列表单插入数据
+				// 赎楼列表单插入数据
 				trco.setRansomCode(ransomCode);
 				trco.setCaseCode(caseCode);
 				trco.setRansomStatus("1");
@@ -163,15 +175,15 @@ public class RansomListController {
 				trco.setCreateUser(user.getId());
 				trco.setUpdateTime(new Date());
 				trco.setUpdateUser(user.getId());
-				
+
 				ransomListFormService.addRansomDetail(trco);
-			}else{
+			} else {
 				String message = "新增案件失败，请刷新后再次尝试！";
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(message);
 			}
-			
+
 			return JSONObject.toJSONString(rs);
 		} catch (BusinessException ex) {
 			logger.error("", ex);
@@ -180,43 +192,66 @@ public class RansomListController {
 			return JSONObject.toJSONString(rs);
 		}
 	}
-	
+
 	/**
 	 * 案件关联信息查询
+	 * 
 	 * @param caseCode
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="ransomLinkInfo")
-	public String ransomLinkInfo(String caseCode,ServletRequest request) {
-		ToRansomLinkVo ransomLinkVo= ransomService.getRansomLinkInfo(caseCode);
-		
+	@RequestMapping(value = "ransomLinkInfo")
+	public String ransomLinkInfo(String caseCode, ServletRequest request) {
+
+		ToRansomLinkVo ransomLinkVo = ransomService.getRansomLinkInfo(caseCode);
 		request.setAttribute("ransomLinkVo", ransomLinkVo);
 		return "ransom/addRansom";
+		
+//		try {
+//			ResultNew rs = new ResultNew();
+//			String result = "-1";
+//			if(ransomLinkVo != null) {
+//				String message = "案件关联已被关联，请重新选择！";
+//				rs.setStatus(result);
+//				rs.setCode(result);
+//				rs.setMessage(message);
+//			}else {
+//				result = "0";
+//				rs.setStatus(result);
+//				rs.setCode(result);
+//				rs.setMessage(result);
+//			}
+//			return JSONObject.toJSONString(rs);
+//		} catch (Exception ex) {
+//			logger.error("", ex);
+//			rs.setStatus("0");
+//			rs.setMessage(ex.getMessage());
+//			return JSONObject.toJSONString(rs);
+//		}
 	}
-	
-	
+
 	/**
 	 * 查询赎楼案件是否和caseCode关联
+	 * 
 	 * @param caseCode
 	 * @return
 	 */
-	@RequestMapping(value="queryRansomCode")
+	@RequestMapping(value = "queryRansomCode")
 	@ResponseBody
 	public String queryRansomByCasecode(String caseCode) {
-		
-		ResultNew rs=new ResultNew();
+
+		ResultNew rs = new ResultNew();
 		try {
 			ToRansomCaseVo trco = new ToRansomCaseVo();
 			trco = ransomListFormService.getRansomCase(caseCode, null);
 			String result = "-1";
-			//如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
-			if(trco != null) {
+			// 如果赎楼信息不为空说明已有案件编号与赎楼编号相关联
+			if (trco != null) {
 				String message = "案件关联已被关联，请重新选择！";
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(message);
-			}else {
+			} else {
 				result = "0";
 				rs.setStatus(result);
 				rs.setCode(result);
@@ -230,41 +265,43 @@ public class RansomListController {
 			return JSONObject.toJSONString(rs);
 		}
 	}
-	
+
 	/**
-	 * 赎楼详情画面 
-	 * @param caseCode 案件编号
+	 * 赎楼详情画面
+	 * 
+	 * @param caseCode
+	 *            案件编号
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="ransomDetail")
-	public String ransomDetail(String ransomCode, ServletRequest request){
-		
+	@RequestMapping(value = "ransomDetail")
+	public String ransomDetail(String ransomCode, ServletRequest request) {
+
 		try {
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
-			//案件详情信息
-			ToRansomCaseVo caseVo = ransomService.getRansomCaseInfo(ransomCode);
-			Map<String,String> actTasks =  ransomService.getActTasks(ransomCode);
+			// 案件详情信息
+			// ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
+			Map<String, String> actTasks = ransomService.getActTasks(ransomCode);
 			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
-			//新建赎楼单即是受理状态
-			List<ToRansomTailinsVo> ransomTailinsVo = ransomService.getTailinsInfoByRansomCode(ransomCode);
-			ToRansomTailinsVo tailinsVo = ransomTailinsVo.get(0);
-			//申请
+			// 新建赎楼单即是受理状态
+			List<ToRansomTailinsVo> ransomTailinsList = ransomService.getTailinsInfoByRansomCode(ransomCode);
+			ToRansomTailinsVo tailinsVo = ransomTailinsList.get(0);
+			// 申请
 			ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
-			//面签
+			// 面签
 			ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
-			//陪同还贷
-			Map<String,Date> mortgageMap =  ransomService.getMortgageInfoByRansomCode(ransomCode);
-			//注销抵押
-			Map<String,Date> cancelMap = ransomService.getCancelInfo(ransomCode);
-			//领取产证
-			Map<String,Date> permitMap = ransomService.getPermitInfo(ransomCode);
-			//回款结清
+			// 陪同还贷
+			Map<String, Date> mortgageMap = ransomService.getMortgageInfoByRansomCode(ransomCode);
+			// 注销抵押
+			Map<String, Date> cancelMap = ransomService.getCancelInfo(ransomCode);
+			// 领取产证
+			Map<String, Date> permitMap = ransomService.getPermitInfo(ransomCode);
+			// 回款结清
 			ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
-			//计划时间信息
+			// 计划时间信息
 			List<ToRansomPlanVo> planVo = ransomService.getPlanTimeInfoByRansomCode(ransomCode);
-			
-			if(!planVo.isEmpty()) {
+
+			if (!planVo.isEmpty()) {
 				Date appTime = tailinsVo.getPlanTime();
 				Date signTime = null;
 				Date morTime = null;
@@ -272,23 +309,23 @@ public class RansomListController {
 				Date perTime = null;
 				Date payTime = null;
 				for (int i = 0; i < planVo.size(); i++) {
-					if(i == 0) {
+					if (i == 0) {
 						signTime = planVo.get(0).getEstPartTime();
 					}
-					if(i == 1) {
+					if (i == 1) {
 						morTime = planVo.get(1).getEstPartTime();
 					}
-					if(i == 2) {
+					if (i == 2) {
 						canTime = planVo.get(2).getEstPartTime();
 					}
-					if(i == 3) {
+					if (i == 3) {
 						perTime = planVo.get(3).getEstPartTime();
 					}
-					if(i == 4) {
+					if (i == 4) {
 						payTime = planVo.get(4).getEstPartTime();
 					}
 				}
-				
+
 				request.setAttribute("appTime", appTime);
 				request.setAttribute("signTime", signTime);
 				request.setAttribute("morTime", morTime);
@@ -296,8 +333,8 @@ public class RansomListController {
 				request.setAttribute("perTime", perTime);
 				request.setAttribute("payTime", payTime);
 			}
-			
-			request.setAttribute("caseVo", caseVo);
+
+			// request.setAttribute("caseVo", caseVo);
 			request.setAttribute("detailVo", detailVo);
 			request.setAttribute("moneyVo", moneyVo);
 			request.setAttribute("tailinsVo", tailinsVo);
@@ -308,15 +345,15 @@ public class RansomListController {
 			request.setAttribute("permitMap", permitMap);
 			request.setAttribute("paymentVo", paymentVo);
 			request.setAttribute("actTasks", actTasks);
-			
+
 			return "ransom/ransomDetail";
 		} catch (Exception e) {
-			logger.error("",e);
+			logger.error("", e);
 			return null;
 		}
-		
+
 	}
-	
+
 	/**
 	 * 跳转赎楼变更详情页面
 	 * @param ransomCode
@@ -325,29 +362,32 @@ public class RansomListController {
 	 */
 	@RequestMapping("ransomChangeRecord")
 	public String changeRecord(String ransomCode, ServletRequest request) {
-		List<ToRansomPlanVo> planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+		
+		List<ToRansomPlanVo> plans 	= ransomListFormService.getRansomPlanChangeRecordByRansomCode(ransomCode);
+
 		request.setAttribute("ransomCode", ransomCode);
-		request.setAttribute("planVo", planVo);
+		request.setAttribute("plans", plans);
 		return "ransom/ransomChangeRecord";
 	}
-	
+
 	/**
 	 * 查询赎楼单信息
+	 * 
 	 * @param caseCode
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="updateRansomInfo")
+	@RequestMapping(value = "updateRansomInfo")
 	public String queryUpdateRansomByCaseCode(String caseCode, ServletRequest request) {
-		
+
 		try {
-			
+
 			List<ToRansomTailinsVo> tailinsVoList = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
 			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
-			VRansomFinishTaskVo  taskVo = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
+			VRansomFinishTaskVo taskVo = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
 			int count = ransomService.queryErdiByRansomCode(caseVo.getRansomCode());
-			
+
 			request.setAttribute("tailinsVoList", tailinsVoList);
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
@@ -359,147 +399,135 @@ public class RansomListController {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 修改赎楼单
+	 * 
 	 * @return
 	 */
-	@RequestMapping(value="updateRansom",method = RequestMethod.POST)
+	@RequestMapping(value = "updateRansom", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateRansom(@RequestParam String ransomJSON) {
-		
-		boolean flag = false;
-		SessionUser user= uamSessionService.getSessionUser();
-		
+	public String updateRansom(@RequestParam String ransomVo) {
+
+		boolean flag = true;
+		SessionUser user = uamSessionService.getSessionUser();
+
 		try {
-			List<ToRansomVo> ransomVoList = JSONObject.parseArray(ransomJSON, ToRansomVo.class);
-			
+			List<ToRansomVo> ransomVoList = JSONObject.parseArray(ransomVo, ToRansomVo.class);
+
 			ToRansomCaseVo caseVo = new ToRansomCaseVo();
-			ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
-			
-			if(!ransomVoList.isEmpty()) {
-				
-				for (ToRansomVo ransomVo : ransomVoList) {
-					
-					caseVo.setRansomCode(ransomVo.getRansomCode());
-					caseVo.setBorrowerName(ransomVo.getBorrowerName());
-					caseVo.setBorroMoney(ransomVo.getBorrowerMoney());
-					caseVo.setBorrowerTel(ransomVo.getBorrowerPhone());
-					caseVo.setUpdateUser(user.getId());
-					caseVo.setUpdateTime(new Date());
-					
-					tailinsVo.setRansomCode(ransomVo.getRansomCode());
-					tailinsVo.setSignTime(DateUtil.strToFullDate(ransomVo.getSignTime()));
-					tailinsVo.setFinOrgCode(ransomVo.getFinOrgCode());
-					tailinsVo.setMortgageType(ransomVo.getMortgageType());
-					tailinsVo.setDiyaType(ransomVo.getDiyaType());
-					tailinsVo.setLoanMoney(ransomVo.getLoanMoney());
-					tailinsVo.setRestMoney(ransomVo.getRestMoney());
-					tailinsVo.setUpdateTime(new Date());
+
+			if (!ransomVoList.isEmpty()) {
+
+				for (ToRansomVo vo : ransomVoList) {
+					ToRansomTailinsVo tailinsVo = new ToRansomTailinsVo();
+					tailinsVo.setRansomCode(vo.getRansomCode());
+					tailinsVo.setSignTime(DateUtil.strToFullDate(vo.getSignTime()));
+					tailinsVo.setFinOrgCode(vo.getFinOrgCode());
+					tailinsVo.setMortgageType(vo.getMortgageType());
+					tailinsVo.setDiyaType(vo.getDiyaType());
+					tailinsVo.setLoanMoney(vo.getLoanMoney());
+					tailinsVo.setRestMoney(vo.getRestMoney());
 					tailinsVo.setUpdateUser(user.getId());
-					
-					flag = ransomListFormService.updateRansomCaseInfo(caseVo);
-					flag = ransomListFormService.updateRansomTailinsInfo(tailinsVo);
+					flag = flag && ransomListFormService.updateRansomTailinsInfo(tailinsVo);
 				}
-				
-				if(flag) {
+				caseVo.setRansomCode(ransomVoList.get(0).getRansomCode());
+				caseVo.setBorrowerName(ransomVoList.get(0).getBorrowerName());
+				caseVo.setBorroMoney(ransomVoList.get(0).getBorrowerMoney());
+				caseVo.setBorrowerTel(ransomVoList.get(0).getBorrowerPhone());
+				caseVo.setUpdateUser(user.getId());
+				caseVo.setUpdateTime(new Date());
+				flag = flag && ransomListFormService.updateRansomCaseInfo(caseVo);
+
+				if (flag) {
 					String status = "信息修改成功！";
 					rs.setCode(status);
 					rs.setMessage(status);
 					rs.setStatus(status);
 				}
 			}
-			return  JSONObject.toJSONString(rs);
+			return JSONObject.toJSONString(rs);
 		} catch (Exception e) {
-			logger.error("",e);
+			logger.error("", e);
 			rs.setMessage(e.getMessage());
-			return  JSONObject.toJSONString(rs);
+			return JSONObject.toJSONString(rs);
 		}
 	}
-	
+
 	/**
 	 * 计划时间信息
+	 * 
 	 * @param ransomCode
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("planTime")
-	public String ransomPlanTimeInfo(String ransomCode,ServletRequest request) {
-		
-		try {
-			SessionUser user= uamSessionService.getSessionUser();
-			ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
-			List<ToRansomPlanVo> toRansomPlanVoList = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
-			//将List 转为Map 便于页面通过partCode获取数据
-			Map<String,ToRansomPlanVo> planMap = new HashMap<>();
-			for(ToRansomPlanVo plan : toRansomPlanVoList) {
-				planMap.put(plan.getPartCode(), plan);
-			}
-			int count = ransomService.queryErdiByRansomCode(ransomCode);
-			
-			request.setAttribute("ransomCode", ransomCode);
-			request.setAttribute("caseVo", caseVo);
-			request.setAttribute("planMap", planMap);
-			request.setAttribute("count", count);
-			
-			return "ransom/ransomPlanTime";
-		} catch (Exception e) {
-			logger.error("",e);
-			return null;
-		}
+	public String ransomPlanTimeInfo(String ransomCode, ServletRequest request) {
+
+		/*
+		 * try { SessionUser user= uamSessionService.getSessionUser(); ToRansomCaseVo
+		 * caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
+		 * List<ToRansomPlanVo> toRansomPlanVoList =
+		 * ransomListFormService.getRansomPlanTimeInfo(ransomCode); //将List 转为Map
+		 * 便于页面通过partCode获取数据 Map<String,ToRansomPlanVo> planMap = new HashMap<>();
+		 * for(ToRansomPlanVo plan : toRansomPlanVoList) {
+		 * planMap.put(plan.getPartCode(), plan); } int count =
+		 * ransomService.queryErdiByRansomCode(ransomCode);
+		 * 
+		 * request.setAttribute("ransomCode", ransomCode);
+		 * request.setAttribute("caseVo", caseVo); request.setAttribute("planMap",
+		 * planMap); request.setAttribute("count", count);
+		 * 
+		 * return "ransom/ransomPlanTime"; } catch (Exception e) { logger.error("",e);
+		 * return null; }
+		 */
+
+		request.setAttribute("ransomCode", ransomCode);
+
+		return "ransom/ransomPlanTime";
 	}
-	
+
 	/**
-	 * 赎楼计划时间
-	 * @param ransomVo json数组对象
-	 * @param flag 页面跳转标志 1：跳转详情页， 2：跳转时间计划明细页面
-	 * @param ransomCode 赎楼编号
-	 * @param count 判断是否存在二抵 0：否， 1： 是
+	 * 获取计划时间数据
+	 * 
+	 * @param ransomCode
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("getPlanTimeDate")
+	@ResponseBody
+	public AjaxResponse<ToRansomFormVo> getPlanTimeDate(String ransomCode) {
+		// 计划时间数据
+		ToRansomFormVo planVo = ransomListFormService.getRansomPlanTimeInfo(ransomCode);
+
+		return AjaxResponse.successContent(planVo);
+	}
+
+	/**
+	 * 赎楼计划时间保存
+	 * @author wbcaiyx
+	 * @param ransomVo
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="updateRansomPlanTime",method = RequestMethod.POST)
 	@ResponseBody
-	public String updateRansomPlanTimeInfo(@RequestParam String ransomVo,int flag,String ransomCode,String count) {
+	public AjaxResponse<String> updateRansomPlanTimeInfo(String ransomVo) {
 		
-		SessionUser user= uamSessionService.getSessionUser();
-		
-		try {
-			List<ToRansomPlanVo> planTimes = JSONObject.parseArray(ransomVo, ToRansomPlanVo.class);
-			List<String> partCodes = ransomListFormService.getRansomPlanCodeInfo(ransomCode);
+		ToRansomFormVo vo = JSONObject.parseObject(ransomVo, ToRansomFormVo.class);
+		AjaxResponse<String> result = null;
+		try{
+			result = ransomListFormService.updateRansomPlanTimeInfo(vo);
+		}catch (Exception e){
 			
-			for(ToRansomPlanVo part :planTimes) {
-				if(part.getEstPartTime() != null) {
-					if(partCodes.contains(part.getPartCode())) {
-						//update
-						part.setRansomCode(ransomCode);
-						part.setUpdateTime(new Date());
-						part.setUpdateUser(user.getId());
-						ransomListFormService.updateRansomPlanTimeInfo(part);
-					}else {
-						//insert
-						part.setRansomCode(ransomCode);
-						part.setUpdateTime(new Date());
-						part.setUpdateUser(user.getId());
-						part.setCreateTime(new Date());
-						part.setCreateUser(user.getId());
-						ransomListFormService.insertRansomPlanTimeInfo(part);
-					}
-				}
-			}
-			
-			String status = "赎楼计划时间修改成功！";
-			rs.setMessage(status);
-			rs.setCode(String.valueOf(flag));
-			return JSONObject.toJSONString(rs);
-		} catch (Exception e) {
-			logger.error("",e);
-			rs.setMessage(e.getMessage());
-			return  JSONObject.toJSONString(rs);
+			return AjaxResponse.failException(e);
 		}
+		return result;
 	}
-	
+
 	/**
 	 * 用户机构金融权证查询
+	 * 
 	 * @param request
 	 * @param caseCode
 	 * @param operation
@@ -507,73 +535,52 @@ public class RansomListController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(value = "/getUserOrgFWUserList")
-    @ResponseBody
-	public List<VRansomChangeUserVo> getUserOrgFWUserList(HttpServletRequest request, String ransomCode,String operation) throws ParseException{
-		
+	@ResponseBody
+	public List<VRansomChangeUserVo> getUserOrgFWUserList(HttpServletRequest request, String ransomCode,
+			String operation) throws ParseException {
+
 		List<VRansomChangeUserVo> res = new ArrayList<VRansomChangeUserVo>();
-		
+
 		// 获取当前用户
-        SessionUser sessionUser = uamSessionService.getSessionUser();
-        List<User> userList=new ArrayList<User>();
-		
-        if(operation == null && operation == "") {
-        	userList = uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),TransJobs.JRQZ.getCode());
-        }
-        //金融权证  id 电话 真实姓名 总单数 接单数 未处理单数
-        
-        for (int i = 0; i < userList.size(); i++) {
-        	VRansomChangeUserVo userVo = new VRansomChangeUserVo();
-        	
-        	User user = userList.get(i);
-        	userVo.setId(user.getId());
-        	userVo.setMobile(user.getMobile());
-        	userVo.setRealName(user.getRealName());
-        	
-        	int userRansomCount = ransomListFormService.queryCountRansomsByUserId(user.getId());
-        	int userRansomMonthCount = ransomListFormService.queryCountMonthRansomsByUserId(user.getId());
-        	
-        	userVo.setUserCaseCount(userRansomCount);
-        	userVo.setUserCaseMonthCount(userRansomMonthCount);
-        	
-        	res.add(userVo);
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		List<User> userList = new ArrayList<User>();
+
+		if (operation == null && operation == "") {
+			userList = uamUserOrgService.getUserByOrgIdAndJobCode(sessionUser.getServiceDepId(),
+					TransJobs.JRQZ.getCode());
 		}
-        
+		// 金融权证 id 电话 真实姓名 总单数 接单数 未处理单数
+
+		for (int i = 0; i < userList.size(); i++) {
+			VRansomChangeUserVo userVo = new VRansomChangeUserVo();
+
+			User user = userList.get(i);
+			userVo.setId(user.getId());
+			userVo.setMobile(user.getMobile());
+			userVo.setRealName(user.getRealName());
+
+			int userRansomCount = ransomListFormService.queryCountRansomsByUserId(user.getId());
+			int userRansomMonthCount = ransomListFormService.queryCountMonthRansomsByUserId(user.getId());
+
+			userVo.setUserCaseCount(userRansomCount);
+			userVo.setUserCaseMonthCount(userRansomMonthCount);
+
+			res.add(userVo);
+		}
+
 		return res;
 	}
-	
-	public static StringBuffer getCalendarTime() {
-		StringBuffer sb = new StringBuffer();
-		Calendar ca = Calendar.getInstance();
-		int year = ca.get(Calendar.YEAR);// 获取年份
-		int month = ca.get(Calendar.MONTH)+1;// 获取月份
-		int day = ca.get(Calendar.DATE);// 获取日
-		int minute = ca.get(Calendar.MINUTE);// 分
-		int hour = ca.get(Calendar.HOUR);// 小时
-		int second=ca.get(Calendar.SECOND);//秒
-		
-		if(month < 10) {//+ String.valueOf("0" + month) + "-"
-			 sb.append(String.valueOf(year)).append(String.valueOf(0)).append(String.valueOf(month)).append(String.valueOf("-"));
-		}else {
-			 sb.append(String.valueOf(year)).append(String.valueOf(month)).append(String.valueOf("-"));
-		}
-		
-		if(minute < 10) {
-			 sb.append(String.valueOf(0)).append(String.valueOf(minute));
-		}else {
-			sb.append(String.valueOf(minute));
-		}
-		
-		if(second < 10) {
-			sb.append(String.valueOf(0)).append(String.valueOf(second));
-		}else {
-			sb.append(String.valueOf(second));
-		}
-		
-		return sb;
+
+	/**
+	 * 自生成赎楼编号
+	 * @return
+	 */
+	private String generateEvaCode(){	
+		StringBuilder s = new StringBuilder();
+		s.append(EVA_CODE_PRE).append(DateUtil.getFormatDate(new Date(), "yyyyMM"))
+		 .append("-")
+		 .append(tocaseMapper.nextCaseCodeNumber());
+		return s.toString();
 	}
-	
-	public static void main(String[] args) {
-		
-	}
-	
+
 }

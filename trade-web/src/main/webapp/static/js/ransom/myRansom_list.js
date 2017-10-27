@@ -224,6 +224,9 @@ function checkDate(id){
 	}
 }
 
+
+
+
 //查询
 function searchMethod(page) {
 	debugger;
@@ -234,6 +237,19 @@ function searchMethod(page) {
 	var start = $('#dtBegin_0').val();
 	var end = $('#dtEnd_0').val();
 	getSearchDateValues(params);
+	
+//	var ransomSearchTime = $('#ransomSearchTime option:selected').val();
+//	if(ransomSearchTime == null || ransomSearchTime == ""){
+//		$('#dtBegin_0').attr("disabled",true);
+//		$('#dtEnd_0').attr("disabled",true);
+//	}else{
+//		if(start == null || start == ""){
+//			window.wxc.alert("请输入开始日期！");
+//		}
+//		$('#dtBegin_0').attr("disabled",false);
+//		$('#dtEnd_0').attr("disabled",false);
+//	}
+//	params.ransomSearchTime = ransomSearchTime;
 	params.start = start;
 	params.end = end;
 	params.page = page;
@@ -367,6 +383,8 @@ function mycase_initpage(totalCount,pageSize,currentPage,records)
 //获取查询参数
 function getParamsValue() {
 //	debugger;
+	//赎楼编码
+	var ransomCode = $("#ransomCode").val().trim();
 	//赎楼状态
 	var ransomStatus = $('#ransomStatus').val();
 	//当前赎楼环节
@@ -378,12 +396,13 @@ function getParamsValue() {
 	// 客户姓名 归属人姓名 房屋地址
 	var inTextVal = "";
 	if(searchInfo != ""){
-		inTextVal = $('#inTextVal').val();
+		inTextVal = $('#inTextVal').val().trim();
 	}
 
 	//设置查询参数
 	//argu_  where条件参数；   seach_ searchCondition参数
 	var params = {
+		argu_ransomCode : ransomCode,
 		argu_ransomStatus : ransomStatus,
 		argu_ransomProperty : ransomProperty,
 		argu_agentName : agentName,
@@ -572,6 +591,8 @@ function getSearchDateValues(params) {
 
 
 	var val = $('#ransomSearchTime option:selected').val();
+	
+	
 	if (val == undefined)
 		return;
 	var start = $('#dtBegin_0').val();

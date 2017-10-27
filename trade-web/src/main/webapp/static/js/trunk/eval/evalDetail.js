@@ -18,9 +18,6 @@ $(document).ready(function() {
 		moduleType:"1001",
 		subscribeType:"2001"
 	});
-	$("#mortageService").change(function(){
-		mortageService();
-	});
 	var caseCode = $("#caseCode").val();
 	var evaCode = $("#evaCode").val();
 	//评估操作记录
@@ -290,7 +287,7 @@ var ApproveList = (function() {
  * 附件信息
  */
 function getShowAttachment() {
-	var caseCode = $("#caseCode").val();
+	var evaCode = $("#evaCode").val();
 	$.ajax({
 		type : 'post',
 		cache : false,
@@ -298,8 +295,8 @@ function getShowAttachment() {
 		dataType : 'json',
 		url : ctx+'/attachment/quereyAttachment',
 		data : [{
-			name : 'caseCode',
-			value : caseCode
+			name : 'bizCode',
+			value : evaCode
 		}, 
 		{
 			name : 'available',

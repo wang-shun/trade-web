@@ -95,7 +95,7 @@
 			LEFT JOIN sctrans.T_RA_REDEEM red ON can.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_RA_PAYMENT pay ON pay.RANSOM_CODE = red.RANSOM_CODE
 			LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT part ON ra.CASE_CODE = part.CASE_CODE
-		WHERE 1=1 
+		WHERE ra.RANSOM_STATUS NOT IN(3,4)
 		<if test="ransomCode != null">
 			AND ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 		</if>
@@ -149,35 +149,6 @@
 			AND ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 
-
-	<select id="getRansomCaseInfoByCaseCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
-		SELECT
-			<!-- act.TASK_DEF_KEY_ taskProperty, -->
-			cas.RANSOM_CODE ransomCode,
-			cas.CASE_CODE caseCode,
-			cas.RANSOM_STATUS ransomStatus,
-			cas.RANSOM_PROPERTY ransomProperty,
-			cas.COM_ORG_CODE comOrgCode,
-			cas.BORRO_MONEY borroMoney,
-			cas.BORROWER_NAME borrowerName,
-			cas.BORROWER_TEL borrowerTel,
-			cas.ISSTOP isstop,
-			cas.STOP_TYPE stopType,
-			cas.STOP_REASON stopReason,
-			cas.ACCEPT_TIME acceptTime,
-			cas.CREATE_TIME createTime,
-			cas.CREATE_USER createUser,
-			cas.UPDATE_TIME updateTime,
-			cas.UPDATE_USER updateUser,
-			cas.REMARK remark,
-			cas.FIN_ORG_ID finOrgId
-		FROM
-			sctrans.T_RA_CASE cas
-			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON cas.RANSOM_CODE =tw.BIZ_CODE
-			<!-- LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE = act.PROC_INST_ID_ -->
-		WHERE
-			cas.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
-	</select>
 	<select id="getRansomCaseInfoByRansomCode" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		SELECT
 			<!-- act.TASK_DEF_KEY_ taskProperty, -->
@@ -215,6 +186,8 @@
 		FROM
 			sctrans.T_RA_PLAN rap
 			INNER JOIN sctrans.T_RA_CASE cas ON rap.RANSOM_CODE = cas.RANSOM_CODE
+		WHERE
+			cas.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
 	<select id="getCompleteTimeByCode" resultType="java.util.HashMap">
@@ -246,7 +219,7 @@
 		SELECT 
 			CASE_CODE caseCode,
 			RANSOM_CODE ransomCode,
-			FIN_ORG_CODE finOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = tai.FIN_ORG_CODE) comOrgName,
 			MORTGAGE_TYPE mortgageType,
 			DIYA_TYPE diyaType,
 			LOAN_MONEY loanMoney,
@@ -254,7 +227,7 @@
 			SIGN_TIME signTime,
 			PLAN_TIME planTime
 		FROM 
-			sctrans.T_RA_TAILINS 
+			sctrans.T_RA_TAILINS tai
 		WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	

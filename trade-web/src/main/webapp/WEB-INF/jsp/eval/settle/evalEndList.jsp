@@ -139,7 +139,7 @@
 					<div class="form_content">
 						<div class="more_btn">
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
-							<!-- <button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:exportToExcel()" id="exportBtn">导出到excel</a>
 							<button id="batEnd"  type="button" class="btn btn-success" disabled="true">批量结算</button>&nbsp;
 						</div>
@@ -246,12 +246,7 @@
                                     <td>{{item.SETTLE_FEE}}</td>
                                     <td></td>
 									<td>
-									{{if item.STATUS=='3'}}
-						 				<span class="yes_color">未结算</span>
-					    			{{/if}}
-									{{if item.STATUS=='4'}}
-						 				<span class="yes_color">已结算</span>
-					    			{{/if}}
+										<span class="yes_color">{{item.STATUS}}</span>
 									</td>
 									<td>{{item.SETTLE_TIME}}</td>
                                 </tr>

@@ -25,7 +25,7 @@
 							toc.AGENT_NAME,
 							toc.GRP_NAME,
 							rac.BORROWER_NAME,
-							rac.COM_ORG_CODE,
+							(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = rac.COM_ORG_CODE) COM_ORG_CODE,
 							rac.RANSOM_STATUS,
 							rac.STOP_REASON,
 							rac.BORRO_MONEY,
@@ -46,6 +46,9 @@
 						LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE AND tw.STATUS = 0
 						LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
 						WHERE 1 = 1 
+						<ifNotNull ransomCode>
+							AND rac.RANSOM_CODE = #ransomCode#
+						</ifNotNull>
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>
@@ -67,23 +70,61 @@
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMAPPLY'">
-							AND app.CREATE_TIME = #start# AND app.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND app.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND app.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMINTERVIEW'">
-							AND inter.CREATE_TIME = #start# AND inter.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND inter.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND inter.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMREPAYMENT'">
-							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND rep.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND rep.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						
 						<if test="ransomSearchTime=='RANSOMDIYA'">
-							AND can.CREATE_TIME = #start# AND can.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND can.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND can.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMPERMIT'">
-							AND rep.CREATE_TIME = #start# AND rep.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND rep.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND rep.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 						<if test="ransomSearchTime=='RANSOMPAYMENT'">
-							AND pay.CREATE_TIME = #start# AND pay.UPDATE_TIME = #end#
+							<ifNotNull start>
+								AND pay.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND pay.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
+						</if>
+						<if test="ransomSearchTime=='RANSONDEAL'">
+							<ifNotNull start>
+								AND tai.CREATE_TIME &gt;= #start# 
+							</ifNotNull>
+							<ifNotNull end>
+								AND tai.UPDATE_TIME  &lt;= #end#
+							</ifNotNull>
 						</if>
 				]]>
 			</baseSql>

@@ -189,8 +189,9 @@ text-decoration: underline !important;
 	 		<div class="row m-t-sm">
 				<div class="form_content">
 				    <div class="more_btn">
-						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>
-						<button id="myEvalListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;
+						<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;
+						<button id="myEvalListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;
+						<button id="settleButton" type="button" class="btn btn-success">结算</button>&nbsp;
 					</div>
 				</div>
 			</div>
@@ -202,8 +203,8 @@ text-decoration: underline !important;
 					<table class="table table_blue table-striped table-bordered table-hover" >
 						<thead>
 							<tr>
-								<th></th>
-								<th ><span class="sort" sortColumn="B.CASE_CODE" sord="desc" onclick="caseCodeSort();" >案件编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
+								<th><input type="checkbox" id="checkAllNot" class="i-checks"/></th>
+								<th ><span class="sort" sortColumn="ERP.EVA_CODE" sord="desc" onclick="caseCodeSort();" >评估编号</span><i id="caseCodeSorti" class="fa fa-sort-desc fa_down"></i></th>
 								<th >产权地址</th>
 								<th >评估公司</th>
 								<th >买房</th>
@@ -279,9 +280,9 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td class="center">
-							{{if item.aaa>0}}
-								<img src="">
-							{{/if}}
+						    {{if item.CASE_STATUS == '30001004' && item.REBATE_STATUS == '9' }}
+								<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.EVA_CODE}}"
+                            {{/if}}
 						</td>
 
 						<td >
@@ -359,6 +360,11 @@ text-decoration: underline !important;
 
 						<td class="center">
                                {{item.STATUS}}
+                               <p>
+                                   {{if item.EVAL_PROPERTY == '71001003'}}
+                                           <i class="sign_blue"> 提交结算</i>
+                                   {{/if}}
+                               <p>
 						</td>
 						
 				  </tr>

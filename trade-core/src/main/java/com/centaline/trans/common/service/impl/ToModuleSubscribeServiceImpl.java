@@ -95,6 +95,7 @@ public class ToModuleSubscribeServiceImpl implements ToModuleSubscribeService {
         }
         switch (SubscribeModuleType.from(toModuleSubscribeVo.getModuleType())) {
             case CASE:toModuleSubscribe.setModuleType(SubscribeModuleType.CASE.getValue());break;
+            case EVAL:toModuleSubscribe.setModuleType(SubscribeModuleType.EVAL.getValue());break;
             default:throw new BusinessException("提交的模块类型有误");
         }
         switch (SubscribeType.from(toModuleSubscribeVo.getSubscribeType())) {

@@ -1738,7 +1738,7 @@ public class CaseDetailController {
 	 * @param arrs2
 	 * @return
 	 */
-	private boolean isChanged(List<String> arrs1, String arrs2[]) {
+	private boolean isChanged(List<String> arrs1, String[] arrs2) {
 		if (((arrs1 == null || arrs1.size() == 0) && (arrs2 != null && arrs2.length != 0))
 				|| (arrs2 == null || arrs2.length == 0) && (arrs1 != null && arrs1.size() != 0)
 				|| arrs1.size() != arrs2.length) {// 长度不同
@@ -2040,10 +2040,12 @@ public class CaseDetailController {
 		TtsTransPlanHistoryBatch ttpb = new TtsTransPlanHistoryBatch();
 		boolean isDeal = true;//是否处理
 		for (int i = 0; i < isChanges.length; i++) {
-			if (isChanges[i].equals("true")) {
+			if ("true".equals(isChanges[i])) {
 				ToTransPlan oldPlan = transplanServiceFacade.selectByPrimaryKey(Long.parseLong(estIds[i]));
 				if (oldPlan == null || oldPlan.getPkid() == null)
-					return AjaxResponse.fail("未找到交易计划！");
+					{
+						return AjaxResponse.fail("未找到交易计划！");
+					}
 				TsTransPlanHistory hisRecord = new TsTransPlanHistory();
 				ToTransPlan record = new ToTransPlan();
 				try {
@@ -2074,11 +2076,13 @@ public class CaseDetailController {
 					return AjaxResponse.fail("数据转换失败！");
 				}
 				int reInt1 = transplanServiceFacade.insertTsTransPlanHistorySelective(hisRecord);
-				if (reInt1 == 0)
+				if (reInt1 == 0) {
 					return AjaxResponse.fail("交易计划历史记录更新失败！");
+				}
 				int reInt = transplanServiceFacade.updateByPrimaryKeySelective(record);
-				if (reInt == 0)
+				if (reInt == 0) {
 					return AjaxResponse.fail("交易计划更新失败！");
+				}
 			}
 		}
 
@@ -2130,7 +2134,7 @@ public class CaseDetailController {
 		if(n>0){
 			for (int i=0;i<isChanges.length;i++){
 				//根据Pkid查询交易计划信息
-				if(isChanges[i].equals("true")) {
+				if("true".equals(isChanges[i])) {
 					toTransPlan= transplanServiceFacade.selectByPrimaryKey(Long.parseLong(estIds[i]));
 					if (toTransPlan==null||toTransPlan.getPkid()==null){
 						return AjaxResponse.fail("未找到交易计划！");
@@ -2146,7 +2150,8 @@ public class CaseDetailController {
 							ttpb.setNewEstPartTime(format.parse(estDates[i]));
 							ttpb.setChangeReason(whyChanges[i]);
 							ttpb.setPartCode(toTransPlan.getPartCode());
-							ttpb.setOperateFlag("0");//手工
+							//手工
+							ttpb.setOperateFlag("0");
 							int res=transplanServiceFacade.insertTtsTransPlanHistoryBatch(ttpb);
 							if(res==0){
 								return AjaxResponse.fail("交易计划历史变更批次失败！");

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -232,9 +231,40 @@ public class EvaController {
 	 * @param processInstanceId
 	 * @return
 	 */
+	@RequestMapping(value = "submitUsed")
+	@ResponseBody
+	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
+	    return evaProcessService.submitUsed(toEvalReportProcess, taskId);
+	}
+	
+	/**
+	 * 使用评估报告保存
+	 * @param request
+	 * @param response
+	 * @param caseCode
+	 * @param source
+	 * @param taskitem
+	 * @param processInstanceId
+	 * @return
+	 */
 	@RequestMapping(value = "saveUsed")
 	@ResponseBody
 	public AjaxResponse<?> saveUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
 	    return evaProcessService.saveUsed(toEvalReportProcess, taskId);
 	}
+	
+	/**
+	 * 评估结算入结算表
+	 * @param request
+	 * @param response
+	 * @param toEvalReportProcess
+	 * @param taskId
+	 * @return
+	 */
+	@RequestMapping(value = "toSettle")
+	@ResponseBody
+	public AjaxResponse<?> toSettle(HttpServletRequest request, HttpServletResponse response,String evals){
+	    return evaProcessService.saveEvalToSettle(evals);
+	}
+	
 }

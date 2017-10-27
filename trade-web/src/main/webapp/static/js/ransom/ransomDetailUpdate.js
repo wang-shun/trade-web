@@ -5,21 +5,15 @@
 
 $(document).ready(function(){
 	
-	//reloadWorkInfo();	
-	$('#save').click(function() {
-		//window.location.href = ctx + "/ransomList/ransom/ransomDetail";
-		if(checkForm()){
-			submitUpdateRansom();
+	$("input[name='restMoney']").bind("change",function(){
+		var borrowerMoney = 0.00;
+		for(var i = 0; i < $("#bank-org tr").length; i ++){
+			var restMoney =  parseInt($("#restMoney" + i + "").val() * 10000);
+			borrowerMoney = borrowerMoney + restMoney;
 		}
+		$('#borrowerMoney').val(borrowerMoney / 10000);
 	});
-<<<<<<< HEAD
-	$("#close").click(function(){
-		window.wxc.confirm("您确定要关闭吗？",{"wxcOk":function(){
-			window.close();
-		}});
-	});
-=======
->>>>>>> branch 'develop' of http://gitlab.centaline.com.cn/centaline-trade/trade-web.git
+	
 });
 
 	/**
@@ -27,7 +21,10 @@ $(document).ready(function(){
 	 * @returns
 	 */
 	function submitUpdateRansom(){
-		debugger;
+		
+		if(!checkForm())
+			return ;
+		
 		var caseCode = $("#caseCode").val();
 		var ransomCode = $("#ransomCode").val();
 		//主贷人姓名
@@ -49,6 +46,8 @@ $(document).ready(function(){
 			var loanMoney =   parseInt($("#loanMoney" + i + "").val() * 10000);
 			//剩余金额
 			var restMoney =  parseInt($("#restMoney" + i + "").val() * 10000);
+			//借款总额
+			var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
 			
 			var resJson = {
 					ransomCode:ransomCode,
@@ -60,14 +59,12 @@ $(document).ready(function(){
 					diyaType:diyaType,
 					loanMoney:loanMoney,
 					restMoney:restMoney,
-//					borrowerMoney:borrowerMoney
+					borrowerMoney:borrowerMoney
 			};
 			
 			ransomVo.push(resJson);
 		}
 		//借款总金额
-		var borrowerMoney =  parseInt($("#borrowerMoney").val() * 10000);
-		ransomVo.push(borrowerMoney);
 //		var ransomVo = {
 //				ransomCode:ransomCode,
 //				borrowerName:borrowerName,
@@ -80,7 +77,6 @@ $(document).ready(function(){
 //				restMoney:restMoney,
 //				borrowerMoney:borrowerMoney
 //		};
-		debugger;
 		$.ajax({
 			url: ctx + "/ransomList/updateRansom",
 			dataType:"json",
@@ -89,7 +85,15 @@ $(document).ready(function(){
 	   		},
 			type:"POST",
 			success: function(data){
-				window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+				window.wxc.success("提交成功!",{"wxcOk":function(){
+					if(window.opener)
+					{
+						window.opener.location.reload();
+						 window.close();
+					} else {
+						 window.location.href = "${ctx }/task/ransom/taskList";
+					}
+				}});
 			},
 			error: function(data){
 				window.wxc.error(data.message);
@@ -97,6 +101,14 @@ $(document).ready(function(){
 		});
 	}
 
+	function checknum(obj){
+		debugger;
+		obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+		obj.value = obj.value.replace(/^\./g,"");  //验证第一个字符是数字而不是. 
+		obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的.   
+		obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	}
+	
 	/**
 	 * 判断信息不能为空
 	 * @returns

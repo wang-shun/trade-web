@@ -768,7 +768,14 @@ function evalApply(){
 	
 	var ctx = $("#ctx").val();
 	var caseCode = $('#caseCode').val();
-	//判断是否已有评估申请流程	
+	
+	window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+	
+	/**
+	 * modify wbcaiyx 2017/10/27
+	 * 一个案件可以有多条评估，不检查了
+	 */
+	/*//判断是否已有评估申请流程	
 	var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
 	$.ajax({
 		url:url,
@@ -776,21 +783,21 @@ function evalApply(){
 		dataType:'json',
 		success:function(data){
 			if(data.success){
-				/**
+				*//**
 				 * modify wbcaiyx 2017/10/26
 				 * 无关询价，注释
-				 */				
-				/*if(data.content == 1){//询价已完成,可以评估申请
+				 *//*				
+				if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+					window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});*/
-					/**
+					}});
+					*//**
 					 * modify 无询价直接评估 
 					 * @author wbcaiyx
 					 * date 2017/10/24
-					 */
+					 *//*
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 //				}
 			}else{
@@ -800,7 +807,7 @@ function evalApply(){
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
 
 		}
-	});
+	});*/
 	
 }
 

@@ -197,7 +197,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 							var fileCat = item.fileCat;
 							var fileName = item.fileName;
 							
-							addAttachment(settings.caseCode,settings.partCode,id,preFileCode,fileName);
+							addAttachment(settings.caseCode,settings.bizCode,settings.partCode,id,preFileCode,fileName);
 							
 							var img = $('#'+file.id).find("img");
 							img.attr("data",appCtx['shcl-filesvr-web']+"/JQeryUpload/getfile?fileId="+id);
@@ -446,7 +446,7 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		  		});
 		      };
 		      
-		      addAttachment = function(caseCode,partCode,id,preFileCode,fileName) {
+		      addAttachment = function(caseCode,bizCode,partCode,id,preFileCode,fileName) {
 		    	  $.ajax({
 		    			cache : true,
 		    			async : false,//false同步，true异步
@@ -469,6 +469,9 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 		    			},{
 		    				name : 'partCode',
 		    				value :  partCode
+		    			},{
+		    				name : 'bizCode',
+		    				value : bizCode
 		    			}],
 		    			success : function(data) {
 		    			},

@@ -150,9 +150,9 @@ font-family:Microsoft Yahei;
 					<input type="hidden" id="evaCode" name="evaCode" value="${toEvaPricingVo.evaCode }">
 					<input type="hidden" id="caseCode" name="caseCode" value="${toEvaPricingVo.caseCode }">
 			  		<div class="height_line"></div>
-			  		<c:if test="${toEvaPricingVo.status == 0}">
+			  		<%-- <c:if test="${toEvaPricingVo.status == 0}"> 
 			  			<input type="radio" checked="checked" value="1"  name="isValid">&nbsp;&nbsp;有效
-	                </c:if>  
+	                </c:if>  --%> 
 	                <div style="margin-top:5px;"></div>             	
 			  		<div class="row font-family">
 						<label class="col-sm-4 control-label">评估公司 ：${toEvaPricingVo.evaCompany }</label>
@@ -163,13 +163,13 @@ font-family:Microsoft Yahei;
 						<label class="col-sm-4 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
 						<label class="col-sm-3 control-label">房龄 ：${toEvaPricingVo.houseAge }&nbsp;&nbsp;年</label>
 					</div>
-					<c:if test="${toEvaPricingVo.status == 0}">
+					<%-- <c:if test="${toEvaPricingVo.status == 0}">
 						<div class="row font-family">
 							<input type="radio" value="2"  name="isValid">&nbsp;&nbsp;无效
 							<div style="margin-top:5px;"></div>
 							<input type="text" class="form-control " id="invalidReason" name="reason" style="margin-left:15px;width:400px;">
 						</div>
-					</c:if>
+					</c:if> --%>
 				</form>
 			</div>
 	  	</div>	  	
@@ -178,7 +178,7 @@ font-family:Microsoft Yahei;
 	
 	<div class="add_btn text-center mt20">
 	   	<div class="more_btn">
-	   		<button id="submitButton" type="button" class="btn btn_blue">提交</button>
+	   		<!-- <button id="submitButton" type="button" class="btn btn_blue">提交</button> -->
    	    	<button id="closeButton" type="button" class="btn btn_blue">关闭</button>
 		</div>
 	</div>
@@ -186,7 +186,10 @@ font-family:Microsoft Yahei;
 	<content tag="local_script"> 
 
 	<script>
-		$(window).ready(function(){
+	/* 详情只显示
+		modify wbcaiyx 2017/10/27    改改改，需求变几次了 --！
+	*/
+		/* $(window).ready(function(){
 			var status = $('#status').val();
 			if(status != 0){
 				$('#submitButton').css('visibility','hidden');
@@ -201,7 +204,7 @@ font-family:Microsoft Yahei;
 			}else if(this.value == '2'){
 				$('#invalidReason').removeAttr('readonly');
 			}
-		});
+		}); */
 		
 		$('#submitButton').click(function(){
 			var url = '${ctx}/evaPricing/evaPricingDetailSubmit';

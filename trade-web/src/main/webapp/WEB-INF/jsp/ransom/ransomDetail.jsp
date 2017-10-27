@@ -74,7 +74,7 @@
 		border-radius: 50%;
 		background-size: 80px 108px;
 		vertical-align: middle;
-		background-image:url(../../static/img/a5.png);
+		background-image:url(../static/img/a5.png);
 	}
 	.shuxian{
 		position: absolute;
@@ -177,9 +177,9 @@
 								<div
 									class="col-lg-1 bs-wizard-step 
 										<c:choose>  
-										    <c:when test="${caseVo.taskProperty=='DEAL'}"> active
+										    <c:when test=""> active
 										   </c:when>  
-										    <c:when test="${caseVo.taskProperty!='DEAL'}"> complete
+										    <c:when test=""> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
 										</c:choose>	

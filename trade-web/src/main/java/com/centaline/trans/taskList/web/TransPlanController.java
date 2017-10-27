@@ -40,6 +40,9 @@ import com.centaline.trans.transplan.service.TransplanServiceFacade;
 import com.centaline.trans.transplan.vo.TransPlanVO;
 import com.centaline.trans.utils.UiImproveUtil;
 
+/**
+ * @author wbzhouht
+ */
 @Controller
 @RequestMapping(value = "/task/transPlan")
 public class TransPlanController {
@@ -188,7 +191,8 @@ public class TransPlanController {
 			toApproveRecord.setProcessInstance(transPlanVO.getProcessInstanceId());
 			toApproveRecord.setPartCode(transPlanVO.getPartCode());
 			toApproveRecord.setOperator(sessionUser.getId());
-			toApproveRecord.setApproveType("5");//交易计划变更审批类型
+			//交易计划变更审批类型
+			toApproveRecord.setApproveType("5");
 			toApproveRecord.setContent(audit==true?"交易变更审核通过！":"交易变更审核不通过！");
 			toApproveRecord.setOperatorTime(new Date());
 			loanlostApproveService.saveLoanlostApprove(toApproveRecord);

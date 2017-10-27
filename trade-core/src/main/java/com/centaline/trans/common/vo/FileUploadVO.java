@@ -14,6 +14,7 @@ public class FileUploadVO {
 	private String preFileCode;
 	private String fileCat;
 	private String fileName;
+	private String bizCode;
 
 	public List<String> getPictureNo() {
 		return pictureNo;
@@ -74,6 +75,18 @@ public class FileUploadVO {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	/**
+	 * @return the bizCode
+	 */
+	public String getBizCode() {
+		return bizCode;
+	}
+	/**
+	 * @param bizCode the bizCode to set
+	 */
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
 	}
 	
 	

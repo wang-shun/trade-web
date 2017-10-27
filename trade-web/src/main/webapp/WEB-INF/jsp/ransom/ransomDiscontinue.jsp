@@ -187,7 +187,6 @@
 	<!-- jqGrid --> <script
 		src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
 	<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
-	<script src="<c:url value='/transjs/task/showAttachment.js' />"></script>
 	<%-- --%> <!-- Custom and plugin javascript --> <script
 		src="<c:url value='/js/plugins/dropzone/dropzone.js' />"></script> <!-- Data picker -->
 	<script
@@ -203,7 +202,9 @@
 	<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script> <!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script> <script
-		src="<c:url value='/js/common/common.js' />"></script> <script>
+		src="<c:url value='/js/common/common.js' />"></script> 
+		<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
+		<script>
 			$(document).ready(function() {
 				$("#caseCommentList").caseCommentGrid({
 					caseCode : caseCode,
@@ -228,33 +229,42 @@
 						$('#stopReason').css('border-color',"red");
 						return;
 					}
-					
 					var jsonData = $('#submitDiscontinue').serializeArray();
 					var url = "${ctx}/task/ransomDiscontinue/submitDiscontinue";
-					
 					$.ajax({
 						async:false,
 						type:"POST",
 						url:url,
 						data:jsonData,
 						dataType:"json",
-						beforeSend:function(){
-							$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
-							$(".blockOverlay").css({'z-index':'9998'});
-						},
+						complete: function() {  
+			            	$.unblockUI();  
+		                    $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+						    $(".blockOverlay").css({'z-index':'1900'});
+			                 if(status=='timeout'){//超时,status还有success,error等值的情况
+				          	  Modal.alert(
+							  {
+							    msg:"抱歉，系统处理超时。"
+							  });
+					  		 $(".btn-primary").one("click",function(){
+					  				parent.$.fancybox.close();
+					  			});	 
+					                } 
+					            } ,
 						success:function(data){
-							$.unblockUI();
 							if(data){
 								window.wxc.success("提交成功!",{"wxcOk":function(){
+									$.unblockUI();
 									if(window.opener)
 									{
 										window.opener.location.reload();
 										 window.close();
 									} else {
-										 window.location.href = "${ctx }/task/ransom/taskList";
+										 window.location.href = "${ctx }/ransomList/ransomDetail?ransomCode="+$("#ransomCode");
 									}
 								}});
 							}else{
+								$.unblockUI();
 								window.wxc.error("申请中止失败,请确认是否已经开启中止流程,或确认您是否是该赎楼流程环节责任人");
 							}
 							

@@ -254,7 +254,7 @@
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估上报</h4>
 									 <div class="row">
-									    <label class="col-sm-3 control-label">评估上报日期：${toEvalReportProcessVo.forwardDate}&nbsp;份</label>
+									    <label class="col-sm-3 control-label">评估上报日期：<fmt:formatDate value="${toEvalReportProcessVo.forwardDate}" type="date" pattern="yyyy-MM-dd"/></label>
 										<label class="col-sm-3 control-label">预计出评估报告日期：<fmt:formatDate value="${toEvalReportProcessVo.toIssueDate}" type="date" pattern="yyyy-MM-dd"/></label>
 									</div>
 									
@@ -304,13 +304,23 @@
 						    <div class="tab-pane fade" id="rebate_info">
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估费收据：${toEvalRebateVo.evalRecept}</label>
-										<label class="col-sm-3 control-label">评估费实收：${toEvalRebateVo.evalRealCharges}元</label>
+										<label class="col-sm-3 control-label">
+										              <c:if test="${toEvalRebateVo.status == '9' }">
+										                  财务审批评估费实收：
+										              </c:if>
+										              <c:if test="${toEvalRebateVo.status != '9' }">
+										                  申请评估费实收:
+										              </c:if>
+										               ${toEvalRebateVo.evalRealCharges}&nbsp;元 </label>
 										<label class="col-sm-3 control-label">评估费应收：${toEvalRebateVo.evalDueCharges}元</label>
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">中原分成金额：${toEvalRebateVo.centaComAmount}元</label>
 										<label class="col-sm-3 control-label">评估公司分成金额：${toEvalRebateVo.evaComAmount}元</label>
 										<label class="col-sm-3 control-label">录入时间：<fmt:formatDate value="${toEvalRebateVo.inputTime}" type="date" pattern="yyyy-MM-dd"/></label>
+									</div>
+									<div class="row">
+									    <label class="col-sm-3 control-label">评估返利状态：<aist:dict id="evalRebate" name="evalRebate" display="label" dictType="eval_rebate_status" dictCode="${toEvalRebateVo.status}" /></label>
 									</div>
 									<div class="content">
 										<table id="gridTable_rebate"></table>
@@ -346,19 +356,74 @@
 							
 							<!-- 调佣审批 -->
 						    <div class="tab-pane fade" id="message_info">
-								<%-- 	<div class="row">
-									     <label class="col-sm-3 control-label">调佣事项：${toEvaCommissionChange.changeChargesItem}</label>
-									     <label class="col-sm-3 control-label">调佣类型：${toEvaCommissionChange.changeChargesType}</label>
-									     <label class="col-sm-3 control-label">调佣对象：${toEvaCommissionChange.houseAgeApply}</label>
-									</div>
-									<div class="row">
-									     <label class="col-sm-3 control-label">调佣金额：${toEvaCommissionChange.houseAgeApply}</label>
-									     <label class="col-sm-3 control-label">调佣事由：${toEvaCommissionChange.changeChargesCause}</label>
+								<div class="row">
+									     <label class="col-sm-3 control-label">调佣事项：${evalChangeCommVO.changeChargesType}</label>
+									     <label class="col-sm-3 control-label">调佣类型：${evalChangeCommVO.changeChargesType}</label>
+									     <label class="col-sm-3 control-label">调佣事由：${evalChangeCommVO.changeChargesCause}</label>
 									</div>
 									<div class="content">
+										<table style="width:100%;" class="table-hover">
+								            <thead>
+								            <tr>
+								                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
+								            </tr>
+								            </thead>
+								            <tbody>
+								            <c:forEach items="${evalChangeCommVO.coPersonList }" var="coPerson" varStatus="s">
+								            <tr>
+								                    <td>${coPerson.position }${s.count} : <input type="hidden" name="coPersonList[${s.index}].pkid" value="${coPerson.pkid }"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateType" value="${coPerson.cooperateType }" readonly="readonly"></td>
+								                    <td><input class="shareAmount"  type="text" style="width: 120px" name="coPersonList[${s.index}].shareAmount" value="${coPerson.shareAmount }"  readonly="readonly"></td>
+								                    <td><span class="aa"></span><span>%</span></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].employeeName" value="${coPerson.employeeName }"  readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateDept" value="${coPerson.cooperateDept }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="coPersonList[${s.index}].cooperateManager" value="${coPerson.cooperateManager }" readonly="readonly"></td>
+								                </tr>
+								            </c:forEach>
+								                <tr>
+								                    <td></td><td>部门</td><td>员工</td><td>分成金额</td><td>分成比例</td><td>分成说明</td><td>成交单数</td>
+								                </tr>
+								                <c:forEach items="${evalChangeCommVO.sharePersonList }" var="sharePerson" varStatus="s">
+								                <tr>
+								                    <td>${sharePerson.position }${s.count}:<input type="hidden" name="sharePersonList[${s.index}].pkid" value="${sharePerson.pkid }"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].department" value="${sharePerson.department }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].employeeName" value="${sharePerson.employeeName }" readonly="readonly"></td>
+								                    <td><input class="shareAmount" type="text" style="width: 120px" name="sharePersonList[${s.index}].shareAmount" value="${sharePerson.shareAmount }" readonly="readonly"></td>
+								                    <td><span class="aa"></span><span>%</span></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].shareReason" value="${sharePerson.shareReason }" readonly="readonly"></td>
+								                    <td><input type="text" style="width: 120px" name="sharePersonList[${s.index}].dealCount" value="${sharePerson.dealCount }" readonly="readonly"></td>
+								                </tr>
+								                </c:forEach>
+								              
+								                <tr></tr><tr></tr>
+								                
+								                <c:forEach items="${evalChangeCommVO.warrantPersonList }" var="warrantPersonList" varStatus="s">
+								                <tr>
+								                    <td>权证1:<input type="hidden" name="warrantPersonList[${s.index}].pkid" value="${warrantPersonList.pkid }" readonly="readonly"></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].department" value="${warrantPersonList.department }" style="width: 120px" readonly="readonly"></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].employeeName" value="${warrantPersonList.employeeName }" style="width: 120px" readonly="readonly"></td>
+								                    <td></td>
+								                    <td></td>
+								                    <td align="left"><input type="text" name="warrantPersonList[${s.index}].position" value="${warrantPersonList.position }" style="width: 120px" readonly="readonly"></td>
+								                    <td></td>
+								                </tr>
+								                </c:forEach>
+								                <tr>
+								                    <td></td>
+								                    <td></td>
+								                    <td>合计:</td>
+								                    <td><input id="ttlComm" class="shareAmount" type="text" value="${evalChangeCommVO.ttlComm }" name="ttlComm" style="width: 120px" readonly="readonly"></td>
+								                    <td><span id="totalPacentage"></span><span>%</span></td>
+								                    <td>单数合计:</td>
+								                    <td><input type="text" value="${evalChangeCommVO.dealCount }" name="dealCount" style="width: 120px" readonly="readonly"></td>
+								                </tr>
+								            </tbody>
+								        </table>
+									 </div>
+									 <div class="content">
 										<table id="gridTable_message"></table>
 								        <div id="gridPager_message"></div>
-									 </div> --%>
+									 </div>
 							</div>
 								
 							<!-- 评估退费 -->
@@ -427,7 +492,7 @@
 	<script src="<c:url value='/js/trunk/eval/evalDetail.js' />"></script>
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script> --%>
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>

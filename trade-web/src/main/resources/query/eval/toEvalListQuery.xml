@@ -170,12 +170,12 @@
             <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="A.ORG_ID" name="caseOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-             <condition field="G.IS_EVAL_FEE_GET" name="isEvalFeeGet" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
           </searchCondition>
 		<searchSql>
 			<baseSql>
 				<![CDATA[
 					SELECT DISTINCT
+					    A.STATUS AS CASE_STATUS,
 					    A.PKID AS ID,
 						A.CASE_CODE,
 						B.AGENT_CODE,
@@ -187,17 +187,20 @@
 						ERP.STATUS,
 						ERP.SYS_CREATE_TIME,
 						ERP.SYS_FINSH_TIME,
-						ERP.EVA_CODE, 
+						ERP.EVA_CODE,
+						ERP.EVAL_PROPERTY, 
 						loan.REAL_NAME as LOANNAME,
-						ast.REAL_NAME as ASSITNAME
+						ast.REAL_NAME as ASSITNAME,
+						TER.STATUS as REBATE_STATUS,
+						(select Count(PKID) FROM sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=ERP.EVA_CODE ) as SUBSCRIBE_COUNT
 					FROM
 					sctrans.T_TO_EVA_REPORT_PROCESS AS ERP
 					LEFT JOIN sctrans.T_TO_CASE AS A ON A.CASE_CODE=ERP.CASE_CODE
 					LEFT JOIN sctrans.T_TO_CASE_INFO AS B ON A.CASE_CODE = B.CASE_CODE
 					LEFT JOIN sctrans.T_TS_FIN_ORG AS FO ON ERP.FIN_ORG_ID=FO.FIN_ORG_CODE
 					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='loan') loan ON A.CASE_CODE=loan.CASE_CODE
-					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='agent') agent ON A.CASE_CODE=agent.CASE_CODE
 					LEFT JOIN (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='assistant') ast ON A.CASE_CODE=ast.CASE_CODE
+					LEFT JOIN sctrans.T_TO_EVA_REBATE TER ON A.CASE_CODE=TER.CASE_CODE
 					LEFT JOIN (
 						   SELECT DISTINCT 
 						       TG1.CASE_CODE, 
@@ -210,8 +213,7 @@
 										WHERE
 											TG1.CASE_CODE = CASE_CODE
 						         AND TRANS_POSITION = '30006001'
-						
-										ORDER BY
+										 ORDER BY
 											GUEST_NAME FOR xml path ('')
 									),
 									1,
@@ -295,19 +297,19 @@
 					<choose>
 						<when test	="isSubscribeFilter==0">
 							AND EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
+								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=ERP.EVA_CODE
 							)
 					     </when>
 					     <when test	="isSubscribeFilter==1">
 							AND NOT EXISTS (
-								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=A.CASE_CODE
+								SELECT 1 FROM SCTRANS.T_TO_MODULE_SUBSCRIBE ttms WHERE ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=ERP.EVA_CODE
 							)
 					     </when>
 					</choose>
 				]]>
 			</baseSql>
 			<orderBySql>
-			  ORDER BY A.CASE_CODE DESC
+			  ORDER BY ERP.EVA_CODE DESC
 			</orderBySql>
 			<groupSql>
 			</groupSql>
@@ -326,7 +328,11 @@
 				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="SYS_CREATE_TIME" index="" checkbox="" display="上报时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SYS_FINSH_TIME" index="" checkbox="" display="完成时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
-				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />		
+				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="CASE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="REBATE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="EVAL_PROPERTY" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
