@@ -393,7 +393,6 @@ define(["jquery","aistTemplate","viewer","aistWebuploader"],function($, template
 			        	  +appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\" width=\"'
 			        	  +settings.thumbnailWidth+'\" height=\"'+settings.thumbnailHeight
 			        	  +'\"'
-			        	  +'onclick=\"javascript:window.open(\''+appCtx['shcl-filesvr-web'] +'/JQeryUpload/getfile?fileId={{item2.preFileAdress}}\')\"'
 			        	  +'/>'
 			        	  
 			        	  
