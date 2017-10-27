@@ -344,33 +344,33 @@ public class ToMortgageController {
 			tq.setProcessInstanceId(taskVo.getProcessInstanceId());
 			tq.setTaskDefinitionKey(taskVo.getTaskDefinitionKey());
 			PageableVo  vo = workFlowManager.listHistTasks(tq);
-			
 			if(vo.getData().size() == 1){
 				workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
-			}
-			// 提交流程之后需要更新贷款专员
-			SessionUser user = uamSessionService.getSessionUser();
-			toMortgage.setLoanAgent(user.getId());
-			toMortgage.setLoanAgentTeam(user.getServiceDepId());
-			toMortgageService.updateToMortgage(toMortgage);
+				// 提交流程之后需要更新贷款专员
+				SessionUser user = uamSessionService.getSessionUser();
+				toMortgage.setLoanAgent(user.getId());
+				toMortgage.setLoanAgentTeam(user.getServiceDepId());
+				toMortgageService.updateToMortgage(toMortgage);
 
-			//发送消息
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setCaseCode(processInstanceVO.getCaseCode());
-			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			//&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0
-			if (wordkFlowDB != null ) {
-				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
-				// 设置主流程任务的assignee
-				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
+				//发送消息
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setCaseCode(processInstanceVO.getCaseCode());
+				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+				ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+				//&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0
+				if (wordkFlowDB != null ) {
+					messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+					// 设置主流程任务的assignee
+					workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
 
-				ToWorkFlow workFlowOld = new ToWorkFlow();
-				// 流程结束状态
-				workFlowOld.setStatus("4");
-				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
-				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+					ToWorkFlow workFlowOld = new ToWorkFlow();
+					// 流程结束状态
+					workFlowOld.setStatus("4");
+					workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
+					toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+				}
 			}
+			
 
 		} catch (Exception e) {
 			response.setSuccess(false);
