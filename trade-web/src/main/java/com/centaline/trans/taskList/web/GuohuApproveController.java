@@ -212,7 +212,7 @@ public class GuohuApproveController {
 		if(StringUtils.isEmpty(accompanyReason)){
 			return "";
 		}
-		String code[] = accompanyReason.split(";");
+		String[] code = accompanyReason.split(";");
 		String accompanyReasonCN = "";
 		for(int i =0;i<code.length;i++){
 			Dict dict = uamBasedataService.findDictByTypeAndCode("accompany_reason",code[i]);
