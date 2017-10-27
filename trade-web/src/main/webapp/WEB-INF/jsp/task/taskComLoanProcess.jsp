@@ -1368,12 +1368,12 @@ function  listtable(formId){
     					str+="<td></td>";	
     				}
     				if(list[i].price){
-    					str+="<td>"+list[i].price+"元</td>";
+    					str+="<td>"+list[i].price+" 万元</td>";
     				}else{
     					str+="<td></td>";
     				}
     				if(list[i].houseAge){
-    					str+="<td>"+list[i].houseAge+"年</td>";
+    					str+="<td>"+list[i].houseAge+" 年</td>";
     				}else{
     					str+="<td></td>";
     				}

@@ -142,7 +142,7 @@ function initData(page){
 	var propertyAddr = "";
 	var agentOrgName = "";
 	var taskDfKey=$("#taskDfKey").val();
-	var evalCompany=$("#evalCompany").val();
+	var finOrgId=$("#finOrgId").val();
 	var loan=$("#loan").val();
 	// caseCode与ctmCode
 	var caseCode =  "";
@@ -181,7 +181,7 @@ function initData(page){
 			search_agentName : agentName,
 			search_agentOrgName : agentOrgName,
 			search_propertyAddr : propertyAddr,
-			search_finOrgId:evalCompany,
+			search_finOrgId:finOrgId,
 			search_loan:loan,
 			argu_allType: allTypeFlag,
 			search_taskDfKey:taskDfKey,

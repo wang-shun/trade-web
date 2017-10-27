@@ -336,6 +336,7 @@
 							<input type="hidden" name="pkid" id="pkid" value="${toEvaInvoice.pkid}"> 
 							<input type="hidden" name="evaPointer" id="evaPointer" value="${toEvaInvoice.evaPointer}"> 
 							<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
+							<input type="hidden" id="evaCode" name="evaCode" value="${toEvaInvoice.evaCode}">
 							<!-- 流程引擎需要字段 -->
 							<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 							<input type="hidden" id="processInstanceId"
@@ -439,6 +440,7 @@
 <content tag="local_require">
 	<script>
 	var caseCode=$("#caseCode").val();
+	var evaCode=$("#evaCode").val();
 	var fileUpload;
 	require(['main'], function() {
 		requirejs(['jquery','aistFileUpload'],function($,aistFileUpload){
@@ -446,6 +448,7 @@
 
 			fileUpload.init({
 				caseCode : caseCode,
+				bizCode : evaCode,
 				partCode : "eval_invoice_manage",
 				fileUploadContainer : "transSignfileUploadContainer"
 			});

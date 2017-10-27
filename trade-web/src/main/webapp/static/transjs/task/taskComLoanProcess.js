@@ -1613,6 +1613,10 @@ function submitMortgage(){
 		success:function(data){
 			window.wxc.success(data.message,{"wxcOk" : function(){
 				if(data.success){
+					if(data.code=="1"){
+						window.close();
+						return;
+					}
 					window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
 					caseTaskCheck();
 				}
