@@ -1,9 +1,6 @@
 package com.centaline.api.ccai.service;
 
-import com.centaline.api.ccai.vo.EvalRebeatImport;
-import com.centaline.api.ccai.vo.EvalRebeatReportImport;
-import com.centaline.api.ccai.vo.EvalRefundImport;
-import com.centaline.api.ccai.vo.SelfDoImport;
+import com.centaline.api.ccai.vo.*;
 import com.centaline.api.common.vo.CcaiServiceResult;
 
 /**
@@ -49,4 +46,12 @@ public interface CcaiEvalService {
 	 * @return
 	 */
 	CcaiServiceResult updateSelfDo(SelfDoImport info);
+
+	/**
+	 * 银行返利财务回馈
+	 * @param feedBack
+	 * @return
+	 */
+	CcaiServiceResult bankRebateFeedBack(BankRebeatFeedBack feedBack);
+
 }

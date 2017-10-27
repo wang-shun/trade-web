@@ -250,6 +250,19 @@ public class BankRebateListController {
 		}
 	}
 
+	/**
+	 * 银行返利详情查看
+	 * @param guaranteeCompId  批次号
+	 * @return
+	 */
+	@RequestMapping(value = "/details")
+	public String submitCcai(String guaranteeCompId,Model model){
+		ToBankRebateInfoVO vo = toBankRebateService.selectRebateByGuaranteeCompId(guaranteeCompId);
+		model.addAttribute("org",uamUserOrgService.getOrgById(vo.getToBankRebate().getDeptId()));
+		model.addAttribute("rebate",vo);
+		return "bankRebate/bankRebateDetails";
+	}
+
 	
 	/* 根据录入时间毫秒值字符串，
      * 担保公司ID的批次唯一标识符

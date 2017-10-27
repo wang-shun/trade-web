@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
+import com.centaline.trans.ransom.entity.ToRansomFormVo;
 import com.centaline.trans.ransom.entity.ToRansomPlanVo;
 import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
@@ -81,7 +82,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	List<ToRansomPlanVo> getRansomPlanTimeInfo(String ransomCode);
+	ToRansomFormVo getRansomPlanTimeInfo(String ransomCode);
 	
 	/**
 	 * 赎楼时间计划信息

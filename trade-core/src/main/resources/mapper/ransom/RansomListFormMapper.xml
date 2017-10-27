@@ -43,14 +43,14 @@
 		sctrans.T_RA_PLAN 
 	WHERE 
 		RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR} 
-			AND 
+			<!-- AND 
 				PART_CODE IN(
 					SELECT 
 						PART_CODE 
 							FROM sctrans.T_RA_PLAN 
 								WHERE 
 									RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
-							)
+							) -->
 	</select>
 	
 	<select id="getPartCode" resultType="java.lang.String">
@@ -338,6 +338,9 @@
 		<if test="stopType != null and stopType != ''">
 			STOP_TYPE = #{stopType,jdbcType=VARCHAR},
 		</if>
+		<if test="ransomStatus != null and ransomStatus != ''">
+			RANSOM_STATUS = #{ransomStatus,jdbcType=VARCHAR},
+		</if>
 		<if test="stopReason != null and stopReason != ''">
 			STOP_REASON = #{stopReason,jdbcType=VARCHAR},
 		</if>
@@ -424,16 +427,29 @@
 		UPDATE 
 			sctrans.T_RA_TAILINS 
 		SET 
+		<if test="signTime != null">
 			SIGN_TIME = #{signTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="finOrgCode != null and finOrgCode != ''">
 			FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+		</if>
+		<if test="mortgageType != null and mortgageType != ''">
 			MORTGAGE_TYPE = #{mortgageType,jdbcType=VARCHAR},
-			DIYA_TYPE = #{diyaType,jdbcType=VARCHAR},
+		</if>
+		<if test="loanMoney != null and loanMoney != ''">
 			LOAN_MONEY = #{loanMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="restMoney != null and restMoney != ''">
 			REST_MONEY = #{restMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="updateUser != null and updateUser != ''">
 			UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
-			UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+			UPDATE_TIME = GETDATE()
 		WHERE
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
+			and 
+			DIYA_TYPE = #{diyaType,jdbcType=VARCHAR}
 	</update>
 	
 	<update id="updateRansomTailUserByRansomCode" parameterType="com.centaline.trans.ransom.entity.ToRansomTailinsVo">
@@ -529,5 +545,17 @@
 
 		WHERE
 			tw.BIZ_CODE= #{ransomCode,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getRansomStatusAndPart" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT 
+			rac.RANSOM_CODE ransomCode,
+			rac.RANSOM_STATUS ransomStatus,
+			act.TASK_DEF_KEY_ partCode
+		FROM sctrans.T_RA_CASE rac
+			LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE
+			LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
+		WHERE 
+			rac.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 </mapper>

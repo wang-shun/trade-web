@@ -140,12 +140,6 @@ public class RansomDiscontinueController {
 				//如果有赎楼，无相应中止，那么表示第一次申请中止，则需要做①、②、③
 				taskId = (String) task.get("INST_CODE");
 				processInstanceService.activateOrSuspendProcessInstance(taskId, false);//①
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_process"));
-				wf.setCaseCode(caseCode);
-				wf.setInstCode(taskId);
-				wf.setStatus(WorkFlowStatus.TERMINATE.getCode());
-				toWorkFlowService.updateWorkFlowByInstCode(wf);
 			}else {
 				//如果中止和赎楼都不存在，返回错误
 				return false;
@@ -240,12 +234,6 @@ public class RansomDiscontinueController {
 			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, true, caseCode);
 			if((boolean)task.get("hasData")) {
 				processInstanceService.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
-				ToWorkFlow wf = new ToWorkFlow();
-				wf.setBusinessKey(propertyUtilsService.getProcessDfId("ransom_process"));
-				wf.setCaseCode(caseCode);
-				wf.setInstCode((String) task.get("INST_CODE"));
-				wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
-				toWorkFlowService.updateWorkFlowByInstCode(wf);
 			}
 		}
 		//保存审批记录

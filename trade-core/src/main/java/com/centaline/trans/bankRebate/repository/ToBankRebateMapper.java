@@ -9,13 +9,13 @@ import com.centaline.trans.common.MyBatisRepository;
  */
 @MyBatisRepository
 public interface ToBankRebateMapper {
-    int deleteByPrimaryKey(Long pkid);
+    int deleteByPrimaryKey(String pkid);
 
     int insert(ToBankRebate record);
 
     int insertSelective(ToBankRebate record);
 
-    ToBankRebate selectByPrimaryKey(Long pkid);
+    ToBankRebate selectByPrimaryKey(String pkid);
 
     int updateByPrimaryKeySelective(ToBankRebate record);
 

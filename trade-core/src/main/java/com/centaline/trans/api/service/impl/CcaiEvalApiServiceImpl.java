@@ -110,7 +110,6 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 				CcaiBrokageBack base = new CcaiBrokageBack();
 				base.setBackID(info.getToBankRebate().getPkid());
 				base.setRecordEmpNo(user.getEmployeeCode());
-				System.out.println("-----"+user.getEmployeeCode());
 				base.setRecordDate(info.getToBankRebate().getApplyTime());
 				base.setTotalMoney(info.getToBankRebate().getRebateTotal());
 				base.setRemark(info.getToBankRebate().getComment());

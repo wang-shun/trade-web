@@ -16,8 +16,29 @@ $(document).ready(function() {
 	data.argu_sessionUserId = $("#userId").val();
 	aist.wrap(data);//格式化，添加排序字段及排序正反序
 	reloadGrid(data);
+	
+	$('#checkAllNot').click(function(){
+		var my_checkboxes = $('input[name="my_checkbox"]');
+		if($(this).prop('checked')){
+			for(var i=0; i<my_checkboxes.length; i++){
+				$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
+			}
+		}else{
+			for(var i=0; i<my_checkboxes.length; i++){
+				$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
+			}
+		}
+	});
 
 });
+
+function _checkbox(target){
+	if($(target).prop('checked')){
+		$(target).prop('checked',false);
+	}else{
+		$(target).prop('checked',true);
+	};
+}
 
 // select控件
 var config = {
@@ -101,7 +122,7 @@ function reloadGrid(data) {
 			mycase_initpage(data.total,data.pagesize,data.page, data.records);
 			demoPoshytip();
 			$("#evalList").subscribeToggle({
-				moduleType:"1001",
+				moduleType:"2001",
 				subscribeType:"2001"
 			});
 
@@ -258,10 +279,6 @@ function getSearchDateValues() {
 
 // 清空表单
 function cleanForm() {
-	//案件类型初始：全部案件
-	$("input[name='case_property'][value=30003006]").prop("checked", true);
-	//案件状态初始：未指定
-	$("input[name='case_status'][value=30001006]").prop("checked", true);
 	$("input[name='dtBegin']").val("");
 	$("input[name='dtEnd']").val("");
 }
@@ -302,11 +319,50 @@ function initAutocomplete(url){
 $('#myEvalListCleanButton').click(function() {
 	$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
-	$("#caseProperty").val("");
 	$("#status").val("");
-	$("#mortageService").val("");
 	$("#inTextVal").val("");
 	$("#isSubscribeFilter").val('');
+});
+
+//结算
+$('#settleButton').click(function() {
+	   var evalCodeArr = [];
+	  $("input[name='my_checkbox']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+		  evalCodeArr[i] =$(this).val();
+	  });
+	
+	$.ajax({
+		async: true,
+		url:ctx+ "/task/eval/toSettle" ,
+		method: "post",
+		dataType: "json",
+		data: {evals:JSON.stringify(evalCodeArr)},
+		beforeSend: function () {
+			$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+			$(".blockOverlay").css({'z-index':'9998'});
+		},
+		complete: function() {  
+            if(status=='timeout'){//超时,status还有success,error等值的情况
+          	  Modal.alert(
+			  {
+			    msg:"抱歉，系统处理超时。"
+			  });
+	        }
+	   } , 
+		success: function(data){
+			$.unblockUI();
+			if(!data.success){
+				$.unblockUI();   
+				window.wxc.error(data.message);
+			}else{
+				window.location.href=ctx+"/eval/list";
+			}
+		},
+		error: function (e, jqxhr, settings, exception) {
+			$.unblockUI();
+			window.wxc.error("系统异常");
+		}
+	});
 });
 
 function caseCodeSort(){

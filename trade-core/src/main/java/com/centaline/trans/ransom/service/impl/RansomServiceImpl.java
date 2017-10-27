@@ -98,7 +98,13 @@ public class RansomServiceImpl implements RansomService{
 	
 	@Override
 	public ToRansomDetailVo getRansomDetail(String caseCode, String ransomCode) {
-		ToRansomDetailVo detailVo = ransomMapper.getRansomDetailInfoByCodes(caseCode, ransomCode);
+		List<ToRansomDetailVo> detailVolist = ransomMapper.getRansomDetailInfoByCodes(caseCode, ransomCode);
+		ToRansomDetailVo detailVo = null;
+		if(detailVolist!= null && detailVolist.size() > 0) {
+			detailVo = detailVolist.get(0);
+		}else {
+			return null;
+		}
 		if(detailVo != null){
 			User financ = uamUserOrgService.getUserById(detailVo.getFinancial());
 			if(financ !=null){
@@ -557,12 +563,6 @@ public class RansomServiceImpl implements RansomService{
 		return paymentVo;
 	}
 
-	@Override
-	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
-		ToRansomCaseVo caseVo = new ToRansomCaseVo();
-		caseVo = ransomMapper.getRansomCaseInfoByCaseCode(caseCode);
-		return caseVo;
-	}
 
 	@Override
 	public ToRansomCaseVo getRansomInfoByRansomCode(String ransomCode) {

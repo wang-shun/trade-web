@@ -118,14 +118,11 @@
 				<div class="row clearfix">
 					<div class="form_content">
 						<label class="sign_left_two control-label">状态</label>
+						
 						<div class="sign_right big_pad">
-							<select name="" class="form-control select_control" id="caseStatus">
-								<option value="" selected="selected">请选择</option>
-								<option value="0">未提交</option>
-								<option value="1">已驳回</option>
-								<!--<option value="5">已提交总监审批中</option>-->
-								<option value="6">已提交财务审批中</option>
-							</select>
+						<aist:dict clazz="select_control yuanwid" id="caseStatus" name="caseStatus" 
+							display="select" defaultvalue="" dictType="eval_account_status" />
+							
 						</div>
 					</div>
 
@@ -134,12 +131,8 @@
 							<div id="dateDiv_0" style="padding-left:45px;">
 								<label class="sign_left_two control-label">费用调整类型</label>
 								<div class="sign_right big_pad">
-									<select name="" class="form-control" id="costUpdateType">
-										<option value="" selected="selected">请选择</option>
-										<option value="发票税点">发票税点</option>
-										<option value="1">退报告</option>
-										<option value="爆单">爆单</option>
-									</select>
+									<aist:dict clazz="select_control yuanwid" id="costUpdateType" name="costUpdateType" 
+										display="select" defaultvalue="" dictType="fee_change_type" />
 								</div>
 							</div>
 						</div>
