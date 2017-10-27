@@ -127,7 +127,7 @@
 					<div class="form_content">
 						<div class="more_btn">
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
-							<!-- <button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<button id="renewbatEnd" onclick="javascript:reNewAccount()" type="button" class="btn btn-success" disabled="true">重新结算</button>&nbsp;
 						</div>
 					</div>

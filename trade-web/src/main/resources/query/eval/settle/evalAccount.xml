@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+		<customDict id="getStatus" beanName="evalAccountStatus"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -41,15 +41,17 @@
 			<baseSql>
 				<![CDATA[
 			select a.CASE_CODE as caseCode,a.EVA_CODE as evalCode,b.FIN_ORG_ID,b.APPLY_DATE,b.ISSUE_DATE,b.EVA_PRICE,
-				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS,a.SETTLE_NOT_REASON,a.SETTLE_TIME,
+				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS as STATUS_OLD,a.SETTLE_NOT_REASON,a.SETTLE_TIME,
 				c.PROPERTY_ADDR,
 				d.EVAL_REAL_CHARGES,
+				--e.REAL_NAME AS LOAN,
 				fin.FIN_ORG_NAME EVA_COMPANY
 			from sctrans.T_TO_EVA_SETTLE a inner join 
 			sctrans.T_TO_EVA_REPORT_PROCESS b on a.CASE_CODE = b.CASE_CODE
 			inner join sctrans.T_TO_PROPERTY_INFO c on a.CASE_CODE = c.CASE_CODE
 			inner join sctrans.T_TO_EVA_REBATE d on a.CASE_CODE = d.CASE_CODE
 			INNER JOIN sctrans.T_TS_FIN_ORG fin ON b.FIN_ORG_ID = fin.FIN_ORG_CODE
+			--left join sctrans.T_TO_CASE_PARTICIPANT e on a.CASE_CODE = e.CASE_CODE
 			  WHERE 1=1 and (a.STATUS = '3' or a.STATUS = '4')
 						
      				
@@ -77,7 +79,8 @@
 				<column type="both" name="SETTLE_FEE" index="" checkbox="" title="结算费用" display="结算费用" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />		
 				<column type="both" name="EVA_PRICE" index="" checkbox="" title="评估值" display="评估值" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="" index="" checkbox="" title="贷款权证" display="贷款权证" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
-				<column type="both" name="STATUS" index="" checkbox="" title="案件状态" display="状态" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="STATUS" referencecol="STATUS_OLD" index="" checkbox="" title="状态"  display="案件状态" customDict="getStatus" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="STATUS_OLD" index="" checkbox="" title="案件状态" display="状态" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="both" name="SETTLE_TIME" index="" checkbox="" title="结算时间" display="结算时间" customDict="" sysDict="" beanFormatter="dateFormatter1" format="" width="60" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="SETTLE_NOT_REASON" index="" checkbox="" title="无需结算原因" display="无需结算原因" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" isDynamicDict="true" name="glCount" display="glCount" referencecol="CASE_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />				

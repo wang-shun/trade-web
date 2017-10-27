@@ -21,7 +21,7 @@ public class ToRansomPlanVo {
     private String partCode;
     
     /**
-     * 赎楼环节s
+     * 赎楼环节
      */
     private List<String> partListCode;
     /**
@@ -55,6 +55,16 @@ public class ToRansomPlanVo {
     private Date updateTime;
     
     private String remark;
+    
+    private String reason;
+    
+    private Date oldEstPartTime;
+    
+    private Date newEstPartTime;
+    
+    private String changeName;
+    
+    private Date changeTime;
     
 	public String getRemark() {
 		return remark;
@@ -139,6 +149,41 @@ public class ToRansomPlanVo {
 	}
 	public void setPartListCode(List<String> partListCode) {
 		this.partListCode = partListCode;
+	}
+	
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	
+	public Date getOldEstPartTime() {
+		return oldEstPartTime;
+	}
+	public void setOldEstPartTime(Date oldEstPartTime) {
+		this.oldEstPartTime = oldEstPartTime;
+	}
+	public Date getNewEstPartTime() {
+		return newEstPartTime;
+	}
+	public void setNewEstPartTime(Date newEstPartTime) {
+		this.newEstPartTime = newEstPartTime;
+	}
+	
+	public String getChangeName() {
+		return changeName;
+	}
+	public void setChangeName(String changeName) {
+		this.changeName = changeName;
+	}
+	
+	
+	public Date getChangeTime() {
+		return changeTime;
+	}
+	public void setChangeTime(Date changeTime) {
+		this.changeTime = changeTime;
 	}
 	@Override
 	public String toString() {
