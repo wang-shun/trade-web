@@ -170,6 +170,7 @@
             <condition field="B.AGENT_NAME" name="agentName" label="经纪人" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="E.PROPERTY_ADDR" name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="A.ORG_ID" name="caseOrgId" label="" searchType="EQ" showType="" showCallback="" defaultValue=""/>
+            <!-- <condition field="ERP.FIN_ORG_ID" name="finOrgID" label="评估公司ID" searchType="EQ" showType="" showCallback="" defaultValue=""/> -->
           </searchCondition>
 		<searchSql>
 			<baseSql>
@@ -187,11 +188,13 @@
 						ERP.STATUS,
 						ERP.SYS_CREATE_TIME,
 						ERP.SYS_FINSH_TIME,
+						ERP.APPLY_DATE,
 						ERP.EVA_CODE,
 						ERP.EVAL_PROPERTY, 
 						loan.REAL_NAME as LOANNAME,
 						ast.REAL_NAME as ASSITNAME,
 						TER.STATUS as REBATE_STATUS,
+						TER.Eva_Com_Amount as SETTLE_FEE,
 						(select Count(PKID) FROM sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=ERP.EVA_CODE ) as SUBSCRIBE_COUNT
 					FROM
 					sctrans.T_TO_EVA_REPORT_PROCESS AS ERP
@@ -264,6 +267,12 @@
 					<ifNotNull caseCode>
 					     AND A.CASE_CODE like '%'+#caseCode#+'%'
 					</ifNotNull>
+					<ifNotNull evalCode>
+					     AND ERP.EVA_CODE like '%'+#evalCode#+'%'
+					</ifNotNull>
+					<ifNotNull  applyDate>
+							AND ERP.APPLY_DATE >= #applyDate#  
+					</ifNotNull>
 					<ifNotNull  createTimeStart>
 							AND ERP.SYS_CREATE_TIME >= #createTimeStart#  
 					</ifNotNull>
@@ -327,12 +336,14 @@
 				<column type="both" name="ASSITNAME" index="" checkbox="" display="办理人" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="STATUS" index="" checkbox="" display="评估状态" customDict="getStatusNameByCode" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="SYS_CREATE_TIME" index="" checkbox="" display="上报时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
+				<column type="both" name="APPLY_DATE" index="" checkbox="" display="申请时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="SYS_FINSH_TIME" index="" checkbox="" display="完成时间" customDict="" beanFormatter="dateFormatter1" expType="date" expFmt="yyyy-MM-dd" sysDict="" format="" width="0" isSort="" align="" halign="" order="" resizable="" hide="true"/>
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="SUBSCRIBE_COUNT" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CASE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="REBATE_STATUS" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="EVAL_PROPERTY" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="both" name="SETTLE_FEE" index="" checkbox="" display="" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 			</table-row>
 		</grid>
 	</query>
