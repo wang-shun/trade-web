@@ -22,6 +22,7 @@ import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
+import com.centaline.trans.common.enums.EVAPricingStatusEnum;
 import com.centaline.trans.common.enums.EvalPropertyEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.FeeChangeTypeEnum;
@@ -96,6 +97,22 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		ToEvaPricingVo toEvaPricingVo=null;
 		if(evaCode!=null && evaCode.length()>0){
 		        toEvaPricingVo = toEvaPricingMapper.findEvaPricingDetailByEvaCode(evaCode);//查询询价信息
+		}else {
+			List<ToEvaPricingVo> teps = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+			if(teps != null && teps.size() > 0) {
+				toEvaPricingVo = new ToEvaPricingVo();
+				for (ToEvaPricingVo tep : teps) {
+					if(tep.getCompleteTime() != null && EVAPricingStatusEnum.COMPLETE.getCode().equals(tep.getStatus())) {
+						if(toEvaPricingVo.getCompleteTime() != null) {
+							if(tep.getCompleteTime().after(toEvaPricingVo.getCompleteTime())) {
+								toEvaPricingVo = tep;
+							}
+						}else {
+							toEvaPricingVo = tep;
+						}
+					}
+				}
+			}
 		}
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
