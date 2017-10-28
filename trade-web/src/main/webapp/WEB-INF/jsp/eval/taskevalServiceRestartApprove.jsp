@@ -90,10 +90,6 @@
 
 			</div>
 		</div>
-		
-		<div id="caseCommentList" class="add_form">
-		</div>
-		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -122,6 +118,8 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 公共信息js -->	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 		/**提交数据*/
 		function submit() {

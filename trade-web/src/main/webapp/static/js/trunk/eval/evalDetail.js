@@ -27,11 +27,11 @@ $(document).ready(function() {
 	caseremarkList.init(ctx,'/quickGrid/findPage','evalCommenTable','evalCommenPager',caseCode);  // 显示各个流程的备注信息列表
 	
 	//审批记录
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'25');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'18');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'16');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'26');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'17');
 	
 	var width = $('.jqGrid_wrapper').width();

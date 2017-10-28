@@ -233,8 +233,8 @@ public class EvaController {
 	 */
 	@RequestMapping(value = "submitUsed")
 	@ResponseBody
-	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
-	    return evaProcessService.submitUsed(toEvalReportProcess, taskId);
+	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId,String processInstanceId){
+	    return evaProcessService.submitUsed(toEvalReportProcess, taskId,processInstanceId);
 	}
 	
 	/**

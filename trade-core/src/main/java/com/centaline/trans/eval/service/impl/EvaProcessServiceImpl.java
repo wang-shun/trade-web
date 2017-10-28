@@ -197,6 +197,9 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		    	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		    	toWorkFlowService.insertSelective(toWorkFlow);
 		    	
+		    	//申请人、办理人入表
+		    	
+		    	
 		    	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
 		    	taskService.submitTask(String.valueOf(taskvo.getId()));
 		
@@ -254,7 +257,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	}
 
 	@Override
-	public AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess, String taskId) {
+	public AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess, String taskId,String processInstanceId) {
 		   AjaxResponse<String> response = new AjaxResponse<String>();
 		   try{
 		        //评估使用信息保存
@@ -262,6 +265,11 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 				toEvalReportProcess.setSysFinshTime(new Date());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 				taskService.submitTask(taskId,null);
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
+				wf.setInstCode(processInstanceId);
+				wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateWorkFlowByInstCode(wf);
 		   }catch(Exception e){
 			   response.setSuccess(false);
 			   response.setMessage(e.getMessage());

@@ -139,6 +139,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode()));
 		wf.setInstCode(spv.getId());
+		wf.setBizCode(vo.getEvaCode());
 		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 		return spv;
@@ -182,6 +183,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		t.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		t.setBizCode(vo.getEvaCode());
 		ToWorkFlow preFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(t);
+		
 		if (preFlow != null) {
 			try {
 				workFlowManager.deleteProcess(preFlow.getInstCode());
@@ -216,6 +218,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		wf.setProcessOwner(user.getId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		wf.setInstCode(processInstance.getId());
+		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 	}
 
@@ -269,24 +272,17 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	 * @param vo
 	 */
 	private void submitEvelRestartTask(ServiceRestartVo vo) {
-		/*if (vo.getIsApproved()) {
-			ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
-			toEvalReportProcessService.updateEvalPropertyByEvalCode(vo.getEvaCode(),EvalPropertyEnum.PGYX.getCode());
-		} else {*/
 
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
-			wf.setCaseCode(vo.getCaseCode());
-			wf.setInstCode(vo.getInstCode());
-			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateWorkFlowByInstCode(wf);
-		//}
-			Map<String, Object> defValsMap = new HashMap<String,Object>();
-	    	defValsMap.put("is_approved", vo.getIsApproved());
-		/*List<RestVariable> vs = new ArrayList<>();
-		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
-		vs.add(v);*/
+		Map<String, Object> defValsMap = new HashMap<String,Object>();
+	    defValsMap.put("is_approved", vo.getIsApproved());
 		taskService.submitTask(vo.getTaskId(),defValsMap);
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		wf.setInstCode(vo.getInstCode());
+		wf.setBizCode(vo.getEvaCode());
+		wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+		toWorkFlowService.updateWorkFlowByInstCode(wf);
 	}
 	
 	
