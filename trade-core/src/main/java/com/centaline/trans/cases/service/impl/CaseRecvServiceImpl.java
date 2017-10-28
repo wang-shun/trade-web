@@ -80,14 +80,14 @@ public class CaseRecvServiceImpl implements CaseRecvService {
 			toTransPlanMapper.insertSelective(transSignTransPlan);
 		}
 //		预计评估申请时间
-		if(null!=caseRecvVO.getToCaseRecv().getEstEvlApplyTime()){
-			Dict dict = dictService.findDictByTypeAndCode("eval_part_code", "EvalReport");
-			ToTransPlan transSignTransPlan = new ToTransPlan();
-			transSignTransPlan.setCaseCode(primaryCaseCode);
-			transSignTransPlan.setPartCode(dict.getCode());
-			transSignTransPlan.setEstPartTime(caseRecvVO.getToCaseRecv().getEstEvlApplyTime());	
-			toTransPlanMapper.insertSelective(transSignTransPlan);
-		}
+//		if(null!=caseRecvVO.getToCaseRecv().getEstEvlApplyTime()){
+//			Dict dict = dictService.findDictByTypeAndCode("eval_part_code", "EvalReport");
+//			ToTransPlan transSignTransPlan = new ToTransPlan();
+//			transSignTransPlan.setCaseCode(primaryCaseCode);
+//			transSignTransPlan.setPartCode(dict.getCode());
+//			transSignTransPlan.setEstPartTime(caseRecvVO.getToCaseRecv().getEstEvlApplyTime());	
+//			toTransPlanMapper.insertSelective(transSignTransPlan);
+//		}
 				
 		ToPropertyInfo toPropertyInfo = caseRecvVO.getToPropertyInfo();
 		if(null!=toPropertyInfo){

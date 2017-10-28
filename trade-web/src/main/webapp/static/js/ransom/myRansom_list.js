@@ -78,6 +78,7 @@ $('#datepicker_0').datepicker({
 // 查询
 $('#searchButton').click(function() {
 	searchMethod();
+	checkValue();
 });
 
 //新增赎楼单
@@ -215,9 +216,23 @@ function removeDateDiv(index) {
 	$("#dateDiv_" + index).parent().remove();
 }
 
-function checkDate(id){
+function checkValue(){
+	debugger;
 	var start = new Date($("#dtBegin_0").val());
 	var end =  new Date($("#dtEnd_0").val());
+	
+	var ransomSearchTime = $('#ransomSearchTime option:selected').val();
+	if(ransomSearchTime == null || ransomSearchTime == ""){
+		window.wxc.alert("请选择时间搜索条件类型！");
+	}
+	return false;
+}
+
+function checkDate(id){
+	debugger;
+	var start = new Date($("#dtBegin_0").val());
+	var end =  new Date($("#dtEnd_0").val());
+	
 	if(end < start){
 //		window.wxc.alert("结束日期不能早于起始日期！");
 		$("#"+id).val(null);

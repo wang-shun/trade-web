@@ -251,6 +251,13 @@ public class MortgageController {
 		return toMortgageService.submitLoanRelease(request, toMortgage, taskitem, estPartTime, taskId, processInstanceId, partCode);
 	}
 	
+	@RequestMapping(value="mortgage/saveLoanRelease")
+	@ResponseBody
+	public Result2 saveLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
+			String taskId, String processInstanceId, String partCode) {
+		return toMortgageService.saveLoanRelease(request, toMortgage, taskitem, estPartTime, taskId, processInstanceId, partCode);
+	}
+	
 	@RequestMapping(value="mortgage/submitSelfLoanApprove")
 	@ResponseBody
 	public Boolean submitSelfLoanApprove(HttpServletRequest request, ToMortgage toMortgage,
