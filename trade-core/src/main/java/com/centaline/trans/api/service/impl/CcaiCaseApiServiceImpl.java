@@ -8,7 +8,6 @@ import com.centaline.trans.api.vo.ApiRebateReportInfo;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.task.entity.ToSign;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,7 +28,7 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 	@Override
 	public ApiCaseInfo getApiCaseInfo(String ccaiCode) {
 		//接口服务开启时 访问CCAI获取数据
-		if(serviceIsEnable()){
+		if(serviceCanPull()){
 			return toCcaiGetInfo(ccaiCode);
 		}else{
 			//生成模拟数据 防止报错
@@ -45,7 +44,7 @@ public class CcaiCaseApiServiceImpl extends ApiService implements CaseApiService
 	@Override
 	public ApiRebateReportInfo getApiRebateReportInfo(String reportCode) {
 		//接口服务开启时 访问CCAI获取数据
-		if(serviceIsEnable()){
+		if(serviceCanPull()){
 			return toCcaiGetRebateReportInfo(reportCode);
 		}else{
 			//生成模拟数据 防止报错

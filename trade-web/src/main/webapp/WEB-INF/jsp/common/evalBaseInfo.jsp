@@ -169,7 +169,7 @@
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd>${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-8">实际出具评估报告日期</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
+												<dl class="dl-horizontal col-sm-6"><dt class="col-sm-6">实际出具评估报日期</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 											</div>
 										</div>
 										</c:if>

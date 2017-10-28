@@ -55,6 +55,8 @@ public class ToEvaRefund {
     private String city;
     
     private String isNeedRecovery;
+    
+    private Date evalRealTime;
 
     public Long getPkid() {
         return pkid;
@@ -262,5 +264,13 @@ public class ToEvaRefund {
 
 	public void setIsNeedRecovery(String isNeedRecovery) {
 		this.isNeedRecovery = isNeedRecovery;
+	}
+
+	public Date getEvalRealTime() {
+		return evalRealTime;
+	}
+
+	public void setEvalRealTime(Date evalRealTime) {
+		this.evalRealTime = evalRealTime;
 	}
 }

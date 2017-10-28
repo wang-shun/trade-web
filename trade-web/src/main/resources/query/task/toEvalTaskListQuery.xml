@@ -66,13 +66,12 @@
 					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_ =tw.INST_CODE
-						LEFT JOIN sctrans.T_TO_EVA_REPORT_PROCESS ERP ON ERP.EVA_CODE=tw.BIZ_CODE
+						INNER JOIN sctrans.T_TO_EVA_REPORT_PROCESS ERP ON ERP.EVA_CODE=tw.BIZ_CODE
 						LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON ERP.FIN_ORG_ID=TFO.FIN_ORG_CODE
 					    LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE 
 						LEFT JOIN  sctrans.SYS_WFE_TEMPLATE AS WFE ON TW.BUSINESS_KEY=WFE.WFE_CODE
 						  WHERE  ART.ASSIGNEE_ = #userLoginName#  AND tcp.POSITION= 'loan'
 					    AND ART.SUSPENSION_STATE_ = '1' 
-					    and exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where EVA_CODE=tw.BIZ_CODE)
 						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
 						</ifNotNull>

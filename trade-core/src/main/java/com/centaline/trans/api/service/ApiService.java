@@ -11,13 +11,32 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public abstract class ApiService {
-	@Value("${api.ccai.enable:false}")
-	private boolean enable;
+	@Value("${api.ccai.pull:false}")
+	private boolean pull;
+	@Value("${api.ccai.push:false}")
+	private boolean push;
 	@Value("${api.ccai.url}")
 	private String serviceAddress;
 
-	public final boolean serviceIsEnable(){
-		return enable;
+	/**
+	 * 统一管理 是否可以从CCAI获取信息
+	 * @return
+	 */
+	public final boolean serviceCanPull(){
+		return pull;
 	}
+
+	/**
+	 * 统一管理是否可以将信息推送到CCAI
+	 * @return
+	 */
+	public final boolean serviceCanPush(){
+		return push;
+	}
+
+	/**
+	 * 统一获取CCAI服务地址
+	 * @return
+	 */
 	public final String getServiceAddress(){return serviceAddress;};
 }

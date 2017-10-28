@@ -63,6 +63,7 @@
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 评估单编号 -->
 					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+					<input type="hidden" id="evaCode" name="caseCode" value="${caseCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
@@ -90,10 +91,6 @@
 
 			</div>
 		</div>
-		
-		<div id="caseCommentList" class="add_form">
-		</div>
-		
 		<div class="ibox-title">
 			<h5>审批记录</h5>
 			<div class="ibox-content">
@@ -122,6 +119,8 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 公共信息js -->	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 		/**提交数据*/
 		function submit() {
@@ -159,13 +158,18 @@
 				success : function(data) {
 					if(data.success) {
 						if(data) {
-							window.wxc.alert("操作成功。");
-							//caseTaskCheck();
+							$.unblockUI();
+							window.wxc.success("操作成功。",{"wxcOk":function(){
+								window.location.href = ctx + "/task/eval/evalTaskList";
+						   }});
 						} else {
+							$.unblockUI();
 							window.wxc.alert("操作失败。");
+							window.location.href = ctx + "/task/eval/evalTaskList";
 						}
 					} else {
 						window.wxc.alert("操作失败。");
+						window.location.href = ctx + "/task/eval/evalTaskList";
 					}
 				},
 				error : function(errors) {
