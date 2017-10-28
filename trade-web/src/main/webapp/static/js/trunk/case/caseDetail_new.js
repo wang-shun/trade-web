@@ -27,9 +27,8 @@ $(document).ready(function() {
     getShowAttachment();
     //业绩记录/收费情况查询
     queryPer();
-
+    
 });
-
 
 $("#btn_loan_reqment_chg").click(chgLoanReqment);
 /**
@@ -882,3 +881,4 @@ function chgLoanReqment(){
 		}
 	})}});
 }
+
