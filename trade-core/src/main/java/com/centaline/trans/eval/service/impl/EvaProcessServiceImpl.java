@@ -112,6 +112,9 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 						}
 					}
 				}
+				if(toEvaPricingVo.getCompleteTime() == null) {
+					toEvaPricingVo = null;
+				}
 			}
 		}
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
