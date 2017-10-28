@@ -179,7 +179,8 @@
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
     <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> --%>
     <script src="<c:url value='/js/common/common.js' />"></script>
-		<script>	
+		<script>
+		var taskitem;
 		$(document).ready(function() {
 				$('.input-daterange').datepicker({
 					format : 'yyyy-mm-dd',
