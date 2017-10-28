@@ -281,7 +281,7 @@ function casePause(){
 //挂起案件按钮toggle
 function buttonActivity(){
     var activityFlag = $("#activityFlag").val();
-    if(activityFlag == "30003003" || activityFlag == "30003007" || activityFlag == "30003008"){
+    if(activityFlag == "30003003"){
         $('.btn-activity').show();
         $('#casePause').text("案件挂起");
         $('#casePause').show();
@@ -503,7 +503,7 @@ function savePlanItems(){
  * 爆单
  */
 function caseBaodan(){
-
+	
 	window.wxc.confirm("确定案件爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		var data = "&caseCode="+caseCode; 
@@ -578,6 +578,12 @@ function serviceRestart(){
 var chooseType;
 //选择过户or贷款权证modal
 function showChoose(){
+	//案件挂起，无法操作工作流参数
+	var activityFlag = $("#activityFlag").val();
+	if(activityFlag == "30003004"){
+        window.wxc.alert("挂起案件无法变更经办人");
+        return;
+    }
 	
 	chooseType = null;
 	var warrant = $('#warr').html();

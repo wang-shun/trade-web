@@ -16,12 +16,6 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.common.enums.*;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
-import com.centaline.trans.engine.WorkFlowConstant;
-import com.centaline.trans.engine.bean.ExecuteAction;
-import com.centaline.trans.engine.core.WorkFlowEngine;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
@@ -30,11 +24,8 @@ import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.message.activemq.vo.MQCaseMessage;
 import com.centaline.trans.message.activemq.vo.MQEvalMessage;
-import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.ToApproveRecordService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -107,24 +98,12 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			toEvalRebateService.insertSelective(evalRebate);
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
-				ToApproveRecord record = new ToApproveRecord();
-				record.setCaseCode(evalRebate.getCaseCode());
-				record.setPartCode("CCAI_REBATE");
-				record.setApproveType(REBATE_APPROVE_TYPE);
-				record.setContent(task.getComment());
-				record.setOperatorTime(task.getDealTime());
+				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
 				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
 				if(task.getResult()==0){//审批未通过
 					record.setNotApprove("驳回:"+task.getComment());
 				}else if(task.getResult()==-1){
 					record.setNotApprove("拒绝:"+task.getComment());
-				}
-				//设置处理人
-				User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-				if(u!=null){
-					record.setOperator(u.getId());
-				}else{
-					record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
 				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
@@ -149,31 +128,19 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		ToEvalRebate evalRebate = validateAndConvert(info);
 		ToEvalRebate old = toEvalRebateService.findToEvalRebateByCaseCode(evalRebate.getCaseCode());
 		if(old!=null && EvalRebateStatusEnum.BACK.getCode().equals(old.getStatus())){
-			//TODO 驳回修改后再次同步
+			//驳回修改后再次同步
 			evalRebate.setPkid(old.getPkid());
 			toEvalRebateService.updateByPrimaryKeySelective(evalRebate);
 			//先删除旧的审批记录
 			toApproveRecordService.deleteByCaseCodeAndType(evalRebate.getCaseCode(),REBATE_APPROVE_TYPE);
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
-				ToApproveRecord record = new ToApproveRecord();
-				record.setCaseCode(evalRebate.getCaseCode());
-				record.setPartCode("CCAI_REBATE");
-				record.setApproveType(REBATE_APPROVE_TYPE);
-				record.setContent(task.getComment());
-				record.setOperatorTime(task.getDealTime());
+				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
 				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
 				if(task.getResult()==0){//审批未通过
 					record.setNotApprove("驳回:"+task.getComment());
 				}else if(task.getResult()==-1){
 					record.setNotApprove("拒绝:"+task.getComment());
-				}
-				//设置处理人
-				User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-				if(u!=null){
-					record.setOperator(u.getId());
-				}else{
-					record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
 				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
@@ -201,18 +168,12 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			toApproveRecordService.deleteByCaseCodeAndType(evalRebate.getCaseCode(),REBATE_APPROVE_TYPE);
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
-				ToApproveRecord record = new ToApproveRecord();
-				record.setCaseCode(evalRebate.getCaseCode());
-				record.setPartCode("CCAI_REBATE");
-				record.setApproveType(REBATE_APPROVE_TYPE);
-				record.setContent(task.getComment());
-				record.setOperatorTime(task.getDealTime());
-				//设置处理人
-				User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-				if(u!=null){
-					record.setOperator(u.getId());
-				}else{
-					record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
+				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
+				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
+				if(task.getResult()==0){//审批未通过
+					record.setNotApprove("驳回:"+task.getComment());
+				}else if(task.getResult()==-1){
+					record.setNotApprove("拒绝:"+task.getComment());
 				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
@@ -355,19 +316,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
 				//导入审批记录
 				for(TaskInfo task : info.getTasks()){
-					ToApproveRecord record = new ToApproveRecord();
-					record.setCaseCode(toSelfAppInfo.getCaseCode());
-					record.setPartCode("CCAI_SELF_ASSE");
-					record.setApproveType(SELFDO_ASSE_TYPE);
-					record.setContent(task.getComment());
-					record.setOperatorTime(task.getDealTime());
-					//设置处理人
-					User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-					if(u!=null){
-						record.setOperator(u.getId());
-					}else{
-						record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
-					}
+					ToApproveRecord record = getApproveRecord(toSelfAppInfo.getCaseCode(),"CCAI_SELF_ASSE",SELFDO_ASSE_TYPE,task);
 					toApproveRecordService.saveToApproveRecord(record);
 				}
 				//发送消息 启动流程
@@ -385,19 +334,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				toSelfAppInfoService.addSelfAppInfo(toSelfAppInfo);
 				//导入审批记录
 				for(TaskInfo task : info.getTasks()){
-					ToApproveRecord record = new ToApproveRecord();
-					record.setCaseCode(toSelfAppInfo.getCaseCode());
-					record.setPartCode("CCAI_SELF_LOAN");
-					record.setApproveType(SELFDO_LOAN_TYPE);
-					record.setContent(task.getComment());
-					record.setOperatorTime(task.getDealTime());
-					//设置处理人
-					User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-					if(u!=null){
-						record.setOperator(u.getId());
-					}else{
-						record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
-					}
+					ToApproveRecord record = getApproveRecord(toSelfAppInfo.getCaseCode(),"CCAI_SELF_LOAN",SELFDO_LOAN_TYPE,task);
 					toApproveRecordService.saveToApproveRecord(record);
 				}
 				//发送消息 启动流程
@@ -412,13 +349,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		}
 
 	}
-	
-	
-
-	
-	
-
-	
 	private ToSelfAppInfo copyProperties(SelfDoImport info) {
 		String caseCode = toCaseInfoService.findcaseCodeByccaiCode(info.getCcaiCode());
 		ToSelfAppInfo toSelfAppInfo = null;
@@ -440,9 +370,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		return toSelfAppInfo;
 	}
 
-	
-	
-
 	@Override
 	public CcaiServiceResult updateSelfDo(SelfDoImport info) {
 		ToSelfAppInfo toSelfAppInfo = copyProperties(info);
@@ -457,19 +384,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				toApproveRecordService.deleteByCaseCodeAndType(toSelfAppInfo.getCaseCode(),SELFDO_ASSE_TYPE);
 				//导入审批记录
 				for(TaskInfo task : info.getTasks()){
-					ToApproveRecord record = new ToApproveRecord();
-					record.setCaseCode(toSelfAppInfo.getCaseCode());
-					record.setPartCode("CCAI_SELF_ASSE");
-					record.setApproveType(SELFDO_ASSE_TYPE);
-					record.setContent(task.getComment());
-					record.setOperatorTime(task.getDealTime());
-					//设置处理人
-					User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-					if(u!=null){
-						record.setOperator(u.getId());
-					}else{
-						record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
-					}
+					ToApproveRecord record = getApproveRecord(toSelfAppInfo.getCaseCode(),"CCAI_SELF_ASSE",SELFDO_ASSE_TYPE,task);
 					toApproveRecordService.saveToApproveRecord(record);
 				}
 				//发送消息 恢复流程 更改返利单状态
@@ -489,19 +404,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				toApproveRecordService.deleteByCaseCodeAndType(toSelfAppInfo.getCaseCode(),SELFDO_LOAN_TYPE);
 				//导入审批记录
 				for(TaskInfo task : info.getTasks()){
-					ToApproveRecord record = new ToApproveRecord();
-					record.setCaseCode(toSelfAppInfo.getCaseCode());
-					record.setPartCode("CCAI_SELF_LOAN");
-					record.setApproveType(SELFDO_LOAN_TYPE);
-					record.setContent(task.getComment());
-					record.setOperatorTime(task.getDealTime());
-					//设置处理人
-					User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-					if(u!=null){
-						record.setOperator(u.getId());
-					}else{
-						record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
-					}
+					ToApproveRecord record = getApproveRecord(toSelfAppInfo.getCaseCode(),"CCAI_SELF_LOAN",SELFDO_LOAN_TYPE,task);
 					toApproveRecordService.saveToApproveRecord(record);
 				}
 				//发送消息 恢复流程 更改返利单状态
@@ -525,21 +428,16 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				toApproveRecordService.deleteByCaseCodeAndType(rebate.getGuaranteeCompId(),BANK_REBATE_APPROVE_TYPE);
 				//导入审批记录
 				for(TaskInfo task : feedBack.getTasks()){
-					ToApproveRecord record = new ToApproveRecord();
-					record.setCaseCode(rebate.getGuaranteeCompId());
-					record.setPartCode("CCAI_BANK_REBATE");
-					record.setApproveType(BANK_REBATE_APPROVE_TYPE);
-					record.setContent(task.getComment());
-					record.setOperatorTime(task.getDealTime());
-					//设置处理人
-					User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
-					if(u!=null){
-						record.setOperator(u.getId());
-					}else{
-						record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
-					}
+					ToApproveRecord record = getApproveRecord(rebate.getGuaranteeCompId(),"CCAI_BANK_REBATE",BANK_REBATE_APPROVE_TYPE,task);
 					toApproveRecordService.saveToApproveRecord(record);
 				}
+				//财务审批记录新增
+				ToApproveRecord record = getApproveRecord(feedBack);
+				record.setCaseCode(rebate.getGuaranteeCompId());
+				if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == feedBack.getResult()){
+					record.setNotApprove("驳回:"+feedBack.getComment());
+				}
+				toApproveRecordService.saveToApproveRecord(record);
 				rebate.setCaseCode(feedBack.getApplyId());//保存CCAI流程ID
 				rebate.setCompanyAccount(feedBack.getCompanyAccount());//银行账户
 				if(CcaiFlowResultEnum.SUCCESS.getCode() == feedBack.getResult()){
@@ -549,8 +447,10 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 					//发起返利单 权证经理审批流程 发消息
 					MQEvalMessage message = new MQEvalMessage(rebate.getPkid(), WorkFlowEnum.BANK_REBATE_PROCESS.getCode(),MQEvalMessage.STARTFLOW_TYPE);
 					jmsTemplate.convertAndSend(EvalFlowWorkListener.getEvalQueueName(), message);
-				}else{
+				}else if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == feedBack.getResult()){
 					rebate.setStatus(BankRebateStatusEnum.BACK.getCode());
+				}else{
+					throw new BusinessException("未识别的银行返利状态!"+feedBack.getResult());
 				}
 				toBankRebateService.updateToBankRebate(rebate);
 				return new CcaiServiceResult("00",true,"成功");
@@ -595,4 +495,51 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			throw new BusinessException("未获取到对应的返利报告信息!");
 		}
 	}
+
+	/**
+	 * 获取转译 taskInfo 为系统中approveRecord审批记录
+	 * @param caseCode
+	 * @param partCode
+	 * @param approveType
+	 * @param task
+	 * @return
+	 */
+	private ToApproveRecord getApproveRecord(String caseCode,String partCode,String approveType,TaskInfo task){
+		ToApproveRecord record = new ToApproveRecord();
+		record.setCaseCode(caseCode);
+		record.setPartCode(partCode);
+		record.setApproveType(approveType);
+		record.setContent(task.getComment());
+		record.setOperatorTime(task.getDealTime());
+		//设置处理人
+		User u = uamUserOrgService.getUserByUsername(task.getApplyUserName());
+		if(u!=null){
+			record.setOperator(u.getId());
+		}else{
+			record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
+		}
+		return record;
+	}
+
+	/**
+	 * 根据银行返利 CCAI反馈信息 转换成系统审批记录
+	 * @param feedBack
+	 * @return
+	 */
+	private ToApproveRecord getApproveRecord(BankRebeatFeedBack feedBack){
+		ToApproveRecord record = new ToApproveRecord();
+		record.setPartCode("CCAI_BANK_REBATE");
+		record.setApproveType(BANK_REBATE_APPROVE_TYPE);
+		record.setContent(feedBack.getComment());
+		record.setOperatorTime(feedBack.getApproveTime());
+		//设置处理人
+		User u = uamUserOrgService.getUserByUsername(feedBack.getUserName());
+		if(u!=null){
+			record.setOperator(u.getId());
+		}else{
+			record.setOperator(feedBack.getRealName()+"_"+feedBack.getUserName());
+		}
+		return record;
+	}
+
 }

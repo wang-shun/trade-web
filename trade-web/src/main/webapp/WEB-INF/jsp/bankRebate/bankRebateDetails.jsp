@@ -59,28 +59,30 @@
                                    defaultvalue="${rebate.toBankRebate.guaranteeCompany}" hasEmpty="true"/>
                     </div>
                     <div class="form_content">
-                        <label class="control-label sign_left_small">返利总金额</label>
-                        <input type="text" class="select_control sign_right_one" id="rebateMoney"
-                               name="toBankRebate.rebateTotal" value="${rebate.toBankRebate.rebateTotal}">
+                        <label class="control-label sign_left_small">返利总金额:</label>
+                        <label class="select_control sign_right_one">${rebate.toBankRebate.rebateTotal}</label>
                     </div>
+                    <c:if test="${rebate.toBankRebate.companyAccount != null}">
+                        <div class="form_content">
+                            <label class="control-label sign_left_small">公司账户</label>
+                            <label class="select_control sign_right_one">${rebate.toBankRebate.companyAccount}</label>
+                        </div>
+                    </c:if>
                 </div>
             </div>
             <div class="form_list">
                 <div class="line">
                     <div class="form_content">
                         <label class="control-label sign_left_small">申请人</label>
-                        <input type="text" class="select_control sign_right_one" id="applyer" readonly="readonly"
-                               value="${rebate.toBankRebate.applyPerson}"/>
+                        <label class="select_control sign_right_one">${rebate.toBankRebate.applyPerson}</label>
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">录入人所在部门</label>
-                        <input type="text" class="select_control sign_right_one" readonly="readonly"
-                               value="${org.orgName}"/>
+                        <label class="select_control sign_right_one">${org.orgName}</label>
                     </div>
                     <div class="form_content">
                         <label class="control-label sign_left_small">录入时间：</label>
-                        <input type="text" class="select_control sign_right_one" readonly="readonly"
-                               value="<fmt:formatDate value="${rebate.toBankRebate.applyTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"/>
+                        <label class="select_control sign_right_one"><fmt:formatDate value="${rebate.toBankRebate.applyTime}" pattern="yyyy-MM-dd HH:mm:ss"/></label>
                     </div>
                 </div>
             </div>
@@ -106,63 +108,50 @@
                             <th>返利金额</th>
                             <th>权证返利</th>
                             <th>业务返利</th>
+                            <th>状态</th>
+                            <th>审批查看</th>
                         </tr>
                         </thead>
                         <tbody id="t_body_data_contents">
                         <c:forEach items="${rebate.toBankRebateInfoList}" var="item" varStatus="status">
                             <tr id="tr_${status.index}">
-                                <input type="hidden" id="pkId_${status.index}"
-                                       name="toBankRebateInfoList[${status.index}].pkid" value="${item.pkid}"/>
                                 <td>
-                                    <input class="form-control" type="text"
-                                           name="toBankRebateInfoList[${status.index}].caseCode" readonly
-                                           value="${item.caseCode}" placeholder="请选择案件" >
-                                    <input id="ccai_${status.index}" type="hidden"
-                                           name="toBankRebateInfoList[${status.index}].ccaiCode"
-                                           value="${item.ccaiCode}"/>
+                                    ${item.caseCode}
                                 </td>
                                 <td width="10%">
                                     <a target="_blank" href="${ctx}/case/caseDetail?caseId=${item.caseId}">查看案件</a>
                                 </td>
                                 <td width="17%">
-                                    <aist:dict id="bank_${status.index}"
-                                               name="toBankRebateInfoList[${status.index}].bankName" display="select"
+                                    <aist:dict id="bank_${status.index}" name="1" display="select"
                                                dictType="bank_rebate_bank" defaultvalue="${item.bankName}"
                                                clazz="form-control"/>
                                 </td>
                                 <td width="17%">
-                                    <input id="rebateMoney_${status.index}" class="form-control" type="text"
-                                           name="toBankRebateInfoList[${status.index}].rebateMoney"
-                                           value="${item.rebateMoney}">
+                                        ${item.rebateMoney}
                                 </td>
                                 <td width="12%">
-                                    <input id="warrant_${status.index}" class="form-control" type="text"
-                                           name="toBankRebateInfoList[${status.index}].rebateWarrant"
-                                           value="${item.rebateWarrant}" readonly>
+                                        ${item.rebateWarrant}
                                 </td>
                                 <td width="12%">
-                                    <input id="business_${status.index}" class="form-control" type="text"
-                                           name="toBankRebateInfoList[${status.index}].rebateBusiness"
-                                           value="${item.rebateBusiness}" readonly>
+                                        ${item.rebateBusiness}
+                                </td>
+                                <td width="12%">
+                                    <c:if test="${rebate.toBankRebate.status == 9 && item.finishTime == null}">
+                                        审批中
+                                    </c:if>
+                                    <c:if test="${rebate.toBankRebate.status == 9 && item.finishTime != null}">
+                                        审批完成
+                                    </c:if>
+                                </td>
+                                <td width="12%">
+                                    <c:if test="${rebate.toBankRebate.status == 9 && item.finishTime != null}">
+                                        <a href="javascript:void(0)" onclick="showReportApprove('${item.reportCode}')"> 审批信息</a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
-                </div>
-            </div>
-            <div class="form_list">
-                <div class="line">
-                    <div class="form_content">
-                        <label class="control-label sign_left_small">已录入金额：</label>
-                        <input type="text" class="select_control sign_right_one" id="enteringMoney" name="borrowerMoney"
-                               readonly="readonly" value=""/>
-                    </div>
-                    <div class="form_content">
-                        <label class="control-label sign_left_small">与总金额的差额</label>
-                        <input type="text" class="select_control sign_right_one" id="differenceMoney"
-                               name="borrowerMoney" readonly="readonly" value=""/>
-                    </div>
                 </div>
             </div>
             <br/>
@@ -208,7 +197,6 @@
 
     <script>
         $(document).ready(function () {
-            cal();
             $('input,select,textarea').attr("disabled",true);
             //审批记录列表
             AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${rebate.toBankRebate.guaranteeCompId}');

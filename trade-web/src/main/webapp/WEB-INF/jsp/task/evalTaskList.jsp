@@ -197,6 +197,7 @@ text-decoration: underline !important;
 					<th >任务名</th>
 					<th >产证地址</th>
 					<th >贷款权证</th>
+					<th >评估公司</th>
 					<th >卖方姓名</th>
 					<th >买方姓名</th>
 					<th >操作</th>
@@ -339,6 +340,9 @@ text-decoration: underline !important;
 			<td>
             	 {{item.REAL_NAME}}
 			</td>
+             <td>
+                  {{item.FIN_ORG_NAME}}
+             </td>
 
 			<td class="center">
             	<p>

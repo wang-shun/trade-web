@@ -256,7 +256,7 @@
 	
 			<td class="t-left">
 				<p class="big">
-					{{item.CASE_CODE}}				
+					<a href="${ctx}/case/caseDetail?caseId={{item.casPKID}}"  target="_blank">{{item.CASE_CODE}}</a>								
 				</p>
 			</td>
 
@@ -325,12 +325,14 @@
             	<div class="float_left" style="width:105px;">
 					<select pval="{{item.PKID}}" evaCode="{{item.EVA_CODE}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:100px">
 						<option value="0">查看</option>
+						<shiro:hasPermission name="TRADE.EVAPRICING.DOING"> 
 						{{if item.STATUS == 1}}
 							<option value="1">评估申请</option>
 						{{/if}}
 						{{if item.STATUS == 2}}
 							<option value="2">重新发起</option>
 						{{/if}}
+						</shiro:hasPermission>
 					</select>
 				</div>
 				<a  href="#" onclick="gotoPage(this)" class="float_left_three"><i class="iconfont icon_revise">&#xe603;</i></a>						
@@ -351,7 +353,7 @@
 			</td>
 			<td>
 				<p id="p_{{index}}">
-					{{item.caseCode}}
+					<a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.caseCode}}</a>
 				</p>
 			</td>
 			<td>
@@ -360,7 +362,7 @@
 				</p>
 			</td>
 			<td>
-				<p>
+				<p id="addr_{{index}}">
 					{{item.addr}}
 				</p>
 			</td>

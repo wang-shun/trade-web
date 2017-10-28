@@ -13,10 +13,11 @@
     <result column="CASE_ID" property="caseId" jdbcType="BIGINT" />
     <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
     <result column="REPORT_CODE" property="reportCode" jdbcType="VARCHAR" />
+    <result column="FINISH_TIME" property="finishTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     br.PKID , br.CASE_CODE, br.CCAI_CODE, br.GUARANTEE_COMP_ID, br.BANK_NAME, br.REBATE_MONEY, br.REBATE_WARRANT,
-    br.REBATE_BUSINESS,c.PKID CASE_ID,br.APPLY_ID, br.REPORT_CODE
+    br.REBATE_BUSINESS,c.PKID CASE_ID,br.APPLY_ID, br.REPORT_CODE, br.FINISH_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -47,11 +48,11 @@
   <insert id="insert" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
     insert into sctrans.T_TO_BANK_REBATE_INFO (PKID, CASE_CODE, CCAI_CODE, 
       GUARANTEE_COMP_ID, BANK_NAME, REBATE_MONEY, 
-      REBATE_WARRANT, REBATE_BUSINESS,APPLY_ID, REPORT_CODE)
+      REBATE_WARRANT, REBATE_BUSINESS,APPLY_ID, REPORT_CODE, FINISH_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{ccaiCode,jdbcType=VARCHAR}, 
       #{guaranteeCompId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR}, #{rebateMoney,jdbcType=DECIMAL}, 
       #{rebateWarrant,jdbcType=DECIMAL}, #{rebateBusiness,jdbcType=DECIMAL}, #{applyId,jdbcType=VARCHAR},
-      #{reportCode,jdbcType=VARCHAR})
+      #{reportCode,jdbcType=VARCHAR}, #{finishTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.bankRebate.entity.ToBankRebateInfo" >
     insert into sctrans.T_TO_BANK_REBATE_INFO
@@ -86,6 +87,9 @@
       <if test="reportCode != null" >
         REPORT_CODE,
       </if>
+      <if test="finishTime != null" >
+        FINISH_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -117,6 +121,9 @@
       </if>
       <if test="reportCode != null" >
         #{reportCode,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -150,6 +157,9 @@
       <if test="reportCode != null" >
         REPORT_CODE = #{reportCode,jdbcType=VARCHAR},
       </if>
+      <if test="finishTime != null" >
+        FINISH_TIME = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -163,7 +173,16 @@
       REBATE_WARRANT = #{rebateWarrant,jdbcType=DECIMAL},
       REBATE_BUSINESS = #{rebateBusiness,jdbcType=DECIMAL},
       APPLY_ID = #{applyId,jdbcType=VARCHAR},
-      REPORT_CODE = #{reportCode,jdbcType=VARCHAR}
+      REPORT_CODE = #{reportCode,jdbcType=VARCHAR},
+      FINISH_TIME = #{finishTime,jdbcType=TIMESTAMP}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
+  <select id="selectToRebateInfoByCaseCodeAndCompId" resultMap="BaseResultMap" >
+    select top 1
+    <include refid="Base_Column_List" />
+    from sctrans.T_TO_BANK_REBATE_INFO br
+    left join sctrans.T_TO_CASE c on c.case_code = br.case_code
+    where br.GUARANTEE_COMP_ID = #{compId,jdbcType=VARCHAR} and br.CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

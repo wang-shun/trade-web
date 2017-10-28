@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="<c:url value='/static/css/select2.min.css' />">
     <link rel="stylesheet" href="<c:url value='/static/font-awesome/css/font-awesome.css' />">
 
+    <%-- jdGrid相关  --%>
+    <link href="<c:url value='/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/plugins/jqGrid/ui.jqgrid.css' />" rel="stylesheet">
+    <link href="<c:url value='/css/style.css' />" rel="stylesheet">
     <!-- aist列表样式 -->
     <link href="<c:url value='/css/common/aist.grid.css' />" rel="stylesheet">
 
@@ -174,6 +178,18 @@
                     </div>
                 </div>
             </div>
+            <c:if test="${rebate.toBankRebate.status == -1}">
+            <br/>
+                <div class="form_list">
+                    <div class="title">审批记录</div>
+                    <div class="line">
+                        <div class="view-content">
+                            <table id="gridTable" class=""></table>
+                            <div id="gridPager"></div>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
             <div class="text-center mt40 mb30">
                 <button type="button" class="btn btn-success mr5" id="submitBtn">提交</button>
                 <button type="button" class="btn btn-grey" id="caseInfoClean" onclick="javascript:window.close()">关闭
@@ -224,8 +240,9 @@
     <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
     <script src="<c:url value='/js/plugins/metisMenu/jquery.metisMenu.js' />"></script>
     <script src="<c:url value='/js/plugins/slimscroll/jquery.slimscroll.min.js' />"></script>
-    <!-- 日期控件 -->
-    <script src="<c:url value='/js/plugins/dateSelect/dateSelect.js' />"></script>
+    <!-- jqGrid -->
+    <script src="<c:url value='/js/plugins/jqGrid/i18n/grid.locale-en.js' />"></script>
+    <script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
     <!-- Custom and plugin javascript -->
     <script src="<c:url value='/js/inspinia.js' />"></script>
     <script src="<c:url value='/js/plugins/pace/pace.min.js' />"></script>
@@ -251,6 +268,10 @@
             $('#rebateMoney').blur(cal);
             cal();
             pageInit(${rebate.toBankRebateInfoList.size()},banklist);
+            <c:if test="${rebate.toBankRebate.status == -1}">
+            //审批记录列表
+            AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${rebate.toBankRebate.guaranteeCompId}');
+            </c:if>
         });
         //保存数据
         function save(b) {
@@ -278,7 +299,6 @@
                 },
                 success: function (data) {
                     $.unblockUI();
-                    console.log(data);
                     if (data.success) {
                         window.wxc.alert("修改成功", {
                             "wxcOk": function () {

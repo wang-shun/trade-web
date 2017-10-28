@@ -62,7 +62,7 @@ public interface EvaPricingService {
 	 * @param caseCode
 	 * @return
 	 */
-	boolean evalRelation(long pkid,String caseCode);
+	AjaxResponse<String> updatEevalRelation(long pkid,String caseCode,String addr);
 	
 	/**
 	 * 询价详情更新
