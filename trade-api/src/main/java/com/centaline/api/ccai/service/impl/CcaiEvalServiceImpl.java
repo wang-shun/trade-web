@@ -295,7 +295,15 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		toEvaRefund.setRefundAmount(info.getRefundAmount());
 		toEvaRefund.setRefundCause(info.getRefundCause());
 		toEvaRefund.setRefundKinds(info.getRefundKinds());
-		toEvaRefund.setRefundTarget(info.getRefundTarget());
+		if (info.getRefundTarget().equals("1")) {
+			toEvaRefund.setRefundTarget("业主");
+		}else if (info.getRefundTarget().equals("2")) {
+			toEvaRefund.setRefundTarget("客户");
+		}else if (info.getRefundTarget().equals("3")) {
+			toEvaRefund.setRefundTarget("业主和客户");
+		}else{
+			throw new BusinessException("退费对象数据错误，无法进行同步!");
+		}
 		toEvaRefund.setToRefundTime(info.getToRefundTime());
 		toEvaRefund.setProposerId(info.getUserName());
 		return toEvaRefund;
