@@ -267,7 +267,6 @@
 								$.unblockUI();
 								window.wxc.error("申请中止失败,请确认是否已经开启中止流程,或确认您是否是该赎楼流程环节责任人");
 							}
-							
 						},
 						error : function(errors) {
 							$.unblockUI();
@@ -278,9 +277,9 @@
 				});
 				
 				$("#cancel").click(function(){
-					if(confirm('您确定要取消吗？')){ 
-						 window.close();
-					}
+					window.wxc.error("确定要取消？",{"wxcOk":function(){
+						window.close();
+					}});
 				});
 			});
 		</script> </content>

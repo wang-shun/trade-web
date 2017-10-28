@@ -93,10 +93,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="ibox-title" style="margin-left:400px;">
-			<a href="#" class="btn btn-primary" onclick="submit()">提交</a>
+		<div class="form-btn">
+			<div class="text-center">
+				<input type="button" class="btn btn-space btn-primary" onclick="submit()" value="提交"></button>
+			</div>
 		</div>
-
 
 	<content tag="local_script"> 
 	<!-- Peity --> 
