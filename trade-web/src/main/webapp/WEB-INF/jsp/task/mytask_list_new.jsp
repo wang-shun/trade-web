@@ -236,9 +236,9 @@ text-decoration: underline !important;
 			<tr class="tr-2">
 		{{/if}}
 
-			{{if item.DATELAMP < lamp1|| item.DATELAMP==null}}
+			{{if item.DATELAMP_CASE < lamp1|| item.DATELAMP_CASE==null}}
 				<td></td>
-			{{else if item.DATELAMP < lamp2}}
+			{{else if item.DATELAMP_CASE < lamp2}}
             	<td>
                 	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
                  		<div class="sk-double-bounce1 green_light"></div>
@@ -254,7 +254,7 @@ text-decoration: underline !important;
       					</p>
 					{{/if}}
                  </td>
-			{{else if item.DATELAMP < lamp3}}
+			{{else if item.DATELAMP_CASE < lamp3}}
 				<td>  
 					<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
                 		<div class="sk-double-bounce1 orange_light"></div>

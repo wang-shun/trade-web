@@ -39,6 +39,7 @@
 	<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 	<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
 	<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+	<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
 </head>
 <body>
 <style>
@@ -70,6 +71,7 @@
 <input type="hidden" id="processDefinitionId"
 	   value="${toWorkFlow.processDefinitionId}" />
 	<input type="hidden" id="data" value="${data }"/>
+	
 	<script>
 		var resourceDistributionBtn = false;
 		var partCode="${partCode}";//用以获取发起交易变更时的环节 by wbzhouht
@@ -91,6 +93,7 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#profile" data-toggle="tab">案件基本操作</a></li>
 				<li class=""><a href="#messages" data-toggle="tab">案件进程总览</a></li>
+				<li><a href="#caseRecord" data-toggle="tab">案件操作记录</a></li>
 			</ul>
 			<div class="tab-content">
 				
@@ -297,6 +300,31 @@
 								src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
 						</c:if>
 				</c:if>
+				</div>
+				<div class="tab-pane fade" id="caseRecord">
+					<div class="table_content">
+						<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped  table-hover ">
+							<thead>
+								<tr>
+									<th>所属流程</th>
+									<th>任务名称</th>
+									<th>操作人</th>
+									<th>操作时间</th>
+									<th>任务状态</th>
+									<th>红绿灯状态</th>
+								</tr>
+							</thead>
+							<tbody id="allProcessList">
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center page_box">
+						<span id="currentTotalPage1"><strong ></strong></span>
+						<span class="ml15">共<strong  id="totalP1"></strong>条</span>&nbsp;
+						<div id="pageBar1" class="pagergoto">
+						</div>  
+				    </div> 	
 				</div>
 			</div>
 		</div>
@@ -574,13 +602,13 @@
 	<script	src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script><%--by wbzhouht 添加时间组件js，解决时间显示撑破布局--%>
-
+	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<%-- <script src="<c:url value='/transjs/task/follow.pic.list.js' />"></script> --%>
 	<script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/caseDetail_new.js' />"></script>
+
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	<%--<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>--%>
@@ -594,7 +622,7 @@
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
-	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<!-- 公共信息js -->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
@@ -603,6 +631,7 @@
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
+	<script src="<c:url value='/js/trunk/case/caseDetail_new.js' />"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 
@@ -804,6 +833,150 @@
 		</tr>
 		{{/each}}
 	</script>
+	
+<script id="template_caseRecord" type="text/html">
+
+	{{each rows as item index}}
+		<tr">
+			<td>
+				
+					{{item.processName}}
+				
+			</td>
+			<td>
+				
+					{{item.taskName}}
+				
+			</td>
+			<td>
+				
+					{{item.userNameStr}}
+				
+			</td>
+			<td>
+				
+					{{item.compTime}}
+				
+			</td>
+			<td>
+					{{if item.isProgess ==1}}
+						进行中..
+					{{else}}
+						已完成
+					{{/if}}
+			</td>
+
+			{{if item.BUSINESS_KEY =='ransom_process'}}
+			{{if item.DATELAMP < lamp1|| item.DATELAMP==null || item.DATELAMP ==''}}
+				<td></td>
+			{{else if item.DATELAMP < lamp2}}
+            	<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		<div class="sk-double-bounce1 green_light"></div>
+                		<div class="sk-double-bounce2 green_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                        </p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+                 </td>
+			{{else if item.DATELAMP < lamp3}}
+				<td>  
+					<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                		<div class="sk-double-bounce1 orange_light"></div>
+                    	<div class="sk-double-bounce2 orange_light"></div>
+               		</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+  			{{else}}
+   				<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                    	<div class="sk-double-bounce1 red_light"></div>
+                    	<div class="sk-double-bounce1 red_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+			{{/if}}
+
+			{{else}}
+
+			{{if item.DATELAMP_CASE < lamp1|| item.DATELAMP_CASE==null || item.DATELAMP_CASE ==''}}
+				<td></td>
+			{{else if item.DATELAMP_CASE < lamp2}}
+            	<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		<div class="sk-double-bounce1 green_light"></div>
+                		<div class="sk-double-bounce2 green_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                        </p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+                 </td>
+			{{else if item.DATELAMP_CASE < lamp3}}
+				<td>  
+					<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                		<div class="sk-double-bounce1 orange_light"></div>
+                    	<div class="sk-double-bounce2 orange_light"></div>
+               		</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+  			{{else}}
+   				<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                    	<div class="sk-double-bounce1 red_light"></div>
+                    	<div class="sk-double-bounce1 red_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+			{{/if}}
+			{{/if}}
+		</tr>
+	{{/each}}
+</script>
+
 </content>
 </body>
 </html>

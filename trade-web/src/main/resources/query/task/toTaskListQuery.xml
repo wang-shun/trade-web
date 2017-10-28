@@ -11,9 +11,11 @@
 		<customDict id="qqGetWFEName" beanName="qqGetWFEName" />
 		<customDict id="getMegerCuntByCaseCode" beanName="getMegerCuntByCaseCode" />
 		<customDict id="getTaskNameTypeByTaskName" beanName="getTaskNameTypeByTaskName" />
-
-			</dicts>
+		<customDict id="qqcdUserUsernameName" beanName="qqcdUserUsernameName"/>
+		<customDict id="qqFindRAPlan" beanName="qqFindRAPlan" />
+	</dicts>
 	<formatters>
+		<formatter id="dateFormatter1" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter"/>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
 			<properties>
 				<property name="pattern">yyyy-MM-dd HH:mm:ss</property>
@@ -140,7 +142,7 @@
 
 				<column type="virtual" name="PKID,PROPERTY_ADDR,AGENT_ORG_NAME,AGENT_NAME,CCAI_CODE,MOBILE,ORG_ID,MANAGER_INFO" isDynamicDict="true" display="caseId,所属分行,经纪人,CTM_CODE,手机,ORG_ID" referencecol="CASE_CODE" index="" checkbox="" customDict="getCaseInfo" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
-				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="RED_LOCK,EST_PART_TIME,DATELAMP_CASE" display="红灯记录,预计执行时间,红绿灯" referencecol="CASE_CODE,PART_CODE" index="" checkbox="" customDict="qqFindTranPlan" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
 				<column type="virtual" name="WFE_NAME" display="流程名" referencecol="BUSINESS_KEY" index="" checkbox="" customDict="qqGetWFEName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 
@@ -149,6 +151,56 @@
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="propertyCode" index="" checkbox="" display="propertyCode" customDict="" sysDict="" />
 				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" />
+			</table-row>
+		</grid>
+	</query>
+	
+	<query id="getProcessRecordList">
+		<searchSql>
+			<baseSql>
+				<![CDATA[
+					SELECT 
+						aht.TASK_DEF_KEY_ PART_CODE,
+						aht.NAME_ taskName,
+						aht.ASSIGNEE_ userName,
+						aht.END_TIME_ compTime,
+						CASE WHEN aht.END_TIME_ IS NULL THEN 1 ELSE 2 END isProgess,
+						wfe.WFE_NAME processName,
+						tw.BUSINESS_KEY,
+						CASE WHEN aht.END_TIME_ IS NULL AND tw.BUSINESS_KEY ='operation_process' THEN tw.BIZ_CODE END CASE_CODE,
+						CASE WHEN aht.END_TIME_ IS NULL AND tw.BUSINESS_KEY ='ransom_process' THEN tw.BIZ_CODE END RANSOM_CODE
+					
+					FROM
+						sctrans.T_TO_CASE cas			
+						INNER JOIN sctrans.T_TO_WORKFLOW tw ON tw.CASE_CODE = cas.CASE_CODE
+						INNER JOIN sctrans.ACT_HI_TASKINST aht ON aht.PROC_INST_ID_ = tw.INST_CODE
+						LEFT JOIN sctrans.SYS_WFE_TEMPLATE wfe ON tw.BUSINESS_KEY = wfe.WFE_CODE
+					WHERE 	
+						cas.CASE_CODE = #caseCode#
+						AND tw.STATUS IN ('0','4')
+				]]>
+			</baseSql>
+			<orderBySql>
+				order by tw.BUSINESS_KEY
+			</orderBySql>
+			<groupSql>
+			</groupSql>
+		</searchSql>
+		<grid>
+			<table-row>
+				<column type="both" 	name="PART_CODE"  	display="任务环节" />
+				<column type="both" 	name="taskName" 	display="任务名" 	/>
+				<column type="both" 	name="userName"  	display="操作人"  />
+				<column type="both" 	name="compTime"  	display="操作时间"		beanFormatter="dateFormatter1"/>
+				<column type="both" 	name="isProgess" 	display="是否完成"	/>
+				<column type="both" 	name="processName"  display="流程名" 	/>
+				<column type="both" 	name="CASE_CODE"	display="案件编号"	/>
+				<column type="both" 	name="RANSOM_CODE"	display="赎楼编号"	/>
+				<column type="both" 	name="BUSINESS_KEY" display="business"/>
+				<column type="virtual" 	name="userNameStr" 	display="操作人姓名" 	referencecol="userName" 				customDict="qqcdUserUsernameName"/>	
+				<column type="virtual" 	name="RED_LOCK,EST_PART_TIME,DATELAMP_CASE" 	display="红绿灯" 		referencecol="CASE_CODE,PART_CODE"  	customDict="qqFindTranPlan" />
+				<column type="virtual" 	name="RED_LOCK,EST_PART_TIME,DATELAMP" 	display="红绿灯" 		referencecol="RANSOM_CODE,PART_CODE" 	customDict="qqFindRAPlan"  />
+				
 			</table-row>
 		</grid>
 	</query>

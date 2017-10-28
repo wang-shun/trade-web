@@ -35,7 +35,7 @@ public class QuickQueryGetTranPlanServiceImpl implements CustomDictService {
                 if(transPlan.size()!=0){
                     key.put("RED_LOCK", transPlan.get(0).get("FONT_NAME"));
                     key.put("EST_PART_TIME", transPlan.get(0).get("EST_PART_TIME"));
-                    key.put("DATELAMP", transPlan.get(0).get("DATELAMP"));
+                    key.put("DATELAMP_CASE", transPlan.get(0).get("DATELAMP"));
                 }
 
             }
