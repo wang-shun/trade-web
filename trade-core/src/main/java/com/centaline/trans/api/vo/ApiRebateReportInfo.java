@@ -21,7 +21,7 @@ public class ApiRebateReportInfo extends ApiResultData {
 
 	public class BankReportInfo{
 		String BankName;//返利银行名称
-		BigDecimal BizMoney;//报告返利总额
+		BigDecimal BizMoney;//业务返利金额
 		BigDecimal ReturnMoney;//返利申请总额
 		BigDecimal dkCertMoney;//贷款分成金额
 		BigDecimal ghCertMoney;//过户分成金额

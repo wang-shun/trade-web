@@ -69,7 +69,7 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 	}
 
 	@Override
-	public int addLoanProcessor(String userName, String caseCode) {
+	public int addLoanProcessor(String loanName, String caseCode) {
 		SessionUser user = uamSessionService.getSessionUser();
 		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS, user.getRealName());
 		// 先通知CCAI 返回结果为true再更新案件状态
@@ -90,6 +90,11 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 				caseApprove.setName("caseApprove");
 				caseApprove.setValue(true);
 				variables.add(caseApprove);
+//				把loan变量添加到当前流程中
+				RestVariable loan = new RestVariable();
+				loan.setName("loan");
+				loan.setValue(loanName);
+				variables.add(loan);
 				ToCase toCase2 = toCaseService.findToCaseByCaseCode(caseCode);
 				if (workFlowManager.submitTask(variables, String.valueOf(taskVo.getId()), taskVo.getProcessInstanceId(),
 						toCase2.getLeadingProcessId(), caseCode)) {
@@ -100,7 +105,7 @@ public class AuditCaseServiceImpl implements AuditCaseService {
 					int updateCaseStatus = toCaseService.updateByCaseCodeSelective(toCase);
 
 					// 先查出user
-					User userByUsername = uamUserOrgServiceClient.getUserByUsername(userName);
+					User userByUsername = uamUserOrgServiceClient.getUserByUsername(loanName);
 					if (null == userByUsername) {
 						throw new BusinessException("货款权证无效！");
 					}

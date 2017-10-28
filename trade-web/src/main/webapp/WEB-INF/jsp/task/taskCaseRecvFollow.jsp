@@ -694,7 +694,7 @@
 								color=" red" class="mr5">*</font>购房套数</label>
 							<aist:dict clazz="select_control data_style" id="purchaseHouseNo"
 								name="purchaseHouseNo" display="select"
-								defaultvalue="${caseRecvVO.toPropertyInfo.distCode}"
+								defaultvalue="${caseRecvVO.toCaseRecv.purchaseHouseNo}"
 								dictType="61000" hasEmpty="true" />
 						</div>
 
@@ -832,7 +832,7 @@
 								color=" red" class="mr5">*</font>抵押信息</label>
 							<aist:dict clazz="select_control data_style" id="mortInfo"
 								name="mortInfo"
-								defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}"
+								defaultvalue="${caseRecvVO.toCaseRecv.mortInfo}"
 								display="select" dictType="61011" hasEmpty="true" />
 						</div>
 
@@ -846,7 +846,7 @@
 								 data-date-format="yyyy-mm-dd">
 								<input type="text" class="input_type yuanwid datatime"
 									id="estFinishTime" name="estFinishTime" onfocus="this.blur()"
-									value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+									value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estFinishTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
 					</div>

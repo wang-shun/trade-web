@@ -3,6 +3,7 @@ package com.centaline.trans.bankRebate.service;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
+import com.centaline.trans.task.entity.ToApproveRecord;
 
 import java.io.OutputStream;
 
@@ -101,5 +102,12 @@ public interface ToBankRebateService {
 	 * @return
 	 */
 	ToBankRebateInfo selectToRebateInfoByCaseCodeAndCompId(String caseCode,String compId);
+
+	/**
+	 * 提交返利报告审批
+	 * @param info 返利案件信息
+	 * @param record 审批记录
+	 */
+	void submitRebateReport(ToBankRebateInfo info, ToApproveRecord record);
 
 }

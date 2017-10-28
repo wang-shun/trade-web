@@ -222,10 +222,11 @@
       <if test="comment != null and comment != ''" >
         COMMENT = #{comment,jdbcType=LONGVARCHAR},
       </if>
-      <!-- 
+      <!-- 将realPrice放开注释  by xiefei1-->
        <if test="realPrice != null" >
         REAL_PRICE = #{realPrice,jdbcType=DECIMAL},
       </if>
+      <!-- 
        <if test="isHukou != null and isHukou != ''" >
         IS_HUKOU = #{isHukou,jdbcType=CHAR},
       </if>
