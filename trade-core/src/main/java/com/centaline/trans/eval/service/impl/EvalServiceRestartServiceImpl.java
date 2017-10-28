@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Job;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.common.enums.EvalStatusEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -64,6 +68,8 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	UamSessionService uamSessionService;
 	@Autowired
 	ToCaseInfoService toCaseInfoService;
+	@Autowired
+	UamUserOrgService uamUserOrgService;
 	
 	public StartProcessInstanceVo restart(ServiceRestartVo vo) {
 		
@@ -110,10 +116,19 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		//toEvalReportProcessService.updateEvalPropertyByEvalCode(vo.getEvaCode(),EvalPropertyEnum.PGGQ.getCode());
 		
 		/** 启动 评估重启流程 */
+		SessionUser sessionUser = uamSessionService.getSessionUser();
 		Map<String, Object> vars = new HashMap<>();
-		String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());// 根据案件所在组找主管
+		//User user = uamUserOrgService.getUserByUsername(vo.getUserName());
+		Job job = uamUserOrgService.getJobByCode(TransJobs.TNQJL.getCode(), sessionUser.getCityCode());
+		List<User> userList = uamUserOrgService.getUserByJobId(job.getId());
+		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());// 根据案件所在组找主管
+		if(userList==null || userList.size()==0 ){
+			 resp.setSuccess(false);
+			 resp.setMessage("当前用户归属主管不存在！");
+			 return null;
+		}
 		vars.put("consultant", vo.getUserName());//评估流程重启发起人
-		vars.put("manager", manager);
+		vars.put("manager", userList.get(0).getUsername());
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode()), vo.getEvaCode(), vars);
 		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false, vo.getUserName()).getData();

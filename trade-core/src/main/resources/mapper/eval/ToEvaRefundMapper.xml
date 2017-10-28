@@ -28,12 +28,13 @@
     <result column="EVAL_COMPANY" property="evalCompany" jdbcType="VARCHAR" />
     <result column="CITY" property="city" jdbcType="VARCHAR" />
     <result column="IS_NEED_RECOVERY" property="isNeedRecovery" jdbcType="VARCHAR" />
+    <result column="EVAL_REAL_TIME" property="evalRealTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     PKID, CASE_CODE, EVA_CODE, REFUND_KINDS, PRICING_TIME, PROPOSER, APPLY_DEPART, APPLY_TIME, 
     REFUND_AMOUNT, REFUND_TARGET, REFUND_CAUSE, FIN_ORG_ID, TO_REFUND_TIME, REPORT_BACK_NUM, 
     BACK_TIME, BACK_CAUSE, EVAL_REAL_CHARGES, EVA_PROCESS_ID, STATUS, CCAI_CODE, APPLY_ID, PROPOSER_ID,
-    APPLY_DEPART_CODE, EVAL_COMPANY, CITY, IS_NEED_RECOVERY
+    APPLY_DEPART_CODE, EVAL_COMPANY, CITY, IS_NEED_RECOVERY, EVAL_REAL_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -66,7 +67,7 @@
       TO_REFUND_TIME, REPORT_BACK_NUM, BACK_TIME, 
       BACK_CAUSE, EVAL_REAL_CHARGES, EVA_PROCESS_ID, 
       STATUS, CCAI_CODE, APPLY_ID, PROPOSER_ID,
-      APPLY_DEPART_CODE, EVAL_COMPANY, CITY, IS_NEED_RECOVERY)
+      APPLY_DEPART_CODE, EVAL_COMPANY, CITY, IS_NEED_RECOVERY,EVAL_REAL_TIME)
     values (#{pkid,jdbcType=BIGINT}, #{caseCode,jdbcType=VARCHAR}, #{evaCode,jdbcType=VARCHAR}, 
       #{refundKinds,jdbcType=NVARCHAR}, #{pricingTime,jdbcType=TIMESTAMP}, #{proposer,jdbcType=VARCHAR}, 
       #{applyDepart,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{refundAmount,jdbcType=DECIMAL}, 
@@ -74,7 +75,8 @@
       #{toRefundTime,jdbcType=TIMESTAMP}, #{reportBackNum,jdbcType=INTEGER}, #{backTime,jdbcType=TIMESTAMP}, 
       #{backCause,jdbcType=VARCHAR}, #{evalRealCharges,jdbcType=DECIMAL}, #{evaProcessId,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR},#{ccaiCode,jdbcType=VARCHAR},#{applyId,jdbcType=VARCHAR},#{proposerId,jdbcType=VARCHAR},
-      #{applyDepartCode,jdbcType=VARCHAR},#{evalCompany,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},#{isNeedRecovery,jdbcType=VARCHAR})
+      #{applyDepartCode,jdbcType=VARCHAR},#{evalCompany,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},
+      #{isNeedRecovery,jdbcType=VARCHAR},#{evalRealTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.centaline.trans.eval.entity.ToEvaRefund" >
     insert into sctrans.T_TO_EVA_REFUND
@@ -157,6 +159,9 @@
       <if test="isNeedRecovery != null" >
         IS_NEED_RECOVERY,
       </if>
+      <if test="evalRealTime != null" >
+        EVAL_REAL_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pkid != null" >
@@ -236,6 +241,9 @@
       </if>
       <if test="isNeedRecovery != null" >
         #{IS_NEED_RECOVERY,jdbcType=VARCHAR},
+      </if>
+      <if test="evalRealTime != null" >
+        #{EVAL_REAL_TIME,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -322,6 +330,9 @@
       <if test="isNeedRecovery != null" >
         IS_NEED_RECOVERY = #{isNeedRecovery,jdbcType=VARCHAR},
       </if>
+      <if test="evalRealTime != null" >
+        EVAL_REAL_TIME = #{evalRealTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
@@ -351,7 +362,8 @@
       APPLY_DEPART_CODE = #{applyDepartCode,jdbcType=VARCHAR},
       EVAL_COMPANY = #{evalCompany,jdbcType=VARCHAR},
       CITY = #{city,jdbcType=VARCHAR},
-      IS_NEED_RECOVERY = #{isNeedRecovery,jdbcType=VARCHAR}
+      IS_NEED_RECOVERY = #{isNeedRecovery,jdbcType=VARCHAR},
+      EVAL_REAL_TIME = #{evalRealTime,jdbcType=TIMESTAMP}
     where PKID = #{pkid,jdbcType=BIGINT}
   </update>
 </mapper>

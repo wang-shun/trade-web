@@ -54,9 +54,6 @@
 				评估申请
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
-					<i class="iconfont icon">&#xe600;</i> 评估视图
-				</button>
 				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
 					<i class="iconfont icon">&#xe63f;</i> 案件视图
 				</button>
@@ -83,10 +80,12 @@
 								<aist:dict id="reportType" name="reportType" clazz="select_control sign_right_two" display="select" defaultvalue="${toEvalReportProcessVo.reportType}" dictType="EVAL_TYPE"  ligerui='none' onchange="evaTypeChange()"></aist:dict>
 							</div>
 							<div class="form_content">
-								<label class="control-label sign_left_two">原购入价</label>
-								<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcessVo.ornginPrice / 10000.00}" style="visibility:hidden" onkeyup="checkNum(this)">
-								<div class="input-group date_icon">
-									<span class="danwei">万</span>
+							   <div id="ornginPriceDiv" style="visibility:hidden">
+									<label class="control-label sign_left_two">原购入价</label>
+									<input class="input_type sign_right_two"  name="ornginPrice" id="ornginPrice" value="${toEvalReportProcessVo.ornginPrice / 10000.00}"  onkeyup="checkNum(this)">
+									<div class="input-group date_icon">
+										<span class="danwei">万</span>
+									</div>
 								</div>
 							</div>
 						</li>
@@ -95,13 +94,15 @@
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 评估公司</label> 
 								<select class="select_control sign_right_two" name="finOrgId" id="finOrgId" ></select>
 							</div>
-							<div class="form_content">
-								<label class="control-label sign_left_two">评估公司联系人</label> 
-								<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact" value="${toEvalReportProcessVo.evaComContact}">
-							</div>
-							<div class="form_content">
-								<label class="control-label sign_left_two">联系方式</label> 
-								<input class="input_type sign_right_two"  name="contactWay" id="contactWay" value="${toEvalReportProcessVo.contactWay}">
+							<div id="evalSup" style="visibility:visible">
+									<div class="form_content">
+										<label class="control-label sign_left_two">评估公司联系人</label> 
+										<input class="input_type sign_right_two"  name="evaComContact" id="evaComContact" value="${toEvalReportProcessVo.evaComContact}">
+									</div>
+									<div class="form_content">
+										<label class="control-label sign_left_two">联系方式</label> 
+										<input class="input_type sign_right_two"  name="contactWay" id="contactWay" value="${toEvalReportProcessVo.contactWay}">
+									</div>
 							</div>
 						</li>
 						<li>
@@ -173,9 +174,11 @@
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
     <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script>  --%>
     <script src="<c:url value='/js/common/common.js' />"></script>
-		<script>	
+		<script>
+		var taskitem;
 		$(document).ready(function() {
 				getEvaCompanyList();
+				getEvaSupInfo();
 				
 				$('.input-daterange').datepicker({
 					format : 'yyyy-mm-dd',
@@ -210,6 +213,7 @@
 		function getEvaCompanyList(pcode){
 			var friend = $("#finOrgId");
 			friend.empty();
+			friend.append("<option value=''>请选择</option>");
 			 $.ajax({
 			    url:ctx+"/manage/queryEvaCompany",
 			    method:"post",
@@ -223,6 +227,28 @@
 		    		}
 		    	}
 			  });
+		}
+		
+		function getEvaSupInfo(){
+			$("#finOrgId").change(function(){
+				$$.ajax({
+					cache : false,
+					async : true,//false同步，true异步
+					type : "POST",
+					url : ctx+"/setting/getTsSupInfo",
+					dataType : "json",
+					//contentType:"application/json",  
+					data : jsonData,
+					success : function(data) {
+						$("#evaComContact").val(data.content.contactName);
+						$("#contactWay").val(data.content.contactPhone);
+						$('#evalSup').css('visibility','visible');
+					},
+					error : function(errors) {
+						window.wxc.error("数据保存出错");
+					}
+				});
+			});
 		}
 		
 		function submitEvalApply(url,message){
@@ -267,9 +293,9 @@
 		function evaTypeChange(){
 			var evaVal = $('#reportType').val();
 			if(evaVal == '2' || evaVal == '3'){
-				$('#ornginPrice').css('visibility','visible');
+				$('#ornginPriceDiv').css('visibility','visible');
 			}else{
-				$('#ornginPrice').css('visibility','hidden');
+				$('#ornginPriceDiv').css('visibility','hidden');
 			}
 		}
 		

@@ -115,6 +115,8 @@ public class RansomDiscontinueController {
 	 * @param request
 	 * @return
 	 * update by wbshume
+	 * 
+	 * 此方法建议重做 @2017-10-28
 	 */
 	@RequestMapping(value = "submitDiscontinue")
 	@ResponseBody

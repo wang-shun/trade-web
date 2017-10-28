@@ -30,7 +30,7 @@ public interface EvaProcessService {
 	  * @param taskitem
 	  * @param businessKey
 	  */
-	 public void initReport(HttpServletRequest request,String taskitem,String businessKey);
+	 public void initReport(HttpServletRequest request,String taskitem,String businessKey,String evaCode,String source);
 	 
 	 /**
 	  * 评估出具初始化
@@ -40,7 +40,7 @@ public interface EvaProcessService {
 	  * @param taskitem
 	  * @param businessKey
 	  */
-	 public void initIssue(HttpServletRequest request,String taskitem,String businessKey);
+	 public void initIssue(HttpServletRequest request,String taskitem,String businessKey,String evaCode,String source);
 	 
 	 /**评估使用初始化
 	  * 
@@ -50,7 +50,7 @@ public interface EvaProcessService {
 	  * @param taskitem
 	  * @param businessKey
 	  */
-	 public void initUsed(HttpServletRequest request,String taskitem,String businessKey);
+	 public void initUsed(HttpServletRequest request,String taskitem,String businessKey,String evaCode,String source);
 	
 	/**
 	 * 评估申请提交

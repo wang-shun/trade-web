@@ -277,13 +277,13 @@
 							AND ERP.SYS_CREATE_TIME >= #createTimeStart#  
 					</ifNotNull>
 					<ifNotNull  resDateStart>
-							AND ERP.SYS_CREATE_TIME >= #resDateStart#  
+							AND ERP.SYS_FINSH_TIME >= #resDateStart#  
 					</ifNotNull>
 					<ifNotNull  createTimeEnd>
-							AND ERP.SYS_FINSH_TIME <= #createTimeEnd#  
+							AND #createTimeEnd# >= ERP.SYS_CREATE_TIME  
 					</ifNotNull>
 					<ifNotNull  resDateEnd>
-							AND ERP.SYS_FINSH_TIME <= #resDateStart#  
+							AND #resDateStart# >= ERP.SYS_FINSH_TIME
 					</ifNotNull>
 					<ifNotNull  PROPERTY_ADDR>
 							AND E.propertyAddr like '%'+#propertyAddr#+'%'  

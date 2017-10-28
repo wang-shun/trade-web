@@ -1,24 +1,24 @@
 
 function checkAssess(){
-	if($("#building_no").val() == ""){
+	if(checkValue($("#building_no"))){
 		$("#building_no").css("border-color","red");
 		return false;
-	}else if($("#room_no").val() == ""){
+	}else if(checkValue($("#room_no"))){
 		$("#room_no").css("border-color","red");
 		return false;
-	}else if($("#area").val() == ""){
+	}else if(checkValue(($("#area")))){
 		$("#area").css("border-color","red");
 		return false;
-	}else if($("#deal_price").val() == ""){
+	}else if(checkValue($("#deal_price"))){
 		$("#deal_price").css("border-color","red");
 		return false;
-	}else if($("#floor").val() == ""){
+	}else if(checkValue($("#floor"))){
 		$("#floor").css("border-color","red");
 		return false;
-	}else if($("#total_floor").val() == ""){
+	}else if(checkValue($("#total_floor"))){
 		$("#total_floor").css("border-color","red");
 		return false;
-	}else if($("#prop_type").val() == ""){
+	}else if(checkValue($("#prop_type"))){
 		$("#prop_type").css("border-color","red");
 		return false;
 	}else if(($("#prop_type").val()=="5" || $("#prop_type").val()=="6" || $("#prop_type").val()=="7")&&$("#area_ground").val()==""){
@@ -30,10 +30,10 @@ function checkAssess(){
 }
 function checkDisagree(){
 	
-	if($("#expected_price").val() == ""){
+	if(checkValue($("#expected_price"))){
 		$("#expected_price").css("border-color","red");
 		return false;
-	}else if($("#applyForm").find("input[name='remark']").val() == ""){
+	}else if(checkValue($("#applyForm").find("input[name='remark']"))){
 		$("#applyForm").find("input[name='remark']").css("border-color","red");
 		return false;
 	}
@@ -44,14 +44,12 @@ function checkDisagree(){
 //验证按揭贷款补件页签
 
 function checkPatch(formId){
-		var patchTimeBuy = formId.find("input[name='patchTimeBuy']").val();
-		if(patchTimeBuy==""){
+		if(checkValue(formId.find("input[name='patchTimeBuy']"))){
 			window.wxc.alert("补件时间为必填项！");
 			formId.find("input[name='patchTimeBuy']").css("border-color","red");
 			return false;
 		}
-		var patchTimeSell = formId.find("input[name='patchTimeSell']").val();
-		if(patchTimeSell==""){
+		if(checkValue(formId.find("input[name='patchTimeSell']"))){
 			window.wxc.alert("补件时间为必填项！");
 			formId.find("input[name='patchTimeSell']").css("border-color","red");
 			return false;
@@ -59,8 +57,7 @@ function checkPatch(formId){
 	return true;
 }
 function checkPatch1(formId){
-	var patchTimeBuy = formId.find("input[name='patchTimeBuy']").val();
-	if(patchTimeBuy==""){
+	if(checkValue(formId.find("input[name='patchTimeBuy']"))){
 		window.wxc.alert("补件时间为必填项！");
 		formId.find("input[name='patchTimeBuy']").css("border-color","red");
 		return false;
@@ -68,8 +65,7 @@ function checkPatch1(formId){
 return true;
 }
 function checkPatch2(formId){
-	var patchTimeSell = formId.find("input[name='patchTimeSell']").val();
-	if(patchTimeSell==""){
+	if(checkValue(formId.find("input[name='patchTimeSell']"))){
 		window.wxc.alert("补件时间为必填项！");
 		formId.find("input[name='patchTimeSell']").css("border-color","red");
 		return false;
@@ -78,25 +74,25 @@ return true;
 }
 
 
-function checkMortgageForm(formId){	
-	$("input,select").css("border-color","#ccc");	
-	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+function checkMortgageForm(formId){
+	$("input,select").css("border-color","#ccc");
+	if(checkValue(formId.find("select[name='custCode']"))){
 		window.wxc.alert("主贷人为必填项！");
-		formId.find("select[name='custCode']").css("border-color","red");
+        custCode.css("border-color","red");
 		return false;
 	}/*else if(formId.find("select[name='mortType']").val() == ""){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}*/else if(formId.find("select[name='lendWay']").val() == ""){
+	}*/else if(checkValue(formId.find("select[name='lendWay']"))){
 		window.wxc.alert("放款方式必填项！");
 		formId.find("select[name='lendWay']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comAmount']").val() == ""){
+	}else if(checkValue(formId.find("input[name='comAmount']"))){
 		window.wxc.alert('按揭贷款金额为必填项');
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comYear']").val() == ""){
+	}else if(checkValue(formId.find("input[name='comYear']"))){
 		window.wxc.alert("按揭贷款年限为必填项！");
 		formId.find("input[name='comYear']").css("border-color","red");
 		return false;
@@ -122,22 +118,22 @@ function checkMortgageForm(formId){
 		window.wxc.alert("贷款支行为必填项！");
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanerName']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanerName']"))){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
 	}/*else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
-	}*/else if(formId.find("input[name='loanerPhone']").val() == ""){
+	}*/else if(checkValue(formId.find("input[name='loanerPhone']"))){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanerPhone']").val() != "" && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
+	}else if(checkValue(formId.find("input[name='loanerPhone']")) && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		window.wxc.alert("信贷员手机号码输入错误！");
 		return false;
-	}else if(formId.find("input[name='signDate']").val() == "" ){
+	}else if(checkValue(formId.find("input[name='signDate']")) ){
 		window.wxc.alert("实际面签时间为必填项！");
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
@@ -153,7 +149,7 @@ function checkMortgageForm(formId){
 }
 function checkCompleteMortgage(formId){	
 	$("input,select").css("border-color","#ccc");	
-	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+	if(checkValue(formId.find("select[name='custCode']"))){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
@@ -161,15 +157,15 @@ function checkCompleteMortgage(formId){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}*/else if(formId.find("select[name='lendWay']").val() == ""){
+	}*/else if(checkValue(formId.find("select[name='lendWay']"))){
 		window.wxc.alert("放款方式必填项！");
 		formId.find("select[name='lendWay']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comAmount']").val() == ""){
+	}else if(checkValue(formId.find("input[name='comAmount']"))){
 		window.wxc.alert('按揭贷款金额为必填项');
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comYear']").val() == ""){
+	}else if(checkValue(formId.find("input[name='comYear']"))){
 		window.wxc.alert("按揭贷款年限为必填项！");
 		formId.find("input[name='comYear']").css("border-color","red");
 		return false;
@@ -187,22 +183,22 @@ function checkCompleteMortgage(formId){
 		formId.find("input[name='comDiscount']").css("border-color","red");
 		return false;
 	
-	}else if(formId.find("select[name='bank_type']").val() ==""){
+	}else if(checkValue(formId.find("select[name='bank_type']"))){
 		window.wxc.alert("请选择贷款银行！");
 		formId.find($("select[name='bank_type']")).css("border-color","red");
 		return false;
-	}else if(formId.find("select[name='finOrgCode']").val() ==""){
+	}else if(checkValue(formId.find("select[name='finOrgCode']"))){
 		window.wxc.alert("贷款支行为必填项！");
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanerName']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanerName']"))){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
 	}/*else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
-	}*/else if(formId.find("input[name='loanerPhone']").val() == ""){
+	}*/else if(checkValue(formId.find("input[name='loanerPhone']"))){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
@@ -210,16 +206,16 @@ function checkCompleteMortgage(formId){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		window.wxc.alert("信贷员手机号码输入错误！");
 		return false;
-	}else if(formId.find("input[name='signDate']").val() == "" ){
+	}else if(checkValue(formId.find("input[name='signDate']"))){
 		window.wxc.alert("实际面签时间为必填项！");
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	
-	}else if(formId.find("input[name='apprCompleTime']").val() == ""){
+	}else if(checkValue(formId.find("input[name='apprCompleTime']"))){
 		window.wxc.alert("实际审批完成时间！");
 		formId.find("input[name='apprCompleTime']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanContraTime']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanContraTime']"))){
 		window.wxc.alert("出具借款合同时间！");
 		formId.find("input[name='loanContraTime']").css("border-color","red");
 		return false;
@@ -232,11 +228,11 @@ function checkCompleteMortgage(formId){
 function beforeSendLoanerProcess(formId){	
 	$("input,select").css("border-color","#ccc");
 	
-	if(formId.find("select[name='custCode']").val() == "" || formId.find("select[name='custCode']").val() == null){
+	if(checkValue(formId.find("select[name='custCode']"))){
 		window.wxc.alert("主贷人为必填项！");
 		formId.find("select[name='custCode']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='mortTotalAmount']").val() == ""){
+	}else if(checkValue(formId.find("input[name='mortTotalAmount']"))){
 		window.wxc.alert("贷款总额为必填项！");
 		formId.find("input[name='mortTotalAmount']").css("border-color","red");
 		return false;
@@ -244,39 +240,39 @@ function beforeSendLoanerProcess(formId){
 		window.wxc.alert("贷款类型为必填项！");
 		formId.find("select[name='mortType']").css("border-color","red");
 		return false;
-	}*/else if(formId.find("input[name='comAmount']").val() == ""){
+	}*/else if(checkValue(formId.find("input[name='comAmount']"))){
 		window.wxc.alert("商贷金额为必填项！");
 		formId.find("input[name='comAmount']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='comYear']").val() == ""){
+	}else if(checkValue(formId.find("input[name='comYear']"))){
 		window.wxc.alert("商贷年限为必填项！");
 		formId.find("input[name='comYear']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanerName']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanerName']"))){
 		window.wxc.alert("信贷员为必填项！");
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;
 		
-	}else if(formId.find("input[name='loanerId']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanerId']"))){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		window.wxc.alert("请选择信贷员！");
 		return false;
 		
-	}else if(formId.find("input[name='loanerPhone']").val() == ""){
+	}else if(checkValue(formId.find("input[name='loanerPhone']"))){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
-	}else if(formId.find("input[name='loanerPhone']").val() != "" && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
+	}else if(checkValue(formId.find("input[name='loanerPhone']")) && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		window.wxc.alert("信贷员手机号码输入错误！");
 		return false;
-	}else if(formId.find("input[name='signDate']").val() == "" ){
+	}else if(checkValue(formId.find("input[name='signDate']"))){
 		window.wxc.alert("实际面签时间为必填项！");
 		formId.find("input[name='signDate']").css("border-color","red");
 		return false;
 	}
 	
-	if(formId.find("select[name='finOrgCode']").val() == ""){
+	if(checkValue(formId.find("select[name='finOrgCode']"))){
 		window.wxc.alert("贷款支行为必填项！");
 		formId.find("select[name='finOrgCode']").css("border-color","red");
 		return false;
@@ -498,13 +494,11 @@ function completeMortgage(form){
 	if(!checkCompleteMortgage(form)){
 		return false;
 	}
-	var pkid=form.find("input[name='pkid']").val();
-	if(pkid == null || pkid == "" ){
+	if(checkValue(form.find("input[name='pkid']")) ){
 		window.wxc.alert("贷款信息不存在！");
 		return;
 	}
-	var finOrgCode = form.find("[name='finOrgCode']").val();
-	if(finOrgCode == null || finOrgCode == ""){
+	if(checkValue(form.find("[name='finOrgCode']"))){
 		alert("请先选择贷款银行和支行！");
 		return;
 	}	
@@ -707,6 +701,7 @@ function loadMortgageInfo(isMainLoanBank,render){
 	     	if(!data.success){
 	    		window.wxc.error(data.message);
 	    	}else{
+	     		console.info(data);
 	    		render.render(data);
 	    	}
 	    }
@@ -2523,3 +2518,15 @@ function getProcessStart(){
  	});  	
 }
 
+/**
+ * 通用校验value不为空方法
+ * @param jqueryObj
+ * @returns {boolean}
+ * @author yinchao 2017-10-28
+ */
+function checkValue(jqueryObj){
+    if(!jqueryObj || jqueryObj.length == 0 || jqueryObj.val().length==0){
+        return true;
+    }
+    return false;
+}

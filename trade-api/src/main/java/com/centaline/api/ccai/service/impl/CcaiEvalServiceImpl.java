@@ -526,6 +526,11 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		}else{
 			record.setOperator(task.getApplyRealName()+"_"+task.getApplyUserName());
 		}
+		if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == task.getResult()){
+			record.setNotApprove("驳回:"+task.getComment());
+		}else if(CcaiFlowResultEnum.FAILURE.getCode() == task.getResult()){
+			record.setNotApprove("拒绝:"+task.getComment());
+		}
 		return record;
 	}
 
