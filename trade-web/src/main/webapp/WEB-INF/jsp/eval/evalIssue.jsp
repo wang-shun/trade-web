@@ -54,10 +54,10 @@
 				出具评估报告
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView" lang="${toEvalReportProcessVo.evaCode }">
 					<i class="iconfont icon">&#xe600;</i> 评估视图
 				</button>
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode }">
 					<i class="iconfont icon">&#xe63f;</i> 案件视图
 				</button>
 			</div>
