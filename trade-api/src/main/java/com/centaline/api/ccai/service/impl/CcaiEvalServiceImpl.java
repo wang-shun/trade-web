@@ -16,12 +16,6 @@ import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.common.enums.*;
 import com.centaline.trans.eloan.entity.ToSelfAppInfo;
 import com.centaline.trans.eloan.service.ToSelfAppInfoService;
-import com.centaline.trans.engine.WorkFlowConstant;
-import com.centaline.trans.engine.bean.ExecuteAction;
-import com.centaline.trans.engine.core.WorkFlowEngine;
-import com.centaline.trans.engine.entity.ToWorkFlow;
-import com.centaline.trans.engine.service.ToWorkFlowService;
-import com.centaline.trans.engine.vo.ExecutionVo;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
@@ -30,11 +24,8 @@ import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalReportProcessService;
 import com.centaline.trans.message.activemq.vo.MQCaseMessage;
 import com.centaline.trans.message.activemq.vo.MQEvalMessage;
-import com.centaline.trans.task.entity.ActRuEventSubScr;
 import com.centaline.trans.task.entity.ToApproveRecord;
-import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
 import com.centaline.trans.task.service.ToApproveRecordService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
@@ -304,7 +295,15 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 		toEvaRefund.setRefundAmount(info.getRefundAmount());
 		toEvaRefund.setRefundCause(info.getRefundCause());
 		toEvaRefund.setRefundKinds(info.getRefundKinds());
-		toEvaRefund.setRefundTarget(info.getRefundTarget());
+		if (info.getRefundTarget().equals("1")) {
+			toEvaRefund.setRefundTarget("业主");
+		}else if (info.getRefundTarget().equals("2")) {
+			toEvaRefund.setRefundTarget("客户");
+		}else if (info.getRefundTarget().equals("3")) {
+			toEvaRefund.setRefundTarget("业主和客户");
+		}else{
+			throw new BusinessException("退费对象数据错误，无法进行同步!");
+		}
 		toEvaRefund.setToRefundTime(info.getToRefundTime());
 		toEvaRefund.setProposerId(info.getUserName());
 		return toEvaRefund;
@@ -442,6 +441,7 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				}
 				//财务审批记录新增
 				ToApproveRecord record = getApproveRecord(feedBack);
+				record.setCaseCode(rebate.getGuaranteeCompId());
 				if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == feedBack.getResult()){
 					record.setNotApprove("驳回:"+feedBack.getComment());
 				}

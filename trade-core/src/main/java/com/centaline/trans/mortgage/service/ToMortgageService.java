@@ -247,4 +247,7 @@ public interface ToMortgageService {
 	 * @param caseCode
 	 */
 	public void deleteMortageByCaseCode(String caseCode);
+
+	public Result2 saveLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
+			String taskId, String processInstanceId, String partCode);
 }

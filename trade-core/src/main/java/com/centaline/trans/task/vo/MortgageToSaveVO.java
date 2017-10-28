@@ -22,7 +22,6 @@ public class MortgageToSaveVO {
 	 */
 	private Date createTime;
 	
-	
 	private String bank_type;
 	
 	private String finOrgCode;
@@ -50,6 +49,13 @@ public class MortgageToSaveVO {
 	private String processDefinitionId;
 	
 	private Date estPartTime;
+	
+	/**
+	 * 自办贷款挽回失败时，贷款表没有数据，无法记录放款时间和原因
+	 * by wbshume
+	 */
+	private Date lendDate;
+	private String remark;
 
 	public BigDecimal getLoanLossAmount() {
 		return loanLossAmount;
@@ -194,7 +200,21 @@ public class MortgageToSaveVO {
 	public void setFinOrgCode(String finOrgCode) {
 		this.finOrgCode = finOrgCode;
 	}
-	
-	
+
+	public Date getLendDate() {
+		return lendDate;
+	}
+
+	public void setLendDate(Date lendDate) {
+		this.lendDate = lendDate;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	
 }

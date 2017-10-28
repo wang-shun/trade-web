@@ -44,8 +44,7 @@ public class ToGetPropertyBookController {
 	private ToAccesoryListService toAccesoryListService;
 
 	/**
-	 * 领证
-	 * 
+	 * 原上海版本作为 领证 环节，现用于 领他证 环节。
 	 * @param request
 	 * @param response
 	 * @param caseCode
