@@ -212,7 +212,12 @@
                                              <label class="control-label">
                                             		     请输入无需结算原因：
                                              </label>
-                                             <input class="input_type input_extent" placeholder="请输入" value="" style="width:320px" id="noEndCause"/>
+                                             <select name="" class="form-control select_control" id="noEndCause">
+												<option value="" selected="selected">请选择</option>
+												<option value="爆单">爆单</option>
+												<option value="退报告">退报告</option>
+											</select>
+                                             <!-- <input class="input_type input_extent" placeholder="请输入" value="" style="width:320px" id="noEndCause"/> -->
                                          </div>
                                          <div class="line">
 											 <div class="add_btn text-center" style="margin:30px 126px;">

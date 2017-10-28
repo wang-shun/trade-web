@@ -244,7 +244,7 @@
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
 									 <td>{{item.EVA_PRICE}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td></td>
+                                    <td>{{item.LOAN}}</td>
 									<td>
 										<span class="yes_color">{{item.STATUS}}</span>
 									</td>

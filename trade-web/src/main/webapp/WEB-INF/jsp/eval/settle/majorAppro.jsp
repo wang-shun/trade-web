@@ -14,27 +14,24 @@
         <!-- IonRangeSlider -->
         <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.css' />" rel="stylesheet">
         <link href="<c:url value='/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css' />" rel="stylesheet">
-        <link href="<c:url value='/css/animate.css' />" rel="stylesheet">
-        <%-- <link href="<c:url value='/css/style.min.css' />" rel="stylesheet">  --%>
-        <link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet">
+        <link href="<c:url value='/css/animate.css' />" rel="stylesheet" />
+        <link href="<c:url value='/css/style.min.css' />" rel="stylesheet" /> 
+        <link href="<c:url value='/css/transcss/award/bonus.css' />" rel="stylesheet" />
         <!-- Gritter -->
-        <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+        <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet" />
         <!-- 分页控件 -->
         <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
-        <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />"
-        <link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
-        <link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
-        <link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
-        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
-	rel="stylesheet">
-	<link
-	href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />"
-	rel="stylesheet">
+        <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" />
+        <link  href="<c:url value='/css/common/base.css' />" rel="stylesheet" />
+        <link  href="<c:url value='/css/common/table.css' />" rel="stylesheet" /> 
+        <link  href="<c:url value='/css/common/input.css' />" rel="stylesheet" />  
+        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />"> />
+		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet"/>
 	<style>
         .apply_box{
             padding: 30px 15px 50px 15px;
             border-radius: 0px;
-        }
+        } 
 	</style>
     </head>
     
@@ -44,7 +41,7 @@
         <div id="wrapper" class="Index">
                     <div class="bonus-table">
                         <table class="table table_blue table-striped table-bordered table-hover">
-                            <thead>
+                            <thead style="background:#f9c">
                                 <tr>
                                     <th>案件编号</th>
                                     <th>产证地址</th>
@@ -54,7 +51,7 @@
                                     <th>
                                     	结算费用
                                     </th>
-                                    <th>备注信息</th>
+                                    <!-- <th>备注信息</th> -->
                                  	<th>贷款权证</th>
                                     <th>审批<input type="checkbox" id="checkAllNot" class="i-checks"/></th>
                                     
@@ -75,10 +72,10 @@
 						>审批通过</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					 	<button class="btn btn-primary" id="appro2" disabled="true" >审批不通过</button>
 					</div>
-                    <div>
+                    <div class="tab-content">
                     	<span>审批记录</span>
                     	<table class="table table_blue table-striped table-bordered table-hover" border="0" >
-                    		<thead>
+                    		<thead style="background:#f9c">
                     			 <tr>
                                     <th>案件编号</th>
                                     <th>审批时间</th>
@@ -97,11 +94,11 @@
                             </tbody>
                     	</table>
                     </div>
-                	 <div class="modal-footer">
+                	 <!--<div class="modal-footer">
 						<button type="button" class="btn btn-primary" onclick="javascript:closeEval()"
 						>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					 	<!-- <button class="btn btn-primary" id="btnSave">提交</button> -->
-					</div>
+					 	 <button class="btn btn-primary" id="btnSave">提交</button> 
+					</div>-->
           </div>
         <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
             <div class="modal-dialog" style="width: 1070px;">
@@ -171,7 +168,7 @@
                                     <td>{{item.EVA_COMPANY}}</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td></td>
+                                    
 									<td>{{item.LOAN}}</td>
 				<td class="center">
 					<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.caseCode}}" 
