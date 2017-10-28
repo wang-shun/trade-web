@@ -309,7 +309,7 @@ public class RansomListController {
 	public String queryUpdateRansomByCaseCode(String caseCode, ServletRequest request) {
 
 		try {
-
+			//TODO 方法有问题
 			List<ToRansomTailinsVo> tailinsVoList = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
 			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
