@@ -2347,13 +2347,13 @@ function getProcessStart(){
 /**
  * 通用校验value不为空方法
  * @param jqueryObj
- * @returns {boolean}
+ * @returns {boolean} true为校验不通过 false为通过
  * @author yinchao 2017-10-28
  */
 function checkValue(jqueryObj){
     if(!jqueryObj || jqueryObj.length == 0 || jqueryObj.val().length==0){
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 

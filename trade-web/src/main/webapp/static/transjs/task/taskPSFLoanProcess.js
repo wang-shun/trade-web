@@ -2293,7 +2293,7 @@ function getProcessStart(){
  */
 function checkValue(jqueryObj){
     if(!jqueryObj || jqueryObj.length == 0 || jqueryObj.val().length==0){
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
