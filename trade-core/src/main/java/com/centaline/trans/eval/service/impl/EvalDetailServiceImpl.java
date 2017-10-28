@@ -104,13 +104,13 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 	public void evalDetail(HttpServletRequest request, String caseCode, String evaCode) {
 				SessionUser user = uamSessionService.getSessionUser();
 				String userOrgId = user.getServiceDepId();
-				
+				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);//查询
+				caseCode = toEvalReportProcess.getCaseCode();
 				List<ToEvaPricingVo> toEvaPricingVoList = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);//查询询价信息
 				//这里暂取询价默认一条，后期有修改需求
 				if(toEvaPricingVoList!=null && toEvaPricingVoList.size()>0){
 					request.setAttribute("toEvaPricingVo", toEvaPricingVoList.get(0));
 				}
-				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode);//查询
 				
 				// 工作流
 				ToWorkFlow inWorkFlow = new ToWorkFlow();

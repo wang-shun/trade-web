@@ -34,7 +34,7 @@
             <condition field="a.SETTLE_FEE" name="settleFee" label="结算费用" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.STATUS" name="status" label="案件状态" searchType="EQ" showType="" showCallback="" defaultValue=""/>
             <condition field="a.FEE_CHANGE_REASON" name="feeChangeReason" label="费用调整类型" searchType="EQ" showType="" showCallback="" defaultValue=""/>
-            <condition field="e.REAL_NAME" name="loan" label="贷款权证" searchType="Like" showType="" showCallback="" defaultValue=""/>
+            <condition field="loan.REAL_NAME" name="loan" label="贷款权证" searchType="Like" showType="" showCallback="" defaultValue=""/>
             <condition field="b.CASE_CODE" name="caseCode" label="案件编号" searchType="Like" showType="" showCallback="" defaultValue=""/>
             <condition field="b.EVA_CODE" name="evalCode" label="评估单编号" searchType="Like" showType="" showCallback="" defaultValue=""/>
             <condition field="c.PROPERTY_ADDR" name="propertyAddr" label="产证地址" searchType="Like" showType="" showCallback="" defaultValue=""/>
@@ -49,16 +49,17 @@
 				c.PROPERTY_ADDR,
 				d.EVAL_REAL_CHARGES,
 				fin.FIN_ORG_NAME EVA_COMPANY,
-				--e.REAL_NAME AS LOAN,
+				loan.REAL_NAME AS LOAN,
 				(select top 1 E.REJECT_CAUSE from sctrans.T_TO_EVA_SETTLE_UPDATE_LOG E WHERE E.CASE_CODE =  a.CASE_CODE ORDER BY E.APPRO_TIME DESC)  AS REJECT_CAUSE
 			from sctrans.T_TO_EVA_SETTLE a inner join 
 			sctrans.T_TO_EVA_REPORT_PROCESS b on a.CASE_CODE = b.CASE_CODE
 			inner join sctrans.T_TO_PROPERTY_INFO c on a.CASE_CODE = c.CASE_CODE
 			INNER JOIN sctrans.T_TS_FIN_ORG fin ON b.FIN_ORG_ID = fin.FIN_ORG_CODE
 			inner join sctrans.T_TO_EVA_REBATE d on a.CASE_CODE = d.CASE_CODE
-			--left join sctrans.T_TO_CASE_PARTICIPANT e on a.CASE_CODE = e.CASE_CODE
+			left join (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='loan') loan ON A.CASE_CODE=loan.CASE_CODE
 			  WHERE 1=1
-					and (a.STATUS = '0'	or a.STATUS = '1' or a.STATUS = '6')
+					and (a.STATUS = '0'	or a.STATUS = '1' or a.STATUS = '5' or a.STATUS = '6')
+
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -101,14 +102,14 @@
 				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS,a.SETTLE_NOT_REASON,
 				c.PROPERTY_ADDR,
 				d.EVAL_REAL_CHARGES,
-				--e.REAL_NAME AS LOAN,
+				loan.REAL_NAME AS LOAN,
 				fin.FIN_ORG_NAME EVA_COMPANY
 			from sctrans.T_TO_EVA_SETTLE a inner join 
 			sctrans.T_TO_EVA_REPORT_PROCESS b on a.CASE_CODE = b.CASE_CODE
 			inner join sctrans.T_TO_PROPERTY_INFO c on a.CASE_CODE = c.CASE_CODE
 			inner join sctrans.T_TO_EVA_REBATE d on a.CASE_CODE = d.CASE_CODE
 			INNER JOIN sctrans.T_TS_FIN_ORG fin ON b.FIN_ORG_ID = fin.FIN_ORG_CODE
-			--left join sctrans.T_TO_CASE_PARTICIPANT e on a.CASE_CODE = e.CASE_CODE
+			left join (SELECT REAL_NAME,CASE_CODE FROM sctrans.T_TO_CASE_PARTICIPANT tcp  where tcp.POSITION='loan') loan ON A.CASE_CODE=loan.CASE_CODE
 			  WHERE 1=1
 					and a.STATUS = '5'	
      				

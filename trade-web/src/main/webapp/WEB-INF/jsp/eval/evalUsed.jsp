@@ -54,10 +54,10 @@
 				使用评估报告
 			</h2>
 			<div class="mt20">
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnEvalView" lang="${toEvalReportProcessVo.evaCode }">
 					<i class="iconfont icon">&#xe600;</i> 评估视图
 				</button>
-				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode}">
+				<button type="button" class="btn btn-icon btn-blue mr5" id="btnCaseView" lang="${caseCode }">
 					<i class="iconfont icon">&#xe63f;</i> 案件视图
 				</button>
 			</div>
@@ -131,7 +131,8 @@
 	<script src="<c:url value='/js/common/textarea.js' />"></script> 
     <%-- <script src="<c:url value='/js/eloan/eloancommon.js' />"></script> --%>
     <script src="<c:url value='/js/common/common.js' />"></script>
-		<script>	
+		<script>
+		var taskitem;
 		$(document).ready(function() {
 				
 				$('.input-daterange').datepicker({
