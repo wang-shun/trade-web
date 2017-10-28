@@ -354,7 +354,7 @@
 			success:function(data){
 				window.wxc.success("保存成功!",{"wxcOk":function(){
 					//ransomTaskCheck();
-					window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
+					//window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
 				}});
 			},
 			error : function(errors) {

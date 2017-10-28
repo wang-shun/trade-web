@@ -284,7 +284,7 @@
 						success:function(data){
 							if(data){
 								window.wxc.success("保存成功!",{"wxcOk":function(){
-									window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
+									//window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
 								}});
 							}else{
 								window.wxc.error("保存失败!");

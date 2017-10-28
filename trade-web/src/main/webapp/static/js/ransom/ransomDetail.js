@@ -60,8 +60,8 @@ function reloadDetail(){
 		align : "center",
 		width : 176
 	}, {
-		name : 'ACTUALMoney',
-		index : 'ACTUALMoney',
+		name : 'REST_MONEY',
+		index : 'REST_MONEY',
 		align : "center",
 		width : 176
 	}];
