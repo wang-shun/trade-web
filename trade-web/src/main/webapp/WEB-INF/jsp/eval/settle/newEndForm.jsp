@@ -131,7 +131,7 @@ display: none;}
 								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
 										<button type="button" class="btn btn-primary" onclick="javascript:associEval()" >关联评估单列表</button>
-										<button type="button" class="btn btn-primary" onclick="javascript:associEval2()" style="padding-right::100px;" >关联失误</button>
+										<!-- <button type="button" class="btn btn-primary" onclick="javascript:associEval2()" style="padding-right::100px;" >关联失误</button> -->
 									</div>
 								</div>
 							</div>
@@ -217,8 +217,10 @@ display: none;}
 								</div>
 							</div>
 							<div>
-								<button type="button" class="btn btn-primary" onclick="javascript:closeEval()"
-									>关闭</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<button type="button" class="btn btn-grey" onclick="javascript:history.back();">返回</button>
+								<!-- <button type="button" class="btn btn-primary" onclick="javascript:closeEval()"
+									>关闭</button> -->
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<button class="btn btn-primary" id="submit" onclick="javascript:submit()">提交</button>
 							</div>
 					</div>
@@ -257,22 +259,12 @@ display: none;}
 																	</div>
 							                                    </div>
 							                                </div>
-							                                 <div class="col-lg-5 col-md-5"> 
+							                                <!--  <div class="col-lg-5 col-md-5"> 
 							                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
 							                                        <div class="col-lg-9 col-md-9">
-																			<select name="" class="form-control" id="caseStatus">
-																				<option value="" selected="selected">请选择</option>
-																				
-																				<option value="0">已核对</option>
-																				<option value="1">未核对</option>
-																				<option value="4">已结算</option>
-																				<option value="3">未结算</option>
-																				<!--<option value="4">已审批</option>  
-																				<option value="5">未审批</option>
-																				  <option value="6">已驳回</option>-->
-																			</select>
+																			<aist:dict id="caseStatus" name="caseStatus"  display="select" dictType="eval_status" clazz="select_control sign_right_one_case"/>
 							                                        </div>
-							                                </div>
+							                                </div> -->
 							                            </div>
 							                            <div id="select_div_1" class="form_content" >
 								             		 		<div  class="sign_left_two">
@@ -283,6 +275,7 @@ display: none;}
 																			
 																	 </select>
 																	 <input id="inTextVal" type="text"  style="width:320px;overflow-x:visible;overflow-y:visible;">
+																	 <button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;
 																	 <button id="searchButton" type="button" class="btn btn-success">查询</button>
 															 </div>
 														</div>
@@ -395,19 +388,19 @@ display: none;}
                            {{each rows as item index}}
  							  <tr class="border-e7">
                                      <td>
-										<p>案：{{item.caseCode}}</p>
-										<p>评：{{item.evalCode}}</p>
+										<p>案：{{item.CASE_CODE}}</p>
+										<p>评：{{item.EVA_CODE}}</p>
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
-                                    <td>{{item.EVA_COMPANY}}</td>
-									<td></td>
-									<td></td>
+                                    <td>{{item.FIN_ORG_NAME}}</td>
+									<td>{{item.LOANNAME}}</td>
+									<td>{{item.AGENT_NAME}}</td>
 									<td>
 										{{item.APPLY_DATE}}
 									</td>
                                     <td>{{item.SETTLE_FEE}}</td>
 									<td class="center">
-										<a type="button" class="btn btn-success linkCase" name="linkCase" id="{{item.caseCode}}" target="_blank">关联案件</a>
+										<a type="button" class="btn btn-success linkCase" name="linkCase" id="{{item.CASE_CODE}}" target="_blank">关联案件</a>
                         			</td>
                                 </tr>
 						{{/each}}
@@ -424,9 +417,12 @@ display: none;}
 						"id"); 
 				//$('.modal-dialog').on("click",'.close');
 				//$(".close").click();
-				
+				var caseCod = $("#caseCode").val();
+				if(caseCode!=$("#caseCode").val()){
+					window.wxc.error("您【关联评估单案件】与【新增结算单案件】不匹配,请重新选择！");
+				}else{
 				$('#modal-form').modal("hide");
-				//window.wxc.confirm("确定关联吗？",{"wxcOk":function(){
+				//window.wxc.confirm("请确认要关联的案件是否正确？",{"wxcOk":function(){
 					$.ajax({
 						cache:false,
 						async:true,
@@ -472,10 +468,12 @@ display: none;}
 							window.wxc.error(data.message);
 						}
 					});
-				//}};
+				}
+				//}})
 					
 			});
  	
+  
     </script>
 	<script>
 	//<a type="button" class="btn btn-success linkCase" name="linkCase" id="{{index}}" target="_blank">关联案件</a>
@@ -552,13 +550,18 @@ display: none;}
 		window.location.reload();
 	}
 	
-	
+	//清空
+    $('#myCaseListCleanButton').click(function() {
+    	$("#inTextVal").val("");
+    	$("#finOrgId").val('');
+    	$('#dtBegin_0').val("");
+    });
 	
 	
 	function packgeData(page){
 		var data1 = {};
 	    
-	    data1.rows = 12;
+	    data1.rows = 8;
 	    data1.page = 1;
 	    if(page){
 	    	data1.page=page;
@@ -582,15 +585,16 @@ display: none;}
 			}
 		}
 		 data1.search_propertyAddr = propertyAddr;
+		 //data1.search_evalStatus = $("#caseStatus").val()
 		 data1.search_caseCode = caseCode;
 		 data1.search_evalCode = evalCode;
-	    data1.search_finOrgID = $("#finOrgId").val();
+	    data1.search_finOrgId = $("#finOrgId").val();
 		data1.search_applyDate=$('#dtBegin_0').val();
 		return data1;
 	}
 	function reloadGrid(page) {
 		var data1=packgeData(page);
-		data1.queryId = "queryEvalWaitEndList";
+		data1.queryId = "queryEvalItemListFortj";
 		aist.wrap(data1);
 	    fetchData(data1);
 	}
@@ -672,7 +676,7 @@ display: none;}
 				var html = '<option value="" selected>请选择</option>';
 				if(data != null){
 					$.each(data,function(i,item){
-						html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
+						html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
 					});
 				}					
 				$('#'+finOrgId).empty();

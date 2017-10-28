@@ -14,7 +14,8 @@
 		<result column="FLOOR" property="floor" jdbcType="INTEGER"/>
 		<result column="TOTAL_FLOOR" property="totalFloor" jdbcType="INTEGER"/>
 		<result column="AREA" property="area" jdbcType="DECIMAL"/>
-		<result column="COMPLETE_YEAR" property="completeYear" jdbcType="VARCHAR"/>
+		<result column="COMPLETE_YEAR" property="completeYear" jdbcType="TIMESTAMP"/>
+		<result column="COMPLETE_TIME" property="completeTime" jdbcType="TIMESTAMP"/>
 		<result column="PROP_TYPE" property="propType" jdbcType="VARCHAR"/>
 		<result column="ROOM" property="room" jdbcType="INTEGER"/>
 		<result column="HALL" property="hall" jdbcType="INTEGER"/>
@@ -341,7 +342,8 @@
 			fin.FIN_ORG_NAME EVA_COMPANY,
 			cas.CASE_CODE,
 			cas.CCAI_CODE,
-			pri.STATUS
+			pri.STATUS,
+			pri.COMPLETE_TIME
 		FROM
 			sctrans.T_TO_EVA_PRICING pri
 			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE

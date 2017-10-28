@@ -50,7 +50,7 @@
 			<div class="col-lg-10">
 				<h2>流程重启申请</h2>
 				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">评估视图</a></li>
+					<li><a href="${ctx }/eval/detail?evaCode=${evaCode}">评估视图</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
 				</ol>
 			</div>
@@ -79,10 +79,6 @@
 				</form>
 
 			</div>
-		</div>
-		
-		<!-- 案件备注信息 -->
-		<div id="caseCommentList" class="add_form">
 		</div>
 		
 		<div class="ibox-title">
@@ -114,6 +110,8 @@
 	<script src="${ctx}/js/plugins/pager/jquery.twbsPagination.min.js"></script>
 	<script src= "${ctx}/js/template.js" type="text/javascript" ></script>
 	<script src="${ctx}/js/plugins/aist/aist.jquery.custom.js"></script>
+	<!-- 公共信息js -->	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
 		/**提交数据*/
 		function submit() {

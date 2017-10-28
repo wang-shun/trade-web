@@ -27,9 +27,8 @@ $(document).ready(function() {
     getShowAttachment();
     //业绩记录/收费情况查询
     queryPer();
-
+    
 });
-
 
 $("#btn_loan_reqment_chg").click(chgLoanReqment);
 /**
@@ -387,7 +386,7 @@ function openTransHistory(){
 function savePlanItems(){
     var isAudit=auditResult;
     if(isAudit){
-        window.wxc.error("你已提交过变更，请等待审核！",function () {
+        window.wxc.error("该案件已提交过变更，请等待审核！",function () {
             window.location.reload();
         })
         return;
@@ -882,3 +881,4 @@ function chgLoanReqment(){
 		}
 	})}});
 }
+

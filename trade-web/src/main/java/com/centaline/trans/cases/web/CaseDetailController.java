@@ -221,6 +221,8 @@ public class CaseDetailController {
 	
 	@Autowired
 	CaseApiService caseApiService;
+	@Autowired
+	private SignService signService;
 
 	/**
 	 * 判断交易计划时间 by wbzhouht
@@ -1285,6 +1287,7 @@ public class CaseDetailController {
 		ToGetPropertyBook toGetPropertyBook=toGetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
 		ToHouseTransfer toHouseTransfer=toHouseTransferService.findToGuoHuByCaseCode(caseCode);
 		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToSign toSign=signService.findToSignByCaseCode(caseCode);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<ToTransPlan>transPlan=new ArrayList<ToTransPlan>();
 		if (plans != null && plans.size() > 0) {
@@ -1298,25 +1301,30 @@ public class CaseDetailController {
 					plan.setEstPartTimeStr(format.format(plan.getEstPartTime()));
 				}
 				/**判断是否有已经走了的环节，走过的环节则不能修改时间 by wbzhouht*/
+				if(toSign!=null){
+					if(PartCodeEnum.WQ.getCode().equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
 				if(toRatePayment!=null){
-					if("RatePayment".equals(plan.getPartCode())){
+					if(PartCodeEnum.JS.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toHouseTransfer!=null){
-					if("Guohu".equals(plan.getPartCode())){
+					if(PartCodeEnum.GH.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toMortgage!=null){
-					if("CommercialLoansSigned".equals(plan.getPartCode())||"BusinessLoanAssessmentReport".equals(plan.getPartCode())||
-							"CommercialLendingCompleted".equals(plan.getPartCode())||"ProvidentFundLoanBookApplication".equals(plan.getPartCode())||
-							"ProvidentFundSigned".equals(plan.getPartCode())||"ProvidentFundLoanCompletion".equals(plan.getPartCode())){
+					if(PartCodeEnum.SDMQ.getCode().equals(plan.getPartCode())||PartCodeEnum.SDCPG.getCode().equals(plan.getPartCode())||
+							PartCodeEnum.SDPD.getCode().equals(plan.getPartCode())||PartCodeEnum.GJJDK.getCode().equals(plan.getPartCode())||
+							PartCodeEnum.GJJMQ.getCode().equals(plan.getPartCode())||PartCodeEnum.GJJPD.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toGetPropertyBook!=null){
-					if("HouseBookGet".equals(plan.getPartCode())){
+					if(PartCodeEnum.LZ.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
@@ -2147,7 +2155,7 @@ public class CaseDetailController {
 			return AjaxResponse.fail("提交失败！");
 		}
 		}else {
-			return AjaxResponse.fail("未获取到办理人！");
+			return AjaxResponse.fail("您不是该案件的过户权证！");
 		}
 		}else {
 			return AjaxResponse.fail("交易计划未做变更！");

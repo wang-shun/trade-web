@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.centaline.trans.common.enums.EvalWaitAccountEnum;
 import com.centaline.trans.common.enums.FeeChangeTypeEnum;
+import com.centaline.trans.eval.entity.ToEvalRebate;
 import com.centaline.trans.eval.entity.ToEvalSettle;
 import com.centaline.trans.eval.repository.ToEvalSettleMapper;
+import com.centaline.trans.eval.service.ToEvalRebateService;
 import com.centaline.trans.eval.service.ToEvalSettleService;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 import com.centaline.trans.mgr.repository.TsFinOrgMapper;
@@ -25,6 +27,9 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 	
 	@Autowired(required = true)
 	ToEvalSettleService toEvalSettleService;
+	
+	@Autowired(required = true)
+	ToEvalRebateService toEvalRebateService;
 	
 	@Override
 	public int deleteByPrimaryKey(Long pkid) {
@@ -110,12 +115,17 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 
 	@Override
 	public int insertWaitAccount(String caseCode,String evaCode, String feeChangeReason) {
+		ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
 		if(feeChangeReason.equals(FeeChangeTypeEnum.FPSD.getCode())) {//发票税点
 				ToEvalSettle record = new ToEvalSettle();
 				record.setCaseCode(caseCode);
 				record.setEvaCode(evaCode);
 				record.setFeeChangeReason(FeeChangeTypeEnum.getName(feeChangeReason));
 				record.setStatus(EvalWaitAccountEnum.WTJ.getCode());//未提交
+				//初始化结算费用
+				if(toEvalRebate.getEvaComAmount()!= null) {
+					record.setSettleFee(toEvalRebate.getEvaComAmount());
+				}
 				toEvalSettleMapper.insertSelective(record);
 		}else {
 				ToEvalSettle record = new ToEvalSettle();
@@ -123,6 +133,15 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 				record.setEvaCode(evaCode);
 				record.setFeeChangeReason(FeeChangeTypeEnum.getName(feeChangeReason));
 				record.setStatus(EvalWaitAccountEnum.WXJS.getCode());//无需结算
+				//初始化结算费用
+				if(toEvalRebate.getEvaComAmount()!= null) {
+					record.setSettleFee(toEvalRebate.getEvaComAmount());
+				}
+				if(feeChangeReason.equals(FeeChangeTypeEnum.WD.getCode())) {
+					record.setSettleNotReason("爆单");
+				}else {
+					record.setSettleNotReason(FeeChangeTypeEnum.getName(feeChangeReason));
+				}
 				toEvalSettleMapper.insertSelective(record);
 		}
 		return 0;
