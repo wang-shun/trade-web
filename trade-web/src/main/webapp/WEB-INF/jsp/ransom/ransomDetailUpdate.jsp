@@ -122,14 +122,11 @@
 									<c:forEach items="${tailinsVoList }" var="tailinsVo" varStatus="status">
 										<tr id="tr${status.index }">
 											<td>
-											<select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select>
-											<aist:dict id="finOrgCode${status.index }" name="finOrgCode" clazz=" select_control yuanwid " display="select" 
-											dictType="RETAINAGE_TYPE" defaultvalue="${tailinsVo.finOrgCode }" />
-											<%-- <select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select> --%>
+											 <select id="finOrgCode${status.index }" name="finOrgCode" class= "select_control yuanwid " ></select> 
 											</td>
 											<td>
 												<aist:dict id="mortgageType${status.index }" name="mortgageType" clazz=" select_control yuanwid " 
-												display="select" dictType="30016" defaultvalue="${tailinsVo.mortgageType }" />
+												display="select" dictType="RETAINAGE_TYPE" defaultvalue="${tailinsVo.mortgageType }" />
 											</td>
 											<td>
 												<input type="hidden" id="diyaType${status.index }" name="partCode" value="${tailinsVo.diyaType}">
@@ -176,104 +173,104 @@
 					</tr>
 				</thead>
 				<tbody id="work-info">
-					<c:if test="${taskVo.applyCode != null }">
+					<c:if test="${taskMap['APPLY'].applyCode != null }">
 						<tr>
 							<td>申请</td>
-							<td><fmt:formatDate value='${taskVo.applyTime }' pattern='yyyy-MM-dd'/></td>
-							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/applyView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
+							<td><fmt:formatDate value='${taskMap[\'APPLY\'].applyTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskMap['APPLY'].doUser }</td>
+							<td><a href="${ctx}/ransomChange/applyView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['APPLY'].applyCode }">前往修改</a></td>
 						</tr>
 					</c:if>
-					<c:if test="${taskVo.signCode != null }">
+					<c:if test="${taskMap['SIGN'].signCode != null }">
 						<tr>
 							<td>面签</td>
-							<td><fmt:formatDate value='${taskVo.signTime }' pattern='yyyy-MM-dd'/></td>
-							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/signView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }">前往修改</a></td>
+							<td><fmt:formatDate value='${taskMap[\'SIGN\'].signTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskMap['SIGN'].doUser }</td>
+							<td><a href="${ctx}/ransomChange/signView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['SIGN'].signCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 					<c:if test="${count == 0 }">
-						<c:if test="${taskVo.payOneCode != null }">
+						<c:if test="${taskMap['PAYLOAN_ONE'].payOneCode != null }">
 							<tr>
 								<td>陪同还贷</td>
-								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'PAYLOAN_ONE\'].payOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['PAYLOAN_ONE'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYLOAN_ONE'].payOneCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.cancelOneCode != null }">
+						<c:if test="${taskMap['CANCELDIYA_ONE'].cancelOneCode != null }">
 							<tr>
 								<td>注销抵押</td>
 								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td>${taskMap['CANCELDIYA_ONE'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_ONE'].cancelOneCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.receiveOneCode != null }">
+						<c:if test="${taskMap['RECEIVE_ONE'].receiveOneCode != null }">
 							<tr>
 								<td>领取产证</td>
-								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'RECEIVE_ONE\'].receiveOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['RECEIVE_ONE'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_ONE'].receiveOneCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 					</c:if>
 					<c:if test="${count == 1 }">
-						<c:if test="${taskVo.payOneCode != null }">
+						<c:if test="${taskMap['PAYLOAN_ONE'].payOneCode != null }">
 							<tr>
 								<td>陪同还贷(一抵)</td>
-								<td><fmt:formatDate value='${taskVo.payOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td><fmt:formatDate value='${taskMap[\'PAYLOAN_ONE\'].payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYLOAN_ONE'].payOneCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.payTwoCode != null }">
+						<c:if test="${taskMap['PAYLOAN_TWO'].payTwoCode != null }">
 							<tr>
 								<td>陪同还贷(二抵)</td>
-								<td><fmt:formatDate value='${taskVo.payTwoTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'PAYLOAN_TWO\'].payTwoTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['PAYLOAN_TWO'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYLOAN_TWO'].payTwoCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.cancelOneCode != null }">
+						<c:if test="${taskMap['CANCELDIYA_ONE'].cancelOneCode != null }">
 							<tr>
 								<td>注销抵押(一抵)</td>
-								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'CANCELDIYA_ONE\'].cancelOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['CANCELDIYA_ONE'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_ONE'].cancelOneCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.cancelTwoCode != null }">
+						<c:if test="${taskMap['CANCELDIYA_TWO'].cancelTwoCode != null }">
 							<tr>
 								<td>注销抵押(二抵)</td>
-								<td><fmt:formatDate value='${taskVo.cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'CANCELDIYA_TWO\'].cancelTwoeTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['CANCELDIYA_TWO'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_TWO'].cancelTwoCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
-						<c:if test="${taskVo.receiveOneCode != null }">
+						<c:if test="${taskMap['RECEIVE_ONE'].receiveOneCode != null }">
 							<tr>
 								<td>领取产证(一抵)</td>
-								<td><fmt:formatDate value='${taskVo.receiveOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=0">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'RECEIVE_ONE\'].receiveOneTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['RECEIVE_ONE'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_ONE'].receiveOneCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>	
-						<c:if test="${taskVo.receiveTwoCode != null }">
+						<c:if test="${taskMap['RECEIVE_TWO'].receiveTwoCode != null }">
 							<tr>
 								<td>领取产证(二抵)</td>
-								<td><fmt:formatDate value='${taskVo.receiveTwoTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.signCode }&count=${count}">前往修改</a></td>
+								<td><fmt:formatDate value='${taskMap[\'RECEIVE_TWO\'].receiveTwoTime }' pattern='yyyy-MM-dd'/></td>
+								<td>${taskMap['RECEIVE_TWO'].doUser }</td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_TWO'].receiveTwoCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 					</c:if>
-					<c:if test="${taskVo.paymentCode != null }">
+					<c:if test="${taskMap['PAYCLEAR'].paymentCode != null }">
 						<tr>
 							<td>回款结清</td>
-							<td><fmt:formatDate value='${taskVo.paymentTime }' pattern='yyyy-MM-dd'/></td>
-							<td>${taskVo.doUser }</td>
-							<td><a href="${ctx}/ransomChange/paymentView?ransomCode=${caseVo.ransomCode}&partCode=${taskVo.applyCode }">前往修改</a></td>
+							<td><fmt:formatDate value='${taskMap[\'PAYCLEAR\'].paymentTime }' pattern='yyyy-MM-dd'/></td>
+							<td>${taskMap['PAYCLEAR'].doUser }</td>
+							<td><a href="${ctx}/ransomChange/paymentView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYCLEAR'].paymentCode }">前往修改</a></td>
 						</tr>
 					</c:if>
 				</tbody>
@@ -320,40 +317,9 @@
         
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
-        <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
+        <%-- <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script> --%>
        	<script src="<c:url value='/js/common/common.js' />"></script> 
+       	<script src="<c:url value='/js/ransom/ransomDetailUpdate.js'/>" type="text/javascript"></script>
 		</content>
-	<script>
-	    $(document).ready(function () {
-	        $('.input-daterange').datepicker({
-	            keyboardNavigation: false,
-	            forceParse: false,
-	            autoclose: true
-	        });
-	        getEvaFinOrg('finOrgCode');
-	    });
-	    
-	    function getEvaFinOrg(name){
-			var url = "/manage/queryTailins";
-			$.ajax({
-				async: true,
-				type:'POST',
-				url:ctx+url,
-				dataType:'json',
-				success:function(data){
-					var html = '';
-					if(data != null){
-						$.each(data,function(i,item){
-							html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
-						});
-					}					
-					$('[name='+name+']').empty();
-					$('[name='+name+']').append(html);
-				},
-				error : function(errors) {
-				}
-			});
-		}
-</script>
 </body>
 </html>

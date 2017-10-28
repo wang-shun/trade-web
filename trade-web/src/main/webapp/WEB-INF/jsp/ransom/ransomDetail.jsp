@@ -102,6 +102,10 @@
 		display: block;
 		width: 200px;
 	}
+	.time-wapper {
+		
+		text-align: center;
+	}
 </style>
 </head>
 <body>
@@ -532,11 +536,11 @@
 									<h2 class="title">时间信息</h2>
 									
 									<table class="table table_blue table-striped table-bordered table-hover ">
-										<thead>
+										<thead >
 											<tr>
-												<th></th>
-												<th>实际办理时间</th>
-												<th>预计完成时间</th>
+												<th class="time-wapper" style="background-color:#00CED1 ;"></th>
+												<th class="time-wapper" style="background-color:#00CED1 ;">实际办理时间</th>
+												<th class="time-wapper" style="background-color:#00CED1 ;">预计完成时间</th>
 											</tr>
 										</thead>
 										<tbody id="time-record">

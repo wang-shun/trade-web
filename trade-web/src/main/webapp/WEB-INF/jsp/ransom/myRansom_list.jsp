@@ -204,9 +204,11 @@ text-decoration: underline !important;
 								<aist:dict id="ransomSearchTime" name="ransomSearchTime" clazz="form-control" display="select"  dictType="RANSOM_SEARCH_TIME" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="startTime" class="form-control data_style" onchange="checkDate('dtBegin_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+								<input id="dtBegin_0" name="startTime" class="form-control data_style" onfocus="checkValue()" onchange="checkDate('dtBegin_0')" 
+								style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="endTime" class="form-control data_style" onchange="checkDate('dtEnd_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="endTime" class="form-control data_style" onfocus="checkValue()" onchange="checkDate('dtEnd_0')" 
+								style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>
