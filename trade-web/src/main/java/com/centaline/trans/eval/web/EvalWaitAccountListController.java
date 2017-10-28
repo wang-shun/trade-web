@@ -104,12 +104,12 @@ public class EvalWaitAccountListController {
 	 */
 	@RequestMapping(value = "/evalWaitEndList")
 	public String evalWaitEndList() {
-//		String caseCode = "ZY-TJ-2017100491";
-//		String evaCode = "PG-TJ-2017100492";
+//		String caseCode = "ZY-TJ-2017100557";
+//		String evaCode = "PG-TJ-2017100558";
 //		String feeChangeReason = "1";
-//		String caseCode = "ZY-TJ-2017100575";
-//		String evaCode = "PG-TJ-2017100578";
-//		String feeChangeReason = "2";
+//		String caseCode = "ZY-TJ-2017100568";
+//		String evaCode = "PG-TJ-2017100569";
+//		String feeChangeReason = "4";
 //		int a =toEvalSettleService.insertWaitAccount(caseCode, evaCode, feeChangeReason);
 //		System.out.println(a);
 		return "eval/settle/evalWaitEndList";

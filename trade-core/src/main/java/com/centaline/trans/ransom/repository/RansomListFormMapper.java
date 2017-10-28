@@ -217,7 +217,7 @@ public interface RansomListFormMapper {
 	 * @param ransomCode
 	 * @return
 	 */
-	VRansomFinishTaskVo getRansomTaskInfo(String ransomCode);
+	List<VRansomFinishTaskVo> getRansomTaskInfo(String ransomCode);
 	
 	/**
 	 * 获取当前存在的任务

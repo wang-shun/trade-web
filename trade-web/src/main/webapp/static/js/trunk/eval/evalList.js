@@ -246,7 +246,7 @@ function getParamsValue() {
 
 //待dict确认再算
 // 日期类型
-var createTimeStart, resDateStart,createTimeEnd,resDateEnd;
+var createTimeStart='', resDateStart='',createTimeEnd='',resDateEnd='';
 
 // 日期控件取值
 function getSearchDateValues() {
@@ -257,21 +257,21 @@ function getSearchDateValues() {
 		if(end&&end!=''){
 			end=end+' 23:59:59';
 		}
-		if (start != "") {
+		//if (start != "") {
 			if (val == '600001001') {
 				//评估上报日期
 				createTimeStart = start;
 			} else if (val == '600001002') {
 				//评估完成日期
 				resDateStart = start;
-		}
-		if (end != "") {
+		//}
+		//if (end != "") {
 			if (val == '600001001') {
 				createTimeEnd = end;
 			} else if (val == '600001002') {
 				resDateEnd = end;
 			}
-		}
+		//}
 	}
 	return true;
 }
@@ -317,11 +317,12 @@ function initAutocomplete(url){
 }
 //清空
 $('#myEvalListCleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
+	/*$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
 	$("#status").val("");
 	$("#inTextVal").val("");
-	$("#isSubscribeFilter").val('');
+	$("#isSubscribeFilter").val('');*/
+	location.reload(); 
 });
 
 //结算
