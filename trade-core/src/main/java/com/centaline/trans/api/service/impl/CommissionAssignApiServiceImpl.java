@@ -1,16 +1,12 @@
 package com.centaline.trans.api.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.CommissionAssignApiService;
 import com.centaline.trans.api.vo.ApiCommissionAssign;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 /**
  * @author xiefei1
  * @since 2017年10月25日 下午9:43:49 
@@ -23,30 +19,26 @@ public class CommissionAssignApiServiceImpl extends ApiService implements Commis
 	@Override
 	public ApiCommissionAssign getApiCommissionAssign(String ccaiCode) {
 		//接口服务开启时 访问CCAI获取数据
-				if(serviceIsEnable()){
-					return toCcaiGetInfo(ccaiCode);
-				}else{
-					//生成模拟数据 防止报错
-					return demoApiCaseInfo();
-				}
+		if(serviceCanPull()){
+			return toCcaiGetInfo(ccaiCode);
+		}else{
+			//生成模拟数据 防止报错
+			return demoApiCaseInfo();
+		}
 	}
 	
 	/**
 	 *
-	 * 访问CCAI的服务 获取成交报告信息
+	 * 访问CCAI的服务 获取最新的调佣分成信息
 	 * @param ccaiCode 成交报告编号
 	 * @return
 	 */
 	private ApiCommissionAssign toCcaiGetInfo(String ccaiCode){
-//		Map<String,String> param = new HashMap<>();
-//		param.put("ccaiCode",ccaiCode);
 		String url =getServiceAddress()+"/CCAIData/GetAssessContractCommisionAssigns"+"?ccaiCode="+ccaiCode;
 		ApiCommissionAssign result;
 		try {
 			String json = restTemplate.getForObject(url,String.class);
 			return JSONObject.parseObject(json,ApiCommissionAssign.class);
-			// return mapper.readValue(json,ApiCaseInfo.class); jackjson 无法转换分成信息和合作信息 原因暂时未知
-			// return restTemplate.getForObject(url,ApiCaseInfo.class); 自带的也无法进行转换分成信息和合作信息 而且会报错
 		}catch (Exception e){
 			e.printStackTrace();
 			result = new ApiCommissionAssign();

@@ -112,19 +112,20 @@ function getRansomFinOrg(name){
 	   		},
 			type:"POST",
 			success: function(data){
-				window.wxc.success("提交成功!",{"wxcOk":function(){
-					if(window.opener)
-					{
-						 window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
-						 window.opener.location.reload();
-						 window.close();
-					} else {
-						 window.location.href = "${ctx }/task/ransom/taskList";
-					}
+				window.wxc.success("保存成功!",{"wxcOk":function(){
+//					if(window.opener)
+//					{
+//						 window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+//						 window.opener.location.reload();
+//						 window.close();
+//					} else {
+//						 window.location.href = "${ctx }/task/ransom/taskList";
+//					}
 				}});
 			},
 			error: function(data){
-				window.wxc.error(data.message);
+//				window.wxc.error(data.message);
+				window.exc.error("保存失败！",{"wxcOk":function(){}});
 			}
 		});
 	}

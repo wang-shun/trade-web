@@ -165,8 +165,9 @@
 			$('#permitTime').css('border-color',"red");
 			return;
 		}
-		var caseCode = $('#caseCode').val();
-		window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
+		//var caseCode = $('#caseCode').val();
+		//window.location.href = ctx + "/ransomList/updateRansomInfo?caseCode=" + caseCode;
+		window.wxc.success("保存成功！");
 	});
 	</script> 
 </content>

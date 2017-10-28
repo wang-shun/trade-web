@@ -64,7 +64,7 @@ public class CcaiFlowApiServiceImpl extends ApiService implements FlowApiService
 	 * @return
 	 */
 	private ApiResultData toCcai(String applyId,CcaiTaskEnum task, FlowFeedBack info){
-		if(serviceIsEnable()){
+		if(serviceCanPush()){
 			String url = getServiceAddress()+"/CCAIData/PostFlowInfo";
 			SessionUser user = info.getUser();
 			CcaiFeedBack post = new CcaiFeedBack();

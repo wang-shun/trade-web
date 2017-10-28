@@ -71,8 +71,27 @@
 	</select>
 	
 	
-	<select id="getRansomCase" resultMap="BaseResultMap">
-		SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4)
+	<select id="getRansomCase" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+		SELECT 
+			RANSOM_CODE ransomCode,
+			CASE_CODE caseCode,
+			RANSOM_STATUS ransomStatus,
+			COM_ORG_CODE comOrgCode,
+			BORRO_MONEY borroMoney, 
+			BORROWER_NAME borrowerName,
+			BORROWER_TEL borrowerTel,
+			ISSTOP isstop,
+			STOP_TYPE stopType,
+			STOP_REASON stopReason,
+			ACCEPT_TIME acceptTime,
+			ISAPPLY isApply,
+			CREATE_TIME createTime,
+			CREATE_USER createUser,
+			UPDATE_TIME updateTime,
+			UPDATE_USER updateUser
+		FROM sctrans.T_RA_CASE
+		WHERE RANSOM_STATUS NOT IN(3,4)
+		<!-- SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4) -->
 		<if test="caseCode != null and caseCode != ''">
 			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		</if>

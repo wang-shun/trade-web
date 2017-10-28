@@ -144,27 +144,55 @@ $(document).ready( function() {
 		  window.wxc.alert("抵押类型时间不能为空！");
 		  return false;
 	  }
-	  //贷款金额
-	  if($("#loanMoney").val() == "" || $("#loanMoney").val() == null){
-		  $.unblockUI();
-		  window.wxc.alert("贷款金额时间不能为空！");
-		  return false;
+	  
+	  for(var i = 0; i < $("select[name='finalOrg']").length;i++){
+		 var loanMoney = parseInt($("#trId" + i + " td input[name='loanMoney']").val());
+		 var restMoney = parseInt($("#trId" + i + " td input[name='restMoney']").val());
+		 
+		 if(loanMoney == null || loanMoney == ""){
+			 window.wxc.alert("贷款金额不能为空！");
+			 window.wxc.alert("贷款金额不能为空！");
+		 }
+		 
+		 if(restMoney == null || restMoney == ""){
+			 window.wxc.alert("剩余金额不能为空！");
+			 window.wxc.alert("剩余金额不能为空！");
+		 }
+		 
+		 if(restMoney > loanMoney){
+			 window.wxc.alert("剩余金额不能大于贷款金额！");
+			 return false;
+		 }
 	  }
-	  //剩余金额
-	  if($("#restMoney").val() == "" || $("#restMoney").val() == null){
-		  $.unblockUI();
-		  window.wxc.alert("剩余金额不能为空！");
-		  return false;
-	  }
+//	  //贷款金额
+//	  if($("#loanMoney").val() == "" || $("#loanMoney").val() == null){
+//		  $.unblockUI();
+//		  window.wxc.alert("贷款金额时间不能为空！");
+//		  window.wxc.alert("贷款金额时间不能为空！");
+//	  }
+//	  //剩余金额
+//	  if($("#restMoney").val() == "" || $("#restMoney").val() == null){
+//		  $.unblockUI();
+//		  window.wxc.alert("剩余金额不能为空！");
+//		  return false;
+//	  }
 	  return true;
 }
+	  
  function changeRestMoney(){
 	 var allLoanMoney = 0;
 	 for(var i = 0; i < $("select[name='finalOrg']").length;i++){
-		 allLoanMoney += parseInt($("#trId" + i + " td input[name='restMoney']").val());
+		 var loanMoney = parseInt($("#trId" + i + " td input[name='loanMoney']").val());
+		 var restMoney = parseInt($("#trId" + i + " td input[name='restMoney']").val());
+		 
+		 if(restMoney > loanMoney){
+			 window.wxc.alert("剩余金额不能大于贷款金额！");
+			 return false;
+		 }
+		 
 	 }
-	 
-	$("#allLoanMoney").val(allLoanMoney);
+//	 
+//	$("#allLoanMoney").val(allLoanMoney);
  }
 
  /**
@@ -343,7 +371,7 @@ function removeTr(index) {
 	$("#trId" + index).remove();
 	$("#addMoneyLine").css("display","block");
 	
-	setMoney();
+	//setMoney();
 }
 
 function setMoney(){

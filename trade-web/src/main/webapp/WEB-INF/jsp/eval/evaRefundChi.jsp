@@ -289,7 +289,7 @@
 									value='${toEvaRefund.toRefundTime }' type='both'
 									pattern='yyyy-MM-dd' /></label></td>
 						<td><label class="control-label sign_left_small">评估费时收金额：${toEvaRefund.evalRealCharges}</label></td>
-						<td><label class="control-label sign_left_small">评估费实收时间：</label></td>
+						<td><label class="control-label sign_left_small">评估费实收时间：${toEvaRefund.evalRealTime}</label></td>
 						<td><label class="control-label sign_left_small">出具评估报告时间：<fmt:formatDate
 									value='${toEvaReport.issueDate }' type='both'
 									pattern='yyyy-MM-dd' /></label></td>
