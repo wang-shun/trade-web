@@ -3,7 +3,9 @@ package com.centaline.trans.ransom.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -368,11 +370,24 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 
 	
 	@Override
-	public VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode) {
+	public Map<String,VRansomFinishTaskVo> getRansomTaskInfoByRansomCode(String ransomCode) {
 		
-		VRansomFinishTaskVo taskVo = ransomListFormMapper.getRansomTaskInfo(ransomCode);
+		List<VRansomFinishTaskVo> taskList = ransomListFormMapper.getRansomTaskInfo(ransomCode);
 		
-		return taskVo;
+		Map<String,VRansomFinishTaskVo> taskMap = new HashMap<String, VRansomFinishTaskVo>();
+		for (VRansomFinishTaskVo taskVo : taskList) {
+			taskMap.put(taskVo.getApplyCode(),taskVo);
+			taskMap.put(taskVo.getSignCode(), taskVo);
+			taskMap.put(taskVo.getPayOneCode(), taskVo);
+			taskMap.put(taskVo.getPayTwoCode(), taskVo);
+			taskMap.put(taskVo.getCancelOneCode(), taskVo);
+			taskMap.put(taskVo.getCancelTwoCode(), taskVo);
+			taskMap.put(taskVo.getReceiveOneCode(), taskVo);
+			taskMap.put(taskVo.getReceiveTwoCode(), taskVo);
+			taskMap.put(taskVo.getPaymentCode(), taskVo);
+		}
+		
+		return taskMap;
 	}
 
 	@Override

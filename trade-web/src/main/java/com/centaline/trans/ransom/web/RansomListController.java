@@ -70,7 +70,7 @@ public class RansomListController {
 	/**
 	 * 赎楼编码前缀
 	 */
-	private static String EVA_CODE_PRE = "SL-TJ-";
+	private static String RANSOM_CODE_PRE = "SL-TJ-";
 	
 	@Autowired
 	private ToCaseMapper tocaseMapper;
@@ -101,11 +101,7 @@ public class RansomListController {
 
 	/**
 	 * 新建赎楼单
-	 * 
-	 * @param model
 	 * @param jsonStr
-	 * @param request
-	 * @param response
 	 * @return
 	 */
 	@RequestMapping(value = "addRansom")
@@ -118,72 +114,19 @@ public class RansomListController {
 		try {
 			List<ToRansomFormVo> list = JSONObject.parseArray(jsonStr, ToRansomFormVo.class);
 			String ransomCode = generateEvaCode(); // 赎楼单编号
-			String caseCode = list.get(0).getCaseCode();
-			List<ToRansomFormVo> ransomList = new ArrayList<ToRansomFormVo>();
 
-			for (int i = 0; i < list.size(); i++) {
-				ToRansomFormVo ransomFormVo = new ToRansomFormVo();
-
-				ransomFormVo.setCaseCode(caseCode);
-				ransomFormVo.setRansomCode(ransomCode);
-				ransomFormVo.setSignTime(list.get(0).getSignTime());
-				ransomFormVo.setPlanTime(list.get(0).getPlanTime());
-				ransomFormVo.setFinOrgCode(list.get(i).getFinOrgCode());
-				ransomFormVo.setMortgageType(list.get(i).getMortgageType());
-				ransomFormVo.setDiyaType(list.get(i).getDiyaType());
-				ransomFormVo
-						.setLoanMoney((list.get(i).getLoanMoney()).multiply(new BigDecimal(Double.toString(10000.00))));
-				ransomFormVo
-						.setRestMoney((list.get(i).getRestMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
-				ransomFormVo.setCreateTime(new Date());
-				ransomFormVo.setCreateUser(user.getId());
-				ransomFormVo.setUpdateTime(new Date());
-				ransomFormVo.setUpdateUser(user.getId());
-
-				ransomList.add(ransomFormVo);
-			}
-
-			addRansomFormService.addRansomForm(ransomList);
-
-			ToRansomPlanVo planVo = new ToRansomPlanVo();
-			planVo.setRansomCode(ransomCode);
-			planVo.setPartCode("APPLY");
-			planVo.setEstPartTime(list.get(0).getPlanTime());
-			planVo.setCreateUser(user.getId());
-			planVo.setCreateTime(new Date());
-			planVo.setUpdateTime(new Date());
-			planVo.setUpdateUser(user.getId());
-			ransomListFormService.insertRansomPlanTimeInfo(planVo);
-
-			result = "0";
-			if ("0".equals(result)) {
+			int count = addRansomFormService.addRansomForm(list,ransomCode);
+			if (count > 0) {
+				result = "0";
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(result);
-
-				ToRansomCaseVo trco = new ToRansomCaseVo();
-				// 赎楼列表单插入数据
-				trco.setRansomCode(ransomCode);
-				trco.setCaseCode(caseCode);
-				trco.setRansomStatus("1");
-				trco.setRansomProperty("DEAL");
-				trco.setBorrowerName(list.get(0).getBorrowerName());
-				trco.setBorrowerTel(list.get(0).getBorrowerTel());
-				trco.setBorroMoney((list.get(0).getBorroMoney().multiply(new BigDecimal(Double.toString(10000.00)))));
-				trco.setAcceptTime(list.get(0).getPlanTime());
-				trco.setCreateTime(new Date());
-				trco.setCreateUser(user.getId());
-				trco.setUpdateTime(new Date());
-				trco.setUpdateUser(user.getId());
-
-				ransomListFormService.addRansomDetail(trco);
 			} else {
 				String message = "新增案件失败，请刷新后再次尝试！";
 				rs.setStatus(result);
 				rs.setCode(result);
 				rs.setMessage(message);
 			}
-
 			return JSONObject.toJSONString(rs);
 		} catch (BusinessException ex) {
 			logger.error("", ex);
@@ -206,28 +149,6 @@ public class RansomListController {
 		ToRansomLinkVo ransomLinkVo = ransomService.getRansomLinkInfo(caseCode);
 		request.setAttribute("ransomLinkVo", ransomLinkVo);
 		return "ransom/addRansom";
-		
-//		try {
-//			ResultNew rs = new ResultNew();
-//			String result = "-1";
-//			if(ransomLinkVo != null) {
-//				String message = "案件关联已被关联，请重新选择！";
-//				rs.setStatus(result);
-//				rs.setCode(result);
-//				rs.setMessage(message);
-//			}else {
-//				result = "0";
-//				rs.setStatus(result);
-//				rs.setCode(result);
-//				rs.setMessage(result);
-//			}
-//			return JSONObject.toJSONString(rs);
-//		} catch (Exception ex) {
-//			logger.error("", ex);
-//			rs.setStatus("0");
-//			rs.setMessage(ex.getMessage());
-//			return JSONObject.toJSONString(rs);
-//		}
 	}
 
 	/**
@@ -278,11 +199,18 @@ public class RansomListController {
 	public String ransomDetail(String ransomCode, ServletRequest request) {
 
 		try {
+			//公共信息
 			ToRansomDetailVo detailVo = ransomService.getRansomDetail(ransomCode);
 			// 案件详情信息
 			// ToRansomCaseVo caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
+			//实际完场环节
 			Map<String, String> actTasks = ransomService.getActTasks(ransomCode);
+			//赎楼详情信息总览金额明细信息
 			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
+			
+			
+			
+			
 			// 新建赎楼单即是受理状态
 			List<ToRansomTailinsVo> ransomTailinsList = ransomService.getTailinsInfoByRansomCode(ransomCode);
 			ToRansomTailinsVo tailinsVo = ransomTailinsList.get(0);
@@ -385,13 +313,13 @@ public class RansomListController {
 			List<ToRansomTailinsVo> tailinsVoList = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
 			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
-			VRansomFinishTaskVo taskVo = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
+			Map<String,VRansomFinishTaskVo> taskMap = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
 			int count = ransomService.queryErdiByRansomCode(caseVo.getRansomCode());
 
 			request.setAttribute("tailinsVoList", tailinsVoList);
 			request.setAttribute("guestInfo", guestInfo);
 			request.setAttribute("caseVo", caseVo);
-			request.setAttribute("taskVo", taskVo);
+			request.setAttribute("taskMap", taskMap);
 			request.setAttribute("count", count);
 			return "ransom/ransomDetailUpdate";
 		} catch (Exception e) {
@@ -577,7 +505,7 @@ public class RansomListController {
 	 */
 	private String generateEvaCode(){	
 		StringBuilder s = new StringBuilder();
-		s.append(EVA_CODE_PRE).append(DateUtil.getFormatDate(new Date(), "yyyyMM"))
+		s.append(RANSOM_CODE_PRE).append(DateUtil.getFormatDate(new Date(), "yyyyMM"))
 		 .append("-")
 		 .append(tocaseMapper.nextCaseCodeNumber());
 		return s.toString();

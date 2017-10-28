@@ -4,7 +4,11 @@
  */
 
 $(document).ready(function(){
-	
+	 $('.input-daterange').datepicker({
+         keyboardNavigation: false,
+         forceParse: false,
+         autoclose: true
+     });
 	$("input[name='restMoney']").bind("change",function(){
 		var borrowerMoney = 0.00;
 		for(var i = 0; i < $("#bank-org tr").length; i ++){
@@ -14,14 +18,37 @@ $(document).ready(function(){
 		$('#borrowerMoney').val(borrowerMoney / 10000);
 	});
 	
+	getRansomFinOrg('finOrgCode');
 });
 
+function getRansomFinOrg(name){
+	debugger;
+	var url = "/manage/queryTailins";
+	$.ajax({
+		async: true,
+		type:'POST',
+		url:ctx+url,
+		dataType:'json',
+		success:function(data){
+			var html = '';
+			if(data != null){
+				$.each(data,function(i,item){
+					html += '<option value="'+item.finOrgCode+'">'+item.finOrgName+'</option>';
+				});
+			}					
+			$('[name='+name+']').empty();
+			$('[name='+name+']').append(html);
+		},
+		error : function(errors) {
+		}
+	});
+}
 	/**
 	 * 赎楼单修改
 	 * @returns
 	 */
 	function submitUpdateRansom(){
-		
+		debugger;
 		if(!checkForm())
 			return ;
 		
@@ -88,7 +115,8 @@ $(document).ready(function(){
 				window.wxc.success("提交成功!",{"wxcOk":function(){
 					if(window.opener)
 					{
-						window.opener.location.reload();
+						 window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+						 window.opener.location.reload();
 						 window.close();
 					} else {
 						 window.location.href = "${ctx }/task/ransom/taskList";

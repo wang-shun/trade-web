@@ -221,6 +221,8 @@ public class CaseDetailController {
 	
 	@Autowired
 	CaseApiService caseApiService;
+	@Autowired
+	private SignService signService;
 
 	/**
 	 * 判断交易计划时间 by wbzhouht
@@ -1285,6 +1287,7 @@ public class CaseDetailController {
 		ToGetPropertyBook toGetPropertyBook=toGetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
 		ToHouseTransfer toHouseTransfer=toHouseTransferService.findToGuoHuByCaseCode(caseCode);
 		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToSign toSign=signService.findToSignByCaseCode(caseCode);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<ToTransPlan>transPlan=new ArrayList<ToTransPlan>();
 		if (plans != null && plans.size() > 0) {
@@ -1298,25 +1301,30 @@ public class CaseDetailController {
 					plan.setEstPartTimeStr(format.format(plan.getEstPartTime()));
 				}
 				/**判断是否有已经走了的环节，走过的环节则不能修改时间 by wbzhouht*/
+				if(toSign!=null){
+					if(PartCodeEnum.WQ.getCode().equals(plan.getPartCode())){
+						plan.setEdit(false);
+					}
+				}
 				if(toRatePayment!=null){
-					if("RatePayment".equals(plan.getPartCode())){
+					if(PartCodeEnum.JS.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toHouseTransfer!=null){
-					if("Guohu".equals(plan.getPartCode())){
+					if(PartCodeEnum.GH.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toMortgage!=null){
-					if("CommercialLoansSigned".equals(plan.getPartCode())||"BusinessLoanAssessmentReport".equals(plan.getPartCode())||
-							"CommercialLendingCompleted".equals(plan.getPartCode())||"ProvidentFundLoanBookApplication".equals(plan.getPartCode())||
-							"ProvidentFundSigned".equals(plan.getPartCode())||"ProvidentFundLoanCompletion".equals(plan.getPartCode())){
+					if(PartCodeEnum.SDMQ.getCode().equals(plan.getPartCode())||PartCodeEnum.SDCPG.getCode().equals(plan.getPartCode())||
+							PartCodeEnum.SDPD.getCode().equals(plan.getPartCode())||PartCodeEnum.GJJDK.getCode().equals(plan.getPartCode())||
+							PartCodeEnum.GJJMQ.getCode().equals(plan.getPartCode())||PartCodeEnum.GJJPD.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
 				if(toGetPropertyBook!=null){
-					if("HouseBookGet".equals(plan.getPartCode())){
+					if(PartCodeEnum.LZ.getCode().equals(plan.getPartCode())){
 						plan.setEdit(false);
 					}
 				}
@@ -1527,42 +1535,6 @@ public class CaseDetailController {
 				workFlowManager.updateTask(taskVo);
 			}
 		}
-	}
-	
-	/**
-	 * 爆单申请
-	 * @param caseCode
-	 * @return
-	 */
-	@RequestMapping(value="caseBoomXiakalaka")
-	@ResponseBody
-	public AjaxResponse<String> caseBoomXiakalaka(String caseCode){
-		ToWorkFlow record = new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		record.setCaseCode(caseCode);
-		List<ToWorkFlow> wfls = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
-		//和案件关联的流程全部挂起，等待审批，审批通过全部瞎卡拉卡(主,赎楼,评估，询价待定)
-		
-		
-		
-		
-		//工作流数据更新：爆单
-		/*for(ToWorkFlow toWorkFlow : wfls){
-			toWorkFlow.setStatus(WorkFlowStatus.BAODAN.getCode());
-			toWorkFlowService.updateByPrimaryKey(toWorkFlow);
-			
-    		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
-		}*/
-		
-		/** 案件性质更新 **/
-		/*ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		toCase.setCaseProperty(CasePropertyEnum.TPBD.getCode());
-		int res = toCaseService.updateByPrimaryKey(toCase);*/
-//		if(res == 0){
-//			return AjaxResponse.fail("更新案件失败!");
-//		}
-		
-		return AjaxResponse.success();
 	}
 	
 	/**

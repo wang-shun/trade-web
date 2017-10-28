@@ -299,7 +299,6 @@
                 },
                 success: function (data) {
                     $.unblockUI();
-                    console.log(data);
                     if (data.success) {
                         window.wxc.alert("修改成功", {
                             "wxcOk": function () {

@@ -180,7 +180,7 @@
 					url:"${ctx}/quickGrid/findPage",
 					datatype : "json",
 					height:210,
-					//multiselect : true,
+					multiselect : true,
 					autowidth : true,
 					shrinkToFit : true,
 			        viewrecords:true,

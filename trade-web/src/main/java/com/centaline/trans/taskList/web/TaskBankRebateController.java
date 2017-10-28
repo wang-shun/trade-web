@@ -3,14 +3,11 @@ package com.centaline.trans.taskList.web;
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.api.service.CaseApiService;
 import com.centaline.trans.api.vo.ApiRebateReportInfo;
+import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.service.ToBankRebateService;
-import com.centaline.trans.cases.service.ToCaseInfoService;
-import com.centaline.trans.common.enums.EvalRebateStatusEnum;
-import com.centaline.trans.eval.entity.ToEvalRebate;
-import com.centaline.trans.eval.entity.ToEvalReportProcess;
-import com.centaline.trans.eval.service.ToEvalRebateService;
-import com.centaline.trans.eval.service.ToEvalReportProcessService;
-import com.centaline.trans.mgr.service.TsFinOrgService;
+import com.centaline.trans.cases.service.ToCaseParticipantService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 银行返利报告任务办理
@@ -37,10 +33,21 @@ public class TaskBankRebateController {
 	@Autowired
 	CaseApiService caseApiService;
 
+	@Autowired
+	WorkFlowManager workFlowManager;
+
+	@Autowired
+	ToCaseParticipantService toCaseParticipantService;
+
 	@RequestMapping(value = "process",method = RequestMethod.GET)
 	public String toProcess(String caseCode, String instCode, Model model){
-		String compId = "P20171026224044";
-		model.addAttribute("bankRebateInfo",toBankRebateService.selectToRebateInfoByCaseCodeAndCompId(caseCode,compId));
+
+		RestVariable compId = workFlowManager.getVar(instCode,"compId");
+		if(compId!=null){
+			model.addAttribute("bankRebateInfo",toBankRebateService.selectToRebateInfoByCaseCodeAndCompId(caseCode, (String) compId.getValue()));
+		}
+		model.addAttribute("loan",toCaseParticipantService.findCaseLoan(caseCode));
+		model.addAttribute("warrant",toCaseParticipantService.findCaseWarrant(caseCode));
 		return "bankRebate/bankRebateManagerApprove";
 	}
 
@@ -48,5 +55,21 @@ public class TaskBankRebateController {
 	@ResponseBody
 	public ApiRebateReportInfo getReportInfo(String reportCode){
 		return caseApiService.getApiRebateReportInfo(reportCode);
+	}
+
+	@RequestMapping(value="submit" , method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse<String> submit(ToApproveRecord record,String compId,String response){
+		AjaxResponse<String> result = null;
+		try{
+			record.setContent("通过,审批意见为:"+response);
+			ToBankRebateInfo info = toBankRebateService.selectToRebateInfoByCaseCodeAndCompId(record.getCaseCode(),compId);
+			info.setFinishTime(new Date());
+			toBankRebateService.submitRebateReport(info,record);
+			result = new AjaxResponse<>(true,"成功");
+		}catch(Exception e){
+			result = new AjaxResponse<>(false,e.getMessage());
+		}
+		return result;
 	}
 }

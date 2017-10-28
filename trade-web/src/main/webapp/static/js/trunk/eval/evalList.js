@@ -317,11 +317,12 @@ function initAutocomplete(url){
 }
 //清空
 $('#myEvalListCleanButton').click(function() {
-	$("input[name='dtBegin']").val('');
+	/*$("input[name='dtBegin']").val('');
 	$("input[name='dtEnd']").val('');
 	$("#status").val("");
 	$("#inTextVal").val("");
-	$("#isSubscribeFilter").val('');
+	$("#isSubscribeFilter").val('');*/
+	location.reload(); 
 });
 
 //结算

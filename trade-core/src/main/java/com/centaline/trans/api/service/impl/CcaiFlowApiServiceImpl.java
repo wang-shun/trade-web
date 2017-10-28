@@ -1,7 +1,6 @@
 package com.centaline.trans.api.service.impl;
 
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.FlowApiService;
 import com.centaline.trans.api.vo.ApiResultData;
@@ -43,6 +42,19 @@ public class CcaiFlowApiServiceImpl extends ApiService implements FlowApiService
 		}
 	}
 
+	@Override
+	public ApiResultData feedBackCcai(String applyId, CcaiTaskEnum task, FlowFeedBack info) {
+		if(StringUtils.isNotBlank(applyId)){
+			return toCcai(applyId,task,info);
+		}else{
+			CcaiFlowApiResultData result = new CcaiFlowApiResultData();
+			result.setCode("99");
+			result.setSuccess(false);
+			result.setMessage("CCAI流程实例ID不能为空");
+			return result;
+		}
+	}
+
 	/**
 	 * 通用通讯接口
 	 * 各个方法 将对应的applyId转换 获取 传入即可
@@ -53,7 +65,6 @@ public class CcaiFlowApiServiceImpl extends ApiService implements FlowApiService
 	 */
 	private ApiResultData toCcai(String applyId,CcaiTaskEnum task, FlowFeedBack info){
 		if(serviceIsEnable()){
-			//TODO 校验信息 等待天津测试地址
 			String url = getServiceAddress()+"/CCAIData/PostFlowInfo";
 			SessionUser user = info.getUser();
 			CcaiFeedBack post = new CcaiFeedBack();

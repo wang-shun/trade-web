@@ -10,13 +10,11 @@ public enum CcaiTaskEnum {
 	TRADE_WARRANT_MANAGER("权证审核",CcaiFlowEnum.TRADE),
 	TRADE_WARRANT_TRANSFER("权证过户",CcaiFlowEnum.TRADE),
 	TRADE_ACCESS_BROKERAGE("允许结佣",CcaiFlowEnum.TRADE),
-	//评估返利 流程环节
-	EVAL_REBATE_ASSISTANT("内勤确认",CcaiFlowEnum.EVAL_REBATE),
 	//评估退费 流程环节
 	EVAL_REFUND_MANAGER("权证经理审批",CcaiFlowEnum.EVAL_REFUND),
 	EVAL_REFUND_MAJORDOMO("权证总监审批",CcaiFlowEnum.EVAL_REFUND),
 	//银行返利 流程环节
-	BANK_REBATE_MANAGER("权证经理审批",CcaiFlowEnum.BANK_REBATE),
+	BANK_REBATE_MANAGER("权证经理审核",CcaiFlowEnum.BANK_REBATE),
 	//经理调佣 流程环节
 	COMMISSION_CHANGE_MANAGER("权证经理审核",CcaiFlowEnum.MANAGER_COMMISSION_CHANGE),
 	//变更自办评估 流程环节

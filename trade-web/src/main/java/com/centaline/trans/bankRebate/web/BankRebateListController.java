@@ -1,7 +1,8 @@
 package com.centaline.trans.bankRebate.web;
 
-import IceInternal.Ex;
 import com.aist.common.exception.BusinessException;
+import com.aist.common.quickQuery.bo.JQGridParam;
+import com.aist.common.quickQuery.service.QuickGridService;
 import com.aist.common.utils.excel.ImportExcel;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
@@ -26,6 +27,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +43,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 /**
  * Description:银行返利
  * @author wbwangxj
@@ -64,6 +68,8 @@ public class BankRebateListController {
 	private ToCaseInfoService toCaseInfoService;
 	@Autowired
 	private UamBasedataService uamBasedataService;
+	@Autowired
+	private QuickGridService quickGridService;
 	
 	/**
 	 * 初始化页面
@@ -261,6 +267,15 @@ public class BankRebateListController {
 		model.addAttribute("org",uamUserOrgService.getOrgById(vo.getToBankRebate().getDeptId()));
 		model.addAttribute("rebate",vo);
 		return "bankRebate/bankRebateDetails";
+	}
+
+	@RequestMapping(value="/showReportApprove")
+	@ResponseBody
+	public Page<Map<String, Object>> showReportApprove(String reportCode) {
+		JQGridParam gp = new JQGridParam("queryLoanlostApproveList",false);
+		gp.put("caseCode",reportCode);
+		gp.put("approveType","22");
+		return quickGridService.findPageForSqlServer(gp);
 	}
 
 	

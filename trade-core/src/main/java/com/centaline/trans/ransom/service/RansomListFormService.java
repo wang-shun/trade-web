@@ -1,6 +1,7 @@
 package com.centaline.trans.ransom.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.common.entity.TgGuestInfo;
@@ -181,7 +182,7 @@ public interface RansomListFormService {
 	 * @param ransomCode
 	 * @return
 	 */
-	VRansomFinishTaskVo getRansomTaskInfoByRansomCode(String ransomCode);
+	Map<String,VRansomFinishTaskVo> getRansomTaskInfoByRansomCode(String ransomCode);
 	
 	/**
 	 * 获取赎楼单的所有计划时间变更记录

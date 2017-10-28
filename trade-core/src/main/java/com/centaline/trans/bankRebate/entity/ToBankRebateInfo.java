@@ -1,6 +1,8 @@
 package com.centaline.trans.bankRebate.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * 
  * @author wbwangxj
@@ -28,6 +30,8 @@ public class ToBankRebateInfo {
     private String applyId;
 
     private String reportCode;
+
+    private Date finishTime;
 
     public Long getPkid() {
         return pkid;
@@ -115,5 +119,13 @@ public class ToBankRebateInfo {
 
     public void setReportCode(String reportCode) {
         this.reportCode = reportCode;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
     }
 }

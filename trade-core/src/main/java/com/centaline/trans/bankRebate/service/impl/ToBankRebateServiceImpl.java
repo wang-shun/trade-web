@@ -4,8 +4,10 @@ import com.aist.common.exception.BusinessException;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.api.service.EvalApiService;
+import com.centaline.trans.api.service.FlowApiService;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.api.vo.CcaiFlowApiResultData;
+import com.centaline.trans.api.vo.FlowFeedBack;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper;
@@ -13,6 +15,9 @@ import com.centaline.trans.bankRebate.repository.ToBankRebateMapper;
 import com.centaline.trans.bankRebate.service.ToBankRebateService;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import com.centaline.trans.common.enums.BankRebateStatusEnum;
+import com.centaline.trans.common.enums.CcaiFlowResultEnum;
+import com.centaline.trans.common.enums.CcaiTaskEnum;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +47,10 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private ToApproveRecordService toApproveRecordService;
+	@Autowired
+	private FlowApiService flowApiService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 	//银行返利 审批类型
 	private static String BANK_REBATE_APPROVE_TYPE = "22";
 
@@ -199,5 +209,25 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 	@Override
 	public ToBankRebateInfo selectToRebateInfoByCaseCodeAndCompId(String caseCode, String compId) {
 		return toBankRebateInfoMapper.selectToRebateInfoByCaseCodeAndCompId(caseCode,compId);
+	}
+
+	@Override
+	public void submitRebateReport(ToBankRebateInfo info, ToApproveRecord record) {
+		SessionUser user = uamSessionService.getSessionUser();
+		FlowFeedBack feedBack = new FlowFeedBack(user,CcaiFlowResultEnum.SUCCESS,record.getContent());
+		//与CCAI交互
+		ApiResultData result = flowApiService.feedBackCcai(info.getApplyId(), CcaiTaskEnum.BANK_REBATE_MANAGER,feedBack);
+		if(result.isSuccess()){
+			//TODO 交互成功 流程处理
+			toBankRebateInfoMapper.updateByPrimaryKeySelective(info);
+			record.setOperatorTime(new Date());
+			record.setOperator(user.getId());
+			record.setApproveType(BANK_REBATE_APPROVE_TYPE);
+			record.setCaseCode(info.getReportCode());//以返利报告编号为主键存审批记录，便于返利报告查看
+			toApproveRecordService.saveToApproveRecord(record);
+			workFlowManager.submitTask(new ArrayList<>(),record.getTaskId(),record.getProcessInstance(),record.getOperator(),info.getCaseCode());
+		}else{
+			throw new BusinessException(result.getMessage());
+		}
 	}
 }
