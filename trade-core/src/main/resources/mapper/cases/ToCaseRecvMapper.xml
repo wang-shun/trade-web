@@ -20,11 +20,12 @@
     <result column="MORT_INFO" property="mortInfo" jdbcType="NVARCHAR" />
     <result column="ORI_PRICE" property="oriPrice" jdbcType="NVARCHAR" />
     <result column="PROCESS_TIME" property="processTime" jdbcType="TIMESTAMP" />
+    <result column="EST_FINISH_TIME" property="estFinishTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     CASE_CODE, EST_EVL_APPLY_TIME, EST_SIGN_TIME, EST_F2F_SIGN_TIME, PURCHASE_HOUSE_NO, 
     LOAN_HOUSE_NO, MARRIAGE_STATUS, FAMILY_STATUS, EVAL_BY_WHO, HUJI, SOCIETY_SECURETY_YEARS, 
-    TAX_SECURETY_YEARS, HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, MORT_INFO, ORI_PRICE,PROCESS_TIME
+    TAX_SECURETY_YEARS, HOUSE_SUBSIDY, LOAN_WARN, HOUSE_FROM, MORT_INFO, ORI_PRICE,PROCESS_TIME,EST_FINISH_TIME
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -107,6 +108,9 @@
       <if test="processTime != null" >
         PROCESS_TIME,
       </if>
+      <if test="estFinishTime != null" >
+        EST_FINISH_TIME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="caseCode != null" >
@@ -163,6 +167,9 @@
       <if test="processTime != null" >
         #{processTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="estFinishTime != null" >
+        #{estFinishTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.centaline.trans.cases.entity.ToCaseRecv" >
@@ -218,6 +225,9 @@
       </if>
       <if test="processTime != null" >
         PROCESS_TIME = #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="estFinishTime != null" >
+        EST_FINISH_TIME = #{estFinishTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where CASE_CODE = #{caseCode,jdbcType=VARCHAR}
