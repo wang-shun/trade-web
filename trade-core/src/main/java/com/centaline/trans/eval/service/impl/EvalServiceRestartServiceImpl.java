@@ -17,6 +17,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -206,11 +207,15 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		
 		//更改评估单状态为重启
 		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.YCQ.getCode(),vo.getEvaCode());
+		//评估信息
+		ToEvalReportProcess toEvalReportProcess =toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+		Map<String, Object> defValsMap = new HashMap<String,Object>();
+    	defValsMap.put(CaseParticipantEnum.LOAN.getCode(), toEvalReportProcess.getProposeer());
+    	defValsMap.put(CaseParticipantEnum.ASSISTANT.getCode(), toEvalReportProcess.getTransactor());
 		
 		//启动新的评估流程，入workflow表
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
-    			vo.getEvaCode());
-		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+    			vo.getEvaCode(),defValsMap);
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		wf.setCaseCode(toEvalReportProcess.getCaseCode());

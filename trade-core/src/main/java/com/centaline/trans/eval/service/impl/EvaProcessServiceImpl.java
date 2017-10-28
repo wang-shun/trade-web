@@ -217,8 +217,10 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		    	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		    	toWorkFlowService.insertSelective(toWorkFlow);
 		    	
-		    	//申请人、办理人入表
-		    	
+		    	//评估流程申请人、办理人入表
+		    	toEvalReportProcess.setProposeer(user.getUsername());
+		    	toEvalReportProcess.setTransactor(tp.getUserName());
+		    	toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
 		    	
 		    	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
 		    	taskService.submitTask(String.valueOf(taskvo.getId()));

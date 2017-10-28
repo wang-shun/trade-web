@@ -63,6 +63,7 @@
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 评估单编号 -->
 					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+					<input type="hidden" id="evaCode" name="caseCode" value="${caseCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
@@ -157,13 +158,18 @@
 				success : function(data) {
 					if(data.success) {
 						if(data) {
-							window.wxc.alert("操作成功。");
-							//caseTaskCheck();
+							$.unblockUI();
+							window.wxc.success("操作成功。",{"wxcOk":function(){
+								window.location.href = ctx + "/task/eval/evalTaskList";
+						   }});
 						} else {
+							$.unblockUI();
 							window.wxc.alert("操作失败。");
+							window.location.href = ctx + "/task/eval/evalTaskList";
 						}
 					} else {
 						window.wxc.alert("操作失败。");
+						window.location.href = ctx + "/task/eval/evalTaskList";
 					}
 				},
 				error : function(errors) {
