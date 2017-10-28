@@ -2147,7 +2147,7 @@ public class CaseDetailController {
 			return AjaxResponse.fail("提交失败！");
 		}
 		}else {
-			return AjaxResponse.fail("您不是当前案件的过户权证！");
+			return AjaxResponse.fail("未获取到办理人！");
 		}
 		}else {
 			return AjaxResponse.fail("交易计划未做变更！");
