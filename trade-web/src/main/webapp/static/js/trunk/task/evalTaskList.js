@@ -45,8 +45,8 @@ $(document).ready(function() {
 /*获取评估公司列表*/
 function getEvaCompanyList(pcode){
 	var friend = $("#finOrgId");
-	friend.append("<option value=''>请选择</option>");
 	friend.empty();
+	friend.append("<option value=''>请选择</option>");
 	 $.ajax({
 	    url:ctx+"/manage/queryEvaCompany",
 	    method:"post",
