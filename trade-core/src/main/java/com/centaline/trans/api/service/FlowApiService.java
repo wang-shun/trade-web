@@ -18,4 +18,14 @@ public interface FlowApiService {
 	 * @return
 	 */
 	ApiResultData tradeFeedBackCcai(String caseCode, CcaiTaskEnum task, FlowFeedBack info);
+
+	/**
+	 * 通用与CCAI流程交互反馈
+	 * @param applyId CCAI流程shiliID
+	 * @param task 任务环节枚举
+	 * @param info 审批信息
+	 * @return
+	 */
+	ApiResultData feedBackCcai(String applyId,CcaiTaskEnum task,FlowFeedBack info);
+
 }

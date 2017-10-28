@@ -153,7 +153,7 @@
 				<c:when test="${accesoryList!=null}">
 					<h2 class="newtitle title-mark">上传备件</h2>
 					<div class="ibox-content" style="height: 410px; overflow-y: scroll;">
-						<div class="table-box" id="loanRelease"></div>
+						<div class="table-box" id="loanReleaseContainer"></div>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -273,7 +273,7 @@
 				autoclose : true			
 			});
 			
-			$('#.input-group.date').datepicker({
+			$('.input-group.date').datepicker({
 				todayBtn : "linked",
 				keyboardNavigation : false,
 				forceParse : false,		
@@ -290,77 +290,110 @@
 		
 		/**提交数据*/
 		function submit() {
-			var isCompletedUpload = fileUpload.isCompletedUpload();
-
-			if(!isCompletedUpload){
-				window.wxc.alert("附件还未全部上传!");
-				return false;
-			}
-			if(checkAttachment()) {
-				save(true);
-			} 
+			window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
+				var isCompletedUpload = fileUpload.isCompletedUpload();
+		
+				if(!isCompletedUpload){
+					window.wxc.alert("附件还未全部上传!");
+					return false;
+				}
+				if(checkAttachment()) {
+					save(true);
+				} 
+			}});
 		}
 		
 		/**保存数据*/
 		function save(b) {
-				if(!checkForm()) {
-					return;
-				}
-				window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
-					var jsonData = $("#loanReleaseForm").serializeArray();
-					var url = "${ctx}/task/mortgage/saveMortgage";
-					if(b) {
-						url = "${ctx}/task/mortgage/submitLoanRelease";
-					}
-					
-					 $.ajax({
-						cache : true,
-						async : false,//false同步，true异步
-						type : "POST",
-						url : url,
-						dataType : "json",
-						data : jsonData,
-			   		    beforeSend:function(){  
-		    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
-		    				$(".blockOverlay").css({'z-index':'9998'});
-		                },
-		                complete: function() {  
-	
-		                	$.unblockUI();  
-		                	if(b){ 
-		                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
-		    				    $(".blockOverlay").css({'z-index':'1900'});
-		                	}   
-		                     if(status=='timeout'){//超时,status还有success,error等值的情况
-		    	          	  Modal.alert(
-		    				  {
-		    				    msg:"抱歉，系统处理超时。"
-		    				  });
-		    		  		 $(".btn-primary").one("click",function(){
-		    		  				parent.$.fancybox.close();
-		    		  			});	 
-		    		                } 
-		    		            } ,  				
-						success : function(data) {
-							if(b) {
-								caseTaskCheck();
-								if(null!=data.message){
-									window.wxc.alert(data.message);
-								}
-							} else {
-								window.wxc.success("保存成功。",{"wxcOk":function(){
-									window.close();
-									window.opener.callback();
-								}});
-							}
-						},
-						error : function(errors) {
-							window.wxc.error("数据保存出错");
-						}
-					});
-				}});
-						
-
+			if(!checkForm()) {
+				return;
+			}
+			var caseCode = $("#caseCode").val();
+			var fileIDs = new Array();
+			if(caseCode != "" && caseCode != null  && caseCode != undefined ){
+				$("#loanReleaseContainer ul.filelist li").each(function(index){
+					var thisFileId = $(this).attr("id");
+					fileIDs.push(thisFileId);
+				});
+				$.ajax({
+					url: ctx+"/attachment/fileUpload",
+					method:"post",
+					dataType:"json",
+					data:{"fileList" : fileIDs.join()},
+                    beforeSend : function() {
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}});
+                        $(".blockOverlay").css({'z-index':'9998'});
+                    },
+                    complete : function() {
+                        $.unblockUI();
+                        if(b){
+                            $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}});
+                            $(".blockOverlay").css({'z-index':'1900'});
+                        }
+                        if(status=='timeout'){//超时,status还有success,error等值的情况
+                            Modal.alert(
+                                {
+                                    msg:"抱歉，系统处理超时。"
+                                });
+                            $(".btn-primary").one("click",function(){
+                                parent.$.fancybox.close();
+                            });
+                        }
+                    } ,
+                    success : function(data) {
+    					var jsonData = $("#loanReleaseForm").serializeArray();
+    					var url = "${ctx}/task/mortgage/saveLoanRelease";
+    					if(b) {
+    						url = "${ctx}/task/mortgage/submitLoanRelease";
+    					}
+    					 $.ajax({
+    						cache : true,
+    						async : false,//false同步，true异步
+    						type : "POST",
+    						url : url,
+    						dataType : "json",
+    						data : jsonData,
+    			   		    beforeSend:function(){  
+    		    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+    		    				$(".blockOverlay").css({'z-index':'9998'});
+    		                },
+    		                complete: function() {  
+    		                	$.unblockUI();  
+    	                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+    	    				    $(".blockOverlay").css({'z-index':'1900'});
+    		                     if(status=='timeout'){//超时,status还有success,error等值的情况
+    		    	          	  Modal.alert(
+    		    				  {
+    		    				    msg:"抱歉，系统处理超时。"
+    		    				  });
+    		    		  		 $(".btn-primary").one("click",function(){
+    		    		  				parent.$.fancybox.close();
+    		    		  			});	 
+    		    		                } 
+    		    		            } ,  				
+    						success : function(data) {
+    							$.unblockUI();  
+    							if(b) {
+    								caseTaskCheck();
+    							} else {
+    								window.wxc.success("保存成功。",{"wxcOk":function(){
+    									window.close();
+    									window.opener.callback();
+    								}});
+    							}
+    						},
+    						error : function(errors) {
+    							$.unblockUI();  
+    							window.wxc.error("数据保存出错!");
+    						}
+    					});
+                    },
+                    error : function(errors) {
+  							$.unblockUI();  
+  							window.wxc.error("数据保存出错!");
+  						}
+				});
+			}
 		}
 		
 		//验证控件checkUI();
@@ -377,7 +410,7 @@
 		
 		function checkAttachment() {
 			var b = false;
-			$.each($("#loanRelease ul"), function(index, value){
+			$.each($("#loanReleaseContainer ul"), function(index, value){
 				var length = $(this).find("li").length;
 				if(length == 0) {
 					window.wxc.alert("请上传备件！");
@@ -408,7 +441,7 @@
 				fileUpload.init({
 					caseCode : $('#caseCode').val(),
 					partCode : "LoanRelease",//这里需要填写正确的partCODE，本处应为FangKuan，如果没有，需要注意T_TO_ACCESORY_LIST表中是否有此数据
-					fileUploadContainer : "loanRelease",
+					fileUploadContainer : "loanReleaseContainer",
 					isAllUpdateY:false
 				});
 			});

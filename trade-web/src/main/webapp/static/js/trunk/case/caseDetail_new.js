@@ -386,7 +386,7 @@ function openTransHistory(){
 function savePlanItems(){
     var isAudit=auditResult;
     if(isAudit){
-        window.wxc.error("你已提交过变更，请等待审核！",function () {
+        window.wxc.error("该案件已提交过变更，请等待审核！",function () {
             window.location.reload();
         })
         return;

@@ -66,7 +66,6 @@
 					FROM
 						sctrans.ACT_RU_TASK ART
 						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_ =tw.INST_CODE
-						LEFT JOIN  sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = tw.INST_CODE
 						LEFT JOIN sctrans.T_TO_EVA_REPORT_PROCESS ERP ON ERP.EVA_CODE=tw.BIZ_CODE
 						LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON ERP.FIN_ORG_ID=TFO.FIN_ORG_CODE
 					    LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE 
@@ -163,7 +162,6 @@
 				<column type="virtual" name="taskNameType" isDynamicDict="true" display="流程环节名" referencecol="NAME" index="" checkbox="" customDict="getTaskNameTypeByTaskName" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="CREATE_TIME" index="" checkbox="" display="创建时间" customDict="" sysDict="" beanFormatter="dateFormatter1"  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="propertyCode" index="" checkbox="" display="propertyCode" customDict="" sysDict="" />
-				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="贷款权证" customDict="" sysDict="" />
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" />
 				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="评估公司" customDict="" sysDict="" />

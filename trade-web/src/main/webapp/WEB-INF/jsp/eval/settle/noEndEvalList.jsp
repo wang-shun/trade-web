@@ -46,7 +46,7 @@
 		<link rel="stylesheet" href="<c:url value='/css/workflow/newRecordpop.css' />" />
 		<!-- 必须CSS -->
 		<link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" type="text/css" />
-
+		
 		<style type="text/css">
 			.radio label {
 				margin-left: 10px;

@@ -22,6 +22,7 @@ import com.centaline.trans.cases.repository.ToCaseParticipantMapper;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.common.enums.CaseParticipantEnum;
+import com.centaline.trans.common.enums.EVAPricingStatusEnum;
 import com.centaline.trans.common.enums.EvalPropertyEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.FeeChangeTypeEnum;
@@ -96,6 +97,22 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		ToEvaPricingVo toEvaPricingVo=null;
 		if(evaCode!=null && evaCode.length()>0){
 		        toEvaPricingVo = toEvaPricingMapper.findEvaPricingDetailByEvaCode(evaCode);//查询询价信息
+		}else {
+			List<ToEvaPricingVo> teps = toEvaPricingMapper.findEvaPricingDetailByCaseCode(caseCode);
+			if(teps != null && teps.size() > 0) {
+				toEvaPricingVo = new ToEvaPricingVo();
+				for (ToEvaPricingVo tep : teps) {
+					if(tep.getCompleteTime() != null && EVAPricingStatusEnum.COMPLETE.getCode().equals(tep.getStatus())) {
+						if(toEvaPricingVo.getCompleteTime() != null) {
+							if(tep.getCompleteTime().after(toEvaPricingVo.getCompleteTime())) {
+								toEvaPricingVo = tep;
+							}
+						}else {
+							toEvaPricingVo = tep;
+						}
+					}
+				}
+			}
 		}
 		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
@@ -107,8 +124,8 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	
 	@Override
 	public void initReport(HttpServletRequest request,String taskitem,
-			String businessKey) {
-		String caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+			String businessKey,String evaCode,String source) {
+		String caseCode = getCaseCodeByCondition(source,evaCode,businessKey);
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
@@ -121,9 +138,9 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 
 	@Override
 	public void initIssue(HttpServletRequest request, String taskitem,
-			String businessKey) {
+			String businessKey,String evaCode,String source) {
 
-		String caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+		String caseCode = getCaseCodeByCondition(source,evaCode,businessKey);
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请信息
@@ -138,8 +155,8 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 
 	@Override
 	public void initUsed(HttpServletRequest request, String taskitem,
-			String businessKey) {
-		String caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+			String businessKey,String evaCode,String source) {
+		String caseCode = getCaseCodeByCondition(source,evaCode,businessKey);
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode);
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		//查询评估申请
@@ -372,5 +389,21 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 			  toEvalSettleService.insertWaitAccount(toEvalSettle.getCaseCode(),evaCode,toEvalSettle.getFeeChangeReason());
 		  }
 		return  response;
+	}
+	
+	/**
+	 * 不同的请求源获取caseCode方式不一样
+	 * @param source
+	 * @param businessKey
+	 * @return
+	 */
+	private String  getCaseCodeByCondition(String source,String evaCode,String businessKey){
+		String caseCode = null;
+		if("evalDetails".equals(source)){
+			caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode).getCaseCode();
+		}else{
+			caseCode = toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+		}
+		return caseCode;
 	}
 }

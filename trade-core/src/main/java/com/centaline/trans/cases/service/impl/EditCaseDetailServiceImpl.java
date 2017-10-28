@@ -46,12 +46,15 @@ import com.centaline.trans.task.entity.ToSign;
 import com.centaline.trans.task.entity.ToTax;
 import com.centaline.trans.task.repository.ToGetPropertyBookMapper;
 import com.centaline.trans.task.repository.ToHouseTransferMapper;
+import com.centaline.trans.task.repository.ToMortgageTosaveMapper;
 import com.centaline.trans.task.repository.ToPaymentMapper;
 import com.centaline.trans.task.repository.ToPurchaseLimitSearchMapper;
 import com.centaline.trans.task.repository.ToRatePaymentMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
+import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.service.ToRatePaymentService;
+import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.utils.DateUtil;
 
 @Service
@@ -102,6 +105,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     private AddRansomFormMapper addRansomFormMapper;
     @Autowired
     private RansomListFormMapper ransomListFormMapper;
+    @Autowired
+    private ToMortgageTosaveMapper toMortgageTosaveMapper;
 
     
     /**
@@ -266,12 +271,18 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setRealPlsTime(tpls.getRealPlsTime());
         }
 
-        /* 领证 */
+        /* 领他证 */
         ToGetPropertyBook toGetPropertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(caseCode);
         if (toGetPropertyBook != null)
         {
 //            editCaseDetailVO.setRealPropertyGetTime(toGetPropertyBook.getRealPropertyGetTime());
             editCaseDetailVO.setTazhengArrDate(toGetPropertyBook.getRealPropertyGetTime());
+        }
+        
+        /*放款信息	待完成	类似领他证：在自办贷款表中记录放款时间，如果有贷款有取贷款中的*/
+        MortgageToSaveVO saveVO = toMortgageTosaveMapper.selectByCaseCode(caseCode);
+        if(saveVO != null) {
+        	editCaseDetailVO.setLendDate(saveVO.getLendDate());
         }
 
         /* 贷款信息 */
@@ -293,7 +304,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setComDiscount(toMortgage.getComDiscount());
             editCaseDetailVO.setIsDelegateYucui(toMortgage.getIsDelegateYucui());
             editCaseDetailVO.setLendWay(toMortgage.getLendWay());
-            if(toMortgage.getTazhengArrDate() != null) {
+            if(toMortgage.getTazhengArrDate() != null) {//如果有贷款且贷款表中时间不为空则使用贷款表中的日期
             	editCaseDetailVO.setTazhengArrDate(toMortgage.getTazhengArrDate());
             }
 
@@ -672,7 +683,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
     		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
     			ToMortgage record = toMortgageService.findToMortgageById(editCaseDetailVO.getMpkid());
-    			if(record != null) {//自办贷款时，没有贷款数据
+    			if(record != null) {//有贷款数据时
     				if(editCaseDetailVO.getLendDate() != null) {
     					record.setLendDate(editCaseDetailVO.getLendDate());
     				}
@@ -680,6 +691,16 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     					record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
     				}
     				toMortgageMapper.update(record);
+    			}else {
+    				/**
+    				 * 自办贷款挽回失败的情况下，由于贷款表无数据，故领他证和放款时间更新到各自表中
+    				 */
+    				MortgageToSaveVO toSaveVO = toMortgageTosaveMapper.selectByCaseCode(editCaseDetailVO.getCaseCode());
+    				toSaveVO.setLendDate(editCaseDetailVO.getLendDate());
+    				toMortgageTosaveMapper.updateByPrimary(toSaveVO);
+    				ToGetPropertyBook propertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(editCaseDetailVO.getCaseCode());
+    				propertyBook.setRealPropertyGetTime(editCaseDetailVO.getTazhengArrDate());
+    				toGetPropertyBookMapper.updateByPrimaryKeySelective(propertyBook);
     			}
     		}
     	}

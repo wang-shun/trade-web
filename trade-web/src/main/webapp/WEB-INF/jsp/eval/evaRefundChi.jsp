@@ -271,7 +271,7 @@
 			<div style="padding-left: 10px">
 				<table width="100%">
 					<tr style="height: 40px;">
-						<td><label class="control-label sign_left_small">退费类型：${toEvaRefund.refundKinds}</label></td>
+						<td><label class="control-label sign_left_small">退费类别：${toEvaRefund.refundKinds eq '4'?'退评估费':'错误的类别' }</label></td>
 						<td><label class="control-label sign_left_small">申请人：${toEvaRefund.proposer }</label></td>
 						<td><label class="control-label sign_left_small">申请分行：${toEvaRefund.applyDepart }</label></td>
 						<td><label class="control-label sign_left_small">申请时间：<fmt:formatDate

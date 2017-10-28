@@ -91,7 +91,9 @@
 								<div class="row">
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
 										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange('${evaCode}')">评估公司变更</a>
+										<shiro:hasPermission name="TRADE.EVAL.BAODAN">
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
+										</shiro:hasPermission>
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
 									

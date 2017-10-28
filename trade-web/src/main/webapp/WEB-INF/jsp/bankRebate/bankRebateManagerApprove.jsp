@@ -34,6 +34,7 @@
 			margin-left: 20px;
 		}
 	</style>
+
 	<content tag="pagetitle">返利报告审批</content>
 </head>
 <body>
@@ -54,12 +55,13 @@
 	</div>
 </div>
 
-<div class="ibox-content border-bottom clearfix space_box noborder">
+<div id="reportInfo" class="ibox-content border-bottom clearfix space_box noborder">
 	<div>
 		<h2 class="newtitle title-mark">返利报告信息</h2>
 		<div class="text_list">
 			<div class="row">
-				<label class="col-sm-3 control-label">返利总额:${evalCompany.FIN_ORG_NAME}</label>
+				<label v-cloak class="col-sm-3 control-label">返利银行:{{bankName}}</label>
+				<label v-cloak class="col-sm-3 control-label">报告返利总额:{{count}}</label>
 			</div>
 		</div>
 	</div>
@@ -68,8 +70,9 @@
 		<h2 class="newtitle title-mark">分成信息</h2>
 		<div class="text_list">
 			<div class="row">
-				<label class="col-sm-3 control-label">过户权证:</label>
-				<label class="col-sm-3 control-label">贷款权证:</label>
+				<label v-cloak class="col-sm-3 control-label">过户权证  ${warrant.realName}:{{ghCertMoney}}（{{ghCertMoney*100/count}}%）</label>
+				<label v-cloak class="col-sm-3 control-label">贷款权证 ${loan!=null?loan.realName:""}:{{dkCertMoney}}（{{dkCertMoney*100/count}}%）</label>
+				<label v-cloak class="col-sm-3 control-label">合计:{{dkCertMoney + ghCertMoney}}（{{(dkCertMoney + ghCertMoney)*100/count}}%）</label>
 			</div>
 		</div>
 	</div>
@@ -85,6 +88,8 @@
 				<!-- 流程引擎需要字段 -->
 				<input type="hidden" name="taskId" value="${taskId}">
 				<input type="hidden" name="processInstance" value="${processInstanceId}">
+				<input type="hidden" name="compId" value="${bankRebateInfo.guaranteeCompId}">
+
 
 				<div class="marinfo">
 					<div class="line">
@@ -113,9 +118,7 @@
 	</div>
 	<div class="form-btn">
 		<div class="text-center">
-			<%--
-			<button id="subBtn" class="btn btn-success btn-space" onclick="submit('${ctx}')">提交</button>
-			--%>
+			<button id="subBtn" class="btn btn-success btn-space" onclick="submit()">提交</button>
 		</div>
 	</div>
 </div>
@@ -139,13 +142,64 @@
 	<
 	<script type="application/javascript">
         $(function(){
+            loadReportInfo('${bankRebateInfo.reportCode}',loadApprove);
+        });
+        function loadApprove(){
             //审批记录列表
             AttachmentList.init('${ctx}','/quickGrid/findPage','gridTable','gridPager','${bankRebateInfo.guaranteeCompId}');
-            //loadVerifyFee('${ccaiCode}');
-        });
+		}
+        //提交数据
+        function submit() {
+            var url = "${ctx}/task/bankRebate/submit";
+            $.ajax({
+                cache: true,
+                async: false,
+                type: "POST",
+                url: url,
+                dataType: "json",
+                data: $("#rebateForm").serializeArray(),
+                beforeSend: function () {
+                    $.blockUI({
+                        message: $("#salesLoading"),
+                        css: {
+                            'border': 'none',
+                            'z-index': '9999'
+                        }
+                    });
+                    $(".blockOverlay").css({
+                        'z-index': '9998'
+                    });
+                },
+                success: function (data) {
+                    $.unblockUI();
+                    if (data.success) {
+                        window.wxc.alert("提交成功", {
+                            "wxcOk": function () {
+                                //关闭当前页面，并通知父页面刷新
+                                if(window.opener)
+                                {
+                                    window.close();
+                                    window.opener.callback();
+                                } else {
+                                    var ctx = $("#ctx").val();
+                                    window.location.href = ctx + "/task/myTaskList";
+                                }
+                            }
+                        });
+
+                    } else {
+                        if (data.message) {
+                            window.wxc.alert("提交失败:" + data.message);
+                        }
+                    }
+                },
+                error: function () {
+                    $.unblockUI();
+                    window.wxc.alert("提交信息出错");
+                }
+            });
+        }
 	</script>
 </content>
 </body>
-
-
 </html>

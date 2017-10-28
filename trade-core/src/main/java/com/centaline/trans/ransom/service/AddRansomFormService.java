@@ -7,7 +7,6 @@ import com.centaline.trans.ransom.entity.ToRansomFormVo;
 
 public interface AddRansomFormService {
 	
-	void addRansomForm(List<ToRansomFormVo> list);
-	//int insert(ToRansomTailinsVo ar);
+	int addRansomForm(List<ToRansomFormVo> list,String ransomCode);
 }
 

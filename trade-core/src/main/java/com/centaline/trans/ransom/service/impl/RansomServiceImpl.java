@@ -646,4 +646,5 @@ public class RansomServiceImpl implements RansomService{
 		}
 		return map;
 	}
+	
 }

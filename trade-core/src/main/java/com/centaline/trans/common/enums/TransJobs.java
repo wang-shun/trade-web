@@ -41,6 +41,10 @@ public enum TransJobs {
 	 */
 	TNQZL("QZNQ","内勤助理"),
 	/**
+	 * 内勤经理
+	 */
+	TNQJL("NQJL","内勤经理"),
+	/**
 	 * 誉萃总经理
 	 */
 	TZJL("GeneralManager", "誉萃总经理"), 
