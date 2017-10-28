@@ -116,9 +116,10 @@
 							</shiro:hasPermission>
 						</c:if>
 						<!-- 已过户&&已领他证 不可变更 -->
+						<!-- 已挂起的案件不可修改权证(工作流参数修改会报错) -->
 						<c:if test="${not empty toWorkFlow.processDefinitionId}">
 							<c:if test="${not empty toWorkFlow.instCode}">
-								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005'}">
+								<c:if test="${toCase.status != '30001004' and toCase.status != '30001005' }">
 									<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.LEADCHANGE">
 										<a role="button" class="btn btn-primary btn-xm btn-activity"
 											href="javascript:showChoose()">经办人变更</a>
