@@ -705,10 +705,11 @@
 			$('#comYear').attr("readonly","readonly");
 			$('#comDiscount').attr("readonly","readonly");
 			$('#mortTotalAmount').attr("readonly","readonly");
-			//$("#tab-2").find("select").attr("disabled","disabled");			
 			$('#prfAmount').attr("readonly","readonly");
 			$('#prfYear').attr("readonly","readonly");
 			
+			$("#tab-1").find("select").attr("disabled","disabled");			
+			$("#tab-1").find("select").attr("disabled","disabled");			
 			
 			if(!~~loanReq){
 				$("#tab-2").find("input").disabled=true;
@@ -937,7 +938,6 @@
 			var lendDateData = {name:"lendDate",value:$("#lendDate").val()};
 			jsonData.push(tazhengArrDateData);
 			jsonData.push(lendDateData);
-			debugger
 			var conPrice = Number($('input[name=conPrice]').val());
 			var initAmount = Number($('input[name=initAmount]').val());
 			var secAmount = Number($('input[name=secAmount]').val());
@@ -974,12 +974,14 @@
 				success : function(data) {
 							if(data){
 								window.wxc.success("处理成功",{"wxcOk":function(){
-									if(window.opener)
-									{
-										 window.opener.location.reload();
-										 window.close();
-									} else {
-										 window.location.href = "${ctx }/task/myTaskList";
+									if(b){
+										if(window.opener)
+										{
+											 window.opener.location.reload();
+											 window.close();
+										} else {
+											 window.location.href = "${ctx }/task/myTaskList";
+										}
 									}
 								}})
 							}
