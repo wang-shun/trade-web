@@ -139,7 +139,7 @@ font-family:Microsoft Yahei;
 				</div>
 			</div>
 	  	</div>
-	  	<c:if test="${toEvaPricingVo.status == 1}">
+	  	<c:if test="${toEvaPricingVo.status != 0}">
 		  	<div class="panel-body ibox-content" id="result">
 		  		<div class="info_box info_box_one col-sm-12 ">
 			  		<span>询价结果</span>
@@ -153,16 +153,24 @@ font-family:Microsoft Yahei;
 				  		<%-- <c:if test="${toEvaPricingVo.status == 0}"> 
 				  			<input type="radio" checked="checked" value="1"  name="isValid">&nbsp;&nbsp;有效
 		                </c:if>  --%> 
-		                <div style="margin-top:5px;"></div>             	
-				  		<div class="row font-family">
-							<label class="col-sm-4 control-label">评估公司 ：${toEvaPricingVo.evaCompany }</label>
-							<label class="col-sm-3 control-label">评估时间 ：<fmt:formatDate value="${toEvaPricingVo.evalTime }" type="date" pattern="yyyy-MM-dd"/></label>
-						</div>
-						<div class="height_lin1"></div>
-						<div class="row font-family">
-							<label class="col-sm-4 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
-							<label class="col-sm-3 control-label">房龄 ：${toEvaPricingVo.houseAge }&nbsp;&nbsp;年</label>
-						</div>
+		                <c:if test="${toEvaPricingVo.status == 1}">
+			                <div style="margin-top:5px;"></div>             	
+					  		<div class="row font-family">
+								<label class="col-sm-4 control-label">评估公司 ：${toEvaPricingVo.evaCompany }</label>
+								<label class="col-sm-3 control-label">评估时间 ：<fmt:formatDate value="${toEvaPricingVo.evalTime }" type="date" pattern="yyyy-MM-dd"/></label>
+							</div>
+							<div class="height_lin1"></div>
+							<div class="row font-family">
+								<label class="col-sm-4 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
+								<label class="col-sm-3 control-label">房龄 ：${toEvaPricingVo.houseAge }&nbsp;&nbsp;年</label>
+							</div>
+						</c:if>
+						<c:if test="${toEvaPricingVo.status == 2}">
+							<div style="margin-top:5px;"></div>             	
+					  		<div class="row font-family">
+								<label class="col-sm-4 control-label">无效原因 ：${toEvaPricingVo.reason }</label>
+							</div>
+						</c:if>
 						<%-- <c:if test="${toEvaPricingVo.status == 0}">
 							<div class="row font-family">
 								<input type="radio" value="2"  name="isValid">&nbsp;&nbsp;无效
