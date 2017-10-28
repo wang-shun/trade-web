@@ -27,6 +27,11 @@ public class ToRansomTailinsVo {
 	 * 尾款机构编号
 	 */
 	private String finOrgCode;
+	
+	/**
+	 * 尾款机构名
+	 */
+	private String comOrgName;
 
 	/**
 	 * 受理时间
@@ -191,6 +196,14 @@ public class ToRansomTailinsVo {
 
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
+	}
+
+	public String getComOrgName() {
+		return comOrgName;
+	}
+
+	public void setComOrgName(String comOrgName) {
+		this.comOrgName = comOrgName;
 	}
 
 	@Override

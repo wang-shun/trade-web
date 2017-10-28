@@ -25,7 +25,6 @@
         <link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
         <link rel="stylesheet" href="<c:url value='/css/iconfont/iconfont.css' />" ">
 		<link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
-		
         <!-- 提示 -->
         <link rel="stylesheet" href="<c:url value='/js/poshytitle/src/tip-twitter/tip-twitter.css' />" />
         <style>
@@ -252,8 +251,8 @@
              		</form>
                		<div> 
 						<div class="text-center">
-							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(1)" style="width: 110px;">保存</a>
-							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord(2)" >变更记录查看</a>
+							<a class="btn btn-success btn-space" href="javascript:submitChangeRecord()" style="width: 110px;">保存</a>
+							<a class="btn btn-success btn-space" href="javascript:checkChangeRecord()" >变更记录查看</a>
 						</div>
 					</div>
                 
@@ -266,17 +265,18 @@
 		<script src="<c:url value='/js/plugins/jqGrid/jquery.jqGrid.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/jquery.custom.js' />"></script>
 		<script src="<c:url value='/js/jquery.blockui.min.js' />"></script> 
+		
         <script src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 		<script src="<c:url value='/js/plugins/aist/aist.jquery.custom.js' />"></script>
 		<!-- 提示 -->
         <script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
         <script src="<c:url value='/js/poshytitle/src/jquery.poshytipuser.js' />"></script>
-        <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
+        <%-- <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script>  --%>
         
         <script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
         <script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
         <script src="<c:url value='/js/ransom/ransomPlanTime.js'/>" type="text/javascript"></script>
-		<script src="<c:url value='/js/common/common.js' />"></script> 
+
 		</content>
     </body>
 </html>

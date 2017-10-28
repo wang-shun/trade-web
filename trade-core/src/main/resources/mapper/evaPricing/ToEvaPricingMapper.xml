@@ -289,13 +289,31 @@
 			FA_FIN_ORG_CODE = 'P00'
 	</select>
 	
-	<update id="updateEvalPricingRela">
+	<update id="updateEvaPricingRela">
+		<!-- UPDATE
+			sctrans.T_TO_EVA_PRICING
+		SET 
+			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE
+			PKID = #{pkid,jdbcType=BIGINT} -->
 		UPDATE
 			sctrans.T_TO_EVA_PRICING
 		SET 
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		WHERE
-			PKID = #{pkid,jdbcType=BIGINT}
+			PKID = #{pkid,jdbcType=BIGINT};
+		
+		
+		UPDATE
+			epi
+		SET 
+			epi.RESIDENCE_NAME = #{addr,jdbcType=VARCHAR}
+		FROM
+			sctrans.T_TO_EGU_PROPERTY_INFO epi
+		INNER JOIN sctrans.T_TO_EVA_PRICING ep ON ep.EVA_CODE = epi.EVA_CODE 
+		WHERE
+			ep.PKID = #{pkid,jdbcType=BIGINT};
+			
 	</update>
 	
 	<select id="findEvaPricingDetailByCaseCode" resultMap="BaseResultMap">

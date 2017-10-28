@@ -46,6 +46,9 @@
 						LEFT JOIN sctrans.T_TO_WORKFLOW tw ON rac.RANSOM_CODE = tw.BIZ_CODE AND tw.STATUS = 0
 						LEFT JOIN sctrans.ACT_RU_TASK act ON tw.INST_CODE =act.PROC_INST_ID_
 						WHERE 1 = 1 
+						<ifNotNull ransomCode>
+							AND rac.RANSOM_CODE = #ransomCode#
+						</ifNotNull>
 						<ifNotNull ransomStatus>
 							AND RANSOM_STATUS = #ransomStatus#
 						</ifNotNull>

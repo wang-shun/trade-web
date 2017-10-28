@@ -7,8 +7,8 @@ import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import java.io.OutputStream;
 
 /**
- * 
- * @author wbwangxj
+ * wbwangxj
+ * @author
  *
  */
 public interface ToBankRebateService {
@@ -93,5 +93,13 @@ public interface ToBankRebateService {
 	 */
 	void updateToBankRebateInfo(ToBankRebateInfo info);
 
+	/**
+	 * 根据案件编号和批次号
+	 * 获取返利申请案件信息
+	 * @param caseCode 案件编号
+	 * @param compId 批次号信息
+	 * @return
+	 */
+	ToBankRebateInfo selectToRebateInfoByCaseCodeAndCompId(String caseCode,String compId);
 
 }

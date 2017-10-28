@@ -49,6 +49,12 @@
 * @Last Modified by:   MIUu
 * @Last Modified time: 2016-12-29 10:33:45
 */
+.bujiandate{
+	margin-top:20px;
+}
+.bujiandate1{
+	margin-top:180px;
+}
 .checker1{
 	float: none;
 	Margin-right: 14px;
@@ -172,7 +178,7 @@
             margin: 5px 10px;
         }
         .wizard > .content {
-            min-height: 450px;
+            min-height: 550px;
         }
         .grey_visited {
             background-color: #ccc;
@@ -393,10 +399,11 @@
                                                                     </select>
                                                                 </div>
                                                                  <div class="form_content">
-                                                                    <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
+                                                                   <!--  <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
                                                                          <aist:dict id="mortType" name="mortType"
 															clazz="select_control data_style" display="select" dictType="30016"
-															defaultvalue="" />
+															defaultvalue="" /> -->
+															<input type="hidden"  name="mortType" value="30016001"/>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -488,7 +495,22 @@
 									</div>
 								</div>
 							</div>
-								<div class="row" id="form_check">
+							<div  id="checkbox1" >
+										<label class="control-label sign_left_small">买方补件</label>&nbsp;&nbsp;&nbsp;
+										<div class="checkbox i-checks checkbox-inline">
+										 <label> <input type="checkbox" checked="checked" name="ischeckBuy" value="1"> 是
+										</label> 
+										</div>
+										&nbsp;&nbsp;&nbsp;
+										<label class="control-label sign_left_small">卖方补件</label>&nbsp;&nbsp;&nbsp;
+										<div class="checkbox i-checks checkbox-inline ">
+										 <label> <input type="checkbox" checked="checked" name="ischeckSell" value="1"> 是
+										</label> 
+										</div>
+							</div>
+								<div id="form_check">
+									
+											
 											<div class="col-md-6">
 												<div>
 													<div class="checker">
@@ -501,8 +523,15 @@
                                     		<aist:dict id="bujian_bb" name="buyPatch"
 										 	display="checkbox"
 											dictType="700001" ligerui='none'></aist:dict>
+											<div class="bujiandate">
+											 <label class="control-label sign_left_small select_style mend_select">
+                                                    	补件时间<span class="star">*</span>
+                                                </label>
+                                                <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                    <input name="patchTimeBuy" class="form-control input-one date-picker" type="text" value="" placeholder="">
+                                                </div>
 											</div>
-											
+											</div>
 											<div class="col-md-6">
 												<div>
 													<div class="checker">
@@ -515,9 +544,17 @@
                                     		<aist:dict id="bujian_ss" name="sellPatch"
 										 	display="checkbox"
 											dictType="700002" ligerui='none'></aist:dict>
+											<div class="bujiandate1">
+											<label class="control-label sign_left_small select_style mend_select" >
+                                                    	补件时间<span class="star">*</span>
+                                                </label>
+                                                <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                    <input name="patchTimeSell" class="form-control input-one date-picker" type="text" value="" placeholder="">
+                                                </div>
+											</div>
 											</div>
 								</div>
-								 <div class="marinfo">
+								<!--  <div class="marinfo">
 									<div class="line">
 											<div class="form_content col-md-6">
                                                 <label class="control-label sign_left_small select_style mend_select">
@@ -536,7 +573,7 @@
                                                 </div>
                                              </div>
                                      </div>
-                                     </div>
+                                     </div> -->
                                   </form>  	
 							</div>
 							</section>
@@ -575,10 +612,11 @@
                                                                     </select>
                                                                 </div>
                                                                  <div class="form_content">
-                                                                    <label class="control-label sign_left_small">贷款类型</label>
+                                                                   <!--  <label class="control-label sign_left_small">贷款类型</label>
                                                                          <aist:dict id="mortType" name="mortType"
 																			clazz="select_control data_style" display="select" dictType="30016"
-																			defaultvalue=""/>
+																			defaultvalue=""/> -->
+																		<input type="hidden" name="mortType" value="30016001"/>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -709,10 +747,11 @@
                                                                     </select>
                                                                 </div>
                                                                  <div class="form_content">
-                                                                    <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
+                                                                 <!--    <label class="control-label sign_left_small">贷款类型<span class="star">*</span></label>
                                                                          <aist:dict id="mortType1" name="mortType"
 															clazz="select_control data_style" display="select" dictType="30016"
-															defaultvalue="" />
+															defaultvalue="" /> -->
+															<input type="hidden"  name="mortType" value="30016001"/>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -804,6 +843,19 @@
 									</div>
 								</div>
 							</div>
+							<div  id="checkbox2" >
+										<label class="control-label sign_left_small">买方补件</label>&nbsp;&nbsp;&nbsp;
+										<div class="checkbox i-checks checkbox-inline">
+										 <label> <input type="checkbox" checked="checked" name="ischeckBuy" value="1"> 是
+										</label> 
+										</div>
+										&nbsp;&nbsp;&nbsp;
+										<label class="control-label sign_left_small">卖方补件</label>&nbsp;&nbsp;&nbsp;
+										<div class="checkbox i-checks checkbox-inline ">
+										 <label> <input type="checkbox" checked="checked" name="ischeckSell" value="1"> 是
+										</label> 
+										</div>
+							</div>
 								<div class="row" id="form_check1">
 											<div class="col-md-6">
 												<div>
@@ -817,6 +869,14 @@
                                     		<aist:dict id="bujian_bb1" name="buyPatch"
 										 	display="checkbox"
 											dictType="700001" ligerui='none'></aist:dict>
+											<div class="bujiandate">
+											 <label class="control-label sign_left_small select_style mend_select">
+                                                    	补件时间<span class="star">*</span>
+                                                </label>
+                                                <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                    <input name="patchTimeBuy" class="form-control input-one date-picker" type="text" value="" placeholder="">
+                                                </div>
+											</div>
 											</div>
 											
 											<div class="col-md-6">
@@ -831,9 +891,17 @@
                                     		<aist:dict id="bujian_ss1" name="sellPatch"
 										 	display="checkbox"
 											dictType="700002" ligerui='none'></aist:dict>
+											<div class="bujiandate1">
+											<label class="control-label sign_left_small select_style mend_select" >
+                                                    	补件时间<span class="star">*</span>
+                                                </label>
+                                                <div class="input-group sign-right dataleft input-daterange pull-left" data-date-format="yyyy-mm-dd">
+                                                    <input name="patchTimeSell" class="form-control input-one date-picker" type="text" value="" placeholder="">
+                                                </div>
+											</div
 											</div>
 								</div>
-								 <div class="marinfo">
+								<!--  <div class="marinfo">
 									<div class="line">
 											<div class="form_content col-md-6">
                                                 <label class="control-label sign_left_small select_style mend_select">
@@ -852,7 +920,7 @@
                                                 </div>
                                              </div>
                                      </div>
-                                     </div>
+                                     </div> -->
                                   </form>  	
 							</div>
 							</section>
@@ -891,10 +959,11 @@
                                                                     </select>
                                                                 </div>
                                                                  <div class="form_content">
-                                                                    <label class="control-label sign_left_small">贷款类型</label>
+                                                                    <!-- <label class="control-label sign_left_small">贷款类型</label>
                                                                          <aist:dict id="mortType" name="mortType"
 																			clazz="select_control data_style" display="select" dictType="30016"
-																			defaultvalue=""/>
+																			defaultvalue=""/> -->
+																			<input type="hidden"  name="mortType" value="30016001"/>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -1287,7 +1356,29 @@ function  listtable(formId){
     		if(data != null){
     			var list = data.content;
     			for (var i = 0; i < list.length; i++) {
-    				formId.find("tr").eq(0).after("<tr><td>"+list[i].finOrgName+"</td><td>"+new Date(list[i].reportTime).Format("yyyy-MM-dd")+"</td><td>"+list[i].price+"</td><td>"+list[i].houseAge+"</td></tr>")
+    				var str = "<tr>";
+    				if(list[i].finOrgName){	
+    					str+="<td>"+list[i].finOrgName+"</td>";
+    				}else{
+    					str+="<td></td>";
+    				}
+    				if(list[i].reportTime){
+    					str+="<td>"+new Date(list[i].reportTime).Format('yyyy-MM-dd')+"</td>";
+    				}else{
+    					str+="<td></td>";	
+    				}
+    				if(list[i].price){
+    					str+="<td>"+list[i].price+" 万元</td>";
+    				}else{
+    					str+="<td></td>";
+    				}
+    				if(list[i].houseAge){
+    					str+="<td>"+list[i].houseAge+" 年</td>";
+    				}else{
+    					str+="<td></td>";
+    				}
+    				str+="</tr>";
+    				formId.find("tr").eq(0).after(str);
 				}
     		}
     	}
@@ -1425,28 +1516,64 @@ function checkInt(obj){
  		
  		$($("#combujian").find("input")[0]).change(function(){
  			if($($("#combujian").find("input")[0]).is(':checked')){
+ 				$("#checkbox1").show();
  				$("#form_check").show();
  				$("#form_check").next("div.marinfo").show();
  			}
  		});
  		$($("#combujian1").find("input")[0]).change(function(){
  			if($($("#combujian1").find("input")[0]).is(':checked')){
+ 				$("#checkbox2").show();
  				$("#form_check1").show();
  				$("#form_check1").next("div.marinfo").show();
  			}
  		});
 		$($("#combujian").find("input")[1]).change(function(){
 			if($($("#combujian").find("input")[1]).is(':checked')){
+				$("#checkbox1").hide();
  				$("#form_check").hide();
  				$("#form_check").next("div.marinfo").hide();
  			}
  		});
 		$($("#combujian1").find("input")[1]).change(function(){
 			if($($("#combujian1").find("input")[1]).is(':checked')){
+				$("#checkbox2").hide();
  				$("#form_check1").hide();
  				$("#form_check1").next("div.marinfo").hide();
  			}
  		});
+		
+		$("#checkbox1").find("input").eq(0).change(function(){
+			if($("#checkbox1").find("input").eq(0).is(':checked')){
+				$("#form_check").find("div.col-md-6").eq(0).children().show();
+			}else{
+				$("#form_check").find("div.col-md-6").eq(0).children().hide();
+			}
+		});
+		
+		$("#checkbox1").find("input").eq(1).change(function(){
+			if($("#checkbox1").find("input").eq(1).is(':checked')){
+				$("#form_check").find("div.col-md-6").eq(1).children().show();
+			}else{
+				$("#form_check").find("div.col-md-6").eq(1).children().hide();
+			}
+		}); 
+		
+		$("#checkbox2").find("input").eq(0).change(function(){
+			if($("#checkbox2").find("input").eq(0).is(':checked')){
+				$("#form_check1").find("div.col-md-6").eq(0).children().show();
+			}else{
+				$("#form_check1").find("div.col-md-6").eq(0).children().hide();
+			}
+		});
+		
+		$("#checkbox2").find("input").eq(1).change(function(){
+			if($("#checkbox2").find("input").eq(1).is(':checked')){
+				$("#form_check1").find("div.col-md-6").eq(1).children().show();
+			}else{
+				$("#form_check1").find("div.col-md-6").eq(1).children().hide();
+			}
+		}); 
  		
  		/*
  	 	*买方材料点击选中买方材料全选
@@ -1473,7 +1600,7 @@ function checkInt(obj){
  					$($div[i]).find("input").prop("checked",true);
  				}
  			}else{
- 				var $div = $("#bujian_b").parent().parent().parent().siblings("div");
+ 				var $div = $("#bujian_b1").parent().parent().parent().siblings("div");
  				for( var i = 0;i < $div.length; i++){
  					$($div[i]).find("input").prop("checked",false);
  				}
@@ -1503,7 +1630,7 @@ function checkInt(obj){
  					$($div[i]).find("input").prop("checked",true);
  				}
  			}else{
- 				var $div = $("#bujian_s").parent().parent().parent().siblings("div");
+ 				var $div = $("#bujian_s1").parent().parent().parent().siblings("div");
  				for( var i = 0;i < $div.length; i++){
  					$($div[i]).find("input").prop("checked",false);
  				}
@@ -1581,16 +1708,16 @@ function checkInt(obj){
 		
 		$("#code").inputmask({"mask":"999999-999999-999"});
 		
-	 	$("select[name='mortType']").each(function(){
+	 	/* $("select[name='mortType']").each(function(){
 			$(this).find("option[value='30016003']").remove();
 			$(this).find("option[value='30016002']").remove();
-		}); 
+		});  */
 		
-		$("select[name='mortType']").blur(function(){
+		/* $("select[name='mortType']").blur(function(){
 			if($(this).val()!=""){
 				$(this).css("border-color","#e5e6e7");
 			}
-		});
+		}); */
 
 		$('.input-group.date').datepicker({
 			todayBtn : "linked",

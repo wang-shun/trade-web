@@ -5,6 +5,7 @@ import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.ApiResultData;
+import com.centaline.trans.api.vo.CcaiFlowApiResultData;
 import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.repository.ToBankRebateInfoMapper;
@@ -150,13 +151,23 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 	@Override
 	public void submitCcai(ToBankRebateInfoVO info) {
 		SessionUser user = uamSessionService.getSessionUser();
-		ApiResultData result = evalApiService.evalBankRebateSync(info,user.getId());
+		ApiResultData result = null;
+		if(BankRebateStatusEnum.NOT_SUBMIT.getCode().equals(info.getToBankRebate().getStatus())){
+			//CCAI首次同步
+			result = evalApiService.evalBankRebateSync(info,user.getId());
+		}else if(BankRebateStatusEnum.BACK.getCode().equals(info.getToBankRebate().getStatus())){
+			//CCAI 财务驳回修改
+			result = evalApiService.evalBankRebateModify(info,user.getId());
+		}else{
+			result = new CcaiFlowApiResultData();
+			result.setSuccess(false);
+			result.setMessage("错误的案件状态!");
+		}
 		if(result.isSuccess()){
 			ToBankRebate rebate = info.getToBankRebate();
 			rebate.setStatus(BankRebateStatusEnum.SUBMIT.getCode());
 			rebate.setSubmitTime(new Date());
 			toBankRebateMapper.updateByPrimaryKeySelective(rebate);
-
 			ToApproveRecord record = new ToApproveRecord();
 			record.setOperator(user.getId());
 			record.setPartCode("BankRebate");
@@ -183,5 +194,10 @@ public class ToBankRebateServiceImpl implements ToBankRebateService {
 	@Override
 	public void updateToBankRebateInfo(ToBankRebateInfo info) {
 		toBankRebateInfoMapper.updateByPrimaryKeySelective(info);
+	}
+
+	@Override
+	public ToBankRebateInfo selectToRebateInfoByCaseCodeAndCompId(String caseCode, String compId) {
+		return toBankRebateInfoMapper.selectToRebateInfoByCaseCodeAndCompId(caseCode,compId);
 	}
 }

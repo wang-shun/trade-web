@@ -20,7 +20,7 @@ $(document).ready(function() {
 	data.queryId = "queryCastListItemList";
 	data.rows = 10;
 	data.page = 1;
-	data.argu_isNotResearchCloseCase = "true";//默认非结案案件
+	/*data.argu_isNotResearchCloseCase = "true";*///默认非结案案件
 	data.argu_sessionUserId = $("#userId").val();
 	aist.wrap(data);//格式化，添加排序字段及排序正反序
 	reloadGrid(data);

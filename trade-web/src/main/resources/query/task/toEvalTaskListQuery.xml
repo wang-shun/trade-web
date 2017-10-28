@@ -54,23 +54,25 @@
 						ART.PROC_INST_ID_ AS INST_CODE,
 						ART.DELEGATION_ AS DELEGATION,
 						ART.PROC_DEF_ID_,
-						ART.ASSIGNEE_ as REAL_NAME,
-						<!-- tcp.REAL_NAME, -->
+						tcp.REAL_NAME,
 						tw.CASE_CODE,
 						tw.BUSINESS_KEY,
 						(select Count(PKID) from sctrans.T_TO_MODULE_SUBSCRIBE ttms where ttms.SUBSCRIBER_ID=:sessionUserId and ttms.MODULE_CODE=tw.BIZ_CODE ) as SUBSCRIBE_COUNT
 						,(select PROPERTY_CODE  from sctrans.T_TO_PROPERTY_INFO where CASE_CODE=tw.CASE_CODE) propertyCode
 						,(select top 1 CASE_ORIGIN from sctrans.T_TO_CASE where CASE_CODE=tw.CASE_CODE) CASE_ORIGIN
-						,WFE.WFE_NAME as WFE_NAME
+						,WFE.WFE_NAME as WFE_NAME,
+						TFO.FIN_ORG_NAME
 
 					FROM
 						sctrans.ACT_RU_TASK ART
-						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_  =tw.INST_CODE
+						INNER JOIN sctrans.T_TO_WORKFLOW AS tw ON ART.PROC_INST_ID_ =tw.INST_CODE
+						LEFT JOIN  sctrans.ACT_HI_TASKINST AHT ON AHT.PROC_INST_ID_ = tw.INST_CODE
 						LEFT JOIN sctrans.T_TO_EVA_REPORT_PROCESS ERP ON ERP.EVA_CODE=tw.BIZ_CODE
-						<!-- LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE -->
+						LEFT JOIN sctrans.T_TS_FIN_ORG TFO ON ERP.FIN_ORG_ID=TFO.FIN_ORG_CODE
+					    LEFT JOIN sctrans.T_TO_CASE_PARTICIPANT tcp ON tcp.CASE_CODE= tw.CASE_CODE 
 						LEFT JOIN  sctrans.SYS_WFE_TEMPLATE AS WFE ON TW.BUSINESS_KEY=WFE.WFE_CODE
-						  WHERE  ART.ASSIGNEE_ = #userLoginName# <!-- AND tcp.POSITION= 'loan' -->
-					    AND ART.SUSPENSION_STATE_ = '1'
+						  WHERE  ART.ASSIGNEE_ = #userLoginName#  AND tcp.POSITION= 'loan'
+					    AND ART.SUSPENSION_STATE_ = '1' 
 					    and exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where EVA_CODE=tw.BIZ_CODE)
 						<ifNotNull allType>
    						AND ART.DELEGATION_ IS NULL
@@ -102,11 +104,14 @@
 						<ifNotNull finOrgId>
 							AND exists (Select 1 from sctrans.T_TO_EVA_REPORT_PROCESS  where FIN_ORG_ID=#finOrgId#)
 						</ifNotNull>
-						<!-- <ifNotNull loan>
+						 <ifNotNull loan>
 							AND exists (Select 1 from sctrans.T_TO_CASE_PARTICIPANT  where REAL_NAME=#loan#)
-						</ifNotNull> -->
+						</ifNotNull> 
 						<ifNotNull ccaiCode>
 							AND exists (Select 1 from sctrans.T_TO_CASE_INFO  where CASE_CODE=AB.CASE_CODE and CCAI_CODE like '%'+#ccaiCode#+'%')
+						</ifNotNull>
+						<ifNotNull finOrgId>
+							AND exists (Select 1 from sctrans.T_TS_FIN_ORG  where FIN_ORG_CODE=#finOrgId#)
 						</ifNotNull>
 						<if test="minDateLamp!=null or maxDateLamp!=null " >
 							<if test="minDateLamp!='' or maxDateLamp!='' " >
@@ -161,6 +166,7 @@
 				<column type="both" name="CASE_ORIGIN" index="" checkbox="" display="CASE_ORIGIN" customDict="" sysDict="" />
 				<column type="both" name="REAL_NAME" index="" checkbox="" display="贷款权证" customDict="" sysDict="" />
 				<column type="both" name="EVA_CODE" index="" checkbox="" display="" customDict="" sysDict="" />
+				<column type="both" name="FIN_ORG_NAME" index="" checkbox="" display="评估公司" customDict="" sysDict="" />
 			</table-row>
 		</grid>
 	</query>

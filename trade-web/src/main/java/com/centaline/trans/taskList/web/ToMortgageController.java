@@ -38,9 +38,12 @@ import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.service.MessageService;
 import com.centaline.trans.common.service.TgGuestInfoService;
 import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.bean.TaskHistoricQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
+import com.centaline.trans.engine.vo.PageableVo;
+import com.centaline.trans.engine.vo.TaskVo;
 import com.centaline.trans.eval.entity.ToEval;
 import com.centaline.trans.mgr.entity.ToSupDocu;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -336,37 +339,46 @@ public class ToMortgageController {
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			// 不需要放款前报告
 			ToCase toCase = toCaseService.findToCaseByCaseCode(processInstanceVO.getCaseCode());
-			workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+			TaskVo taskVo = workFlowManager.getHistoryTask(processInstanceVO.getTaskId());
+			TaskHistoricQuery tq = new TaskHistoricQuery();
+			tq.setProcessInstanceId(taskVo.getProcessInstanceId());
+			tq.setTaskDefinitionKey(taskVo.getTaskDefinitionKey());
+			PageableVo  vo = workFlowManager.listHistTasks(tq);
+			if(vo.getData().size() == 1){
+				workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(), processInstanceVO.getCaseCode());
+				// 提交流程之后需要更新贷款专员
+				SessionUser user = uamSessionService.getSessionUser();
+				toMortgage.setLoanAgent(user.getId());
+				toMortgage.setLoanAgentTeam(user.getServiceDepId());
+				toMortgageService.updateToMortgage(toMortgage);
 
-			// 提交流程之后需要更新贷款专员
-			SessionUser user = uamSessionService.getSessionUser();
-			toMortgage.setLoanAgent(user.getId());
-			toMortgage.setLoanAgentTeam(user.getServiceDepId());
-			toMortgageService.updateToMortgage(toMortgage);
+				//发送消息
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setCaseCode(processInstanceVO.getCaseCode());
+				wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
+				ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
+				//&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0
+				if (wordkFlowDB != null ) {
+					messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
+					// 设置主流程任务的assignee
+					workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
 
-			//发送消息
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setCaseCode(processInstanceVO.getCaseCode());
-			wf.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-			ToWorkFlow wordkFlowDB = toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(wf);
-			//&& "operation_process:40:645454".compareTo(wordkFlowDB.getProcessDefinitionId()) <= 0
-			if (wordkFlowDB != null ) {
-				messageService.sendMortgageFinishMsgByIntermi(wordkFlowDB.getInstCode());
-				// 设置主流程任务的assignee
-				workFlowManager.setAssginee(wordkFlowDB.getInstCode(), toCase.getLeadingProcessId(), toCase.getCaseCode());
-
-				ToWorkFlow workFlowOld = new ToWorkFlow();
-				// 流程结束状态
-				workFlowOld.setStatus("4");
-				workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
-				toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+					ToWorkFlow workFlowOld = new ToWorkFlow();
+					// 流程结束状态
+					workFlowOld.setStatus("4");
+					workFlowOld.setInstCode(processInstanceVO.getProcessInstanceId());
+					toWorkFlowService.updateWorkFlowByInstCode(workFlowOld);
+				}
+				return response;
 			}
+			
 
 		} catch (Exception e) {
 			response.setSuccess(false);
 			response.setMessage("操作失败！" + e.getMessage());
 			e.printStackTrace();
 		}
+		response.setCode("1");
 		return response;
 	}
 

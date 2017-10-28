@@ -264,7 +264,15 @@ function gotoPage(obj){
 			//直接给询价编号和caseCode
 			window.open(ctx+"/task/eval/apply?evaCode="+evaCode+"&caseCode="+caseCode);
 		}else{
-			var data = {};
+			//关联条件置空
+			$('#caseCode').val('');
+		    $('#propertyAddr').val('');
+		    $('#buyerName').val('');
+			
+			$('#evaPricingId').val(pVal);
+			$('#evaCode').val(evaCode);
+			evalAppySearch();
+			/*var data = {};
 		    data.queryId = "queryEvalApplyList";
 		    data.rows = 10;
 		    data.page = 1;
@@ -290,7 +298,7 @@ function gotoPage(obj){
 				error:function(){
 					window.wxc.error("查询失败!");
 				}
-			});
+			});*/
 		}
 	}else if(sVal == '2'){//重新发起
 		window.open(ctx+"/evaPricing/addNewEvaPricing");
@@ -301,17 +309,100 @@ function gotoPage(obj){
 
 var preIndex = -1;
 var caseCode = '';
+var addr = '';
 function chooseTr(index){
 	if(preIndex == index){
 		$('#tr_'+preIndex).css('background','#ffffff');
 		preIndex = -1;
 		caseCode = '';
+		addr = '';
 	}else{
 		$('#tr_'+preIndex).css('background','#ffffff');
 		preIndex = index;
 		$('#tr_'+index).css('background','#aaaaaa');
 		caseCode = $('#p_'+index).text().trim();
+		addr = $('#addr_'+index).text().trim();
 	}
+}
+
+/**
+ * 可关联案件查询
+ */
+function evalAppySearch(page){
+	var data = {};
+    data.queryId = "queryEvalApplyList";
+    data.rows = 6;
+    data.page = 1;
+    if(page){
+    	data.page = page;
+    }
+    //取案件编号,产证地址,买家姓名
+    var caseCode = $('#caseCode').val();
+    var propertyAddr = $('#propertyAddr').val();
+    var buyerName = $('#buyerName').val();
+    if(caseCode && caseCode.trim() != ''){
+    	data.argu_caseCode = caseCode;
+    }
+    if(propertyAddr && propertyAddr.trim() != ''){
+    	data.argu_propertyAddr = propertyAddr;
+    }
+    if(buyerName && buyerName.trim() != ''){
+    	data.argu_buyerName = buyerName;
+    }
+    
+    aist.wrap(data);
+	
+	$.ajax({
+		cache:true,
+		async:false,
+		type:"POST",
+		url:ctx + "/quickGrid/findPage",
+		data:data,
+		dataType:'json',
+		success:function(data){
+			var html = template('template_evalApply',data);
+			$('#eval-modal-body').empty();
+			$('#eval-modal-body').html(html);
+			$('#eval-modal-form').modal('show');
+			// 显示分页 
+            initpageModal(data.total,data.pagesize,data.page, data.records);
+		},
+		error:function(){
+			window.wxc.error("查询失败!");
+		}
+	});	
+}
+
+//分页
+function initpageModal(totalCount,pageSize,currentPage,records){
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPageModal').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1){
+		$(currentTotalstrong).empty();
+		$('#totalPModal').text(0);
+		$("#pageBarModal").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalPModal').text(records);
+	
+	$("#pageBarModal").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="fa fa-step-backward"></i>',
+		prev:'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			 //console.log(page);
+			evalAppySearch(page);
+	    }
+	});
 }
 
 /**
@@ -319,12 +410,12 @@ function chooseTr(index){
  * @returns
  */ 
 function evalApply(){
-	if(caseCode != ''){
+	if(caseCode != '' && addr != ''){
 		//关联案件
 		var pkid = $('#evaPricingId').val();
 		var evaCode = $('#evaCode').val();
 		
-		var data = "&pkid=" + pkid +"&caseCode=" + caseCode;
+		var data = "&pkid=" + pkid +"&caseCode=" + caseCode+"&addr="+addr;
 		$.ajax({
 			cache:true,
 			async:false,
@@ -333,7 +424,7 @@ function evalApply(){
 			data:data,
 			dataType:'json',
 			success:function(data){
-				if(data.content){
+				if(data.success){
 					window.location.href= ctx+"/task/eval/apply?evaCode="+evaCode+"&caseCode="+caseCode;
 				}else{
 					window.wxc.error('关联失败!');

@@ -42,6 +42,9 @@
     <result column="BOOK_RESULT" property="bookResult" jdbcType="VARCHAR" />
     <result column="BOOK_PERSON" property="bookPerson" jdbcType="VARCHAR" />
 	<result column="COLENDER" property="coLender" jdbcType="VARCHAR"/>
+	<result column="IS_CHECKBUY" property="ischeckBuy" jdbcType="VARCHAR" />
+	<result column="IS_CHECKSELL" property="ischeckSell" jdbcType="VARCHAR" />
+
     
     <result column="LOANER_ORG_CODE" property="loanerOrgCode" jdbcType="VARCHAR" />
     <result column="LOANER_ORG_ID" property="loanerOrgId" jdbcType="VARCHAR" />
@@ -83,16 +86,21 @@
     LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
     IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
     TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
-    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,PRI_CREDIT_UNIT,IS_PATCH,BUY_PATCH_STR,SELL_PATCH_STR,PATCH_TIME_BUY,PATCH_TIME_SELL,APPR_COMPLE_TIME,LOAN_CONTRA_TIME,BANK_TYPE,BOOK_RESULT,BOOK_PERSON,COLENDER
+    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,PRI_CREDIT_UNIT,IS_PATCH,BUY_PATCH_STR,SELL_PATCH_STR,PATCH_TIME_BUY,PATCH_TIME_SELL,APPR_COMPLE_TIME,LOAN_CONTRA_TIME,BANK_TYPE,BOOK_RESULT,BOOK_PERSON,COLENDER,IS_CHECKBUY,IS_CHECKSELL	
   </sql>
   <sql id="Blob_Column_List" >
     REMARK
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
-	    <include refid="Base_Column_List" />
-	    ,
-	    <include refid="Blob_Column_List" />
+	     PKID, CASE_CODE, MORT_TYPE, MORT_TOTAL_AMOUNT, FIN_ORG_CODE, CUST_CODE, COM_AMOUNT, 
+    COM_YEAR, COM_DISCOUNT, PRF_AMOUNT, PRF_YEAR, LEND_WAY, HOUSE_NUM, IS_LOANER_ARRIVE, 
+    SIGN_DATE, APPR_DATE, TAZHENG_ARR_DATE, LEND_DATE, CUST_COMPANY, IF_REPORT_BEFORE_LEND, 
+    LOANER_ID,LOANER_ORG_CODE,LOANER_ORG_ID,DISPACH_USER_ID,DISPACH_TIME,BANK_APPROVE_TIME,LOANER_PROCESS_INSTCODE,BANK_LEVEL,
+    LOANER_NAME, LOANER_PHONE,LAST_LOAN_BANK,PRF_APPLY_DATE,IF_REQUIRE_RECONSIDER,IS_DELEGATE_YUCUI,
+    IS_MAIN_LOAN_BANK,CUST_NAME,self_Del_Reason,rec_Letter_No,is_Tmp_Bank,TMP_BANK_UPDATE_TIME,
+    TMP_BANK_UPDATE_BY,TMP_BANK_REASON,LOANLOST_APPLY_REASON,LOANLOST_CONFIRM_CODE,
+    IS_ACTIVE,STATE_IN_BANK,CREATE_TIME,UPDATE_TIME,CREATE_BY,UPDATE_BY,PRI_CREDIT_UNIT,IS_PATCH,BUY_PATCH_STR,SELL_PATCH_STR,PATCH_TIME_BUY,PATCH_TIME_SELL,APPR_COMPLE_TIME,LOAN_CONTRA_TIME,BANK_TYPE,BOOK_RESULT,BOOK_PERSON,COLENDER,IS_CHECKBUY,IS_CHECKSELL
     from sctrans.T_TO_MORTGAGE
     where PKID = #{pkid,jdbcType=BIGINT}
   </select>
@@ -267,6 +275,14 @@
       <if test="coLender != null">
       	COLENDER,
       </if>
+      <if test="ischeckSell != null">
+      	IS_CHECKSELL,
+      </if>
+      <if test="ischeckBuy != null">
+      	IS_CHECKBUY,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       GETDATE(),@{SESSION_USER_ID},GETDATE(),@{SESSION_USER_ID},
@@ -428,6 +444,13 @@
       <if test="coLender != null">
       	#{coLender,jdbcType=VARCHAR},
       </if>
+      <if test="ischeckSell != null">
+      	#{ischeckSell,jdbcType=VARCHAR},
+      </if>
+      <if test="ischeckBuy != null">
+      	#{ischeckBuy,jdbcType=VARCHAR},
+      </if>
+      
     </trim>
   </insert>
   
@@ -442,6 +465,208 @@
   		
   	</set>
   	where PKID = #{pkid,jdbcType=BIGINT}; 
+  </update>
+  
+  <update id="update1" parameterType="com.centaline.trans.mortgage.entity.ToMortgage">
+  		update sctrans.T_TO_MORTGAGE
+    <set >
+      <if test="caseCode != null" >
+        CASE_CODE = #{caseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="mortType != null" >
+        MORT_TYPE = #{mortType,jdbcType=VARCHAR},
+      </if>
+      <if test="mortTotalAmount != null" >
+        MORT_TOTAL_AMOUNT = #{mortTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="finOrgCode != null" >
+        FIN_ORG_CODE = #{finOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comAmount != null">
+        COM_AMOUNT = #{comAmount,jdbcType=DECIMAL},
+    	</if>
+	<if test="comYear !=null">
+     	COM_YEAR = #{comYear,jdbcType=INTEGER},
+  	</if>
+  	<if test="comDiscount != null" > 
+        COM_DISCOUNT = #{comDiscount,jdbcType=DECIMAL},
+     </if>
+      <if test="prfAmount != null">
+      	PRF_AMOUNT = #{prfAmount,jdbcType=DECIMAL},
+      </if>
+        
+       <if test="prfYear != null">
+       	PRF_YEAR = #{prfYear,jdbcType=INTEGER},
+       </if> 
+      <if test="lendWay != null" >
+        LEND_WAY = #{lendWay,jdbcType=VARCHAR},
+      </if>
+      <if test="houseNum != null" >
+        HOUSE_NUM = #{houseNum,jdbcType=INTEGER},
+      </if>
+      <if test="isLoanerArrive != null" >
+        IS_LOANER_ARRIVE = #{isLoanerArrive,jdbcType=CHAR},
+      </if>
+      <if test="signDate != null" >
+        SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="apprDate != null" >
+        APPR_DATE = #{apprDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tazhengArrDate != null" >
+        TAZHENG_ARR_DATE = #{tazhengArrDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lendDate != null" >
+        LEND_DATE = #{lendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="custCompany != null" >
+        CUST_COMPANY = #{custCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="ifReportBeforeLend != null" >
+        IF_REPORT_BEFORE_LEND = #{ifReportBeforeLend,jdbcType=CHAR},
+      </if>
+      <if test="loanerName != null" >
+        LOANER_NAME = #{loanerName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerPhone != null" >
+        LOANER_PHONE = #{loanerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerId != null" >
+        LOANER_ID = #{loanerId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="dispachUserId != null" >
+        DISPACH_USER_ID = #{dispachUserId,jdbcType=VARCHAR},
+      </if>      
+      <if test="dispachTime != null" >
+        DISPACH_TIME = #{dispachTime,jdbcType=TIMESTAMP},
+      </if>
+      
+        BANK_APPROVE_TIME = #{bankApproveTime,jdbcType=TIMESTAMP},      
+      
+      <if test="loanerProcessInstCode != null" >
+        LOANER_PROCESS_INSTCODE = #{loanerProcessInstCode,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="bankLevel != null" >
+        BANK_LEVEL = #{bankLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgCode != null" >
+        LOANER_ORG_CODE = #{loanerOrgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanerOrgId != null" >
+        LOANER_ORG_ID = #{loanerOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="lastLoanBank != null" >
+        LAST_LOAN_BANK = #{lastLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="prfApplyDate != null" >
+        PRF_APPLY_DATE = #{prfApplyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ifRequireReconsider != null" >
+        IF_REQUIRE_RECONSIDER = #{ifRequireReconsider,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelegateYucui != null" >
+        IS_DELEGATE_YUCUI = #{isDelegateYucui,jdbcType=VARCHAR},
+      </if>
+      <if test="isMainLoanBank != null" >
+        IS_MAIN_LOAN_BANK = #{isMainLoanBank,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="selfDelReason != null" >
+        self_Del_Reason = #{selfDelReason,jdbcType=VARCHAR},
+      </if>
+      <if test="recLetterNo != null">
+      	rec_Letter_No = #{recLetterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="isTmpBank != null">
+      	is_Tmp_Bank = #{isTmpBank,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankUpdateTime != null">
+      	TMP_BANK_UPDATE_TIME = #{tmpBankUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tmpBankUpdateBy != null">
+      	TMP_BANK_UPDATE_BY = #{tmpBankUpdateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankReason != null">
+      	TMP_BANK_REASON=#{tmpBankReason,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankStatus != null">
+        TMP_BANK_STATUS=#{tmpBankStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="tmpBankRejectReason != null">
+        TMP_BANK_REJECT_REASON=#{tmpBankRejectReason,jdbcType=VARCHAR},
+      </if>
+      <if test="loanLostApplyReason !=null">
+      	LOANLOST_APPLY_REASON=#{loanLostApplyReason,jdbcType=VARCHAR},      	
+      </if>
+      <if test="loanLostConfirmCode !=null">
+      	LOANLOST_CONFIRM_CODE=#{loanLostConfirmCode,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgent != null">
+      	LOAN_AGENT = #{loanAgent,jdbcType=VARCHAR},
+      </if>
+      <if test="loanAgentTeam != null">
+      	LOAN_AGENT_TEAM = #{loanAgentTeam,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="stateInBank != null">
+      	STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},
+      </if>
+      <if test="priCreditUnit !=null">
+      	PRI_CREDIT_UNIT =#{priCreditUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="isPatch != null">
+      	IS_PATCH = #{isPatch,jdbcType=VARCHAR},
+      </if>
+		<if test="buyPatchStr != null">
+      		BUY_PATCH_STR = #{buyPatchStr,jdbcType=VARCHAR},
+		</if>
+		<if test="sellPatchStr != null">
+			SELL_PATCH_STR =#{sellPatchStr,jdbcType=VARCHAR},
+		</if>
+		<if test="patchTimeBuy != null">
+			PATCH_TIME_BUY = #{patchTimeBuy,jdbcType=TIMESTAMP},
+		</if>
+		<if test="patchTimeSell != null">
+			PATCH_TIME_SELL = #{patchTimeSell,jdbcType=TIMESTAMP},
+		</if>
+      	<if test="ischeckBuy != null">
+      		IS_CHECKBUY  = #{ischeckBuy,jdbcType=VARCHAR},
+      	</if>
+      	<if test="ischeckSell != null">
+      		IS_CHECKSELL = #{ischeckSell,jdbcType=VARCHAR},
+      	</if>
+      <if test="apprCompleTime != null">
+      	APPR_COMPLE_TIME = #{apprCompleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanContraTime != null">
+      	LOAN_CONTRA_TIME = #{loanContraTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bank_type != null">
+    	BANK_TYPE = #{bank_type,jdbcType=VARCHAR},
+      </if>
+      <if test="bookResult !=null">
+      	BOOK_RESULT = #{bookResult,jdbcType=VARCHAR},
+      </if>
+      <if test="bookPerson != null">
+      	BOOK_PERSON = #{bookPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="coLender != null">
+      	COLENDER = #{coLender,jdbcType=VARCHAR},
+      </if>
+      </set>
+       ,IS_ACTIVE='1'
+    ,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
+    where PKID = #{pkid,jdbcType=BIGINT}
   </update>
   
   <update id="update" parameterType="com.centaline.trans.mortgage.entity.ToMortgage" >
@@ -604,18 +829,22 @@
       <if test="isPatch != null">
       	IS_PATCH = #{isPatch,jdbcType=VARCHAR},
       </if>
-      <if test="buyPatchStr != null">
+
       	BUY_PATCH_STR = #{buyPatchStr,jdbcType=VARCHAR},
-      </if>
-      <if test="sellPatchStr != null">
+
+
       	SELL_PATCH_STR =#{sellPatchStr,jdbcType=VARCHAR},
-      </if>
-      <if test="patchTimeBuy != null">
+
+
       	PATCH_TIME_BUY = #{patchTimeBuy,jdbcType=TIMESTAMP},
-      </if>
-      <if test="patchTimeSell != null">
+
+
       	PATCH_TIME_SELL = #{patchTimeSell,jdbcType=TIMESTAMP},
-      </if>
+      	
+      	IS_CHECKBUY  = #{ischeckBuy,jdbcType=VARCHAR},
+      	
+      	IS_CHECKSELL = #{ischeckSell,jdbcType=VARCHAR},
+
       <if test="apprCompleTime != null">
       	APPR_COMPLE_TIME = #{apprCompleTime,jdbcType=TIMESTAMP},
       </if>
@@ -637,7 +866,7 @@
     </set>
     ,IS_ACTIVE='1'
     ,update_time=GETDATE(),UPDATE_BY=@{SESSION_USER_ID}
-    where PKID = #{pkid,jdbcType=BIGINT};
+    where PKID = #{pkid,jdbcType=BIGINT}
     
   </update>
   <update id="inActiveMortageByCaseCode" parameterType="java.lang.String" >
@@ -1094,6 +1323,14 @@
       <if test="bank_type != null">
       	BANK_TYPE = #{bank_type,jdbcType=VARCHAR},
       </if>
+      
+      <if test="ischeckBuy != null" >
+      	IS_CHECKBUY = #{ischeckBuy,jdbcType=VARCHAR},
+      </if>
+      
+       <if test="ischeckSell != null" >
+      	IS_CHECKSELL = #{ischeckSell,jdbcType=VARCHAR},
+      </if>
        UPDATE_TIME = GETDATE(),
        UPDATE_BY =@{SESSION_USER_ID}
     </set>
@@ -1155,6 +1392,8 @@
       IS_ACTIVE = #{isActive,jdbcType=CHAR},
       STATE_IN_BANK = #{stateInBank,jdbcType=VARCHAR},      
       UPDATE_TIME = GETDATE(),
+      IS_CHECKBUY = #{ischeckBuy,jdbcType=VARCHAR},
+      IS_CHECKSELL = #{ischeckSell,jdbcType=VARCHAR},
       UPDATE_BY =@{SESSION_USER_ID}
 
     where PKID = #{pkid,jdbcType=BIGINT}  

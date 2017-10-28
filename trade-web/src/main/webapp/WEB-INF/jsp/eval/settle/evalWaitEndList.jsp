@@ -120,8 +120,10 @@
 						<label class="sign_left_two control-label">状态</label>
 						
 						<div class="sign_right big_pad">
-						<aist:dict clazz="select_control yuanwid" id="caseStatus" name="caseStatus" 
-							display="select" defaultvalue="" dictType="eval_account_status" />
+						<!-- <aist:dict clazz="select_control yuanwid" id="caseStatus" name="caseStatus" 
+							display="select" defaultvalue=" " dictType="eval_account_status" /> -->
+						<aist:dict id="caseStatus" name="" display="select" 
+						dictType="eval_account_status" clazz="select_control sign_right_one_case"/>
 							
 						</div>
 					</div>
@@ -143,7 +145,7 @@
 					<div class="form_content">
 						<label class="sign_left_two control-label">贷款权证</label>
 						<div class="sign_right big_pad">
-							<input type="text" class="teamcode form-control" id="loadWarrant" name="ctmNo" value="">
+							<input type="text" class="teamcode form-control" id="loadWarrant" name="loadWarrant" value="">
 						</div>
 					</div>
 				</div>
@@ -152,7 +154,7 @@
 					<div class="form_content">
 						<div class="more_btn">
 							<button id="searchButton" type="button" class="btn btn-success"><i class="icon iconfont">&#xe635;</i>查询</button>&nbsp;&nbsp;&nbsp;&nbsp;
-							<!-- <button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:exportToExcel()">导出到excel</a>
 							<button id="batchappro" onclick="javascript:showOptUsers()" type="button" class="btn btn-success" disabled="true">批量审批</button>&nbsp;
 							<button id="caseAdd" onclick="javascript:caseAdd()" type="button" class="btn btn-success" disabled="true">新增结算单</button>&nbsp;
@@ -280,22 +282,15 @@
 									</td>
                                     <td>{{item.EVAL_REAL_CHARGES}}</td>
                                     <td>{{item.SETTLE_FEE}}</td>
-                                    <td></td>
+                                    <td>{{item.LOAN}}</td>
 									<td>{{item.REJECT_CAUSE}}</td>
 									
 									<td>
-									{{if item.STATUS=='0'}}
-						 				<span class="yes_color">未提交</span>
-					    			{{/if}}
-									{{if item.STATUS=='1'}}
-						 				<span class="yes_color">已驳回</span>
-					    			{{/if}}
-									{{if item.STATUS=='6'}}
-						 				<span class="yes_color">已提交财务审批中</span>
-					    			{{/if}}
+										<span class="yes_color">{{item.STATUS}}</span>
+									
 									</td>
 									<td class="center">
-									{{if item.STATUS=='1'}}
+									{{if item.STATUS_OLD=='1'}}
 						 				<a href="${ctx}/eval/settle/evalEndUpdate?pkid={{item.pkId}}&&caseCode={{item.caseCode}}" target="_blank">修改</a>
 					    			{{/if}}
 									<a onclick="noEnd({{item.pkId}})" target="_blank">无需结算</a>

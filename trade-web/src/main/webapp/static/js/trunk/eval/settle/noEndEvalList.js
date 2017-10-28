@@ -54,6 +54,13 @@ function searchMethod(page){
 	reloadGrid(data);
 }
 
+//清空
+$('#myCaseListCleanButton').click(function() {
+	$("#noEnd").val("");
+	$("#inTextVal").val('');
+	$('#finOrgId').val("")
+});
+
 /*获取查询参数*/
 function getQueryParams(page){
 	

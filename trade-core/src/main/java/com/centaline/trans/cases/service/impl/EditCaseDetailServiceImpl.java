@@ -270,7 +270,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         ToGetPropertyBook toGetPropertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(caseCode);
         if (toGetPropertyBook != null)
         {
-            editCaseDetailVO.setRealPropertyGetTime(toGetPropertyBook.getRealPropertyGetTime());
+//            editCaseDetailVO.setRealPropertyGetTime(toGetPropertyBook.getRealPropertyGetTime());
+            editCaseDetailVO.setTazhengArrDate(toGetPropertyBook.getRealPropertyGetTime());
         }
 
         /* 贷款信息 */
@@ -292,7 +293,9 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
             editCaseDetailVO.setComDiscount(toMortgage.getComDiscount());
             editCaseDetailVO.setIsDelegateYucui(toMortgage.getIsDelegateYucui());
             editCaseDetailVO.setLendWay(toMortgage.getLendWay());
-            editCaseDetailVO.setTazhengArrDate(toMortgage.getTazhengArrDate());
+            if(toMortgage.getTazhengArrDate() != null) {
+            	editCaseDetailVO.setTazhengArrDate(toMortgage.getTazhengArrDate());
+            }
 
             editCaseDetailVO.setCustCode(toMortgage.getCustCode());
             editCaseDetailVO.setPrfApplyDate(toMortgage.getPrfApplyDate());
@@ -668,15 +671,16 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     {
     	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
     		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
-    			ToMortgage record = new ToMortgage();
-    			record.setPkid(editCaseDetailVO.getMpkid());
-    			if(editCaseDetailVO.getLendDate() != null) {
-    				record.setLendDate(editCaseDetailVO.getLendDate());
+    			ToMortgage record = toMortgageService.findToMortgageById(editCaseDetailVO.getMpkid());
+    			if(record != null) {//自办贷款时，没有贷款数据
+    				if(editCaseDetailVO.getLendDate() != null) {
+    					record.setLendDate(editCaseDetailVO.getLendDate());
+    				}
+    				if(editCaseDetailVO.getTazhengArrDate() != null) {
+    					record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
+    				}
+    				toMortgageMapper.update(record);
     			}
-    			if(editCaseDetailVO.getTazhengArrDate() != null) {
-    				record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
-    			}
-    			toMortgageMapper.update(record);
     		}
     	}
     	

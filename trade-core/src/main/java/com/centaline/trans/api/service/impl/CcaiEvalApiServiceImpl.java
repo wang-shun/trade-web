@@ -1,6 +1,5 @@
 package com.centaline.trans.api.service.impl;
 
-import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.aist.uam.basedata.remote.UamBasedataService;
 import com.aist.uam.userorg.remote.UamUserOrgService;
@@ -9,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.centaline.trans.api.service.ApiService;
 import com.centaline.trans.api.service.EvalApiService;
 import com.centaline.trans.api.vo.*;
+import com.centaline.trans.bankRebate.entity.ToBankRebate;
 import com.centaline.trans.bankRebate.entity.ToBankRebateInfo;
 import com.centaline.trans.bankRebate.vo.ToBankRebateInfoVO;
 import com.centaline.trans.cases.entity.ToCaseInfo;
@@ -19,9 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,25 +105,35 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 			User user = uamUserOrgService.getUserById(userId);
 			if(user!=null){
 				CcaiPostBankFlowInfo request = new CcaiPostBankFlowInfo();
-				CcaiBrokageBack base = new CcaiBrokageBack();
-				base.setBackID(info.getToBankRebate().getPkid());
-				base.setRecordEmpNo(user.getEmployeeCode());
-				base.setRecordDate(info.getToBankRebate().getApplyTime());
-				base.setTotalMoney(info.getToBankRebate().getRebateTotal());
-				base.setRemark(info.getToBankRebate().getComment());
-				request.setBrokageBack(base);
-				List<CcaiBrokageBackDetail> details = new ArrayList<>();
-				for(ToBankRebateInfo i : info.getToBankRebateInfoList()){
-					CcaiBrokageBackDetail detail = new CcaiBrokageBackDetail();
-					detail.setReportNo(i.getCcaiCode());
-					detail.setReturnMoney(i.getRebateMoney());
-					detail.setCertMoney(i.getRebateWarrant());
-					detail.setBizMoney(i.getRebateBusiness());
-					detail.setBankName(uamBasedataService.getDictValue("bank_rebate_bank",i.getBankName()));
-					details.add(detail);
-				}
-				request.setBbdList(details);
+				request.setBrokageBack(convertBrokageBack(info.getToBankRebate(),user));
+				request.setBbdList(convertBrokageBackDetail(info.getToBankRebateInfoList()));
 				String url =getServiceAddress()+"/CCAIData/PostBankFlowInfo";
+				apiResult = restTemplate.postForObject(url,request,CcaiFlowApiResultData.class);
+			}else{
+				apiResult.setSuccess(false);
+				apiResult.setMessage("未获取到用户："+userId);
+			}
+		}else{
+			apiResult.setSuccess(true);
+			apiResult.setMessage("服务未开启，默认成功!");
+		}
+		return apiResult;
+	}
+
+	@Override
+	public ApiResultData evalBankRebateModify(ToBankRebateInfoVO info, String userId) {
+		ApiResultData apiResult = new CcaiFlowApiResultData();
+		if(serviceIsEnable()){
+			User user = uamUserOrgService.getUserById(userId);
+			if(user!=null){
+				JSONObject request = new JSONObject();
+				request.put("applyId",info.getToBankRebate().getCaseCode());//目前caseCode存的是CCAI APPLYID
+				request.put("userName",user.getUsername());
+				request.put("result",1);
+				request.put("comment","调整完成");
+				request.put("brokageBack",convertBrokageBack(info.getToBankRebate(),user));
+				request.put("bbdList",convertBrokageBackDetail(info.getToBankRebateInfoList()));
+				String url =getServiceAddress()+"/CCAIData/PostModifBankFlowInfo";
 				apiResult = restTemplate.postForObject(url,request,CcaiFlowApiResultData.class);
 			}else{
 				apiResult.setSuccess(false);
@@ -150,6 +158,41 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 		}
 		result =  JSONObject.parseObject(responseData,CcaiBankResultData.class);
 		return result;
+	}
+
+	/**
+	 * 将银行返利基本信息转换为CCAI需要的信息
+	 * @param rebate 银行返利申请信息
+	 * @param user 申请人信息
+	 * @return
+	 */
+	private CcaiBrokageBack convertBrokageBack(ToBankRebate rebate, User user){
+		CcaiBrokageBack base = new CcaiBrokageBack();
+		base.setBackID(rebate.getPkid());
+		base.setRecordEmpNo(user.getEmployeeCode());
+		base.setRecordDate(rebate.getApplyTime());
+		base.setTotalMoney(rebate.getRebateTotal());
+		base.setRemark(rebate.getComment());
+		return base;
+	}
+
+	/**
+	 * 将银行返利案件信息转换成CCAI通讯信息
+	 * @param infos
+	 * @return
+	 */
+	private List<CcaiBrokageBackDetail> convertBrokageBackDetail(List<ToBankRebateInfo> infos){
+		List<CcaiBrokageBackDetail> details = new ArrayList<>();
+		for(ToBankRebateInfo i : infos){
+			CcaiBrokageBackDetail detail = new CcaiBrokageBackDetail();
+			detail.setReportNo(i.getCcaiCode());
+			detail.setReturnMoney(i.getRebateMoney());
+			detail.setCertMoney(i.getRebateWarrant());
+			detail.setBizMoney(i.getRebateBusiness());
+			detail.setBankName(uamBasedataService.getDictValue("bank_rebate_bank",i.getBankName()));
+			details.add(detail);
+		}
+		return details;
 	}
 
 }
