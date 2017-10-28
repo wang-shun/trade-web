@@ -711,7 +711,7 @@
 			
 			
 			if(!~~loanReq){
-				$("#tab-2").find("input").attr("disabled","disabled");
+				$("#tab-2").find("input").disabled=true;
 				$("#tab-2").find("select").attr("disabled","disabled");
 			}
 			 $("#wizard").steps();
@@ -751,6 +751,8 @@
 	        $('#guestNameUp').attr("readonly","readonly");
 	        $('#guestPhoneUp').attr("readonly","readonly");
 	        if(notFirstTimeSubmit == 1){
+	        	$('#tazhengArrDate').disabled=false;//这个写法对日期数据无效，因为这个在div上
+	        	$('#lendDate').disabled=false;
 	        }else{
 	        	$('#tazhengArrDate').attr("disabled","disabled");
 	        	$('#lendDate').attr("disabled","disabled");

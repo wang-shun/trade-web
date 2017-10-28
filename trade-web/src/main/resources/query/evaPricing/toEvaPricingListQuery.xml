@@ -46,12 +46,14 @@
 						pro.HOUSE_AGE,
 						eva.STATUS,
 						tw.INST_CODE,
-						eva.EVA_CODE
+						eva.EVA_CODE,
+						cas.PKID casPKID
 					FROM
 						sctrans.T_TO_EVA_PRICING eva
 						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
 						INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
 						INNER JOIN sctrans.T_TO_WORKFLOW tw ON tw.BIZ_CODE = eva.EVA_CODE
+						LEFT JOIN sctrans.T_TO_CASE cas ON eva.CASE_CODE = cas.CASE_CODE
 					where 1=1
 					<ifNotNull propertyAddr>
 						AND pro.RESIDENCE_NAME like '%'+#propertyAddr#+'%'
@@ -83,6 +85,7 @@
 				<column type="both" name="STATUS" display="状态" hide="true"/>
 				<column type="both" name="INST_CODE" display="流程实例id" hide="true"/>
 				<column type="virtual" name="STATUS_NAME" display="状态名" referencecol="STATUS" customDict="qqEvaPricingStatus"/>
+				<column type="both" name="casPKID" display="案件id"/>
 			</table-row>
 		</grid>
 	</query>
@@ -108,6 +111,7 @@
 						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%' -->
 						
 				SELECT
+					cas.PKID,
 					cas.CASE_CODE caseCode,
 					cas.STATUS status,
 					info.PROPERTY_ADDR addr,
@@ -136,6 +140,7 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="PKID" display="案件pkid"/>
 				<column type="both" name="caseCode" display="案件编号"/>
 				<column type="both" name="status" display="案件状态" />
 				<column type="both" name="addr" display="物业地址" />

@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.evaPricing.entity.ToEvaPricingVo;
 import com.centaline.trans.evaPricing.service.EvaPricingService;
 
@@ -31,6 +33,8 @@ public class EvaPricingListController {
 	UamSessionService uamSessionService;
 	@Autowired
 	EvaPricingService evaPricingService;
+	@Autowired
+	private UamUserOrgService  uamUserOrgService;
 	
 	/**
 	 * 初始化
@@ -67,8 +71,7 @@ public class EvaPricingListController {
 	public AjaxResponse<String> saveEvaPricing(ToEvaPricingVo ToEvaPricingVo, ServletRequest request){
 		//申请，内勤回复
 		SessionUser user = uamSessionService.getSessionUser();
-		String userId = user.getId();
-		ToEvaPricingVo.setAriserId(userId);//申请人
+		ToEvaPricingVo.setAriserId(user.getUsername());//申请人
 		AjaxResponse<String> result = new AjaxResponse<String>();
 
 		try{

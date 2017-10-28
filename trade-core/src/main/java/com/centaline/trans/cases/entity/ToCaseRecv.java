@@ -42,8 +42,18 @@ public class ToCaseRecv {
     private String oriPrice;
     //增加处理时间，做好记录
     private Date processTime;
+    
+    private Date estFinishTime;
 
-    public Date getProcessTime() {
+    public Date getEstFinishTime() {
+		return estFinishTime;
+	}
+
+	public void setEstFinishTime(Date estFinishTime) {
+		this.estFinishTime = estFinishTime;
+	}
+
+	public Date getProcessTime() {
 		return processTime;
 	}
 
