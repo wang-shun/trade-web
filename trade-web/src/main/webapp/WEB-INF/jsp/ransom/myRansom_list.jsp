@@ -120,7 +120,14 @@ text-decoration: underline !important;
     color: #1d1b1b;
 }
 
-
+.label-context input{    
+	width: 150px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: dashed;
+    border-width: thin;
+ }
 
 
 
@@ -150,6 +157,12 @@ text-decoration: underline !important;
                         <label class="sign_left_one control-label">当前环节</label>
                         <div class="sign_right big_pad">
                                <aist:dict id="ransomProperty" name="ransom_Property" display="select" dictType="RANSOM_PART_CODE" clazz="select_control sign_right_one_case"/>
+                         </div>
+                    </div>
+                    <div class="form_content">
+                        <label class="sign_left_one control-label">赎楼单编号</label>
+                        <div class="label-context sign_right big_pad">
+                              <input id="ransomCode" type="text" name="ransomCode" class=" form-control pull-left " placeholder="请输入赎楼单编号">
                          </div>
                     </div>
                    <%--  <div class="form_content">
@@ -191,9 +204,11 @@ text-decoration: underline !important;
 								<aist:dict id="ransomSearchTime" name="ransomSearchTime" clazz="form-control" display="select"  dictType="RANSOM_SEARCH_TIME" />
 							</div>
 							<div id="datepicker_0" class="input-group sign-right dataleft input-daterange"  data-date-format="yyyy-mm-dd">
-								<input id="dtBegin_0" name="startTime" class="form-control data_style" onchange="checkDate('dtBegin_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
+								<input id="dtBegin_0" name="startTime" class="form-control data_style" onfocus="checkValue()" onchange="checkDate('dtBegin_0')" 
+								style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="起始日期"> 
 									<span class="input-group-addon">到</span> 
-								<input id="dtEnd_0" name="endTime" class="form-control data_style" onchange="checkDate('dtEnd_0')" style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
+								<input id="dtEnd_0" name="endTime" class="form-control data_style" onfocus="checkValue()" onchange="checkDate('dtEnd_0')" 
+								style="font-size: 13px; width: 159px; border-radius: 2px;" type="text" value="" placeholder="结束日期">
 							</div>
 							<div id="addLine" class="pull-left m-l"></div>
 						</div>

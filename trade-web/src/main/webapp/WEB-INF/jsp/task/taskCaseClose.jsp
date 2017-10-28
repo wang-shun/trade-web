@@ -322,7 +322,7 @@
 												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realHtTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
 													</div>
-													<div class="form_content">
+													<%-- <div class="form_content">
 														<label
 															class="control-label sign_left_small select_style mend_select">
 															领证时间 </label>
@@ -332,7 +332,7 @@
 																id="realHtTime" readonly="readonly"
 												                name="realHtTime" value="<fmt:formatDate  value='${editCaseDetailVO.realPropertyGetTime}' type='both' pattern='yyyy-MM-dd'/>" onfocus="this.blur()">
 														</div>
-													</div>
+													</div> --%>
 												</div>
 												<div class="line">
 													<div class="form_content">
@@ -711,7 +711,7 @@
 			
 			
 			if(!~~loanReq){
-				$("#tab-2").find("input").attr("disabled","disabled");
+				$("#tab-2").find("input").disabled=true;
 				$("#tab-2").find("select").attr("disabled","disabled");
 			}
 			 $("#wizard").steps();
@@ -751,6 +751,8 @@
 	        $('#guestNameUp').attr("readonly","readonly");
 	        $('#guestPhoneUp').attr("readonly","readonly");
 	        if(notFirstTimeSubmit == 1){
+	        	$('#tazhengArrDate').disabled=false;//这个写法对日期数据无效，因为这个在div上
+	        	$('#lendDate').disabled=false;
 	        }else{
 	        	$('#tazhengArrDate').attr("disabled","disabled");
 	        	$('#lendDate').attr("disabled","disabled");

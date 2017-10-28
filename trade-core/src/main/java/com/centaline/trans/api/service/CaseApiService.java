@@ -1,6 +1,7 @@
 package com.centaline.trans.api.service;
 
 import com.centaline.trans.api.vo.ApiCaseInfo;
+import com.centaline.trans.api.vo.ApiRebateReportInfo;
 import com.centaline.trans.api.vo.ApiResultData;
 import com.centaline.trans.task.entity.ToSign;
 
@@ -24,5 +25,12 @@ public interface CaseApiService {
 	 * @return data返回错误信息
 	 */
 	ApiResultData SyncNetSign(ToSign info);
+
+	/**
+	 * 获取CCAI返利报告详情信息
+	 * @param reportCode 返利报告编号 -F* 的
+	 * @return
+	 */
+	ApiRebateReportInfo getApiRebateReportInfo(String reportCode);
 
 }

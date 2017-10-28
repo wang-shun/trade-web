@@ -175,7 +175,7 @@ $(document).ready( function() {
 
 	 
 	 $.ajax({
-			url:ctx+ "/ransomList/queryRansomCode" ,
+			url:ctx+ "/ransomList/queryRansomCode",
 			method: "GET",
 			dataType: "json",
 			async: false,

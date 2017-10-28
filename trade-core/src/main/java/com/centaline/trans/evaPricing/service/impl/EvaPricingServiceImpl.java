@@ -210,12 +210,14 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 	}
 	
 	@Override
-	public boolean evalRelation(long pkid, String caseCode) {
-		int count = toEvaPricingMapper.updateEvalPricingRela(pkid, caseCode);
-		if(count >0){
-			return true;
+	public AjaxResponse<String> updatEevalRelation(long pkid, String caseCode,String addr) {
+		//更新询价信息,案件编号
+		int count = toEvaPricingMapper.updateEvaPricingRela(pkid, caseCode, addr);
+		if(count == 0){
+			throw new BusinessException("询价信息更新失败");
 		}
-		return false;
+		
+		return AjaxResponse.success();
 	}
 	
 	/**

@@ -438,41 +438,45 @@
 	/**
 	 * 评估申请
 	 */
-	function evalApply(){
-		
-		var ctx = $("#ctx").val();
-		var caseCode = $('#caseCode').val();
-		//判断是否已有评估申请流程	
-		var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
-		$.ajax({
-			url:url,
-			type:'POST',
-			dataType:'json',
-			success:function(data){
-				if(data.success){
-					if(data.content == 1){//询价已完成,可以评估申请
-						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
-					}else if(data.content == 2){//无询价,进入询价申请
-						/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
-							window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-						}});*/
+	 function evalApply(){
+			
+			var ctx = $("#ctx").val();
+			var caseCode = $('#caseCode').val();
+			//判断是否已有评估申请流程	
+			var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
+			$.ajax({
+				url:url,
+				type:'POST',
+				dataType:'json',
+				success:function(data){
+					if(data.success){
 						/**
-						 * modify 无询价直接评估 
-						 * @author xiefei1
-						 * date 2017/10/25
-						 */
-						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+						 * modify wbcaiyx 2017/10/26
+						 * 无关询价，注释
+						 */				
+						/*if(data.content == 1){//询价已完成,可以评估申请
+							window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+						}else if(data.content == 2){//无询价,进入询价申请
+		*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+								window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+							}});*/
+							/**
+							 * modify 无询价直接评估 
+							 * @author wbcaiyx
+							 * date 2017/10/24
+							 */
+							window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+//						}
+					}else{
+						window.wxc.alert(data.message);
 					}
-				}else{
-					window.wxc.alert(data.message);
-				}
-			},
-			error:function(XMLHttpRequest, textStatus, errorThrown) {
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown) {
 
-			}
-		});
-		
-	}
+				}
+			});
+			
+		}
 </script>
 <style type="text/css">
 .radio.radio-inline>label {
@@ -642,7 +646,7 @@
 							</label>
 							<div
 								class="input-group sign-right dataleft input-daterange pull-left"
-								id="data_1" data-date-format="yyyy-mm-dd">
+							 data-date-format="yyyy-mm-dd">
 								<input type="text" class="input_type yuanwid datatime"
 									id="estEvlApplyTime" name="estEvlApplyTime"
 									onfocus="this.blur()"
@@ -656,8 +660,8 @@
 								<font color=" red" class="mr5">*</font>网签时间
 							</label>
 							<div
-								class="input-group sign-right dataleft input-daterange pull-left"
-								id="data_1" data-date-format="yyyy-mm-dd">
+								class="input-group sign-right dataleft pull-left"
+								 data-date-format="yyyy-mm-dd">
 								<input type="text" class="input_type yuanwid datatime"
 									id="estSignTime" name="estSignTime" onfocus="this.blur()"
 									value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estSignTime}' type='both' pattern='yyyy-MM-dd'/>">
@@ -669,13 +673,14 @@
 								class="control-label sign_left_small select_style mend_select">
 								面签时间 </label>
 							<div
-								class="input-group sign-right dataleft input-daterange pull-left"
-								id="data_1" data-date-format="yyyy-mm-dd">
+								class="input-group sign-right dataleft  pull-left"
+								 data-date-format="yyyy-mm-dd">
 								<input type="text" class="input_type yuanwid datatime"
 									id="estF2fSignTime" name="estF2fSignTime" onfocus="this.blur()"
 									value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estF2fSignTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
+						
 					</div>
 					<hr>
 					<div class="line">
@@ -689,7 +694,7 @@
 								color=" red" class="mr5">*</font>购房套数</label>
 							<aist:dict clazz="select_control data_style" id="purchaseHouseNo"
 								name="purchaseHouseNo" display="select"
-								defaultvalue="${caseRecvVO.toPropertyInfo.distCode}"
+								defaultvalue="${caseRecvVO.toCaseRecv.purchaseHouseNo}"
 								dictType="61000" hasEmpty="true" />
 						</div>
 
@@ -827,7 +832,7 @@
 								color=" red" class="mr5">*</font>抵押信息</label>
 							<aist:dict clazz="select_control data_style" id="mortInfo"
 								name="mortInfo"
-								defaultvalue="${caseRecvVO.toCaseRecv.houseFrom}"
+								defaultvalue="${caseRecvVO.toCaseRecv.mortInfo}"
 								display="select" dictType="61011" hasEmpty="true" />
 						</div>
 
@@ -841,7 +846,7 @@
 								 data-date-format="yyyy-mm-dd">
 								<input type="text" class="input_type yuanwid datatime"
 									id="estFinishTime" name="estFinishTime" onfocus="this.blur()"
-									value="<fmt:formatDate  value='${firstFollow}' type='both' pattern='yyyy-MM-dd'/>">
+									value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estFinishTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
 					</div>
@@ -936,9 +941,7 @@
 					.ready(
 							function() {
 								var ctx = $("#ctx").val();
-								/* 						if(!$("#caseCode").val()){
-								 $("#caseCode").val("ZY-TJ-2017080038");						
-								 } */
+								
 								var caseCode = $("#caseCode").val();
 								AttachmentList.init('${ctx}',
 										'/quickGrid/findPage', 'gridTable',
@@ -948,11 +951,11 @@
 									srvCode : 'caseRecvFlow'
 								});
 								//日历控件
-								$('.input-daterange').datepicker({
+								/* $('.input-daterange').datepicker({
 									keyboardNavigation : false,
 									forceParse : false,
 									autoclose : true
-								});
+								}); */
 
 								//设置div显示或隐藏
 								function isShow(divName, stats) {
@@ -962,50 +965,49 @@
 										div_array[i].style.display = stats;
 									}
 								}
-
+	
 								//日期组件
-								$('#data_1 .input-group.date').datepicker({
+								 $('#estEvlApplyTime').datepicker({
 									todayBtn : "linked",
 									keyboardNavigation : false,
 									forceParse : false,
 									calendarWeeks : false,
 									autoclose : true
-								});
-
+								}).on('changeDate',function(ev){									
+									var inputtime=ev.date.valueOf();
+									var newDate=new Date().getTime(); 
+									if(inputtime<newDate){
+										window.wxc.alert("请输入大于今日的时间!");
+									}
+						        }); 
 								//日期组件
-								$('#evalApplyTime').datepicker({
+								 $('#estSignTime').datepicker({
 									todayBtn : "linked",
 									keyboardNavigation : false,
 									forceParse : false,
 									calendarWeeks : false,
 									autoclose : true
-								});
+								}).on('changeDate',function(ev){									
+									var inputtime=ev.date.valueOf();
+									var newDate=new Date().getTime(); 
+									if(inputtime<newDate){
+										window.wxc.alert("请输入大于今日的时间!");
+									}
+						        }); 
 								//日期组件
-								$('#signTime').datepicker({
+								 $('#estF2fSignTime').datepicker({
 									todayBtn : "linked",
 									keyboardNavigation : false,
 									forceParse : false,
 									calendarWeeks : false,
 									autoclose : true
-								});
-
-								//日期组件
-								$('#f2fSignTime').datepicker({
-									todayBtn : "linked",
-									keyboardNavigation : false,
-									forceParse : false,
-									calendarWeeks : false,
-									autoclose : true
-								});
-
-								//日期组件
-								$('#estFinishTime').datepicker({
-									todayBtn : "linked",
-									keyboardNavigation : false,
-									forceParse : false,
-									calendarWeeks : false,
-									autoclose : true
-								});
+								}).on('changeDate',function(ev){									
+									var inputtime=ev.date.valueOf();
+									var newDate=new Date().getTime(); 
+									if(inputtime<newDate){
+										window.wxc.alert("请输入大于今日的时间!");
+									}
+						        }); 
 								//商贷预警
 								$("[name=businessLoanWarn]").click(
 										function() {

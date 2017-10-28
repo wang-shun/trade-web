@@ -280,7 +280,9 @@ text-decoration: underline !important;
                    {{/if}}
 						
 						<td class="center">
-								<input type="checkbox" name="my_checkbox" class="i-checks"  value="{{item.EVA_CODE}}"
+						    {{if item.CASE_STATUS == '30001004' && item.REBATE_STATUS == '9' }}
+								<input type="checkbox" name="my_checkbox" class="i-checks" onclick="_checkbox()" value="{{item.EVA_CODE}}"
+                            {{/if}}
 						</td>
 
 						<td >
@@ -358,6 +360,11 @@ text-decoration: underline !important;
 
 						<td class="center">
                                {{item.STATUS}}
+                               <p>
+                                   {{if item.EVAL_PROPERTY == '71001003'}}
+                                           <i class="sign_blue"> 提交结算</i>
+                                   {{/if}}
+                               <p>
 						</td>
 						
 				  </tr>

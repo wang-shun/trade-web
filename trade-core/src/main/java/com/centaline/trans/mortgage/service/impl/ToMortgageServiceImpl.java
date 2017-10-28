@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +71,7 @@ import com.centaline.trans.performance.service.ReceivablePerfService;
 import com.centaline.trans.performance.vo.ReceivablePerfVo;
 import com.centaline.trans.stuff.service.StuffService;
 import com.centaline.trans.task.entity.ToApproveRecord;
+import com.centaline.trans.task.repository.ToMortgageTosaveMapper;
 import com.centaline.trans.task.service.ToApproveRecordService;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.service.UnlocatedTaskService;
@@ -141,7 +143,7 @@ public class ToMortgageServiceImpl implements ToMortgageService
     @Autowired
     private ReceivablePerfService receivablePerfService;
     @Autowired
-    private ToMortgageTosaveService toMortgageTosaveService;
+    private ToMortgageTosaveMapper toMortgageTosaveMapper;
     @Override
     public ToMortgage saveToMortgage(ToMortgage toMortgage)
     {
@@ -236,9 +238,12 @@ public class ToMortgageServiceImpl implements ToMortgageService
         }else{
         		if("0".equals(toMortgage.getIsPatch())){
         			toMortgageMapper.updateIsPatch(toMortgage);
-        		}else{
+        		}else if("1".equals(toMortgage.getIsPatch())){
         			toMortgage = transformationStr(toMortgage);
                     toMortgageMapper.update(toMortgage);
+        		}else{
+        			toMortgage = transformationStr(toMortgage);
+                    toMortgageMapper.update1(toMortgage);
         		}
         		
         }
@@ -1344,17 +1349,35 @@ public class ToMortgageServiceImpl implements ToMortgageService
         ToCase toCase = toCaseService.findToCaseByCaseCode(toMortgage.getCaseCode());
         return workFlowManager.submitTask(variables, taskId, processInstanceId, toCase.getLeadingProcessId(), toMortgage.getCaseCode());
     }
+    
+    @Override
+    public Result2 saveLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime,
+    		String taskId, String processInstanceId, String partCode) {
+    	toMortgage.setIsMainLoanBank("1");
+		ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
+		if(mortage != null) {//如果有贷款信息
+    		mortage.setLendDate(toMortgage.getLendDate());
+    		mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
+    		mortage.setRemark(toMortgage.getRemark());
+    		saveToMortgage(mortage);
+    	}else {//如果自办贷款挽回失败
+    		MortgageToSaveVO toSave = toMortgageTosaveMapper.selectByCaseCode(toMortgage.getCaseCode());
+    		if(toSave != null) {
+    			toSave.setLendDate(toMortgage.getLendDate());
+    			toSave.setRemark(toMortgage.getRemark());
+    			toMortgageTosaveMapper.updateByPrimary(toSave);
+    		}
+    	}
+		Result2 rs = new Result2();
+		rs.setMessage("保存成功");
+    	return rs;
+    }
 
     @Override
     public Result2 submitLoanRelease(HttpServletRequest request, ToMortgage toMortgage, String taskitem, Date estPartTime, String taskId, String processInstanceId,
             String partCode)
     {
-        toMortgage.setIsMainLoanBank("1");
-        ToMortgage mortage = findToMortgageById(toMortgage.getPkid());
-        mortage.setLendDate(toMortgage.getLendDate());
-//        mortage.setTazhengArrDate(toMortgage.getTazhengArrDate());
-        mortage.setRemark(toMortgage.getRemark());
-        saveToMortgage(mortage);
+    	saveLoanRelease(request, toMortgage, taskitem, estPartTime, taskId, processInstanceId, partCode);
 
         /* 流程引擎相关 */
         List<RestVariable> variables = new ArrayList<RestVariable>();
@@ -1414,7 +1437,13 @@ public class ToMortgageServiceImpl implements ToMortgageService
 	@Override
 	public List<Map<String, String>> queryEguProInfo(String caseCode) {
 		// TODO Auto-generated method stub
-		return toEvalMapper.queryEguProInfo(caseCode);
+		List<Map<String, String>> list = toEvalMapper.queryEguProInfo(caseCode);
+		for(Map map:list){
+			BigDecimal price = (BigDecimal)map.get("price");
+			map.put("price",price.divide(new BigDecimal(10000d)));
+		}
+		return list;
+				
 	}
 	@Override
 	public ToMortgage findToMortgageByCaseCodeOnlyOne(String caseCode) {

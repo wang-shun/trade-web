@@ -347,7 +347,8 @@ table tbody select, input {
         		<td>经办人:{{item.realName}}</td>
         		<td>{{item.seller}}</td>
         		<td>{{item.buyer}}</td>
-        		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" class="btn btn-success linkCase" name="linkCase">关联 </button></td>
+        		<td class="text-left"><button type="button" onclick = "checkLink('{{item.caseCode}}')" 
+					class="btn btn-success linkCase" name="linkCase">关联 </button></td>
     		</tr>
     	{{/each}}		
 	</script>

@@ -74,9 +74,34 @@
 						aria-hidden="true">×</button>
 					<h4 class="modal-title" id="plan-modal-title">评估申请关联</h4>
 				</div>
+				<div class="row clearfix" style="margin-top:10px;">
+					<div class="form_content">
+						<label class=" sign_left" style="margin-top:10px;"> 案件编码 </label> 
+						<div class="float_left" style="width:250px;">
+				 			<input id="caseCode" name="caseCode" type="text" class="form-control pull-left">
+				 		</div>
+					</div>
+					<div class="form_content">
+						<label class="control-label sign_left" style="margin-top:10px;"> 产证地址 </label> 
+						<div class="float_left" style="width:340px;">
+				 			<input id="propertyAddr" name="propertyAddr" type="text" class="form-control pull-left">
+				 		</div>
+					</div>
+				</div>
+				<div class="row clearfix" style="margin-top:10px;margin-bottom:10px;">
+					<div class="form_content">
+						<label class="control-label sign_left" style="margin-top:10px;"> 买家姓名 </label> 
+						<div class="float_left" style="width:250px;">
+				 			<input id="buyerName" name="buyerName" type="text" class="form-control pull-left">
+				 		</div>
+					</div>
+				</div>
+							
 				<input id="evaPricingId" type="hidden">
 				<input id="evaCode" type="hidden">
 				<div class="modal-footer">
+					<button type="button" class="btn btn-success" 
+						onclick="javascript:evalAppySearch()"> 查询</button>
 					<button type="button" class="btn btn-primary"
 						onclick="javascript:evalApply()">关联</button>
 					<button type="button" class="btn btn-default"
@@ -89,14 +114,21 @@
 							<th>案件编号</th>
 							<th>案件状态</th>
 							<th>物业地址</th>
-							<th>询价产证地址</th>
+							<th>买家</th>
 						</tr>
 					</thead>
 					<tbody id="eval-modal-body">
 						
 					</tbody>
 				</table>
+				<div class="text-center page_box">
+					<span id="currentTotalPageModal"><strong ></strong></span>
+					<span class="ml15">共<strong  id="totalPModal"></strong>条</span>&nbsp;
+					<div id="pageBarModal" class="pagergoto">
+					</div>  
+		    	</div> 
 			</div>
+			
 		</div>
 	</div>
 	
@@ -178,8 +210,8 @@
 					<th>创建时间/完成时间</th>
 					<th>询价类型</th>
 					<th>询价结果</th>
-					<th>操作</th>
 					<th>状态</th>
+					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody id="evaluateList">
@@ -224,7 +256,7 @@
 	
 			<td class="t-left">
 				<p class="big">
-					{{item.CASE_CODE}}				
+					<a href="${ctx}/case/caseDetail?caseId={{item.casPKID}}"  target="_blank">{{item.CASE_CODE}}</a>								
 				</p>
 			</td>
 
@@ -293,12 +325,14 @@
             	<div class="float_left" style="width:105px;">
 					<select pval="{{item.PKID}}" evaCode="{{item.EVA_CODE}}" caseCode="{{item.CASE_CODE}}" instCode="{{item.INST_CODE}}" class="form-control select_control" style="width:100px">
 						<option value="0">查看</option>
+						<shiro:hasPermission name="TRADE.EVAPRICING.DOING"> 
 						{{if item.STATUS == 1}}
 							<option value="1">评估申请</option>
 						{{/if}}
 						{{if item.STATUS == 2}}
 							<option value="2">重新发起</option>
 						{{/if}}
+						</shiro:hasPermission>
 					</select>
 				</div>
 				<a  href="#" onclick="gotoPage(this)" class="float_left_three"><i class="iconfont icon_revise">&#xe603;</i></a>						
@@ -319,7 +353,7 @@
 			</td>
 			<td>
 				<p id="p_{{index}}">
-					{{item.caseCode}}
+					<a href="${ctx}/case/caseDetail?caseId={{item.PKID}}"  target="_blank">{{item.caseCode}}</a>
 				</p>
 			</td>
 			<td>
@@ -328,13 +362,13 @@
 				</p>
 			</td>
 			<td>
-				<p>
+				<p id="addr_{{index}}">
 					{{item.addr}}
 				</p>
 			</td>
 			<td>
 				<p>
-					{{item.residenceName}}
+					{{item.buyerName}}
 				</p>
 			</td>
 		</tr>

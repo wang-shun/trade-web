@@ -1,9 +1,11 @@
 package com.centaline.trans.cases.web;
 
+import java.security.Security;
 import java.util.List;
 
 import javax.servlet.ServletRequest;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,13 +51,16 @@ public class CaseListController {
 
 		SessionUser user = uamSessionService.getSessionUser();
 		String userJob=user.getServiceJobCode();
+		//to-do 处理下本人、本部搜索范围
+		//to-do 处理下本人、本部搜索范围
+		boolean isGroupList = SecurityUtils.getSubject().isPermitted("TRADE.CASE.LIST.DEPATMENT");
 		boolean queryOrgFlag = false;
 		boolean isAdminFlag = false;
 
         StringBuffer reBuffer = new StringBuffer();
         //如果登录用户不是交易顾问
         //TODO 如果非交易顾问(过户/贷款权证),查组织内案件
-		if(!userJob.equals(TransJobs.TJYGW.getCode())){
+		if(isGroupList){
 			queryOrgFlag=true;
 			String depString = user.getServiceDepHierarchy();
 			String userOrgIdString = user.getServiceDepId();

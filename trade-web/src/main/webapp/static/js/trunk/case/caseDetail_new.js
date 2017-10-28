@@ -281,7 +281,7 @@ function casePause(){
 //挂起案件按钮toggle
 function buttonActivity(){
     var activityFlag = $("#activityFlag").val();
-    if(activityFlag == "30003003" || activityFlag == "30003007" || activityFlag == "30003008"){
+    if(activityFlag == "30003003"){
         $('.btn-activity').show();
         $('#casePause').text("案件挂起");
         $('#casePause').show();
@@ -503,7 +503,7 @@ function savePlanItems(){
  * 爆单
  */
 function caseBaodan(){
-
+	
 	window.wxc.confirm("确定案件爆单？",{"wxcOk":function(){
 		var caseCode = $("#caseCode").val();
 		var data = "&caseCode="+caseCode; 
@@ -578,6 +578,12 @@ function serviceRestart(){
 var chooseType;
 //选择过户or贷款权证modal
 function showChoose(){
+	//案件挂起，无法操作工作流参数
+	var activityFlag = $("#activityFlag").val();
+	if(activityFlag == "30003004"){
+        window.wxc.alert("挂起案件无法变更经办人");
+        return;
+    }
 	
 	chooseType = null;
 	var warrant = $('#warr').html();
@@ -768,7 +774,14 @@ function evalApply(){
 	
 	var ctx = $("#ctx").val();
 	var caseCode = $('#caseCode').val();
-	//判断是否已有评估申请流程	
+	
+	window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+	
+	/**
+	 * modify wbcaiyx 2017/10/27
+	 * 一个案件可以有多条评估，不检查了
+	 */
+	/*//判断是否已有评估申请流程	
 	var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
 	$.ajax({
 		url:url,
@@ -776,21 +789,21 @@ function evalApply(){
 		dataType:'json',
 		success:function(data){
 			if(data.success){
-				/**
+				*//**
 				 * modify wbcaiyx 2017/10/26
 				 * 无关询价，注释
-				 */				
-				/*if(data.content == 1){//询价已完成,可以评估申请
+				 *//*				
+				if(data.content == 1){//询价已完成,可以评估申请
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 				}else if(data.content == 2){//无询价,进入询价申请
-*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+					window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
 						window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-					}});*/
-					/**
+					}});
+					*//**
 					 * modify 无询价直接评估 
 					 * @author wbcaiyx
 					 * date 2017/10/24
-					 */
+					 *//*
 					window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
 //				}
 			}else{
@@ -800,7 +813,7 @@ function evalApply(){
 		error:function(XMLHttpRequest, textStatus, errorThrown) {
 
 		}
-	});
+	});*/
 	
 }
 

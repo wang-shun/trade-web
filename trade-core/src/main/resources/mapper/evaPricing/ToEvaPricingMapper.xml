@@ -26,6 +26,7 @@
 		<result column="CON_PRICE" property="conPrice" jdbcType="DECIMAL"/>
 		<result column="STATUS" property="status" jdbcType="VARCHAR"/>
 		<result column="taskId" property="taskId" jdbcType="VARCHAR"/>
+		<result column="REASON" property="reason" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- 查询询价明细 -->
@@ -54,7 +55,8 @@
 			cas.CCAI_CODE,
 			si.CON_PRICE,
 			pri.STATUS,
-			ART.ID_ taskId
+			ART.ID_ taskId,
+			pri.REASON
 		FROM
 			sctrans.T_TO_EVA_PRICING pri
 			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE
@@ -289,13 +291,31 @@
 			FA_FIN_ORG_CODE = 'P00'
 	</select>
 	
-	<update id="updateEvalPricingRela">
+	<update id="updateEvaPricingRela">
+		<!-- UPDATE
+			sctrans.T_TO_EVA_PRICING
+		SET 
+			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		WHERE
+			PKID = #{pkid,jdbcType=BIGINT} -->
 		UPDATE
 			sctrans.T_TO_EVA_PRICING
 		SET 
 			CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		WHERE
-			PKID = #{pkid,jdbcType=BIGINT}
+			PKID = #{pkid,jdbcType=BIGINT};
+		
+		
+		UPDATE
+			epi
+		SET 
+			epi.RESIDENCE_NAME = #{addr,jdbcType=VARCHAR}
+		FROM
+			sctrans.T_TO_EGU_PROPERTY_INFO epi
+		INNER JOIN sctrans.T_TO_EVA_PRICING ep ON ep.EVA_CODE = epi.EVA_CODE 
+		WHERE
+			ep.PKID = #{pkid,jdbcType=BIGINT};
+			
 	</update>
 	
 	<select id="findEvaPricingDetailByCaseCode" resultMap="BaseResultMap">

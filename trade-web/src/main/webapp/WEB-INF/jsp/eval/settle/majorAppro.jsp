@@ -22,11 +22,12 @@
         <!-- 分页控件 -->
         <link href="<c:url value='/css/plugins/pager/centaline.pager.css' />" rel="stylesheet" />
         <link href="<c:url value='/css/plugins/datapicker/datepicker3.css' />" />
-        <link  href="<c:url value='/css/common/base.css' />" rel="stylesheet" />
-        <link  href="<c:url value='/css/common/table.css' />" rel="stylesheet" /> 
-        <link  href="<c:url value='/css/common/input.css' />" rel="stylesheet" />  
-        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />"> />
-		<link href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />" rel="stylesheet"/>
+
+         <link rel="stylesheet" href="<c:url value='/css/common/base.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/common/input.css' />" />
+        <link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />">
+        <link rel="stylesheet" href="<c:url value='/css/plugins/autocomplete/jquery.autocomplete.css' />">
 	<style>
         .apply_box{
             padding: 30px 15px 50px 15px;

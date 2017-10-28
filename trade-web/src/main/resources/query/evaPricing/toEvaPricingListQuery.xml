@@ -46,12 +46,14 @@
 						pro.HOUSE_AGE,
 						eva.STATUS,
 						tw.INST_CODE,
-						eva.EVA_CODE
+						eva.EVA_CODE,
+						cas.PKID casPKID
 					FROM
 						sctrans.T_TO_EVA_PRICING eva
 						INNER JOIN  sctrans.T_TO_EGU_PROPERTY_INFO pro ON eva.EVA_CODE = pro.EVA_CODE
 						INNER JOIN sctrans.T_TS_FIN_ORG fin ON eva.FIN_ORG_ID = fin.PKID
 						INNER JOIN sctrans.T_TO_WORKFLOW tw ON tw.BIZ_CODE = eva.EVA_CODE
+						LEFT JOIN sctrans.T_TO_CASE cas ON eva.CASE_CODE = cas.CASE_CODE
 					where 1=1
 					<ifNotNull propertyAddr>
 						AND pro.RESIDENCE_NAME like '%'+#propertyAddr#+'%'
@@ -83,6 +85,7 @@
 				<column type="both" name="STATUS" display="状态" hide="true"/>
 				<column type="both" name="INST_CODE" display="流程实例id" hide="true"/>
 				<column type="virtual" name="STATUS_NAME" display="状态名" referencecol="STATUS" customDict="qqEvaPricingStatus"/>
+				<column type="both" name="casPKID" display="案件id"/>
 			</table-row>
 		</grid>
 	</query>
@@ -91,7 +94,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-					SELECT
+					<!-- SELECT
 						cas.CASE_CODE caseCode,
 						cas.STATUS status,
 						info.PROPERTY_ADDR addr,
@@ -104,9 +107,30 @@
 						LEFT JOIN sctrans.T_TO_EVA_PRICING ep ON ep.CASE_CODE = cas.CASE_CODE
 					WHERE
 						pri.PKID = #pkid#
-						<!-- AND (ep.STATUS IS NULL OR ep.STATUS ='2') -->
 						AND cas.CASE_PROPERTY IN('30003003')
-						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%'
+						AND info.PROPERTY_ADDR LIKE '%'+pro.RESIDENCE_NAME+'%' -->
+						
+				SELECT
+					cas.PKID,
+					cas.CASE_CODE caseCode,
+					cas.STATUS status,
+					info.PROPERTY_ADDR addr,
+					guest.GUEST_NAME buyerName
+				FROM
+					sctrans.T_TO_CASE cas 
+					INNER JOIN sctrans.T_TO_PROPERTY_INFO info ON cas.CASE_CODE = info.CASE_CODE
+					LEFT JOIN sctrans.T_TG_GUEST_INFO guest ON cas.CASE_CODE = guest.CASE_CODE AND guest.TRANS_POSITION = '30006002'
+				WHERE
+					cas.CASE_PROPERTY != '30003005'
+					<ifNotNull caseCode>
+						AND cas.CASE_CODE = #caseCode#
+					</ifNotNull>
+					<ifNotNull propertyAddr>
+						AND info.PROPERTY_ADDR like '%'+ #propertyAddr# +'%'
+					</ifNotNull>
+					<ifNotNull buyerName>
+						AND guest.GUEST_NAME = #buyerName#
+					</ifNotNull>
 				]]>
 			</baseSql>
 			<orderBySql>
@@ -116,11 +140,12 @@
 		</searchSql>
 		<grid>
 			<table-row>
+				<column type="both" name="PKID" display="案件pkid"/>
 				<column type="both" name="caseCode" display="案件编号"/>
 				<column type="both" name="status" display="案件状态" />
 				<column type="both" name="addr" display="物业地址" />
-				<column type="both" name="residenceName" display="询价产业地址"/>				
-				<column type="virtual" name="caseStatus" display="申请人" referencecol="status" customDict="qqcdDict30001"  />
+				<column type="both" name="buyerName" display="买方"/>				
+				<column type="virtual" name="caseStatus" display="案件状态" referencecol="status" customDict="qqcdDict30001"  />
 			</table-row>
 		</grid>
 	</query>

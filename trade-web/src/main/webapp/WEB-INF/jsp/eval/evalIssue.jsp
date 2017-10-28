@@ -68,6 +68,7 @@
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalIssueForm">
 				<input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -293,6 +294,7 @@
 					
 					fileUpload.init({
 			    		caseCode : $('#caseCode').val(),
+			    		bizCode : $("#evaCode").val(),
 			    		partCode : "eval_issue",
 			    		preFileCode : "eval_report_letter",
 			    		fileUploadContainer : "evalReportsFileUploadContainer"

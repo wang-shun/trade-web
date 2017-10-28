@@ -91,7 +91,9 @@
 								<div class="row">
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
 										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange('${evaCode}')">评估公司变更</a>
+										<shiro:hasPermission name="TRADE.EVAL.BAODAN">
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
+										</shiro:hasPermission>
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
 									
@@ -304,13 +306,23 @@
 						    <div class="tab-pane fade" id="rebate_info">
 									<div class="row">
 									    <label class="col-sm-3 control-label">评估费收据：${toEvalRebateVo.evalRecept}</label>
-										<label class="col-sm-3 control-label">评估费实收：${toEvalRebateVo.evalRealCharges}元</label>
+										<label class="col-sm-3 control-label">
+										              <c:if test="${toEvalRebateVo.status == '9' }">
+										                  财务审批评估费实收：
+										              </c:if>
+										              <c:if test="${toEvalRebateVo.status != '9' }">
+										                  申请评估费实收:
+										              </c:if>
+										               ${toEvalRebateVo.evalRealCharges}&nbsp;元 </label>
 										<label class="col-sm-3 control-label">评估费应收：${toEvalRebateVo.evalDueCharges}元</label>
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">中原分成金额：${toEvalRebateVo.centaComAmount}元</label>
 										<label class="col-sm-3 control-label">评估公司分成金额：${toEvalRebateVo.evaComAmount}元</label>
 										<label class="col-sm-3 control-label">录入时间：<fmt:formatDate value="${toEvalRebateVo.inputTime}" type="date" pattern="yyyy-MM-dd"/></label>
+									</div>
+									<div class="row">
+									    <label class="col-sm-3 control-label">评估返利状态：<aist:dict id="evalRebate" name="evalRebate" display="label" dictType="eval_rebate_status" dictCode="${toEvalRebateVo.status}" /></label>
 									</div>
 									<div class="content">
 										<table id="gridTable_rebate"></table>
@@ -352,7 +364,7 @@
 									     <label class="col-sm-3 control-label">调佣事由：${evalChangeCommVO.changeChargesCause}</label>
 									</div>
 									<div class="content">
-										<table style="width: 100%;height: 600px;" class="table-hover">
+										<table style="width:100%;" class="table-hover">
 								            <thead>
 								            <tr>
 								                <td></td><td>合作费类型</td><td>分成金额</td><td>分成比例</td><td>合作人</td><td>合作部门</td><td>合作经理</td>
@@ -410,7 +422,11 @@
 								            </tbody>
 								        </table>
 									 </div>
-							   </div>
+									 <div class="content">
+										<table id="gridTable_message"></table>
+								        <div id="gridPager_message"></div>
+									 </div>
+							</div>
 								
 							<!-- 评估退费 -->
 							<div class="tab-pane fade" id="refund_info">
@@ -478,7 +494,7 @@
 	<script src="<c:url value='/js/trunk/eval/evalDetail.js' />"></script>
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script> --%>
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>

@@ -35,8 +35,8 @@ function reloadDetail(){
 	var dispCols=[ '尾款机构','尾款类型', '抵押类型','贷款金额(单位:万元)','剩余部分(单位:万元)','实际还款金额(单位:万元)' ];
 	var colModels=
 	[ {
-		name : 'tailOrgName',
-		index : 'tailOrgName',
+		name : 'comOrgName',
+		index : 'comOrgName',
 		align : "center",
 		width : 176
 	}, {

@@ -1530,42 +1530,6 @@ public class CaseDetailController {
 	}
 	
 	/**
-	 * 爆单申请
-	 * @param caseCode
-	 * @return
-	 */
-	@RequestMapping(value="caseBoomXiakalaka")
-	@ResponseBody
-	public AjaxResponse<String> caseBoomXiakalaka(String caseCode){
-		ToWorkFlow record = new ToWorkFlow();
-		record.setBusinessKey(WorkFlowEnum.WBUSSKEY.getCode());
-		record.setCaseCode(caseCode);
-		List<ToWorkFlow> wfls = toWorkFlowService.queryActiveToWorkFlowByCaseCode(record);
-		//和案件关联的流程全部挂起，等待审批，审批通过全部瞎卡拉卡(主,赎楼,评估，询价待定)
-		
-		
-		
-		
-		//工作流数据更新：爆单
-		/*for(ToWorkFlow toWorkFlow : wfls){
-			toWorkFlow.setStatus(WorkFlowStatus.BAODAN.getCode());
-			toWorkFlowService.updateByPrimaryKey(toWorkFlow);
-			
-    		workFlowManager.deleteProcess(toWorkFlow.getInstCode());
-		}*/
-		
-		/** 案件性质更新 **/
-		/*ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		toCase.setCaseProperty(CasePropertyEnum.TPBD.getCode());
-		int res = toCaseService.updateByPrimaryKey(toCase);*/
-//		if(res == 0){
-//			return AjaxResponse.fail("更新案件失败!");
-//		}
-		
-		return AjaxResponse.success();
-	}
-	
-	/**
 	 * 变更责任人  默认责任人显示
 	 * @author zhuody
 	 * @Date 2016-12-02

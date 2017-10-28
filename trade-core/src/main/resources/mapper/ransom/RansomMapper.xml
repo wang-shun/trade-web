@@ -204,6 +204,7 @@
 			CASE_CODE caseCode,
 			RANSOM_CODE ransomCode,
 			FIN_ORG_CODE finOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG ra WHERE ra.FIN_ORG_CODE = tai.FIN_ORG_CODE) comOrgName,
 			MORTGAGE_TYPE mortgageType,
 			DIYA_TYPE diyaType,
 			LOAN_MONEY loanMoney,
@@ -211,7 +212,7 @@
 			SIGN_TIME signTime,
 			PLAN_TIME planTime
 		FROM 
-			sctrans.T_RA_TAILINS 
+			sctrans.T_RA_TAILINS tai
 		WHERE CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 	</select>
 	
@@ -219,7 +220,7 @@
 		SELECT 
 			CASE_CODE caseCode,
 			RANSOM_CODE ransomCode,
-			FIN_ORG_CODE finOrgCode,
+			(SELECT FIN_ORG_NAME FROM sctrans.T_TS_FIN_ORG WHERE FIN_ORG_CODE = tai.FIN_ORG_CODE) comOrgName,
 			MORTGAGE_TYPE mortgageType,
 			DIYA_TYPE diyaType,
 			LOAN_MONEY loanMoney,
@@ -227,7 +228,7 @@
 			SIGN_TIME signTime,
 			PLAN_TIME planTime
 		FROM 
-			sctrans.T_RA_TAILINS 
+			sctrans.T_RA_TAILINS tai
 		WHERE RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
