@@ -144,12 +144,11 @@
 							<a role="button" class="btn btn-primary btn-xm btn-activity"
 								href="javascript:evaPricingApply()">询价申请</a>
 						</shiro:hasPermission>
-						<c:if test="${caseInfo.evalCode == null}">
-							<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVALAPPLY">
+						<shiro:hasPermission name="TRADE.CASE.CASEDETAIL.EVALAPPLY">
 								<a role="button" class="btn btn-primary btn-xm btn-activity"
 									href="javascript:evalApply()">评估申请</a>
 						</shiro:hasPermission>
-						</c:if>
+
 						
 	
 					<!-- 交易计划变更 -->
