@@ -48,7 +48,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	@Override
 	public ApiResultData evalRebateFeedBack(FlowFeedBack result, CcaiEvalRebateVo info) {
 		ApiResultData apiResult = new CcaiFlowApiResultData();
-		if(serviceIsEnable()){
+		if(serviceCanPush()){
 			//获取评估返利报告CCAI中的applyId和评估报告编号
 			ToEvalRebate rebate = toEvalRebateService.findToEvalRebateByCaseCode(info.getCode());
 			ToCaseInfo caseInfo = toCaseInfoMapper.findToCaseInfoByCaseCode(info.getCode());
@@ -86,7 +86,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	public CcaiAssessCompanyResultData getAllAssessCompany() {
 		CcaiAssessCompanyResultData apiResult = new CcaiAssessCompanyResultData();
 		String responseData = "";
-		if(serviceIsEnable()){
+		if(serviceCanPull()){
 			String url =getServiceAddress()+"/CCAIData/GetBasicParameters?type=AssessCompany";
 			responseData = restTemplate.getForObject(url,String.class);
 			//自动转换 无法转换公司列表
@@ -101,7 +101,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	@Override
 	public ApiResultData evalBankRebateSync(ToBankRebateInfoVO info,String userId) {
 		ApiResultData apiResult = new CcaiFlowApiResultData();
-		if(serviceIsEnable()){
+		if(serviceCanPush()){
 			User user = uamUserOrgService.getUserById(userId);
 			if(user!=null){
 				CcaiPostBankFlowInfo request = new CcaiPostBankFlowInfo();
@@ -123,7 +123,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	@Override
 	public ApiResultData evalBankRebateModify(ToBankRebateInfoVO info, String userId) {
 		ApiResultData apiResult = new CcaiFlowApiResultData();
-		if(serviceIsEnable()){
+		if(serviceCanPush()){
 			User user = uamUserOrgService.getUserById(userId);
 			if(user!=null){
 				JSONObject request = new JSONObject();
@@ -150,7 +150,7 @@ public class CcaiEvalApiServiceImpl extends ApiService implements EvalApiService
 	public CcaiBankResultData getAllBankName() {
 		String responseData = "";
 		CcaiBankResultData result = new CcaiBankResultData();
-		if(serviceIsEnable()){
+		if(serviceCanPull()){
 			String url =getServiceAddress()+"/CCAIData/GetBasicParameters?type=Bank";
 			responseData = restTemplate.getForObject(url,String.class);
 		}else{

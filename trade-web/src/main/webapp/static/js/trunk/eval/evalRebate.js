@@ -24,8 +24,8 @@ var AttachmentList = (function(){
                     width : 25,
                     resizable : false
                 }, {
-                    name : 'NOT_APPROVE',
-                    index : 'NOT_APPROVE',
+                    name : 'NOT_APPROVE_OLD',
+                    index : 'NOT_APPROVE_OLD',
                     align : "center",
                     width : 25,
                     resizable : false
@@ -50,14 +50,16 @@ var AttachmentList = (function(){
                     for (var i = 0; i < ids.length; i++) {
                         var id = ids[i];
                         var rowDatas = jQuery("#"+gridTableId).jqGrid('getRowData', ids[i]); // 获取当前行
-                        var auditResult = rowDatas['NOT_APPROVE'];
+                        var auditResult = rowDatas['NOT_APPROVE_OLD'];
                         var auditResultDisplay = null;
-                        if(!auditResult){
-                            auditResultDisplay="审批通过"
-                        }else{
-                            auditResultDisplay=auditResult;
+                        if (!auditResult || auditResult.length == 0) {
+                            auditResultDisplay = "通过"
+                            auditResult = rowDatas['CONTENT'];
+                        } else {
+                            auditResultDisplay = "驳回";
+                            auditResult = rowDatas['NOT_APPROVE_OLD'];
                         }
-                        jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], { NOT_APPROVE: auditResultDisplay});
+                        jQuery("#"+gridTableId).jqGrid('setRowData', ids[i], {NOT_APPROVE_OLD: auditResultDisplay,CONTENT:auditResult});
                     }
                 },
                 postData : {
