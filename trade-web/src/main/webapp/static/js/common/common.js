@@ -122,7 +122,7 @@ function reloadGrid() {
 		//案件视图点击链接转向
 		$("#btnCaseView").click(function(){
 			var caseCode = $(this).attr("lang");
-			if(taskitem==undefined){//by wbzhouht 因为有些页面没有传taskitem，因此应先判断
+			if(undefined == taskitem){//by wbzhouht 因为有些页面没有传taskitem，因此应先判断
                 var partCode='';
 			} else {
 				var partCode=taskitem;
@@ -132,8 +132,8 @@ function reloadGrid() {
 		
 		//评视图点击
 		$("#btnEvalView").click(function(){
-			var caseCode = $(this).attr("lang");
-			location.href = ctx + "/eval/list";
+			var evaCode = $(this).attr("lang");
+			location.href = ctx + "/eval/detail?evaCode="+evaCode;
 		});
 		//日历控件
 	    $('.input-daterange').datepicker({

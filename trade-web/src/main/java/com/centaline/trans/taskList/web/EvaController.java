@@ -117,8 +117,8 @@ public class EvaController {
 	 */
 	@RequestMapping(value = "report")
 	public String report(HttpServletRequest request, HttpServletResponse response,String source,
-			String taskitem,String businessKey, String processInstanceId){
-		evaProcessService.initReport(request,taskitem, businessKey);
+			String taskitem,String businessKey, String processInstanceId,String evaCode){
+		evaProcessService.initReport(request,taskitem, businessKey,evaCode,source);
 	    return "eval/evalReport";
 	}
 	
@@ -166,9 +166,9 @@ public class EvaController {
 	 */
 	@RequestMapping(value = "issue")
 	public String issue(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
-			String taskitem, String processInstanceId){
+			String taskitem, String processInstanceId,String evaCode){
 
-		evaProcessService.initIssue(request, taskitem, businessKey);
+		evaProcessService.initIssue(request, taskitem, businessKey,evaCode,source);
 	    return "eval/evalIssue";
 	}
 	
@@ -216,8 +216,8 @@ public class EvaController {
 	 */
 	@RequestMapping(value = "used")
 	public String used(HttpServletRequest request, HttpServletResponse response, String businessKey,String source,
-			String taskitem, String processInstanceId){
-		evaProcessService.initUsed(request, taskitem, businessKey);
+			String taskitem, String processInstanceId,String evaCode){
+		evaProcessService.initUsed(request, taskitem, businessKey,evaCode,source);
 	    return "eval/evalUsed";
 	}
 	
