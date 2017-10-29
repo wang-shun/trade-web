@@ -224,8 +224,8 @@ var ApproveList = (function() {
 									width : 25,
 									resizable : false
 								}, {
-									name : 'NOT_APPROVE',
-									index : 'NOT_APPROVE',
+									name : 'NOT_APPROVE_OLD',
+									index : 'NOT_APPROVE_OLD',
 									align : "center",
 									width : 25,
 									resizable : false
@@ -256,20 +256,18 @@ var ApproveList = (function() {
 												"#" + gridTableId).jqGrid(
 												'getRowData', ids[i]); // 获取当前行
 
-										var auditResult = rowDatas['NOT_APPROVE'];
+										var auditResult = rowDatas['NOT_APPROVE_OLD'];
 										var auditResultDisplay = null;
-										if (!auditResult) {
-											auditResultDisplay = "审批通过"
-										} else {
-											auditResultDisplay = auditResult;
-										}
+										console.info(auditResult);
+                                        if (!auditResult || auditResult.length == 0) {
+                                            auditResultDisplay = "通过"
+                                            auditResult = rowDatas['CONTENT'];
+                                        } else {
+                                            auditResultDisplay = "不通过";
+                                            auditResult = rowDatas['NOT_APPROVE_OLD'];
+                                        }
 										jQuery("#" + gridTableId)
-												.jqGrid(
-														'setRowData',
-														ids[i],
-														{
-															NOT_APPROVE : auditResultDisplay
-														});
+												.jqGrid('setRowData',ids[i],{NOT_APPROVE_OLD: auditResultDisplay,CONTENT:auditResult});
 									}
 								},
 								postData : {

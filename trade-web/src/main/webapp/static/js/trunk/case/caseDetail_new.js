@@ -14,6 +14,10 @@ Array.prototype.contains = function(obj){
 
 $(document).ready(function() {
 
+	var lamp1 = $("#Lamp1").val();
+	var lamp2 = $("#Lamp2").val();
+	var lamp3 = $("#Lamp3").val();
+	
     $("#subscribe").subscribeToggle({
         moduleType:"1001",
         subscribeType:"2001"
@@ -27,8 +31,14 @@ $(document).ready(function() {
     getShowAttachment();
     //业绩记录/收费情况查询
     queryPer();
-    
+    //获取案件操作记录
+    searchCaseRecord();
+    console.log("KAI SHI CHA XUN CAO ZUO JI LU")
 });
+
+var lamp1 = $("#Lamp1").val();
+var lamp2 = $("#Lamp2").val();
+var lamp3 = $("#Lamp3").val();
 
 $("#btn_loan_reqment_chg").click(chgLoanReqment);
 /**
@@ -386,7 +396,7 @@ function openTransHistory(){
 function savePlanItems(){
     var isAudit=auditResult;
     if(isAudit){
-        window.wxc.error("该案件已提交过变更，请等待审核！",function () {
+        window.wxc.error("你已提交过变更，请等待审核！",function () {
             window.location.reload();
         })
         return;
@@ -882,3 +892,71 @@ function chgLoanReqment(){
 	})}});
 }
 
+/**
+ * 案件操作记录
+ * 原有只限案件计划数据，无其他数据
+ * @author wbcaiyx
+ */
+function searchCaseRecord(page) {
+	var caseCode = $("#caseCode").val();
+	var data = {};
+    data.queryId = "getProcessRecordList";
+    data.rows = 10;
+    data.page = 1;
+    if(page){
+    	data.page = page;
+    }
+	data.argu_caseCode = caseCode;
+    
+    $.ajax({
+		cache:true,
+		async:false,
+		type:"POST",
+		url:ctx + "/quickGrid/findPage",
+		data:data,
+		dataType:'json',
+		success:function(data){
+			data.lamp1 = lamp1;
+      	  	data.lamp2 = lamp2;
+      	  	data.lamp3 = lamp3;
+			var html = template('template_caseRecord',data);
+			$('#allProcessList').empty();
+			$('#allProcessList').html(html);
+			// 显示分页 
+			initpage(data.total,data.pagesize,data.page, data.records);
+		},
+		error:function(){
+			window.wxc.error("查询失败!");
+		}
+	});	
+}
+//分页
+function initpage(totalCount,pageSize,currentPage,records){
+	if(totalCount>1500){
+		totalCount = 1500;
+	}
+	var currentTotalstrong=$('#currentTotalPage1').find('strong');
+	if (totalCount<1 || pageSize<1 || currentPage<1){
+		$(currentTotalstrong).empty();
+		$('#totalP1').text(0);
+		$("#pageBar1").empty();
+		return;
+	}
+	$(currentTotalstrong).empty();
+	$(currentTotalstrong).text(currentPage+'/'+totalCount);
+	$('#totalP1').text(records);
+	
+	$("#pageBar1").twbsPagination({
+		totalPages:totalCount,
+		visiblePages:9,
+		startPage:currentPage,
+		first:'<i class="fa fa-step-backward"></i>',
+		prev:'<i class="fa fa-chevron-left"></i>',
+		next:'<i class="fa fa-chevron-right"></i>',
+		last:'<i class="fa fa-step-forward"></i>',
+		showGoto:true,
+		onPageClick: function (event, page) {
+			searchCaseRecord(page);
+	    }
+	});
+}
