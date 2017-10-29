@@ -99,12 +99,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
 				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
-				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
-				if(task.getResult()==0){//审批未通过
-					record.setNotApprove("驳回:"+task.getComment());
-				}else if(task.getResult()==-1){
-					record.setNotApprove("拒绝:"+task.getComment());
-				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
 			MQEvalMessage message;
@@ -136,12 +130,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
 				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
-				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
-				if(task.getResult()==0){//审批未通过
-					record.setNotApprove("驳回:"+task.getComment());
-				}else if(task.getResult()==-1){
-					record.setNotApprove("拒绝:"+task.getComment());
-				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
 			//发送消息 恢复流程 更改返利单状态
@@ -169,12 +157,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			//导入审批记录
 			for(TaskInfo task : info.getTasks()){
 				ToApproveRecord record = getApproveRecord(evalRebate.getCaseCode(),"CCAI_REBATE",REBATE_APPROVE_TYPE,task);
-				// 1-通过 -1-拒绝 0-驳回修改 2-修改完成
-				if(task.getResult()==0){//审批未通过
-					record.setNotApprove("驳回:"+task.getComment());
-				}else if(task.getResult()==-1){
-					record.setNotApprove("拒绝:"+task.getComment());
-				}
 				toApproveRecordService.saveToApproveRecord(record);
 			}
 			//发送消息 恢复流程 更改返利单状态
@@ -442,9 +424,6 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 				//财务审批记录新增
 				ToApproveRecord record = getApproveRecord(feedBack);
 				record.setCaseCode(rebate.getGuaranteeCompId());
-				if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == feedBack.getResult()){
-					record.setNotApprove("驳回:"+feedBack.getComment());
-				}
 				toApproveRecordService.saveToApproveRecord(record);
 				rebate.setCaseCode(feedBack.getApplyId());//保存CCAI流程ID
 				rebate.setCompanyAccount(feedBack.getCompanyAccount());//银行账户
@@ -551,6 +530,11 @@ public class CcaiEvalServiceImpl implements CcaiEvalService {
 			record.setOperator(u.getId());
 		}else{
 			record.setOperator(feedBack.getRealName()+"_"+feedBack.getUserName());
+		}
+		if(CcaiFlowResultEnum.NORMAL_BACK.getCode() == feedBack.getResult()){
+			record.setNotApprove("驳回:"+feedBack.getComment());
+		}else if(CcaiFlowResultEnum.FAILURE.getCode() == feedBack.getResult()){
+			record.setNotApprove("拒绝:"+feedBack.getComment());
 		}
 		return record;
 	}
