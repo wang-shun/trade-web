@@ -258,6 +258,9 @@
 					         GROUP BY TG1.CASE_CODE,TG1.GUEST_NAME
 					 ) F ON A.CASE_CODE = F.CASE_CODE
 					 where 1=1
+					 AND NOT EXISTS (
+								SELECT 1 FROM SCTRANS.T_TO_EVA_REPORT_PROCESS RP where STATUS = '6' AND RP.EVA_CODE=ERP.EVA_CODE 
+				      )
 					 <ifNotNull evalStatus>
 					     AND ERP.STATUS = #evalStatus#
 					</ifNotNull>

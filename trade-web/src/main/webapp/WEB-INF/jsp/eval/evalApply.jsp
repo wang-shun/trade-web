@@ -199,7 +199,7 @@
 					if (!checkForm()) {
 						return;
 					}
-					submitEvalApply('${ctx}/task/eval/saveApply','评估申请提交成功');
+					submitEvalApply('${ctx}/task/eval/saveApply','评估申请保存成功');
 				});
 				
 		});
@@ -280,7 +280,8 @@
 				},
 				success : function(data) {
 					window.wxc.success(message,{"wxcOk":function(){
-						window.close();
+						location.reload();
+						//window.close();
 					}});
 				},
 				error : function(errors) {

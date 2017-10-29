@@ -185,12 +185,13 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 			    toEvalReportProcess.setEvaCode(evaCode);
 				toEvalReportProcessMapper.updateStatusByEvalCode(toEvalReportProcess);
 				
-				//根据案件号查询贷款权证
-				ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
+				//查询评估发起人
+				toEvalReportProcess = toEvalReportProcessMapper.findToEvalReportProcessByEvalCode(evaCode);
+				/*ToCaseParticipant toCaseParticipant = new ToCaseParticipant();
 				toCaseParticipant.setCaseCode(caseCode);
 				toCaseParticipant.setPosition("loan");
-				List<ToCaseParticipant> toCaseParticipantList = toCaseParticipantService.findToCaseParticipantByCondition(toCaseParticipant);
-				if(toCaseParticipantList!=null && toCaseParticipantList.size()>0){
+				List<ToCaseParticipant> toCaseParticipantList = toCaseParticipantService.findToCaseParticipantByCondition(toCaseParticipant);*/
+				if(toEvalReportProcess!=null){
 					//发站内信息通知申请人
 					Map<String,Object> params = new HashMap<String,Object>();
 					params.put("mobile", currentUser.getMobile());
@@ -209,7 +210,7 @@ public class EvalDetailServiceImpl implements EvalDetailService {
 				    String senderId = currentUser.getId();
 				    //设置发送人 
 				    message.setSenderId(senderId);
-				    uamMessageService.sendMessageByDist(message,uamUserOrgService.getUserByUsername(toCaseParticipantList.get(0).getUserName()).getId());
+				    uamMessageService.sendMessageByDist(message,uamUserOrgService.getUserByUsername(toEvalReportProcess.getProposeer()).getId());
 				}
 		}catch(Exception e){
 			   response.setSuccess(false);

@@ -118,16 +118,18 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		
 		/** 启动 评估重启流程 */
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		Map<String, Object> vars = new HashMap<>();
-		//User user = uamUserOrgService.getUserByUsername(vo.getUserName());
+		
+		//根据岗位找内勤经理
 		Job job = uamUserOrgService.getJobByCode(TransJobs.TNQJL.getCode(), sessionUser.getCityCode());
 		List<User> userList = uamUserOrgService.getUserByJobId(job.getId());
-		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());// 根据案件所在组找主管
+		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());
 		if(userList==null || userList.size()==0 ){
 			 resp.setSuccess(false);
 			 resp.setMessage("当前用户归属主管不存在！");
 			 return null;
 		}
+		
+		Map<String, Object> vars = new HashMap<>();
 		vars.put("consultant", vo.getUserName());//评估流程重启发起人
 		vars.put("manager", userList.get(0).getUsername());
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(

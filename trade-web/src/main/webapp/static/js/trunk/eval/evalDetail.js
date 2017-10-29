@@ -30,7 +30,7 @@ $(document).ready(function() {
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'25');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'18');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'16');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
+	//ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'26');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'17');
 	
