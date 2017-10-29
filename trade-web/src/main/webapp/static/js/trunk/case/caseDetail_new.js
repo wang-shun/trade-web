@@ -894,6 +894,7 @@ function chgLoanReqment(){
 
 /**
  * 案件操作记录
+ * 原有只限案件计划数据，无其他数据
  * @author wbcaiyx
  */
 function searchCaseRecord(page) {

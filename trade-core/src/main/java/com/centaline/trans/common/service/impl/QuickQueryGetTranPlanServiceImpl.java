@@ -33,8 +33,8 @@ public class QuickQueryGetTranPlanServiceImpl implements CustomDictService {
                 paramMap.put("code2", (String) part_code);
                 List<Map<String, Object>>  transPlan = jdbcTemplate.queryForList(sql,paramMap);
                 if(transPlan.size()!=0){
-                    key.put("RED_LOCK", transPlan.get(0).get("FONT_NAME"));
-                    key.put("EST_PART_TIME", transPlan.get(0).get("EST_PART_TIME"));
+                    key.put("RED_LOCK_CASE", transPlan.get(0).get("FONT_NAME"));
+                    key.put("EST_PART_TIME_CASE", transPlan.get(0).get("EST_PART_TIME"));
                     key.put("DATELAMP_CASE", transPlan.get(0).get("DATELAMP"));
                 }
 

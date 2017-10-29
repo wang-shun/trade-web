@@ -306,12 +306,15 @@
 						<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped  table-hover ">
 							<thead>
 								<tr>
-									<th>所属流程</th>
-									<th>任务名称</th>
-									<th>操作人</th>
-									<th>操作时间</th>
+									<th>红绿灯</th>
+									<th>红灯记录</th>
+									<th>所属流程信息</th>
+									<th>任务名</th>
+									<th>执行人</th>
+									<th>预计执行时间</th>
+									<th>执行时间</th>
 									<th>任务状态</th>
-									<th>红绿灯状态</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody id="allProcessList">
@@ -837,35 +840,7 @@
 <script id="template_caseRecord" type="text/html">
 
 	{{each rows as item index}}
-		<tr">
-			<td>
-				
-					{{item.processName}}
-				
-			</td>
-			<td>
-				
-					{{item.taskName}}
-				
-			</td>
-			<td>
-				
-					{{item.userNameStr}}
-				
-			</td>
-			<td>
-				
-					{{item.compTime}}
-				
-			</td>
-			<td>
-					{{if item.isProgess ==1}}
-						进行中..
-					{{else}}
-						已完成
-					{{/if}}
-			</td>
-
+		<tr>
 			{{if item.BUSINESS_KEY =='ransom_process'}}
 			{{if item.DATELAMP < lamp1|| item.DATELAMP==null || item.DATELAMP ==''}}
 				<td></td>
@@ -929,7 +904,7 @@
                  		<div class="sk-double-bounce1 green_light"></div>
                 		<div class="sk-double-bounce2 green_light"></div>
                 	</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                         </p>
@@ -945,7 +920,7 @@
                 		<div class="sk-double-bounce1 orange_light"></div>
                     	<div class="sk-double-bounce2 orange_light"></div>
                		</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                     	</p>
@@ -961,7 +936,7 @@
                     	<div class="sk-double-bounce1 red_light"></div>
                     	<div class="sk-double-bounce1 red_light"></div>
                 	</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                     	</p>
@@ -973,6 +948,62 @@
 				</td>
 			{{/if}}
 			{{/if}}
+				
+			<td>
+				<p>
+					{{if item.BUSINESS_KEY =='ransom_process'}}
+						{{if item.RED_LOCK == '1'}}
+							有
+						{{else}}
+							无
+						{{/if}}
+					{{else}}
+						{{if item.RED_LOCK_CASE == '1'}}
+							有
+						{{else}}
+							无
+						{{/if}}
+					{{/if}}
+				</p>
+			</td>
+			<td>
+				<P>
+					{{item.processName}}
+				</P>
+			</td>
+			<td>
+				<P>
+					{{item.taskName}}
+				</P>
+			</td>
+			<td>
+				<P>
+					{{item.userNameStr}}
+				</P>
+			</td>
+			<td>
+				<p>
+					{{if item.BUSINESS_KEY =='ransom_process'}}
+						{{item.EST_PART_TIME}}
+					{{else}}
+						{{item.EST_PART_TIME_CASE}}
+					{{/if}}
+				</p>
+			</td>
+			<td>
+				<P>
+					{{item.compTime}}
+				</P>
+			</td>
+			<td>
+					{{if item.STATUS =='completed'}}
+						已完成
+					{{else if item.STATUS == 'deleted'}}
+						已删除
+					{{else}}
+						进行中..
+					{{/if}}
+			</td>
 		</tr>
 	{{/each}}
 </script>

@@ -244,7 +244,7 @@ text-decoration: underline !important;
                  		<div class="sk-double-bounce1 green_light"></div>
                 		<div class="sk-double-bounce2 green_light"></div>
                 	</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                         </p>
@@ -260,7 +260,7 @@ text-decoration: underline !important;
                 		<div class="sk-double-bounce1 orange_light"></div>
                     	<div class="sk-double-bounce2 orange_light"></div>
                		</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                     	</p>
@@ -276,7 +276,7 @@ text-decoration: underline !important;
                     	<div class="sk-double-bounce1 red_light"></div>
                     	<div class="sk-double-bounce1 red_light"></div>
                 	</div>
-					{{if item.RED_LOCK==1}}
+					{{if item.RED_LOCK_CASE==1}}
 						<p class="text-center clock clock_red">
                         	<i class="icon iconfont clock_icon">&#xe60b;</i>
                     	</p>
@@ -336,15 +336,15 @@ text-decoration: underline !important;
                 	</p>
 				{{/if}}
 
-					{{if item.EST_PART_TIME!=null}}
+					{{if item.EST_PART_TIME_CASE!=null}}
 						<p>  
                         	<i class="sign_normal">预</i>
-                        	{{item.EST_PART_TIME}}          
+                        	{{item.EST_PART_TIME_CASE}}          
                     	</p>
 					{{else}}
                     	<p>  
                         	<i class="sign_grey">预</i>
-                        	{{item.EST_PART_TIME}}          
+                        	{{item.EST_PART_TIME_CASE}}          
                     	</p>
 					{{/if}}
 			</td>
