@@ -230,6 +230,7 @@
     <!-- 改版引入的新的js文件 -->
 	<script src="<c:url value='/js/common/textarea.js' />"></script>
 	<script src="<c:url value='/js/common/common.js' />"></script>
+	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<!--公共信息-->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
 	<script>
@@ -261,9 +262,9 @@
 
 	
 	$(document).ready(function() {
-		if('caseDetails'==source){
+		/* if('caseDetails'==source){
 			readOnlyForm();
-		}
+		} */
 		
 		if(source != "caseDetails"){
 			$('.input-group.date').datepicker({
@@ -291,15 +292,7 @@
 		/**提交数据*/
 		function submit() {
 			window.wxc.confirm("请确认银行是否已真实放款",{"wxcOk":function(){
-				var isCompletedUpload = fileUpload.isCompletedUpload();
-		
-				if(!isCompletedUpload){
-					window.wxc.alert("附件还未全部上传!");
-					return false;
-				}
-				if(checkAttachment()) {
-					save(true);
-				} 
+				save(true);
 			}});
 		}
 		
@@ -377,8 +370,8 @@
     								caseTaskCheck();
     							} else {
     								window.wxc.success("保存成功。",{"wxcOk":function(){
-    									window.close();
-    									window.opener.callback();
+    									/* window.close();
+    									window.opener.callback(); */
     								}});
     							}
     						},
@@ -436,7 +429,7 @@
 	<script>
 		var fileUpload;
 		require(['main'], function() {
-			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','blockUI','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
+			requirejs(['jquery','aistFileUpload','validate','grid','jqGrid','additional','steps','ligerui','aistJquery','modal','modalmanager','twbsPagination'],function($,aistFileUpload){
 				fileUpload = aistFileUpload;
 				fileUpload.init({
 					caseCode : $('#caseCode').val(),

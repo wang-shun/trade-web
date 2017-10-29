@@ -27,11 +27,11 @@ $(document).ready(function() {
 	caseremarkList.init(ctx,'/quickGrid/findPage','evalCommenTable','evalCommenPager',caseCode);  // 显示各个流程的备注信息列表
 	
 	//审批记录
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'25');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'18');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'16');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'26');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'17');
 	
 	var width = $('.jqGrid_wrapper').width();
@@ -224,8 +224,8 @@ var ApproveList = (function() {
 									width : 25,
 									resizable : false
 								}, {
-									name : 'NOT_APPROVE',
-									index : 'NOT_APPROVE',
+									name : 'NOT_APPROVE_OLD',
+									index : 'NOT_APPROVE_OLD',
 									align : "center",
 									width : 25,
 									resizable : false
@@ -256,20 +256,18 @@ var ApproveList = (function() {
 												"#" + gridTableId).jqGrid(
 												'getRowData', ids[i]); // 获取当前行
 
-										var auditResult = rowDatas['NOT_APPROVE'];
+										var auditResult = rowDatas['NOT_APPROVE_OLD'];
 										var auditResultDisplay = null;
-										if (!auditResult) {
-											auditResultDisplay = "审批通过"
-										} else {
-											auditResultDisplay = auditResult;
-										}
+										console.info(auditResult);
+                                        if (!auditResult || auditResult.length == 0) {
+                                            auditResultDisplay = "通过"
+                                            auditResult = rowDatas['CONTENT'];
+                                        } else {
+                                            auditResultDisplay = "不通过";
+                                            auditResult = rowDatas['NOT_APPROVE_OLD'];
+                                        }
 										jQuery("#" + gridTableId)
-												.jqGrid(
-														'setRowData',
-														ids[i],
-														{
-															NOT_APPROVE : auditResultDisplay
-														});
+												.jqGrid('setRowData',ids[i],{NOT_APPROVE_OLD: auditResultDisplay,CONTENT:auditResult});
 									}
 								},
 								postData : {

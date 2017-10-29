@@ -39,6 +39,7 @@
     <link href="<c:url value='/css/plugins/jqGrid/aist-jqgird-ui.custom.css' />" rel="stylesheet">
     <!--弹出框样式  -->
 	<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
     <script type="text/javascript">
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
