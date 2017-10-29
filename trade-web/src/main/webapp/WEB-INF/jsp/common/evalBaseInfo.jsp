@@ -77,18 +77,31 @@
 						</div> 
 						<div id="infoDiv infos" class="row">
 						           <div class="ibox white_bg">
-										<div class="info_box col-lg-11">
-											<span>交易信息</span>
-											<div class="ibox-conn ibox-text-two">
-												    <dl class="dl-horizontal col-sm-5"><dt class="col-sm-6">产证地址</dt><dd>${caseBaseVO.toPropertyInfo.propertyAddr}</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">层高</dt><dd>${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">产证面积</dt><dd>${caseBaseVO.toPropertyInfo.square}&nbsp;平方</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">竣工年限</dt> <dd><fmt:formatDate value="${caseBaseVO.toPropertyInfo.finishYear}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房屋类型</dt><dd><aist:dict id="propertyType" name="propertyType" display="label" dictType="30014" dictCode="${caseBaseVO.toPropertyInfo.propertyType}" /></dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">房型</dt><dd></dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6" >卖方</dt><dd>${caseBaseVO.buyerSellerInfo.sellerName}</dd></dl>
-												    <dl class="dl-horizontal col-sm-3"><dt class="col-sm-6">买方</dt><dd>${caseBaseVO.buyerSellerInfo.buyerName}</dd></dl>
-											</div>
+										<div class="info_box info_box_two col-lg-9">
+										<span>交易信息</span>
+										<div class="ibox-conn ibox-text">
+										<table width="100%">
+											<tr >
+											  <td width="50%">
+									            <dl class="dl-horizontal">
+												    <dt class="col-sm-6">产证地址</dt><dd>${caseBaseVO.toPropertyInfo.propertyAddr}</dd>
+												    <dt class="col-sm-6">层高</dt><dd>${caseBaseVO.toPropertyInfo.locateFloor}／${caseBaseVO.toPropertyInfo.totalFloor}</dd>
+												    <dt class="col-sm-6">产证面积</dt><dd>${caseBaseVO.toPropertyInfo.square}&nbsp;平方</dd>
+												    <dt class="col-sm-6">竣工年限</dt> <dd><fmt:formatDate value="${caseBaseVO.toPropertyInfo.finishYear}" type="date" pattern="yyyy-MM-dd"/></dd>
+											   </dl>	
+											  </td>
+											  <td width="10%"></td>
+											  <td width="40%">
+											     <dl class="dl-horizontal">    
+												    <dt class="col-sm-6">房屋类型</dt><dd><aist:dict id="propertyType" name="propertyType" display="label" dictType="30014" dictCode="${caseBaseVO.toPropertyInfo.propertyType}" /></dd>
+												    <dt class="col-sm-6">房型</dt><dd></dd>
+												    <dt class="col-sm-6">卖方</dt><dd>${caseBaseVO.buyerSellerInfo.sellerName}</dd>
+												    <dt class="col-sm-6">买方</dt><dd>${caseBaseVO.buyerSellerInfo.buyerName}</dd>
+												  </dl>
+											  </td>
+										   </tr>
+										</table>
+										</div>
 										</div>
 									</div>
 								    <div class="ibox white_bg">
