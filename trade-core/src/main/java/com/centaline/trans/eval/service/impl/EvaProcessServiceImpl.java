@@ -122,6 +122,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 	
@@ -136,6 +137,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 
@@ -151,6 +153,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("taskitem", taskitem);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 		
@@ -167,6 +170,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 	
@@ -324,7 +328,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		 try{
 			    //评估上报保存
-				toEvalReportProcess.setStatus(EvalStatusEnum.YSB.getCode());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){
 			 response.setSuccess(false);
@@ -340,7 +343,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		 try{
 			 //评估出具信息保存
 		     BigDecimal evaPrice = toEvalReportProcess.getEvaPrice();
-			 toEvalReportProcess.setStatus(EvalStatusEnum.YCNBG.getCode());
 			 toEvalReportProcess.setEvaPrice(evaPrice.multiply(new BigDecimal(10000.00)));
 			 toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){
@@ -357,7 +359,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		 try{
 			    //评估使用信息保存
-				toEvalReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
 				toEvalReportProcess.setSysFinshTime(new Date());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){

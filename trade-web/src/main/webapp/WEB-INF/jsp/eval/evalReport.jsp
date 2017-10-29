@@ -67,8 +67,11 @@
 			<h5>填写上报任务</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalReportForm">
-				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				    <c:if test="${source != 'evalDetails'}">
+				         <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				    </c:if>
 				    <input type="hidden" id="caseCode" name="caseCode" value="${caseCode }">
+				    <input type="hidden" id="source" name="source" value="${source }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -91,7 +94,7 @@
 						<li>
 							<div class="form_content input-daterange" data-date-format="yyyy-mm-dd">
 								<label class="control-label sign_left"> <i style="color:red">* </i> 预计出评估报告日期</label> 
-								<input class="input_type sign_right_two"   name="toIssueDate" id="toIssueDate" 
+								<input class="input_type sign_right_two" name="toIssueDate" id="toIssueDate" 
 								    value="<fmt:formatDate value='${toEvalReportProcessVo.toIssueDate}' type="date" pattern="yyyy-MM-dd"/>" />
 								<div class="input-group date_icon">
 									<i class="fa fa-calendar"></i>
@@ -183,7 +186,11 @@
 				},
 				success : function(data) {
 					window.wxc.success(message,{"wxcOk":function(){
-							window.location.href = ctx + "/task/eval/evalTaskList";
+						   if($("#source").val()=='evalDetails'){
+							    location.reload();
+						   }else{
+							   window.location.href = ctx + "/task/eval/evalTaskList";
+						   }
 					}});
 				},
 				error : function(errors) {
