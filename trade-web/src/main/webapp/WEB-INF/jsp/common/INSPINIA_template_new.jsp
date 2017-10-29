@@ -100,7 +100,7 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            YUCUI+
+                            JYJR+
                         </div>
                     </li>
                    <c:forEach items="${menuVO}" var="l1_menu" >
