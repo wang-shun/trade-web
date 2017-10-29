@@ -75,8 +75,8 @@ public class EvaPricingServiceImpl implements EvaPricingService{
 		ToEvaPricingVo vo = toEvaPricingMapper.findEvaPricingDetailByPKID(PKID,evaCode);
 		if(StringUtils.isNotBlank(vo.getAriserId())){
 			User user = uamUserOrgService.getUserById(vo.getAriserId());
-			vo.setAriserName(user.getRealName());
-			vo.setAriserOrgName(user.getOrgName());
+			vo.setAriserName(user==null?null:user.getRealName());
+			vo.setAriserOrgName(user==null?null:user.getOrgName());
 		}
 		
 		return vo;
