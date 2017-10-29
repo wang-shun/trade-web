@@ -50,7 +50,7 @@
 			<div class="col-lg-10">
 				<h2>评估爆单申请</h2>
 				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">评估视图</a></li>
+					<li><a href="${ctx }/eval/detail?evaCode=${evaCode}">评估视图</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
 				</ol>
 			</div>
@@ -120,7 +120,7 @@
 		function save() {
 			var jsonData = $("#lamform").serializeArray();
 			
-			var url = "${ctx}/eval/restart/submit";
+			var url = "${ctx}/eval/stop/apply/submit";
 			
 			$.ajax({
 				cache : true,

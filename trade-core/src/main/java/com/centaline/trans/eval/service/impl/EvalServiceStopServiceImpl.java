@@ -103,10 +103,11 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		//相关流程挂起
 		//activateOrSuspendProcessInstance(vo.getEvaCode(),false);
 		
-		/** 启动 评估重启流程 */
+		/** 启动 评估爆单流程 */
 		Map<String, Object> vars = new HashMap<>();
-		String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());// 根据案件所在组找主管
-		vars.put("consultant", vo.getUserName());//评估流程重启发起人
+		// 根据案件所在组找主管
+		String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());
+		vars.put("consultant", vo.getUserName());
 		vars.put("manager", manager);
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode()), vo.getEvaCode(), vars);
@@ -118,6 +119,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode()));
 		wf.setInstCode(spv.getId());
+		wf.setBizCode(vo.getEvaCode());
 		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 		resp.setSuccess(true);
@@ -151,7 +153,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		insertIntoApproveRecord(vo);//入审批记录表
 		submitEvelStopTask(vo);//爆单审批提交任务
 		if(vo.getIsApproved()){
-			activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
+			//activateOrSuspendProcessInstance(vo.getEvaCode(),true);//打开挂起流程
 			handerProcessAfterServiceStop(vo);//流程爆单后续业务处理
 		}
 		resp.setSuccess(true);
@@ -166,7 +168,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		//删除评估爆单 //TODO 这里待定
 		List<TaskVo> taskVos = actRuTaskService.getRuTaskByBizCode(vo.getEvaCode());
 		for (TaskVo task : taskVos) {
-			if (WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode().equals(task.getBusiness_key())) {
+			if (WorkFlowEnum.EVAL_PROCESS.getCode().equals(task.getBusiness_key())) {
 				try{
 					workFlowManager.deleteProcess(task.getInstCode());
 				}catch(WorkFlowException e){

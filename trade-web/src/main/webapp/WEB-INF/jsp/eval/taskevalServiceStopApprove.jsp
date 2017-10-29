@@ -49,7 +49,7 @@
 			<div class="col-lg-10">
 				<h2>评估爆单审批</h2>
 				<ol class="breadcrumb">
-					<li><a href="${ctx }/case/myCaseList">在途单列表</a></li>
+					<li><a href="${ctx }/eval/detail?evaCode=${evaCode}">在途单列表</a></li>
 					<li><a href="${ctx }/task/caseDetail?&caseCode=${caseCode}">案件视图</a></li>
 				</ol>
 			</div>
@@ -63,6 +63,7 @@
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 评估单编号 -->
 					<input type="hidden" id="evaCode" name="evaCode" value="${evaCode}">
+					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 					<%-- 原有数据对应id --%>
 					<input type="hidden" id="taskId" name="taskId" value="${taskId }">
 					<input type="hidden" id="processInstanceId" name="instCode" value="${processInstanceId}">
