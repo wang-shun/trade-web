@@ -68,6 +68,7 @@
 					<input type="hidden" id="caseCode" name="caseCode" value="${caseCode}">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
+					<input type="hidden" id="finOrgCode" name="finOrgCode" value="${toEvalReportProcessVo.finOrgId}">
 						<ul class="form_lump">
 						<div class="modal_title title-mark">
                                 	填写任务信息
@@ -221,7 +222,12 @@
 			    data:{"pcode":pcode},
 		    	success:function(evaComList){
 		    		if(evaComList != null){
+		    			var finOrgCode = $("#finOrgCode").val();
 		    			for(var i = 0;i<evaComList.length;i++){
+		    				if(finOrgCode == evaComList[i].finOrgCode){
+		    					friend.append("<option value='"+evaComList[i].finOrgCode+"' selected>"+evaComList[i].finOrgName+"</option>")
+		    					continue;
+		    				}
 		    					friend.append("<option value='"+evaComList[i].finOrgCode+"'>"+evaComList[i].finOrgName+"</option>");
 		    			}
 		    		}
@@ -280,8 +286,8 @@
 				},
 				success : function(data) {
 					window.wxc.success(message,{"wxcOk":function(){
-						location.reload();
-						//window.close();
+						//location.reload();
+						window.close();
 					}});
 				},
 				error : function(errors) {
