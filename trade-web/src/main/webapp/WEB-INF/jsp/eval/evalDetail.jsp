@@ -233,7 +233,7 @@
 									</div>
 									<div class="row">
 										<label class="col-sm-3 control-label">评估公司：${toEvaPricingVo.evaCompany}</label>
-										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}&nbsp;年</label>
+										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}&nbsp;年内</label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估申请</h4>
@@ -244,7 +244,7 @@
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcessVo.contactWay}</label>
-										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年内</label>
 										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
@@ -265,7 +265,7 @@
 										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年内</label>
 										<label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNumIssue}&nbsp;份</label>
 									</div>
 									

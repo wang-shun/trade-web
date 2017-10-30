@@ -110,7 +110,7 @@
 								<label class="control-label sign_left_two"> <i style="color:red">* </i> 房龄</label>
 								<input class="input_type sign_right_two"  name="houseAgeApply" id="houseAgeApply" value="${toEvalReportProcessVo.houseAgeApply}">
 								<div class="input-group date_icon">
-									<span class="danwei">年</span>
+									<span class="danwei">年内</span>
 								</div>
 							</div>
 							<div class="form_content">
