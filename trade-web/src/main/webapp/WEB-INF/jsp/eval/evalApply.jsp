@@ -145,7 +145,7 @@
 						
 					</ul>
 					<p class="text-center">
-					        <c:if test="${source == null}">
+					        <c:if test="${source != 'evalDetails'}">
 							<input type="button" class="btn btn-success submit_From" value="提交">
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">

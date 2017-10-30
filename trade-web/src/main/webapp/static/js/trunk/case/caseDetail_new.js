@@ -33,7 +33,7 @@ $(document).ready(function() {
     queryPer();
     //获取案件操作记录
     searchCaseRecord();
-    console.log("KAI SHI CHA XUN CAO ZUO JI LU")
+ 
 });
 
 var lamp1 = $("#Lamp1").val();
@@ -161,7 +161,7 @@ function getShowAttachment() {
                 }
             });
             $("#imgShow").append(trStr);
-            $('.wrapper-content').viewer();
+            $("#imgShow").viewer();
         },
         error : function(errors) {
         }

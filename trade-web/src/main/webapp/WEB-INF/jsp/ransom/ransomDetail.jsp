@@ -76,35 +76,47 @@
 		vertical-align: middle;
 		background-image:url(../static/img/a5.png);
 	}
-	.shuxian{
+	.bs-wizard > .bs-wizard-step > .shuxian{
 		position: absolute;
 		height: 129px;
 		width: 40%;
 		top: 20px;
 		left: 50%;
-		border-left: 8px solid #ccc;
-		border-bottom: 8px solid #ccc;
+		border-left: 8px solid #5bc0de;
+		border-bottom: 8px solid #5bc0de;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .shuxian{
+		border-left-color: #ccc;
+		border-bottom-color: #ccc;
 	}
 	.bs-wizard > .bs-wizard-step > .change_shuxian{
 		position: absolute;
 		height: 129px;
-		width: 40%;
+		width: 85%;
 		top: 20px;
-		left: -90px;
-		border-right: 8px solid #ccc;
-		border-bottom: 8px solid #ccc;
+		left: -190px;
+		border-right: 8px solid #5bc0de;
+		border-bottom: 8px solid #5bc0de;
 	}
 	.bs-wizard > .bs-wizard-step.complete > .change_shuxian{
-		border-right-color: #5bc0de;
-		border-bottom-color: #5bc0de;
+		border-right-color: #ccc;
+		border-bottom-color: #ccc;
 	}
-	.col-lg-1 .bs-wizard-info strong{
+	.col-lg-1 .bs-wizard-info strong,.col-lg-1 .time-up strong{
 		display: block;
 		width: 200px;
 	}
 	.time-wapper {
-		
 		text-align: center;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar{
+		background: #ccc;
+	}
+	.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar{
+		width: 100%;
+	}
+	.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar{
+		width: 100%;
 	}
 </style>
 </head>
@@ -204,13 +216,13 @@
 									</div>
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
-										<c:choose>  
-										    <c:when test="${!empty actTasks['APPLY']}"> active
+										 <c:choose>  
+										    <c:when test="${empty actTasks['APPLY']}"> active
 										   </c:when>  
-										    <c:when test="${empty actTasks['APPLY']}"> complete
+										    <c:when test="${!empty actTasks['APPLY']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
-										</c:choose>	
+										</c:choose>	 
 										">
 									<div class="progress">
 										<div class="progress-bar"></div>
@@ -230,13 +242,13 @@
 								</div>
 								<div
 									class="col-lg-2 bs-wizard-step 
-										<c:choose>  
-										    <c:when test="${!empty actTasks['SIGN']}"> active
+										  <c:choose>  
+										    <c:when test="${empty actTasks['SIGN']}"> active
 										   </c:when>  
-										    <c:when test="${empty actTasks['SIGN']}"> complete
+										    <c:when test="${!empty actTasks['SIGN']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
-										</c:choose>	
+										</c:choose> 	 
 										">
 									<div class="progress">
 										<div class="progress-bar"></div>
@@ -368,27 +380,12 @@
 							<div class="col-lg-12">
 								<div class="row bs-wizard"
 									style="border-bottom: 0; margin-left: 15px">
-									
-									<div class="col-lg-1 bs-wizard-step 
-											<c:choose>  
-											    <c:when test=""> active
-											   </c:when>  
-											    <c:when test=""> complete
-											   </c:when>   
-											   <c:otherwise> disabled</c:otherwise>  
-											</c:choose>	
-											">
-										<div class="progress">
-											<div class="progress-bar"></div>
-										</div>
-									</div>
-									
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${empty actTasks['ODEPAYLOAN_TWO']}"> active
+											    <c:when test="${empty actTasks['PAYLOAN_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${!empty actTasks['ODEPAYLOAN_TWO']}"> complete
+											    <c:when test="${!empty actTasks['PAYLOAN_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -460,19 +457,6 @@
 												<dd>
 													<strong>领取产证(二抵)</strong></dd>
 											</dl>
-										</div>
-									</div>
-									<div class="col-lg-1 bs-wizard-step 
-											<c:choose>  
-											    <c:when test=""> active
-											   </c:when>  
-											    <c:when test=""> complete
-											   </c:when>   
-											   <c:otherwise> disabled</c:otherwise>  
-											</c:choose>	
-											">
-										<div class="progress">
-											<div class="progress-bar"></div>
 										</div>
 									</div>
 								</div>
@@ -563,7 +547,7 @@
 													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>回款结清时间(一抵)</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
+													<td>回款结清时间</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 										</tbody>
 									</table>

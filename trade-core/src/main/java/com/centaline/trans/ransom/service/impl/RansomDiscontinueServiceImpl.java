@@ -166,8 +166,11 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	}
 	
 	@Override
-	public Map<String, Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend,
+	public Map<String, Object> getSingleRansomTaskInfo(HttpServletRequest request, Boolean isSuspend,
 			Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode) {
+		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
+        Map<String, Object> paramObj = new HashMap<String, Object>();
+        ParamterHander.mergeParamter(paramMap, paramObj);
 		String processDfId = propertyUtilsService.getProcessDfId("ransom_suspend");
 		String processDfId1 = propertyUtilsService.getProcessDfId("ransom_process");
         if(isSuspend != null && isSuspend) {//查询赎楼中止流程数据
