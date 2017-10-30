@@ -421,10 +421,7 @@
                      }
                      })*/
                  }else {
-                     window.wxc.error(data.message,{"wxcOk":function () {
-                         window.location.href = "${ctx }/task/myTaskList";
-                     }
-                     })
+                     window.location.href = "${ctx }/task/myTaskList";
                  }
              },
              error : function(errors) {

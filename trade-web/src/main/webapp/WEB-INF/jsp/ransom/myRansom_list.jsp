@@ -165,19 +165,6 @@ text-decoration: underline !important;
                               <input id="ransomCode" type="text" name="ransomCode" class=" form-control pull-left " placeholder="请输入赎楼单编号">
                          </div>
                     </div>
-                   <%--  <div class="form_content">
-                          <label class="sign_left_two control-label">案件归属</label>
-                          <div class="sign_right teamcode" style="position:relative;">
-	                    	<input type="text" style="width:300px;" class=" form-control" id="teamCode" name="teamCode" readonly="readonly"
-		   						onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-		   						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}"></input>
-							<input class="teamcode form-control" type="hidden" id="yuCuiOriGrpId" name="yuCuiOriGrpId">
-							<div class="input-group float_icon organize_icon" onclick="orgSelect({displayId:'oriGrpId',displayName:'radioOrgName', startOrgId:'${serviceDepId}', orgType:'',departmentType:'',departmentHeriarchy:'',
-		   						chkStyle:'radio',callBack:radioYuCuiOrgSelectCallBack})" value="${serviceDepName}">
-	                        	<i class="icon iconfont"></i>
-	                   		</div>
-	                   	</div>
-                      </div> --%>
              </div>
 			
              <div class="row clearfix">
@@ -221,7 +208,6 @@ text-decoration: underline !important;
 							<shiro:hasPermission name="TRADE.CASE.RANSOMINFOLIST.ADDCASE">
 								<button id="addNewRansomCase"   type="button" class="btn btn-success">新增案件</button>
 							</shiro:hasPermission>
-							<!-- <button id="exportCase"  type="button" class="btn btn-success" onclick="realShowExcelIn()">实时导出</button> -->
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:realShowExcelIn()">实时导出</a>
 						</div>
 					</div>

@@ -111,7 +111,7 @@ public interface ToHouseTransferService {
 	 * @param taskId
 	 * @param processInstanceId
 	 */
-	Boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId);
+	Boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId, String processInstanceId)throws Exception;
 
 	/**
 	 * 过户保存数据,提供给APP使得保存数据和提交流程分开的需求
@@ -136,6 +136,10 @@ public interface ToHouseTransferService {
 	
 	Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, String GuohuApprove, String GuohuApprove_response, String notApprove,
-			String members);
-   
+			String members)throws Exception;
+
+	/**
+	 * 过户信息修改提交
+	 */
+	Boolean guohuInfoModifySubmit(HttpServletRequest request,String taskId, String processInstanceId, String caseCode);
 }
