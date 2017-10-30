@@ -2158,7 +2158,7 @@ public class CaseDetailController {
 		//分成人和权证做个排序
 		if(info != null && info.getFees() != null && info.getFees().getSharingInfo() != null && info.getFees().getSharingInfo().size() > 0){
 			info.getFees().getSharingInfo().sort(new Comparator<SharingInfo>() {
-
+				
 				@Override
 				public int compare(SharingInfo o1, SharingInfo o2) {
 					if(o1.getType() > o2.getType()){

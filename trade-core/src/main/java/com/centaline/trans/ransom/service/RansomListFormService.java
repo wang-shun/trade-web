@@ -47,6 +47,9 @@ public interface RansomListFormService {
 	List getUpdateRansomInfo(String caseCode);
 	
 	ToRansomCaseVo getRansomCase(String caseCode);
+	
+	ToRansomCaseVo getRansomCaseInfo(String caseCode);
+	
 	/**
 	 * 尾款信息查询
 	 * @param caseCode
@@ -191,4 +194,12 @@ public interface RansomListFormService {
 	 * @return
 	 */
 	List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode);
+	
+	/**
+	 * 获取赎楼详情信息用
+	 * @param ransomCode
+	 * @return
+	 */
+	//List<Object> getRansomDetailInfo(String ransomCode);
+	
 }

@@ -101,16 +101,21 @@ public class KnotCommissionController {
 			List<RestVariable> variables = new ArrayList<RestVariable>();
 			ToCase toCase = toCaseService
 					.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
-			if(workFlowManager.submitTask(variables, knotCommissionVO.getTaskId(), knotCommissionVO.getProcessInstanceId(),
-					toCase.getLeadingProcessId(),
-					knotCommissionVO.getCaseCode())){
-				//修改案件状态为允许结佣
-				ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
-				ca.setStartDate(CaseStatusEnum.YGH.getCode());
-				toCaseService.updateByCaseCodeSelective(ca);
-				rs.setData(true);
-				rs.setMessage("提交成功！");
-				System.out.println(apiResultData.toString());
+			try {
+				Boolean boo=workFlowManager.submitTask(variables, knotCommissionVO.getTaskId(), knotCommissionVO.getProcessInstanceId(),
+						toCase.getLeadingProcessId(),
+						knotCommissionVO.getCaseCode());
+				if(boo){
+					//修改案件状态为允许结佣
+					ToCase ca  = toCaseService.findToCaseByCaseCode(knotCommissionVO.getCaseCode());
+					ca.setStartDate(CaseStatusEnum.YGH.getCode());
+					toCaseService.updateByCaseCodeSelective(ca);
+					rs.setData(true);
+					rs.setMessage("提交成功！");
+					System.out.println(apiResultData.toString());
+				}
+			}catch (Exception e){
+				e.printStackTrace();
 			}
 		}else {
 			rs.setData(false);
