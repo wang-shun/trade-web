@@ -760,8 +760,7 @@ public class WorkSpaceController
             work.setRankType(TransJobs.QZJL.getCode());
             work.setOrgId(null);
             // 主管只看当前组织
-            List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(
-                    uamUserOrgService.getParentOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCQY.getCode()).getId(), DepTypeEnum.TYCTEAM.getCode());
+            List<Org> orgList = uamUserOrgService.getOrgByDepHierarchy(user.getServiceDepId(), DepTypeEnum.TYCTEAM.getCode());
             if (CollectionUtils.isNotEmpty(orgList))
             {
                 for (Org toOrgVo : orgList)
