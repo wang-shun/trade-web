@@ -642,10 +642,38 @@ public class RansomServiceImpl implements RansomService{
 	@Override
 	public Map<String,String> getActTasks(String ransomCode) {
 		List<String> tasks = ransomListFormMapper.getRansomActTasks(ransomCode);
+		
 		Map<String,String> map = new HashMap<String,String>();
-		for(String str:tasks){
-			map.put(str, str);
+		
+		//如果tasks为空，说明流程已完成所有环节
+		//		判断是否存在二抵
+		//      为map添加每个环节
+		if(!(tasks.get(tasks.size()-1) == null)) {
+			for(String str:tasks){
+				map.put(str, str);
+			}
+		}else {
+			int count = ransomMapper.queryErdi(ransomCode);
+			if(count == 0) {
+				map.put("APPLY", "APPLY");
+				map.put("SIGN", "SIGN");
+				map.put("PAYLOAN_ONE", "PAYLOAN_ONE");
+				map.put("CANCELDIYA_ONE", "CANCELDIYA_ONE");
+				map.put("RECEIVE_ONE", "RECEIVE_ONE");
+				map.put("PAYCLEAR", "PAYCLEAR");
+			}else if(count == 1) {
+				map.put("APPLY", "APPLY");
+				map.put("SIGN", "SIGN");
+				map.put("PAYLOAN_ONE", "PAYLOAN_ONE");
+				map.put("PAYLOAN_TWO", "PAYLOAN_TWO");
+				map.put("CANCELDIYA_ONE", "CANCELDIYA_ONE");
+				map.put("CANCELDIYA_TWO", "CANCELDIYA_TWO");
+				map.put("RECEIVE_ONE", "RECEIVE_ONE");
+				map.put("RECEIVE_TWO", "RECEIVE_TWO");
+				map.put("PAYCLEAR", "PAYCLEAR");
+			}
 		}
+		
 		return map;
 	}
 	

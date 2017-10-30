@@ -3,10 +3,6 @@ package com.centaline.trans.cases.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
-import java.util.Collections;
->>>>>>> b4e57c930daf619a1c6a9bcba7ca737bff2bc44a
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -2170,12 +2166,7 @@ public class CaseDetailController {
 					}else{
 						return -1;
 					}
-<<<<<<< HEAD
 				}				
-=======
-				}
-				
->>>>>>> b4e57c930daf619a1c6a9bcba7ca737bff2bc44a
 			});
 		}
 		result.setContent(info);
