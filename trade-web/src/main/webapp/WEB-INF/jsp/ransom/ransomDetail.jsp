@@ -76,35 +76,44 @@
 		vertical-align: middle;
 		background-image:url(../static/img/a5.png);
 	}
-	.shuxian{
+	.bs-wizard > .bs-wizard-step > .shuxian{
 		position: absolute;
 		height: 129px;
 		width: 40%;
 		top: 20px;
 		left: 50%;
-		border-left: 8px solid #ccc;
-		border-bottom: 8px solid #ccc;
+		border-left: 8px solid #5bc0de;
+		border-bottom: 8px solid #5bc0de;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .shuxian{
+		border-left-color: #ccc;
+		border-bottom-color: #ccc;
 	}
 	.bs-wizard > .bs-wizard-step > .change_shuxian{
 		position: absolute;
 		height: 129px;
-		width: 40%;
+		width: 85%;
 		top: 20px;
-		left: -90px;
-		border-right: 8px solid #ccc;
-		border-bottom: 8px solid #ccc;
+		left: -190px;
+		border-right: 8px solid #5bc0de;
+		border-bottom: 8px solid #5bc0de;
 	}
 	.bs-wizard > .bs-wizard-step.complete > .change_shuxian{
-		border-right-color: #5bc0de;
-		border-bottom-color: #5bc0de;
+		border-right-color: #ccc;
+		border-bottom-color: #ccc;
 	}
-	.col-lg-1 .bs-wizard-info strong{
+	.col-lg-1 .bs-wizard-info strong,.col-lg-1 .time-up strong{
 		display: block;
 		width: 200px;
 	}
 	.time-wapper {
-		
 		text-align: center;
+	}
+	.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar{
+		background: #ccc;
+	}
+	.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar{
+		width: 100%;
 	}
 </style>
 </head>
@@ -369,7 +378,7 @@
 								<div class="row bs-wizard"
 									style="border-bottom: 0; margin-left: 15px">
 									
-									<div class="col-lg-1 bs-wizard-step 
+									<%--<div class="col-lg-1 bs-wizard-step
 											<c:choose>  
 											    <c:when test=""> active
 											   </c:when>  
@@ -381,7 +390,7 @@
 										<div class="progress">
 											<div class="progress-bar"></div>
 										</div>
-									</div>
+									</div>--%>
 									
 									<div
 										class="col-lg-3 bs-wizard-step 
@@ -462,19 +471,19 @@
 											</dl>
 										</div>
 									</div>
-									<div class="col-lg-1 bs-wizard-step 
-											<c:choose>  
+									<%--<div class="col-lg-1 bs-wizard-step
+											<c:choose>
 											    <c:when test=""> active
-											   </c:when>  
+											   </c:when>
 											    <c:when test=""> complete
-											   </c:when>   
-											   <c:otherwise> disabled</c:otherwise>  
-											</c:choose>	
+											   </c:when>
+											   <c:otherwise> disabled</c:otherwise>
+											</c:choose>
 											">
 										<div class="progress">
 											<div class="progress-bar"></div>
 										</div>
-									</div>
+									</div>--%>
 								</div>
 							</div>
 						</div>
