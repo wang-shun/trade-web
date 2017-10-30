@@ -620,7 +620,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script> --%>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
