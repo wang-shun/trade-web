@@ -784,8 +784,8 @@
 				{{/if}}
 			</td>
 			<td class="td_width">
-				{{if item.type == 1}}
-				{{item.sharingProportion}}
+				{{if item.type == 1 && item.sharingProportion !=''}}
+				{{item.sharingProportion}}%
 				{{/if}}
 			</td>
 			<td class="td_width">
