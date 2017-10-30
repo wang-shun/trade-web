@@ -100,7 +100,7 @@ text-decoration: underline !important;
                             </div>
                             <div class="form_content">
                                 <label class="sign_left control-label">
-                                    CTM编号
+                                    CCAI编号
                                 </label>
                                 <div class="sign_right teamcode">
                                     <input type="text" class="teamcode form-control" id="ctmCODE" >
@@ -278,7 +278,7 @@ text-decoration: underline !important;
 							</p>
 							<p>
 							<i class="tag_sign">c</i>
-								{{item.CTM_CODE}}
+								{{item.CCAI_CODE}}
 							</p>
                         </td>
 						<td class="center">
@@ -494,7 +494,7 @@ function packgeData(page){
      		var hVal = $('#inTextVal').attr('hVal');
      		var propertyAddr = $.trim($('#propertyAddr').val());
      		var caseCode = $.trim($('#caseCode').val());
-     		var ctmCODE = $.trim($('#ctmCODE').val());
+     		var ccaiCode = $.trim($('#ctmCODE').val());
      		var groupParentID = $("#groupParentID").val();
      		var taskDfKey = $("#taskDfKey").val();
      	    data1.rows = 5;
@@ -509,7 +509,7 @@ function packgeData(page){
      	    data1.argu_managerFlag="${managerFlag}";
      	    data1.argu_caseCode=caseCode;
      	    data1.argu_propertyAddr=propertyAddr;
-     	    data1.argu_ctmCODE=ctmCODE;
+     	    data1.argu_ccaiCode=ccaiCode;
      	    data1.groupParentID = groupParentID;
 			data1.taskDfKey = taskDfKey;
      	    return data1;
