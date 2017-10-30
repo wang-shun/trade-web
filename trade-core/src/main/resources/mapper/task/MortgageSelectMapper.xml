@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.task.repository.MortgageSelectMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.task.entity.MortgageSelect" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="CASE_CODE" property="caseCode" jdbcType="VARCHAR" />
+    <result column="MORTGAGE_SERVICE" property="mortgageServive" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <insert id="save" parameterType="com.centaline.trans.task.entity.MortgageSelect">
+  	insert into sctrans.T_TO_MORTGAGE_SELETE(CASE_CODE,MORTGAGE_SERVICE) values(#{caseCode,jdbcType=VARCHAR},#{mortgageServive,jdbcType=VARCHAR})
+  </insert>
+  
+  <select id="selectByCaseCode" parameterType="string" resultMap="BaseResultMap">
+  	select CASE_CODE ,MORTGAGE_SERVICE from sctrans.T_TO_MORTGAGE_SELETE where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="update" parameterType="com.centaline.trans.task.entity.MortgageSelect">
+  	update  sctrans.T_TO_MORTGAGE_SELETE set MORTGAGE_SERVICE=#{mortgageServive,jdbcType=VARCHAR} where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByCode" parameterType="string">
+  	delete from sctrans.T_TO_MORTGAGE_SELETE where CASE_CODE=#{caseCode,jdbcType=VARCHAR}
+  </delete>
+  
+</mapper>

@@ -11,7 +11,7 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<title>案件详情</title>
 	<!-- Toastr style -->
 	<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 	<!-- stickUp fixed css -->
@@ -363,14 +363,14 @@
 					<label class="col-sm-3 control-label">业务单创建时间：${caseDetailVO.createTime}</label>
 					<label class="col-sm-3 control-label">接单时间：${caseDetailVO.resDate}</label>
 				</div>
-				<div class="row">
+				<%-- <div class="row">
 					<label class="col-sm-3 control-label">卖方姓名：${caseDetailVO.sellerName}</label>
 					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.sellerMobile}</label>
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">买方姓名：${caseDetailVO.buyerName}</label>
 					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.buyerMobile}</label>
-				</div>
+				</div> --%>
 				<div class="row">
 					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
 					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
@@ -378,7 +378,7 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">产证面积：${toPropertyInfo.square }&nbsp;&nbsp;平方</label>
-					<label class="col-sm-3 control-label">产证地址：${toPropertyInfo.propertyAddr }</label>
+					<label class="col-sm-6 control-label">产证地址：${toPropertyInfo.propertyAddr }</label>
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">竣工年份：${toPropertyInfo.finishYearStr}</label>
@@ -386,7 +386,7 @@
 					<label class="col-sm-3 control-label">总层高：${toPropertyInfo.totalFloor }</label>
 				</div>
 				<div class="row">
-					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
+					<%-- <label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label> --%>
 					<label class="col-sm-3 control-label">成交价：
 						<c:if test="${!empty caseInfo.realPrice }">${caseInfo.realPrice/1000 }&nbsp&nbsp万元</c:if>
 					</label>
@@ -445,6 +445,112 @@
 				<div class="row">
 					<label class="col-sm-3 control-label">结案时间：${caseDetailVO.closeTime}</label>
 				</div>
+				
+				<hr>
+				<!-- caseRecv -->
+				
+				<div class="row">
+					<label class="col-sm-3 control-label">买方姓名：${caseDetailVO.buyerName}</label>
+					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.buyerMobile}</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">购房套数：
+						<aist:dict clazz="select_control data_style" id="purchaseHouseNo"
+								name="purchaseHouseNo" display="label"
+								dictCode="${caseRecv.purchaseHouseNo}"
+								dictType="61000" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">贷款套数：
+						<aist:dict clazz="select_control data_style" id="loanHouseNo"
+								name="loanHouseNo" display="label"
+								dictCode="${caseRecv.loanHouseNo}"
+								dictType="61000" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">婚姻情况：
+						<aist:dict clazz="select_control data_style" id="marriageStatus"
+								name="marriageStatus"
+								dictCode="${caseRecv.marriageStatus}"
+								display="label" dictType="61001" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">家庭情况：
+						<aist:dict clazz="select_control data_style" id="familyStatus"
+								name="familyStatus" display="label"
+								dictCode="${caseRecv.familyStatus}"
+								dictType="61002" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
+					<label class="col-sm-3 control-label">评估：
+						<aist:dict clazz="select_control data_style" id="evalByWho"
+								name="evalByWho"
+								dictCode="${caseRecv.evalByWho}"
+								display="label" dictType="61005" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">户籍：
+						<aist:dict clazz="select_control data_style" id="huji"
+								name="huji" display="label"
+								dictCode="${caseRecv.huji}" dictType="61006"
+								hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">社保：
+						<aist:dict clazz="select_control data_style"
+								id="societySecuretyYears" name="societySecuretyYears"
+								dictCode="${caseRecv.societySecuretyYears}"
+								display="label" dictType="61007" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">税单：
+						<aist:dict clazz="select_control data_style"
+								id="taxSecuretyYears" name="taxSecuretyYears"
+								dictCode="${caseRecv.taxSecuretyYears}"
+								display="label" dictType="61008" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">住房补贴：
+						<aist:dict clazz="select_control data_style" id="houseSubsidy"
+								name="houseSubsidy" display="label"
+								dictCode="${caseRecv.houseSubsidy}"
+								dictType="61009" hasEmpty="true" />				
+					</label>
+					<label class="col-sm-3 control-label">预警内容：${caseRecv.loanWarn}</label>
+				</div>
+				
+				<div class="row">
+					<label class="col-sm-3 control-label">卖方姓名：${caseDetailVO.sellerName}</label>
+					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.sellerMobile}</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">房屋来源：
+						<aist:dict clazz="select_control data_style" id="houseFrom"
+								name="houseFrom" display="label"
+								dictCode="${caseRecv.houseFrom}"
+								dictType="61010" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">抵押信息：
+						<aist:dict clazz="select_control data_style" id="mortInfo"
+								name="mortInfo"
+								dictCode="${caseRecv.mortInfo}"
+								display="label" dictType="61011" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">预计清尾时间：
+						<fmt:formatDate  value='${caseRecv.estFinishTime}' type='both' pattern='yyyy-MM-dd'/>
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">房屋套数：
+						<aist:dict clazz="select_control data_style" id="isUniqueHome"
+								name="isUniqueHome"
+								dictCode="${tax.isUniqueHome}" display="label"
+								dictType="61012" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">原购入价格：
+						<c:if test="${!empty caseRecv.oriPrice }">${caseRecv.oriPrice/10000 }&nbsp;&nbsp;万元</c:if>
+					</label>
+				</div>
+				
 			</div>
 
 			<div class="tab-pane fade" id="profile_info">
@@ -620,7 +726,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script> --%>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>

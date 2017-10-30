@@ -70,8 +70,7 @@
 		WHERE ra.RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	</select>
 	
-	
-	<select id="getRansomCase" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
+	<select id="getRansomCaseInfo" resultType="com.centaline.trans.ransom.entity.ToRansomCaseVo">
 		SELECT 
 			RANSOM_CODE ransomCode,
 			CASE_CODE caseCode,
@@ -90,8 +89,14 @@
 			UPDATE_TIME updateTime,
 			UPDATE_USER updateUser
 		FROM sctrans.T_RA_CASE
-		WHERE RANSOM_STATUS NOT IN(3,4)
-		<!-- SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4) -->
+		WHERE 1=1
+		<if test="caseCode != null and caseCode != ''">
+			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<select id="getRansomCase" resultMap="BaseResultMap">
+		SELECT * FROM sctrans.T_RA_CASE WHERE RANSOM_STATUS NOT IN(3,4)
 		<if test="caseCode != null and caseCode != ''">
 			and CASE_CODE = #{caseCode,jdbcType=VARCHAR}
 		</if>
@@ -239,7 +244,7 @@
 		LEFT JOIN sctrans.T_RA_INTERVIEW vie ON vie.RANSOM_CODE = cas.RANSOM_CODE
 		
 		LEFT JOIN sctrans.T_RA_REPAY rr1 ON rr1.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_ONE'
-		LEFT JOIN sctrans.T_RA_REPAY rr2 ON rr2.RANSOM_CODE = cas.RANSOM_CODE AND rr1.PART_CODE = 'PAYLOAN_TWO'
+		LEFT JOIN sctrans.T_RA_REPAY rr2 ON rr2.RANSOM_CODE = cas.RANSOM_CODE AND rr2.PART_CODE = 'PAYLOAN_TWO'
 		
 		LEFT JOIN sctrans.T_RA_CANCEL rca1 ON rca1.RANSOM_CODE = cas.RANSOM_CODE AND rca1.PART_CODE = 'CANCELDIYA_ONE'
 		LEFT JOIN sctrans.T_RA_CANCEL rca2 ON rca2.RANSOM_CODE = cas.RANSOM_CODE AND rca2.PART_CODE = 'CANCELDIYA_TWO'

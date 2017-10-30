@@ -95,19 +95,15 @@ public class TransPlanController {
 
 	@RequestMapping(value = "submitTransPlan")
 	@ResponseBody
-	public boolean submitTransPlan(HttpServletRequest request,
+	public Boolean submitTransPlan(HttpServletRequest request,
 			TransPlanVO transPlanVO) {
-		transplanServiceFacade.saveToTransPlan(transPlanVO);
-
-		/* 流程引擎相关 */
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-
-		ToCase toCase = toCaseService.findToCaseByCaseCode(transPlanVO
-				.getCaseCode());
-
-		return workFlowManager.submitTask(variables, transPlanVO.getTaskId(),
-				transPlanVO.getProcessInstanceId(),
-				toCase.getLeadingProcessId(), transPlanVO.getCaseCode());
+		Boolean boo=false;
+		try {
+			boo = transplanServiceFacade.submitTransPlan(request, transPlanVO);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return boo;
 	}
 
 	/**
@@ -138,75 +134,6 @@ public class TransPlanController {
 	@RequestMapping(value = "submitTransAppver")
 	@ResponseBody
 	public AjaxResponse<?> submitTranPlanAppver(String[]pkids, String[] newDates, String[] partCodes,Boolean audit,TransPlanVO transPlanVO){
-		/**
-		 *
-		 * 同意变更交易计划，修改交易计划表，并修改交易历史记录表的状态并提交任务，
-		 * 不同意则不修改交易计划表，修改交易历史记录表的状态并提交任务
-		 */
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		ToTransPlan tp=new ToTransPlan();
-		TsTransPlanHistory ts1=new TsTransPlanHistory();
-		if(pkids.length>0&&newDates.length>0&&partCodes.length>0&&transPlanVO!=null) {
-			for (int i = 0; i < pkids.length; i++) {
-				if (audit) {
-					//通过partCode和caseCode查询交易计划表的PKID
-					try {
-						TsTransPlanHistory ts = new TsTransPlanHistory();
-						ts.setCaseCode(transPlanVO.getCaseCode());
-						ts.setPartCode(partCodes[i]);
-						//根据partCode和caseCode查询交易计划
-						ToTransPlan toTransPlan = transplanServiceFacade.findTransPlanPKIDBycasecodeAndPartCode(ts);
-						if (toTransPlan != null) {
-							tp.setPkid(toTransPlan.getPkid());
-
-						tp.setEstPartTime(format.parse(newDates[i]));
-						//修改交易计划
-						transplanServiceFacade.updateByPrimaryKeySelective(tp);
-						ts1.setPkid(Long.parseLong(pkids[i]));
-						ts1.setAuditResult(ToApproveRecordEnum.AGREE.getCode());
-						//修改交易计划历史记录为审核通过状态
-						transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
-						}else {
-							return AjaxResponse.fail("未找到交易计划！");
-						}
-					} catch (ParseException e) {
-						return AjaxResponse.fail("数据转换异常");
-					}
-				} else {
-					ts1.setPkid(Long.parseLong(pkids[i]));
-					ts1.setAuditResult(ToApproveRecordEnum.REJECT.getCode());
-					//修改交易计划历史记录为审核不通过状态
-					transplanServiceFacade.updateTransPlanHistoryByPKID(ts1);
-				}
-			}
-			//获取登录人信息
-			SessionUser sessionUser = uamSessionService.getSessionUser();
-			//启动流程变量
-			List<RestVariable> variables = new ArrayList<>();
-			//提交任务
-			workFlowManager.submitTask(variables, transPlanVO.getTaskId(), transPlanVO.getProcessInstanceId(), sessionUser.getId(), transPlanVO.getCaseCode());
-			//在审批记录表中插入数据
-			ToApproveRecord toApproveRecord=new ToApproveRecord();
-			toApproveRecord.setCaseCode(transPlanVO.getCaseCode());
-			toApproveRecord.setProcessInstance(transPlanVO.getProcessInstanceId());
-			toApproveRecord.setPartCode(transPlanVO.getPartCode());
-			toApproveRecord.setOperator(sessionUser.getId());
-			//交易计划变更审批类型
-			toApproveRecord.setApproveType("5");
-			toApproveRecord.setContent(audit==true?"交易变更审核通过！":"交易变更审核不通过！");
-			toApproveRecord.setOperatorTime(new Date());
-			loanlostApproveService.saveLoanlostApprove(toApproveRecord);
-			//任务完结
-			ToWorkFlow flow=new ToWorkFlow();
-			flow.setBusinessKey("TransPlanAppver");
-			flow.setCaseCode(transPlanVO.getCaseCode());
-			flow.setBizCode(transPlanVO.getCaseCode());
-			ToWorkFlow tranPlanFlow= toWorkFlowService.queryActiveToWorkFlowByCaseCodeBusKey(flow);
-			tranPlanFlow.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateByPrimaryKeySelective(tranPlanFlow);
-			return AjaxResponse.success("操作成功");
-		}else {
-			return AjaxResponse.fail("数据传递错误！");
-		}
+			return transplanServiceFacade.submitTranPlanAppver(pkids,newDates,partCodes,audit,transPlanVO);
 	}
 }

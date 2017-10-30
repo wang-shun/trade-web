@@ -19,5 +19,5 @@ public interface RansomDiscontinueService {
 	
 	boolean startDiscontinueTask(String caseCode, String ransomCase);
 	
-	Map<String ,Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend, Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode);
+	Map<String ,Object> getSingleRansomTaskInfo(HttpServletRequest req, Boolean isSuspend, Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode);
 }
