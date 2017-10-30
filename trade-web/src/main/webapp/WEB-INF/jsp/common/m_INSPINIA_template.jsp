@@ -27,8 +27,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <link rel="icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
-    <link rel="shortcut icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
-    <title>誉萃交易系统</title>
+    <link rel="shortcut icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">
+	<title>
+		<sitemesh:title /> - 交易金融平台
+	</title>
     <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
     <link href="<c:url value='/font-awesome/css/font-awesome.css' />" rel="stylesheet">
 
