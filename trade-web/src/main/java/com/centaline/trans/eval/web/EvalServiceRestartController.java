@@ -3,6 +3,7 @@ package com.centaline.trans.eval.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,11 +14,10 @@ import com.aist.common.exception.BusinessException;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
-import com.aist.uam.ice.userorg.User;
-import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.eval.service.EvalServiceRestartService;
+import com.centaline.trans.eval.service.ToEvalReportProcessService;
 
 /**
  * @Description:评估流程重启
@@ -32,6 +32,8 @@ public class EvalServiceRestartController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private EvalServiceRestartService evalServiceRestartService;
+	@Autowired
+	ToEvalReportProcessService toEvalReportProcessService;
 	
 	/**
 	 * @评估流程初始化处理
@@ -120,11 +122,17 @@ public class EvalServiceRestartController {
 	public String toApproveProcess(HttpServletRequest request,
 			HttpServletResponse response,String source,String  businessKey,
 			String taskitem, String processInstanceId) {
+		String caseCode = null;
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
         request.setAttribute("evaCode", businessKey);
+         //若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+      		if(StringUtils.isNotBlank(businessKey)){
+      			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+      		}
 		request.setAttribute("approveType", "10");
 		request.setAttribute("operator", user != null ? user.getId() : "");
+		request.setAttribute("caseCode", caseCode);
 		return "eval/taskevalServiceRestartApprove";
 	}
 	
