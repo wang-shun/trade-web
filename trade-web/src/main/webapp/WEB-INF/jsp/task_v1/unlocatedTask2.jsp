@@ -99,7 +99,7 @@ text-decoration: underline !important;
                             </div>
                             <div class="form_content">
                                 <label class="sign_left control-label">
-                                    CTM编号
+                                    CCAI编号
                                 </label>
                                 <div class="sign_right teamcode">
                                     <input type="text" class="teamcode form-control" id="ctmCODE" >
