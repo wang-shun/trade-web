@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.aist.message.core.remote.UamMessageService;
@@ -52,7 +53,8 @@ public class CaseCloseServiceImpl implements CaseCloseService {
 	WorkFlowManager workFlowManager;
 	@Autowired
 	ToPropertyInfoService toPropertyInfoService;
-	@Autowired
+	@Autowired(required=true)
+	@Qualifier("uamMessageServiceClient")
 	UamMessageService uamMessageService;
 	@Autowired
 	UamSessionService uamSessionService;
