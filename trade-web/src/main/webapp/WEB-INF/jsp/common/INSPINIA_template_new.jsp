@@ -35,7 +35,7 @@
     <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <title>
-		<sitemesh:title /> - 金融交易平台
+		<sitemesh:title /> - 交易金融平台
 	</title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
     <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
