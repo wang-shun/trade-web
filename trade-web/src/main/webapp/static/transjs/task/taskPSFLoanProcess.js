@@ -120,11 +120,11 @@ function checkMortgageForm(formId){
 	}/*else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
-	}*/else if(checkValue(formId.find("input[name='loanerPhone']"))){
+	}*//*else if(checkValue(formId.find("input[name='loanerPhone']"))){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
-	}else if(checkValue(formId.find("input[name='loanerPhone']")) && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
+	}*/else if(formId.find("input[name='loanerPhone']").val()!="" && checkPhone(formId.find("input[name='loanerPhone']"))){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		window.wxc.alert("信贷员手机号码输入错误！");
 		return false;
@@ -174,11 +174,11 @@ function checkCompleteMortgage(formId){
 	}/*else if(formId.find("input[name='loanerId']").val() == ""){
 		formId.find("input[name='loanerName']").css("border-color","red");
 		return false;		
-	}*/else if(checkValue(formId.find("input[name='loanerPhone']"))){
+	}*//*else if(checkValue(formId.find("input[name='loanerPhone']"))){
 		window.wxc.alert("信贷员电话为必填项！");
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		return false;
-	}else if(checkValue(formId.find("input[name='loanerPhone']")) && !(/^0?1[3|4|5|7|8][0-9]\d{8}$/.test(formId.find("input[name='loanerPhone']").val()))){
+	}*/else if(formId.find("input[name='loanerPhone']").val()!="" && checkPhone(formId.find("input[name='loanerPhone']"))){
 		formId.find("input[name='loanerPhone']").css("border-color","red");
 		window.wxc.alert("信贷员手机号码输入错误！");
 		return false;
@@ -188,11 +188,11 @@ function checkCompleteMortgage(formId){
 		return false;
 	
 	}else if(checkValue(formId.find("input[name='apprCompleTime']"))){
-		window.wxc.alert("实际审批完成时间！");
+		window.wxc.alert("实际审批完成时间为必填项！");
 		formId.find("input[name='apprCompleTime']").css("border-color","red");
 		return false;
 	}else if(checkValue(formId.find("input[name='loanContraTime']"))){
-		window.wxc.alert("出具借款合同时间！");
+		window.wxc.alert("出具借款合同时间为必填项！");
 		formId.find("input[name='loanContraTime']").css("border-color","red");
 		return false;
 	}
@@ -1555,8 +1555,8 @@ function submitMortgage(){
 						window.close();
 						return;
 					}
-					window.location.href=ctx+"/task/myTaskList?"+new Date().getTime();
-					caseTaskCheck();
+					 window.close();
+                     window.opener.callback();
 				}
 			}});
 		}
@@ -2296,4 +2296,11 @@ function checkValue(jqueryObj){
         return true;
     }
     return false;
+}
+
+function checkPhone(jqueryObj){
+	 if(/^1[3578][0-9]{9}$/.test(jqueryObj.val())){ 
+	        return false;
+	   } 
+	 return true;
 }
