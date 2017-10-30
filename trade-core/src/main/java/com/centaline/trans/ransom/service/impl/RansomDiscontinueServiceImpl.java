@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.aist.common.quickQuery.bo.JQGridParam;
 import com.aist.common.quickQuery.service.QuickGridService;
-import com.aist.common.quickQuery.web.vo.DatagridVO;
 import com.aist.common.rapidQuery.paramter.ParamterHander;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
@@ -29,6 +29,7 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.service.RansomDiscontinueService;
 import com.centaline.trans.ransom.service.RansomListFormService;
+import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
@@ -39,31 +40,28 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	
 	@Autowired
 	private LoanlostApproveService loanlostApproveService;
-
 	@Autowired
 	private RansomListFormService ransomListFormService;
-
 	@Autowired
 	private UamSessionService uamSessionService;
-	
 	@Autowired
 	private PropertyUtilsService propertyUtilsService;
-	
 	@Autowired
 	private ProcessInstanceService processInstanceService;
-	
 	@Autowired
 	private ToWorkFlowService toWorkFlowService;
-	
 	@Autowired
 	TaskService taskService;
-	
 	@Autowired
 	ToCaseInfoService toCaseInfoService;
-	
 	@Autowired
 	QuickGridService quickGridService;
-	
+	@Autowired
+	RansomService ransomService;
+
+	/**
+	 * 提交赎楼中止申请
+	 */
 	@Override
 	public boolean submitDiscontinueApply(ToRansomCaseVo ransomCase, ProcessInstanceVO vo) {
 		//点击中止时即保存中止原因信息
@@ -81,6 +79,81 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 		ransomListFormService.updateRansomDiscountinue(ransomCase);
 		return true;
 	}
+	
+	@Override
+	public boolean isCanSuspend(ServletRequest request, String ransomCode)throws Exception {
+		ToRansomCaseVo ranCase = ransomListFormService.getRansomCase(null, ransomCode);
+		if(ranCase != null && !RansomStopStatusEnum.STOPING.getCode().equals(ranCase.getIsstop())) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public Boolean aprroSubmit(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String examContent, String remark, String caseCode, String ransomCode)
+			throws Exception {
+		//通过：删除 [赎楼流程]
+		if("pass".equals(examContent)) {
+			//或者直接使用processInstanceVO.getProcessInstanceId()
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, true, caseCode);
+			if((boolean)task.get("hasData")) {
+				processInstanceService.deleteProcess((String) task.get("INST_CODE"));
+				ransomService.deleteRansomApplyByRansomCode((String) task.get("RANSOM_CODE"));
+			}
+		}
+		//不通过：重启 [赎楼流程]
+		else if("noPass".equals(examContent)) {
+			Map<String, Object> task = getSingleRansomTaskInfo(request, false, true, true, caseCode);
+			if((boolean)task.get("hasData")) {
+				processInstanceService.activateOrSuspendProcessInstance((String) task.get("INST_CODE"), true);
+			}
+		}
+		//保存审批记录
+		saveToApproveRecord(processInstanceVO, loanlostApproveVO, examContent, remark);
+		//赎楼中止 流程下一步
+		return submitDiscontinueAppro(processInstanceVO, examContent, caseCode, ransomCode);
+	}
+	
+	@Override
+	public boolean submitDiscontinue(ToRansomCaseVo ransomCase, HttpServletRequest request,
+			ProcessInstanceVO processInstanceVO, String caseCode, String ransomCode) throws Exception {
+		Map<String, Object> task = null;
+		String taskId = null;
+		ransomCase.setRansomCode(ransomCode);
+		ransomCase.setCaseCode(caseCode);
+		//①挂起对应的【赎楼流程】(如果有)②开启一个【赎楼中止流程】(如果没有)③给processInstanceVO赋值
+		task = getSingleRansomTaskInfo(request, true, false, false, caseCode);//查询中止流程
+		if((boolean)task.get("hasData")) {
+			//如果存在对应中止流程，那么判断责任人
+			String assignee = (String) task.get("ASSIGNEE");
+			SessionUser user = uamSessionService.getSessionUser();
+			if(assignee == null || !assignee.equals(user.getUsername())) {
+				return false;
+			}
+		}else {
+			//如果不存在赎楼中止流程，则继续判断赎楼流程
+			task = null;
+			task = getSingleRansomTaskInfo(request, false, false, true, caseCode);//查询赎楼流程
+			if((boolean)task.get("hasData")) {
+				//如果有赎楼，无相应中止，那么表示第一次申请中止，则需要做①、②、③
+				taskId = (String) task.get("INST_CODE");
+				processInstanceService.activateOrSuspendProcessInstance(taskId, false);//①
+			}else {
+				//如果中止和赎楼都不存在，返回错误
+				return false;
+			}
+			startDiscontinueTask(caseCode, ransomCode);//②
+			task = null;
+			task = getSingleRansomTaskInfo(request, true, false, false, caseCode);
+			processInstanceVO.setTaskId((String)task.get("ID"));//③
+			processInstanceVO.setProcessInstanceId((String)task.get("INST_CODE"));
+			processInstanceVO.setPartCode((String)task.get("PART_CODE"));
+			processInstanceVO.setCaseCode(caseCode);
+			processInstanceVO.setBusinessKey(ransomCode);
+		}
+		return submitDiscontinueApply(ransomCase, processInstanceVO);
+	}
 
 	/**
 	 * 保存审批记录
@@ -89,8 +162,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	 * @param loanLost
 	 * @param loanLost_response
 	 */
-	@Override
-	public ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
+	private ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 			String loanLost, String loanLost_response) {
 		ToApproveRecord toApproveRecord = new ToApproveRecord();
 		toApproveRecord.setProcessInstance(processInstanceVO.getProcessInstanceId());
@@ -110,8 +182,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 		return toApproveRecord;
 	}
 	
-	@Override
-	public boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent, String caseCode, String ransomCode) {
+	private boolean submitDiscontinueAppro(ProcessInstanceVO vo, String examContent, String caseCode, String ransomCode) {
 		ToRansomCaseVo ransomCaseVo = new ToRansomCaseVo();
 		ransomCaseVo.setCaseCode(caseCode);
 		ransomCaseVo.setRansomCode(ransomCode);
@@ -141,8 +212,7 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
     	return true;
 	}
 	
-	@Override
-	public boolean startDiscontinueTask(String caseCode, String ransomCode) {
+	private boolean startDiscontinueTask(String caseCode, String ransomCode) {
 		SessionUser user = uamSessionService.getSessionUser();
 		Map<String,Object> defValsMap = new HashMap<String,Object>();
 		//通过case_info表获取权证经理
@@ -166,8 +236,11 @@ public class RansomDiscontinueServiceImpl implements RansomDiscontinueService {
 	}
 	
 	@Override
-	public Map<String, Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend,
+	public Map<String, Object> getSingleRansomTaskInfo(HttpServletRequest request, Boolean isSuspend,
 			Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode) {
+		Map<String, String[]> paramMap = ParamterHander.getParameters(request);
+        Map<String, Object> paramObj = new HashMap<String, Object>();
+        ParamterHander.mergeParamter(paramMap, paramObj);
 		String processDfId = propertyUtilsService.getProcessDfId("ransom_suspend");
 		String processDfId1 = propertyUtilsService.getProcessDfId("ransom_process");
         if(isSuspend != null && isSuspend) {//查询赎楼中止流程数据
