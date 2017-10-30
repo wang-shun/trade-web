@@ -2,22 +2,24 @@ package com.centaline.trans.ransom.service;
 
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import com.centaline.trans.ransom.entity.ToRansomCaseVo;
-import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
 public interface RansomDiscontinueService {
 	
-	boolean submitDiscontinueApply(ToRansomCaseVo ransomCase, ProcessInstanceVO processInstanceVO);
+	boolean submitDiscontinueApply(ToRansomCaseVo ransomCase, ProcessInstanceVO processInstanceVO) throws Exception;
 	
-	ToApproveRecord saveToApproveRecord(ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
-			String loanLost, String loanLost_response);
-	boolean submitDiscontinueAppro(ProcessInstanceVO processInstanceVO, String examContent, String caseCode, String ransomCode);
+	public boolean isCanSuspend(ServletRequest request, String ransomCode) throws Exception;
 	
-	boolean startDiscontinueTask(String caseCode, String ransomCase);
+	boolean submitDiscontinue(ToRansomCaseVo ransomCase, HttpServletRequest request, ProcessInstanceVO processInstanceVO, String caseCode, String ransomCode) throws Exception;
 	
-	Map<String ,Object> getSingleRansomTaskInfo(Map<String, Object> paramObj, Boolean isSuspend, Boolean isSuspended, Boolean isIgnoreAssignee, String caseCode);
+	public Boolean aprroSubmit(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
+			LoanlostApproveVO loanlostApproveVO, String examContent, String remark, String caseCode, String ransomCode)throws Exception;
+
+	public Map<String, Object> getSingleRansomTaskInfo(HttpServletRequest request, Boolean isSuspend, Boolean isSuspended,
+			Boolean isIgnoreAssignee, String caseCode);
 }

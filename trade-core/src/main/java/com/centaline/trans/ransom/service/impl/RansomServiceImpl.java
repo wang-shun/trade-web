@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -606,7 +608,7 @@ public class RansomServiceImpl implements RansomService{
 	 * 	2、T_TO_WORKFLOW表PROCESS_OWNER字段(可选)
 	 */
 	@Override
-	public boolean changeRansomOwner(Map<String, Object> paramObj, String changeToUserId, String caseCode, String ransomCode) {
+	public boolean changeRansomOwner(HttpServletRequest request, String changeToUserId, String caseCode, String ransomCode) {
 		SessionUser sessionUser = uamSessionService.getSessionUser();
 		Date date = new Date();
 		ToRansomTailinsVo tailVo = new ToRansomTailinsVo();
@@ -621,7 +623,7 @@ public class RansomServiceImpl implements RansomService{
 		caseVo.setCreateTime(date);
 		caseVo.setUpdateUser(sessionUser.getId());
 		caseVo.setUpdateTime(date);
-		Map<String, Object> taskInfo = ransomDiscontinueService.getSingleRansomTaskInfo(paramObj, false, null, false, caseCode);
+		Map<String, Object> taskInfo = ransomDiscontinueService.getSingleRansomTaskInfo(request, false, null, false, caseCode);
 		if((boolean)taskInfo.get("hasData")) {
 			TaskVo task = new TaskVo();
 			task.setId(Long.valueOf(String.valueOf(taskInfo.get("ID"))));

@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.ransom.entity.ToRansomApplyVo;
 import com.centaline.trans.ransom.entity.ToRansomCancelVo;
@@ -208,7 +210,7 @@ public interface RansomService {
 	 * @param caseCode
 	 * @return
 	 */
-	boolean changeRansomOwner(Map<String, Object> paramObj, String userId, String caseCode, String ransomCode);
+	boolean changeRansomOwner(HttpServletRequest req, String userId, String caseCode, String ransomCode);
 	
 	/**
 	 * 获取赎楼当前存在的任务
