@@ -80,6 +80,7 @@
 <input type="hidden" value="${caseVo.caseCode }" id="caseCode">
 <input type="hidden" value="${caseVo.ransomCode }" id="ransomCode">
 <input type="hidden" value="${count }" id="count">
+<input type="hidden" value="${taskMap['PAYCLEAR'].paymentCode }" id="partCode">
 <div class="wrapper wrapper-content animated fadeInUp">
 	<form method="post" class="form-horizontal" id="dataForm">
 		<div class="ibox-content" id="reportOne">
@@ -189,39 +190,12 @@
 							<td><a href="${ctx}/ransomChange/signView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['SIGN'].signCode }">前往修改</a></td>
 						</tr>
 					</c:if>
-					<c:if test="${count == 0 }">
 						<c:if test="${taskMap['PAYLOAN_ONE'].payOneCode != null }">
 							<tr>
-								<td>陪同还贷</td>
+								<td>陪同还贷<c:if test="${count == 1 }">(一抵)</c:if></td>
 								<td><fmt:formatDate value='${taskMap[\'PAYLOAN_ONE\'].payOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskMap['PAYLOAN_ONE'].doUser }</td>
 								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYLOAN_ONE'].payOneCode }&count=${count}">前往修改</a></td>
-							</tr>
-						</c:if>
-						<c:if test="${taskMap['CANCELDIYA_ONE'].cancelOneCode != null }">
-							<tr>
-								<td>注销抵押</td>
-								<td><fmt:formatDate value='${taskVo.cancelOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskMap['CANCELDIYA_ONE'].doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_ONE'].cancelOneCode }&count=${count}">前往修改</a></td>
-							</tr>
-						</c:if>
-						<c:if test="${taskMap['RECEIVE_ONE'].receiveOneCode != null }">
-							<tr>
-								<td>领取产证</td>
-								<td><fmt:formatDate value='${taskMap[\'RECEIVE_ONE\'].receiveOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskMap['RECEIVE_ONE'].doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_ONE'].receiveOneCode }&count=${count}">前往修改</a></td>
-							</tr>
-						</c:if>	
-					</c:if>
-					<c:if test="${count == 1 }">
-						<c:if test="${taskMap['PAYLOAN_ONE'].payOneCode != null }">
-							<tr>
-								<td>陪同还贷(一抵)</td>
-								<td><fmt:formatDate value='${taskMap[\'PAYLOAN_ONE\'].payOneTime }' pattern='yyyy-MM-dd'/></td>
-								<td>${taskVo.doUser }</td>
-								<td><a href="${ctx}/ransomChange/payloanView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['PAYLOAN_ONE'].payOneCode }&count=0">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskMap['PAYLOAN_TWO'].payTwoCode != null }">
@@ -234,10 +208,10 @@
 						</c:if>
 						<c:if test="${taskMap['CANCELDIYA_ONE'].cancelOneCode != null }">
 							<tr>
-								<td>注销抵押(一抵)</td>
+								<td>注销抵押<c:if test="${count == 1 }">(一抵)</c:if></td>
 								<td><fmt:formatDate value='${taskMap[\'CANCELDIYA_ONE\'].cancelOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskMap['CANCELDIYA_ONE'].doUser }</td>
-								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_ONE'].cancelOneCode }&count=0">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/cancelView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['CANCELDIYA_ONE'].cancelOneCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>
 						<c:if test="${taskMap['CANCELDIYA_TWO'].cancelTwoCode != null }">
@@ -250,10 +224,10 @@
 						</c:if>
 						<c:if test="${taskMap['RECEIVE_ONE'].receiveOneCode != null }">
 							<tr>
-								<td>领取产证(一抵)</td>
+								<td>领取产证<c:if test="${count == 1 }">(一抵)</c:if></td>
 								<td><fmt:formatDate value='${taskMap[\'RECEIVE_ONE\'].receiveOneTime }' pattern='yyyy-MM-dd'/></td>
 								<td>${taskMap['RECEIVE_ONE'].doUser }</td>
-								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_ONE'].receiveOneCode }&count=0">前往修改</a></td>
+								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_ONE'].receiveOneCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
 						<c:if test="${taskMap['RECEIVE_TWO'].receiveTwoCode != null }">
@@ -264,8 +238,7 @@
 								<td><a href="${ctx}/ransomChange/permitView?ransomCode=${caseVo.ransomCode}&partCode=${taskMap['RECEIVE_TWO'].receiveTwoCode }&count=${count}">前往修改</a></td>
 							</tr>
 						</c:if>	
-					</c:if>
-					<c:if test="${taskMap['PAYCLEAR'].paymentCode != null }">
+						<c:if test="${taskMap['PAYCLEAR'].paymentCode != null }">
 						<tr>
 							<td>回款结清</td>
 							<td><fmt:formatDate value='${taskMap[\'PAYCLEAR\'].paymentTime }' pattern='yyyy-MM-dd'/></td>
@@ -283,7 +256,6 @@
 			</div>
 		</div>
     <content tag="local_script">
-    
     <script src="<c:url value='/js/trunk/report/dealChangeList.js' />"></script> 
 	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
