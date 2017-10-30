@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.aist.message.core.remote.UamMessageService;
 import com.aist.message.core.remote.vo.Message;
@@ -38,6 +39,7 @@ import com.centaline.trans.task.service.LoanlostApproveService;
 import com.centaline.trans.task.vo.LoanlostApproveVO;
 import com.centaline.trans.task.vo.ProcessInstanceVO;
 
+@Service
 public class CaseCloseServiceImpl implements CaseCloseService {
 	
 	@Autowired
