@@ -71,7 +71,7 @@ public class EvaPricingListController {
 	public AjaxResponse<String> saveEvaPricing(ToEvaPricingVo ToEvaPricingVo, ServletRequest request){
 		//申请，内勤回复
 		SessionUser user = uamSessionService.getSessionUser();
-		ToEvaPricingVo.setAriserId(user.getUsername());//申请人
+		ToEvaPricingVo.setAriserId(user.getId());//申请人
 		AjaxResponse<String> result = new AjaxResponse<String>();
 
 		try{

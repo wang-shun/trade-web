@@ -3,6 +3,11 @@ package com.centaline.trans.cases.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.Collections;
+>>>>>>> b4e57c930daf619a1c6a9bcba7ca737bff2bc44a
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +46,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.api.service.CaseApiService;
+import com.centaline.trans.api.vo.ApiCaseFees.SharingInfo;
 import com.centaline.trans.api.vo.ApiCaseInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
@@ -2153,6 +2159,25 @@ public class CaseDetailController {
 			return result;
 		}
 		ApiCaseInfo info = caseApiService.getApiCaseInfo(ccaiCode);
+		//分成人和权证做个排序
+		if(info != null && info.getFees() != null && info.getFees().getSharingInfo() != null && info.getFees().getSharingInfo().size() > 0){
+			info.getFees().getSharingInfo().sort(new Comparator<SharingInfo>() {
+				
+				@Override
+				public int compare(SharingInfo o1, SharingInfo o2) {
+					if(o1.getType() > o2.getType()){
+						return 1;
+					}else{
+						return -1;
+					}
+<<<<<<< HEAD
+				}				
+=======
+				}
+				
+>>>>>>> b4e57c930daf619a1c6a9bcba7ca737bff2bc44a
+			});
+		}
 		result.setContent(info);
 		return result; 
 	}

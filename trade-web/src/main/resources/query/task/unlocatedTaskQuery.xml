@@ -34,7 +34,7 @@
             <condition field="tt.owner" name="owner" label="" searchType="EQ" showType="textbox" showCallback="" defaultValue=""/>
             <condition field="tt.caseCode"  name="caseCode" label="案件编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
             <condition field="tt.propertyAddr"  name="propertyAddr" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
-            <condition field="tt.CTM_CODE"  name="ctmCODE" label="物业地址" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
+            <condition field="tt.CCAI_CODE"  name="ccaiCode" label="成交报告编号" searchType="LIKE" showType="" showCallback="" defaultValue=""/>
 			<condition field="tt.taskDfKey_OLD"  name="taskDfKey" label="环节code" searchType="EQ" showType="" showCallback="" defaultValue=""/>
         </searchCondition>
 		<searchSql>
@@ -42,7 +42,7 @@
 				<![CDATA[
 					select tt.groupName,tt.groupParentID,tt.groupParentName,tt.name,tt.pkid,
 					tt.caseCode,tt.instCode,tt.createTime,tt.candidateId,tt.taskId,
-					tt.taskDfKey_OLD,tt.caseId,tt.propertyAddr,tt.CTM_CODE,tt.WFE_NAME,tt.AGENT_NAME,tt.AGENT_PHONE,tt.GRP_NAME
+					tt.taskDfKey_OLD,tt.caseId,tt.propertyAddr,tt.CCAI_CODE,tt.WFE_NAME,tt.AGENT_NAME,tt.AGENT_PHONE,tt.GRP_NAME
 					 from (
 						SELECT org.org_name groupName,org.parent_id as groupParentID,
 						(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName,
@@ -51,7 +51,7 @@
 						pro.PROC_INST_ID_ as instCode,
 						 task.CREATE_TIME_ as createTime, ilink.user_id_ as candidateId,
 						  task.ID_ as taskId,task.TASK_DEF_KEY_ as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
-						  ,tca.CTM_CODE as CTM_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME
+						  ,tca.CCAI_CODE as CCAI_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME
 							from sctrans.ACT_RU_TASK task left join sctrans.ACT_RU_IDENTITYLINK ilink
 						on task.ID_=ilink.TASK_ID_
 					left join sctrans.ACT_HI_PROCINST pro
@@ -87,12 +87,12 @@
 					union
 					SELECT t.groupName,t.groupParentID,t.groupParentName,t.name,t.pkid,
 					t.caseCode,t.instCode,t.createTime,t.candidateId,t.taskId,
-					t.taskDfKey_OLD,t.caseId,t.propertyAddr,t.CTM_CODE,t.WFE_NAME,t.AGENT_NAME,t.AGENT_PHONE,t.GRP_NAME
+					t.taskDfKey_OLD,t.caseId,t.propertyAddr,t.CCAI_CODE,t.WFE_NAME,t.AGENT_NAME,t.AGENT_PHONE,t.GRP_NAME
 					FROM
 					(SELECT org.org_name groupName,(SELECT org_parent.ID FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentID,(SELECT org_parent.org_name FROM sctrans.SYS_ORG org_parent WHERE org_parent.id=org.parent_id) groupParentName, 
 					ut.name as name,ut.pkid,ut.case_Code as caseCode, ut.inst_Code as instCode, ut.CREATE_TIME as createTime, ut.candidate_Id as candidateId, ut.task_Id as taskId
 					,ut.TASK_DEFINATION_KEY as taskDfKey_OLD,tca.pkid as caseId,b.PROPERTY_ADDR as propertyAddr
-					,tca.CTM_CODE as CTM_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME,ut.IS_DELETE,tca.org_id
+					,tca.CCAI_CODE as CCAI_CODE,wfe.WFE_NAME,b.AGENT_NAME,b.AGENT_PHONE,b.GRP_NAME,ut.IS_DELETE,tca.org_id
 					from sctrans.T_TO_UNLOCATED_TASK as ut left join sctrans.t_to_case as tca
 						on ut.case_code =tca.case_code
 						INNER JOIN sctrans.T_TO_WORKFLOW  AS tw ON ut.INST_CODE  = tw.INST_CODE
@@ -122,7 +122,7 @@
 			 		union
 			 		select t1.groupName,t1.groupParentID,t1.groupParentName,t1.name,t1.pkid,
 					t1.caseCode,t1.instCode,t1.createTime,t1.candidateId,t1.taskId,
-					t1.taskDfKey_OLD,t1.caseId,t1.propertyAddr,t1.CTM_CODE,t1.WFE_NAME,t1.AGENT_NAME,t1.AGENT_PHONE,t1.GRP_NAME
+					t1.taskDfKey_OLD,t1.caseId,t1.propertyAddr,t1.CCAI_CODE,t1.WFE_NAME,t1.AGENT_NAME,t1.AGENT_PHONE,t1.GRP_NAME
 					from (
 					select 
 					org.org_name groupName,
@@ -138,7 +138,7 @@
 				    task.TASK_DEF_KEY_ as taskDfKey_OLD,
 				    tca.pkid as caseId,
 				    b.PROPERTY_ADDR as propertyAddr,
-				    tca.CTM_CODE as CTM_CODE,
+				    tca.CCAI_CODE as CCAI_CODE,
 				    wfe.WFE_NAME,
 				    b.AGENT_NAME,
 				    b.AGENT_PHONE,
@@ -183,7 +183,7 @@
 				<column type="both" name="AGENT_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="AGENT_PHONE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				<column type="both" name="GRP_NAME" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
-				<column type="both" name="CTM_CODE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
+				<column type="both" name="CCAI_CODE" index="" checkbox="" display="" customDict="" sysDict=""  width="150" isSort="true" align="" halign="" order="" resizable=""/>
 				
 							
 			</table-row>
