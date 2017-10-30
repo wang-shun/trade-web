@@ -41,6 +41,8 @@ public class MortgageSelectController {
 	private WorkFlowManager workFlowManager;
 	@Inject
 	private ToWorkFlowService toWorkFlowService;
+	@Inject
+	private MortgageSelectService  mortgageSeletService;
 
 	@ResponseBody
 	@RequestMapping(value = "submit")
@@ -51,6 +53,14 @@ public class MortgageSelectController {
 		//}
 		return mortgageSelectService.submit2(vo);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "save")
+	public boolean save(MortgageSelecteVo vo){
+
+		return mortgageSelectService.save(vo);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "getLoanReleasePlan")
 	public ToTransPlan getLoanReleasePlan(String caseCode){
@@ -112,6 +122,7 @@ public class MortgageSelectController {
 		ToTransPlan plan=new ToTransPlan();
 		plan.setCaseCode(caseCode);
 		plan.setPartCode("LoanRelease");//放款
+		request.setAttribute("mortgageSelect",mortgageSeletService.selectByCaseCode(caseCode));
 		request.setAttribute("loanReleasePlan", transplanServiceFacade.findTransPlan(plan));
 		return "task" + UiImproveUtil.getPageType(request) + "/taskMortgageSelect";
 

@@ -111,6 +111,13 @@
 			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 
 			<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
+			
+			<input type="hidden" id="service"  value="${service.mortgageServive}">
+			
+			<input type="hidden" id="bank"  value="${tosave.bank_type}">
+			
+			<input type="hidden" id="bank_zhi"  value="${tosave.finOrgCode}">
+			
 			<h2 class="newtitle title-mark">填写任务信息</h2>
 			<div class="form_list">
 				<div class="marinfo">
@@ -118,11 +125,28 @@
 						<div class="form_content">
 							<label class="control-label sign_left_small">贷款方式</label>
 									<div class="radio i-checks radio-inline">
-									 <label> <input type="radio"  value="1" id="self" name="selfMort"> 自办
+									<c:if test="${tosave.selfMort == '1'}">
+  											<label> <input type="radio" checked="checked" value="1" id="self" name="selfMort"> 自办
+									</label> 
+									&nbsp;&nbsp;&nbsp;
+									<label> <input type="radio"  value="0" id="noself" name="selfMort"> 代办
+									</label>
+									</c:if>
+									<c:if test="${tosave.selfMort == '0'}">
+  											<label> <input type="radio"  value="1" id="self" name="selfMort"> 自办
 									</label> 
 									&nbsp;&nbsp;&nbsp;
 									<label> <input type="radio" checked="checked" value="0" id="noself" name="selfMort"> 代办
 									</label>
+									</c:if>
+									<c:if test="${tosave.selfMort == null}">
+  											<label> <input type="radio"  value="1" id="self" name="selfMort"> 自办
+									</label> 
+									&nbsp;&nbsp;&nbsp;
+									<label> <input type="radio" checked="checked" value="0" id="noself" name="selfMort"> 代办
+									</label>
+									</c:if>
+									 
 									</div>
 						</div>
 					</div>
@@ -147,13 +171,13 @@
 					<div class="line">
 							<div class="form_content">
                                 <label class="control-label sign_left_small">贷款银行</label>
-					 			<input type="text" name="bankName" id="bank"  class="input_type data_style">
+					 			<input type="text" name="bankName" id="bank" value='${tosave.bankName }' class="input_type data_style">
                             </div>
 					</div>
 					<div class="line">
 							
 							<label class="control-label sign_left_small"><span class="star">*</span>流失原因</label>
-								  <textarea style="width: 90%;height:85px;border:1px solid #ccc;resize: none;padding:7px;margin-left:30px;"  name="content" id=""></textarea>
+								  <textarea style="width: 80%;height:85px;border:1px solid #ccc;resize: none;padding:7px;"  name="content" id="">${tosave.content }</textarea>
 					</div>
 							
 					</div>
@@ -167,6 +191,7 @@
 
 			<div class="form-btn">
 				<div class="text-center">
+					<button class="btn btn-success btn-space" onclick="saveMort()">保存</button>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
 				</div>
 			</div>
@@ -212,10 +237,21 @@
 		$(document).ready(function(){
 			$("#mortageService").find("option").eq(0).remove();
 			$("#mortageService").find("option").eq(1).remove();
+			
+			
+			var service = $("#service").val();
+			var bank = $("#bank").val();
+			//var bank_zhi = $("#bank_zhi").val();
+			if(service){
+				$("#mortageService").val(service);
+			}
+			
 			f = $("#mortgageTosave");
 			var cl;
 			var finOrgCode = null;
-			getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,cl);
+			//alert(bank)
+			getParentBank(f.find("select[name='bank_type']"),f.find("select[name='finOrgCode']"),finOrgCode,cl,null,bank);
+	
 			f.find("select[name='bank_type']").unbind('change').bind('change',function(){
 				getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),finOrgCode,'cl');
 		    });
@@ -225,6 +261,18 @@
 				f.find(".line").eq(2).show();
 				f.find(".line").eq(3).hide();
 				f.find(".line").eq(4).hide();
+			}
+			
+			if($("input[type=radio]").eq(0).is(":checked")){
+			/* 	getBranchBankList(f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),finOrgCode,'cl');
+				if(bank_zhi){
+					f.find("select[name='finOrgCode']").val(bank_zhi);
+				} */
+				var f = $("#mortgageTosave");
+				f.find(".line").eq(3).show();
+				f.find(".line").eq(4).show();
+				f.find(".line").eq(1).hide();
+				f.find(".line").eq(2).hide();
 			}
 			
 			$("input[type=radio]").eq(0).change(function(){
@@ -240,6 +288,7 @@
 			
 			$("input[type=radio]").eq(1).change(function(){
 				if($("input[type=radio]").eq(1).is(":checked")){
+			
 					var f = $("#mortgageTosave");
 					f.find(".line").eq(1).show();
 					f.find(".line").eq(2).show();
@@ -291,6 +340,63 @@
         	return true;
         }
         
+        function saveMort(){
+        	var jsonData = $("#mortgageTosave").serializeArray();
+			var f = $("#mortgageTosave");
+			var flag = false;
+ 			if(f.find("input[name='selfMort']").eq(1).is(":checked")){
+				 flag = checkDaiban($("#mortgageTosave"));
+			}else if(f.find("input[name='selfMort']").eq(0).is(":checked")){
+				flag = checkZiban($("#mortgageTosave"))
+			}
+			var url = "${ctx}/task/mortgageTosave/save";
+			if(flag){
+			 $.ajax({
+				cache : true,
+				async : true,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				data : jsonData,
+    		    beforeSend:function(){  
+    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+    				$(".blockOverlay").css({'z-index':'9998'});
+                },
+                complete: function() {  
+
+                    $.unblockUI();  
+                	if(b){ 
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+    				    $(".blockOverlay").css({'z-index':'1900'});
+                	}   
+                     if(status=='timeout'){//超时,status还有success,error等值的情况
+    	          	  Modal.alert(
+    				  {
+    				    msg:"抱歉，系统处理超时。"
+    				  });
+    		  		 $(".btn-primary").one("click",function(){
+    		  				parent.$.fancybox.close();
+    		  			});	 
+    		                } 
+    		            } ,  
+				success : function(data) {
+						window.wxc.success("提交成功！",{"wxcOk":function(){
+							 window.close();
+	                         window.opener.callback();
+						}});
+						
+						//$('#case-task-modal-form').modal("show");
+				},
+				error : function(errors) {
+					 window.wxc.error("数据保存出错");
+					 $.unblockUI();
+				}
+			}); 
+        }
+        }
+        
+
+        
         /**保存数据*/
 		function save(b) {
 			var jsonData = $("#mortgageTosave").serializeArray();
@@ -333,7 +439,8 @@
     		            } ,  
 				success : function(data) {
 						window.wxc.success("提交成功！",{"wxcOk":function(){
-							caseTaskCheck();
+							 window.close();
+	                         window.opener.callback();
 						}});
 						
 						//$('#case-task-modal-form').modal("show");
@@ -362,7 +469,7 @@
 			save(true);
 		}
 		//查询分行信息
-		function getParentBank(selector,selectorBranch,finOrgCode,tag,flag){
+		function getParentBank(selector,selectorBranch,finOrgCode,tag,flag,bank){
 			var bankHtml = "<option value=''>请选择</option>";
 			var param = {nowCode:finOrgCode};
 			if(tag == 'cl'){
@@ -384,6 +491,7 @@
 							//}
 						}
 					}
+					
 				},
 		       error:function(e){
 		    	   window.wxc.error(e);
@@ -391,26 +499,34 @@
 		     });
 		    selector.find('option').remove();
 			 selector.append($(bankHtml));
+			
 			 $.ajax({
 				    url:ctx+"/manage/queryParentBankInfo",
 				    method:"post",
 				    dataType:"json",
-					async:false,
+					async:true,
 				    data:{finOrgCode:finOrgCode,flag:flag},
 				    success:function(data){
 			    		if(data != null){
 			    			selector.val(data.content);
+			    			 if(bank){
+			    				 //alert(111)
+			    					selector.val(bank);
+			    				}
 			    		}
 			    	}
 				});
+			
 			 //selector.chosen({no_results_text:"未找到该选项",width:"98%",search_contains:true,disable_search_threshold:10});
-			 
-			 getBranchBankList(selectorBranch,selector.val(),finOrgCode,tag,flag);
+			// f.find("select[name='finOrgCode']"),f.find("select[name='bank_type']").val(),finOrgCode,'cl'
+
+			 getBranchBankList(selectorBranch,bank,finOrgCode,'cl');
 
 			 return bankHtml;
 		}
 		//查询支行信息
 		function getBranchBankList(selectorBranch,pcode,finOrgCode,tag,flag){
+		var bank_zhi = $("#bank_zhi").val();
 			selectorBranch.find('option').remove();
 			f=selectorBranch.closest('form');
 			
@@ -425,7 +541,7 @@
 			    url:ctx+"/manage/queryBankListByParentCode",
 			    method:"post",
 			    dataType:"json",
-				async:false,
+				async:true,
 			    data:param,
 			    	success:function(data){
 			    		if(data != null){
@@ -438,6 +554,9 @@
 								}
 								
 								selectorBranch.append(option);
+								if(bank_zhi){
+								selectorBranch.val(bank_zhi)
+								}
 			    			}
 			    		}
 			    		//finOrgCodeChange(f);
