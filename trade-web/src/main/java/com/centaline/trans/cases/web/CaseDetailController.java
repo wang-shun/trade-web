@@ -3,7 +3,6 @@ package com.centaline.trans.cases.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
@@ -2159,7 +2158,7 @@ public class CaseDetailController {
 		//分成人和权证做个排序
 		if(info != null && info.getFees() != null && info.getFees().getSharingInfo() != null && info.getFees().getSharingInfo().size() > 0){
 			info.getFees().getSharingInfo().sort(new Comparator<SharingInfo>() {
-				
+
 				@Override
 				public int compare(SharingInfo o1, SharingInfo o2) {
 					if(o1.getType() > o2.getType()){
@@ -2168,7 +2167,6 @@ public class CaseDetailController {
 						return -1;
 					}
 				}
-				
 			});
 		}
 		result.setContent(info);
