@@ -298,19 +298,19 @@
 			return false;
 		}
 
-		if ($('input[name=conPrice]').val() == '') {
+		/* if ($('input[name=conPrice]').val() == '') {
 			window.wxc.alert("合同价为必填项!");
 			$('input[name=conPrice]').focus();
 			$('input[name=conPrice]').css("border-color", "red");
 			return false;
-		}
+		} */
 
-		if ($("#estEvlApplyTime").val() == 0) {
+		/* if ($("#estEvlApplyTime").val() == 0) {
 			window.wxc.alert("评估申请时间为必选项!");
 			$("#estEvlApplyTime").focus();
 			$("#estEvlApplyTime").css("border-color", "red");
 			return false;
-		}
+		} */
 
 		if ($("#estSignTime").val() == 0) {
 			window.wxc.alert("网签时间为必选项!");
@@ -438,45 +438,52 @@
 	/**
 	 * 评估申请
 	 */
-	 function evalApply(){
-			
-			var ctx = $("#ctx").val();
-			var caseCode = $('#caseCode').val();
-			//判断是否已有评估申请流程	
-			var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
-			$.ajax({
-				url:url,
-				type:'POST',
-				dataType:'json',
-				success:function(data){
-					if(data.success){
-						/**
-						 * modify wbcaiyx 2017/10/26
-						 * 无关询价，注释
-						 */				
-						/*if(data.content == 1){//询价已完成,可以评估申请
-							window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
-						}else if(data.content == 2){//无询价,进入询价申请
-		*/					/*window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
-								window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
-							}});*/
-							/**
-							 * modify 无询价直接评估 
-							 * @author wbcaiyx
-							 * date 2017/10/24
-							 */
-							window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
-//						}
-					}else{
-						window.wxc.alert(data.message);
-					}
-				},
-				error:function(XMLHttpRequest, textStatus, errorThrown) {
-
+	function evalApply(){
+		
+		var ctx = $("#ctx").val();
+		var caseCode = $('#caseCode').val();
+		
+		window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+		
+		/**
+		 * modify wbcaiyx 2017/10/27
+		 * 一个案件可以有多条评估，不检查了
+		 */
+		/*//判断是否已有评估申请流程	
+		var url = ctx+'/case/checkEvalProcess?caseCode='+caseCode;
+		$.ajax({
+			url:url,
+			type:'POST',
+			dataType:'json',
+			success:function(data){
+				if(data.success){
+					*//**
+					 * modify wbcaiyx 2017/10/26
+					 * 无关询价，注释
+					 *//*				
+					if(data.content == 1){//询价已完成,可以评估申请
+						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+					}else if(data.content == 2){//无询价,进入询价申请
+						window.wxc.confirm("无完成询价记录,是否申请询价？",{"wxcOk":function(){
+							window.open(ctx+"/evaPricing/addNewEvaPricing?caseCode=" +caseCode);
+						}});
+						*//**
+						 * modify 无询价直接评估 
+						 * @author wbcaiyx
+						 * date 2017/10/24
+						 *//*
+						window.open(ctx+"/task/eval/apply?caseCode="+caseCode);
+//					}
+				}else{
+					window.wxc.alert(data.message);
 				}
-			});
-			
-		}
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown) {
+
+			}
+		});*/
+		
+	}
 </script>
 <style type="text/css">
 .radio.radio-inline>label {
@@ -604,8 +611,8 @@
 						</div>
 
 						<div class="form_content">
-							<label class="control-label sign_left_small"><font
-								color=" red" class="mr5">*</font>合同价 </label> <input type="text"
+							<label class="control-label sign_left_small">
+							<!-- <font color=" red" class="mr5">*</font> -->合同价 </label> <input type="text"
 								placeholder="合同价" class="input_type yuanwid" id="conPrice"
 								name="conPrice" onkeyup="checkNum(this)"
 								value="<fmt:formatNumber value='${caseRecvVO.toSign.conPrice}' type='number' pattern='#0.00'/>">
@@ -642,7 +649,7 @@
 						<div class="form_content mt3">
 							<label
 								class="control-label sign_left_small select_style mend_select">
-								<font color=" red" class="mr5">*</font>评估申请时间
+								<!-- <font color=" red" class="mr5">*</font> -->评估申请时间
 							</label>
 							<div
 								class="input-group sign-right dataleft input-daterange pull-left"
