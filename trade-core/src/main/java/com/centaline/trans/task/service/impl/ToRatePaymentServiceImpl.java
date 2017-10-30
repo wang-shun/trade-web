@@ -1,13 +1,26 @@
 package com.centaline.trans.task.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.centaline.trans.attachment.service.ToAccesoryListService;
+import com.centaline.trans.cases.entity.ToCase;
+import com.centaline.trans.cases.service.ToCaseService;
+import com.centaline.trans.common.service.TgGuestInfoService;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.repository.ToRatePaymentMapper;
 import com.centaline.trans.task.service.ToRatePaymentService;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 缴税实现类
  * @author wbzhouht
@@ -17,6 +30,17 @@ import com.centaline.trans.task.service.ToRatePaymentService;
 public class ToRatePaymentServiceImpl implements ToRatePaymentService {
 	@Autowired
 	private ToRatePaymentMapper toRatePaymentMapper;
+	@Autowired(required=true)
+	private ToCaseService toCaseService;
+	@Autowired
+	private TgGuestInfoService tgGuestInfoService;
+	@Autowired
+	private ToAccesoryListService toAccesoryListService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
+	@Autowired(required = true)
+	UamUserOrgService uamUserOrgService;
+	@RequestMapping(value="process")
 	/**
 	 * 保存缴税信息
 	 */
@@ -92,6 +116,16 @@ public class ToRatePaymentServiceImpl implements ToRatePaymentService {
 							.divide(new BigDecimal(10000)):null);
 		}
 		return toRatePayment;
+	}
+
+	@Override
+	public Boolean sumbitRatePayment(HttpServletRequest request,ToRatePayment toRatePayment, String taskId, String processInstanceId) throws Exception{
+		saveRatePayment(toRatePayment);
+		List<RestVariable> restVariables = new ArrayList<RestVariable>();
+		ToCase toCase = toCaseService.findToCaseByCaseCode(toRatePayment
+				.getCaseCode());
+		return workFlowManager.submitTask(restVariables, taskId, processInstanceId,
+				toCase.getLeadingProcessId(), toRatePayment.getCaseCode());
 	}
 
 }

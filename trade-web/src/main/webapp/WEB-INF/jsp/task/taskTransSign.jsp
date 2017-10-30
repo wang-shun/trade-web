@@ -345,7 +345,7 @@
 					</div>
 
 					<div class="clear add-member">
-						<a href="javascript:addDateDivUp();">添加上家</a>
+						<a href="javascript:addDateDivUp();">添加买方</a>
 					</div>
 				</div>
 
@@ -357,7 +357,7 @@
 						</div>
 					</div>
 					<div class="clear add-member">
-						<a href="javascript:addDateDivDown();">添加下家</a>
+						<a href="javascript:addDateDivDown();">添加卖方</a>
 					</div>
 				</div>
 
