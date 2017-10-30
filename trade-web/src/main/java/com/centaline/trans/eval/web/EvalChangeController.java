@@ -46,12 +46,33 @@ public class EvalChangeController {
 	private UamPermissionService uamPermissionService;
 	@Autowired
 	private ToEvaCommPersonAmountService toEvaCommPersonAmountService;
+	
+
+	/**开启工作流
+	 * @param caseCode
+	 * @param partCode
+	 * @return
+	 */
+	@RequestMapping(value = "startChangeCommssion")
+	@ResponseBody
+	public AjaxResponse<String> startChangeCommssion(String caseCode,String partCode,String taskId, String processInstanceId) {
+		AjaxResponse<String> response = new AjaxResponse<String>();		
+		try{
+			toEvaCommissionChangeService.updateStartChangeCommProcess(caseCode, null);
+			}catch(Exception e){
+		response.setSuccess(false);
+		response.setMessage(e.getMessage());
+		logger.error("保存失败！"+e.getCause());
+	}
+	return response;
+	}
 	/**
 	 * @since:2017年10月11日 上午11:04:28
 	 * @description: 提交表单
 	 * @author:xiefei1
 	 */
 	@RequestMapping(value = "submitEvalChangeAudit")
+	@ResponseBody
 	public AjaxResponse<String> submitInvoiceAudit(HttpServletRequest request,Model model,
 			String caseCode,String partCode,String content,String status,
 			EvalChangeCommVO evalChangeCommVO,ToEvaCommissionChange toEvaCommissionChange,

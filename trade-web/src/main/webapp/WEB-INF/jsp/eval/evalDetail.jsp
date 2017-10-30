@@ -68,7 +68,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
-				<div class="panel " id="serviceFlow">
+				<div class="panel ">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#settings" data-toggle="tab">评估操作纪录</a>
@@ -206,7 +206,7 @@
 
 
 				<!-- 相关信息 -->
-				<div class="panel " id="aboutInfo" style="min-height: 800px;">
+				<div class="panel "  style="min-height: 800px;">
 					 <a style="float: right; margin-right: 12px; margin-top: 10px;"
 						href="javascript:showChangeFormModal();">修改</a>
 					<div class="panel-body">
@@ -233,7 +233,7 @@
 									</div>
 									<div class="row">
 										<label class="col-sm-3 control-label">评估公司：${toEvaPricingVo.evaCompany}</label>
-										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}&nbsp;年内</label>
+										<label class="col-sm-3 control-label">房龄：${toEvaPricingVo.houseAge}&nbsp;年</label>
 									</div>
 									
 									<h4><span style="font-size:12px;color:#b0b0b0;">● </span>评估申请</h4>
@@ -244,7 +244,7 @@
 									</div>
 									<div class="row">
 									    <label class="col-sm-3 control-label">联系方式：${toEvalReportProcessVo.contactWay}</label>
-										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年内</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeApply}&nbsp;年</label>
 										<label class="col-sm-3 control-label">询价值：${toEvalReportProcessVo.inquiryResult / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
@@ -265,7 +265,7 @@
 										<label class="col-sm-3 control-label">评估价：${toEvalReportProcessVo.evaPrice / 10000.00}&nbsp;万元</label>
 									</div>
 									<div class="row">
-										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年内</label>
+										<label class="col-sm-3 control-label">房龄：${toEvalReportProcessVo.houseAgeIssue}&nbsp;年</label>
 										<label class="col-sm-3 control-label">评估报告份数：${toEvalReportProcessVo.reportNumIssue}&nbsp;份</label>
 									</div>
 									
@@ -356,7 +356,7 @@
 							
 							<!-- 调佣审批 -->
 						    <div class="tab-pane fade" id="message_info">
-								<div class="row">
+								<div class="row" id="serviceFlow">
 									     <label class="col-sm-3 control-label">调佣事项：${evalChangeCommVO.changeChargesType}</label>
 									     <label class="col-sm-3 control-label">调佣类型：${evalChangeCommVO.changeChargesType}</label>
 									     <label class="col-sm-3 control-label">调佣事由：${evalChangeCommVO.changeChargesCause}</label>
@@ -428,9 +428,9 @@
 								
 							<!-- 评估退费 -->
 							<div class="tab-pane fade" id="refund_info">
-							       <div class="row">
+							       <div class="row" id="aboutInfo">
 										<label class="col-sm-3 control-label">退费类别：${toEvaRefundVo.refundKinds}</label>
-										<label class="col-sm-3 control-label">申请人：${toEvaRefundVo.proposer}</label>
+										<label class="col-sm-3 controbasicInfol-label">申请人：${toEvaRefundVo.proposer}</label>
 										<label class="col-sm-3 control-label">申请分行：${toEvaRefundVo.applyDepart}</label>
 									</div>
 									 <div class="row">
@@ -496,6 +496,7 @@
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
+	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
@@ -509,12 +510,9 @@
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	
-	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
-	
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
 </content>
-
 </body>
 </html>
 
