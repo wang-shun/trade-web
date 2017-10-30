@@ -510,17 +510,9 @@
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	
-	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
-	
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	<script>
-	$(document).ready(function(){
-		  console.log('aa');
-		});
-	</script>
-	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
 </content>
-
 </body>
 </html>
 

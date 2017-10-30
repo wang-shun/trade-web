@@ -156,16 +156,17 @@ public class ToHouseTransferController {
 				 * 功能: 给客户发送短信
 				 * 作者：zhangxb16
 				 */
-				int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
+				/*int result=tgGuestInfoService.sendMsgHistory(toHouseTransfer.getCaseCode(), toHouseTransfer.getPartCode());
 
 				if(result<=0){
 					rs.setMessage("短信发送失败, 请您线下手工再次发送！");
 				}
 				rs.setData(true);
-				rs.setMessage("提交成功");
+				rs.setMessage("提交成功");*/
 		} catch (Exception e) {
+			e.printStackTrace();
 			rs.setData(false);
-			rs.setMessage(e.getMessage());
+			//rs.setMessage(e.getMessage());
 		}
 		return rs;
 	}

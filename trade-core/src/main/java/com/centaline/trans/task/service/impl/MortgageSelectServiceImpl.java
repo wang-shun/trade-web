@@ -40,7 +40,9 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.service.MortStepService;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
+import com.centaline.trans.task.entity.MortgageSelect;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import com.centaline.trans.task.repository.MortgageSelectMapper;
 import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.vo.MortgageSelecteVo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
@@ -83,6 +85,8 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 	private ProcessInstanceService processInstanceService;
 	@Autowired
 	private MortStepService mortStepService;
+	@Autowired
+	private MortgageSelectMapper mortgageSelectMapper;
 
 	private String getLoanReq(String mortageService){
 		if(mortageService==null)return null;
@@ -161,7 +165,7 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 		// 开始处理流程引擎
 		List<RestVariable> variables = new ArrayList<RestVariable>();
 		editRestVariables(variables, vo.getMortageService());
-
+		save(vo);
 		boolean b = workFlowManager.submitTask(variables, vo.getTaskId(), vo.getProcessInstanceId(), null, vo.getCaseCode());
 		ToWorkFlow workF = toWorkFlowService.queryWorkFlowByInstCode(vo.getProcessInstanceId());
 		if(workF!=null){
@@ -405,5 +409,28 @@ public class MortgageSelectServiceImpl implements MortgageSelectService {
 			return null;
 		return dictF.getCode();
 	}
+	@Override
+	public boolean save(MortgageSelecteVo vo) {
+		MortgageSelect mortgageSelect = new MortgageSelect();
+		mortgageSelect.setCaseCode(vo.getCaseCode());
+		mortgageSelect.setMortgageServive(vo.getMortageService());
+		MortgageSelect mortgageSelect1 = mortgageSelectMapper.selectByCaseCode(vo.getCaseCode());
+		int count = 0;
+		if(mortgageSelect1 !=  null){
+			count = mortgageSelectMapper.update(mortgageSelect);
+		}else{
+		   count = mortgageSelectMapper.save(mortgageSelect);
+		}
+		return count > 0;
+	}
+	@Override
+	public MortgageSelect selectByCaseCode(String caseCode) {
+		if(StringUtils.isBlank(caseCode)){
+			return new MortgageSelect();
+		}
+		return mortgageSelectMapper.selectByCaseCode(caseCode);
+	}
+	
+	
 
 }

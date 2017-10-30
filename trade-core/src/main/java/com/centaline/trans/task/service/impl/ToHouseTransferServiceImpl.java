@@ -293,7 +293,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
     @Override
     public Boolean submitToHouseTransfer(ToHouseTransfer toHouseTransfer, MortgageToSaveVO toMortgage, LoanlostApproveVO loanlostApproveVO, String taskId,
-            String processInstanceId) {
+            String processInstanceId) throws Exception{
         // 2 执行交易系统代码
         savaToHouseTransferAndMortageToVO(toHouseTransfer, toMortgage);
             /* 保存过户申请 */
@@ -394,7 +394,7 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
     @Override
     public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO, String GuohuApprove,
-            String GuohuApprove_response, String notApprove, String members)
+            String GuohuApprove_response, String notApprove, String members)throws Exception
     {
         SessionUser sender = uamSessionService.getSessionUser();
         String caseCode = processInstanceVO.getCaseCode();
@@ -469,6 +469,14 @@ public class ToHouseTransferServiceImpl implements ToHouseTransferService
 
         return workFlowManager.submitTask(variables, processInstanceVO.getTaskId(), processInstanceVO.getProcessInstanceId(), toCase.getLeadingProcessId(),
                 processInstanceVO.getCaseCode());
+    }
+
+    @Override
+    public Boolean guohuInfoModifySubmit(HttpServletRequest request, String taskId, String processInstanceId, String caseCode) {
+        ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
+        List<RestVariable> variables = new ArrayList<RestVariable>();
+        return workFlowManager.submitTask(variables, taskId, processInstanceId,
+                toCase.getLeadingProcessId(), caseCode);
     }
 
     /**

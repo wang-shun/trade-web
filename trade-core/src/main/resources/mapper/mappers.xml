@@ -80,6 +80,7 @@
 		<mapper resource="mapper/task/TsPrResearchMapMapper.xml" />
 		<mapper resource="mapper/transplan/TsTransPlanHistoryMapper.xml" />
 		<mapper resource="mapper/task/ToMortgageTosaveMapper.xml"/>
+		<mapper resource="mapper/task/MortgageSelectMapper.xml"/>
 
 		<mapper resource="mapper/task/ActRuTaskMapper.xml" />
 		<!-- 任务授权 -->

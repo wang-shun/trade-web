@@ -208,7 +208,7 @@ public class RansomListController {
 			//赎楼详情信息总览金额明细信息
 			ToRansomMoneyVo moneyVo = ransomListFormService.getRansomDetailMoneyInfo(ransomCode);
 			
-			
+			//ransomListFormService.getRansomDetailInfo(ransomCode);
 			
 			
 			// 新建赎楼单即是受理状态
@@ -237,19 +237,19 @@ public class RansomListController {
 				Date perTime = null;
 				Date payTime = null;
 				for (int i = 0; i < planVo.size(); i++) {
-					if (i == 0) {
+					if (i == 1) {
 						signTime = planVo.get(0).getEstPartTime();
 					}
-					if (i == 1) {
+					if (i == 2) {
 						morTime = planVo.get(1).getEstPartTime();
 					}
-					if (i == 2) {
+					if (i == 3) {
 						canTime = planVo.get(2).getEstPartTime();
 					}
-					if (i == 3) {
+					if (i == 4) {
 						perTime = planVo.get(3).getEstPartTime();
 					}
-					if (i == 4) {
+					if (i == 5) {
 						payTime = planVo.get(4).getEstPartTime();
 					}
 				}
@@ -309,10 +309,10 @@ public class RansomListController {
 	public String queryUpdateRansomByCaseCode(String caseCode, ServletRequest request) {
 
 		try {
-			//TODO 方法有问题
 			List<ToRansomTailinsVo> tailinsVoList = ransomListFormService.getTailinsInfoByCaseCode(caseCode);
 			List<TgGuestInfo> guestInfo = ransomListFormService.getGuestInfo(caseCode);
-			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
+//			ToRansomCaseVo caseVo = ransomListFormService.getRansomCase(caseCode);
+			ToRansomCaseVo caseVo = ransomListFormService.getRansomCaseInfo(caseCode);
 			Map<String,VRansomFinishTaskVo> taskMap = ransomListFormService.getRansomTaskInfoByRansomCode(caseVo.getRansomCode());
 			int count = ransomService.queryErdiByRansomCode(caseVo.getRansomCode());
 
@@ -391,24 +391,6 @@ public class RansomListController {
 	 */
 	@RequestMapping("planTime")
 	public String ransomPlanTimeInfo(String ransomCode, ServletRequest request) {
-
-		/*
-		 * try { SessionUser user= uamSessionService.getSessionUser(); ToRansomCaseVo
-		 * caseVo = ransomService.getRansomInfoByRansomCode(ransomCode);
-		 * List<ToRansomPlanVo> toRansomPlanVoList =
-		 * ransomListFormService.getRansomPlanTimeInfo(ransomCode); //将List 转为Map
-		 * 便于页面通过partCode获取数据 Map<String,ToRansomPlanVo> planMap = new HashMap<>();
-		 * for(ToRansomPlanVo plan : toRansomPlanVoList) {
-		 * planMap.put(plan.getPartCode(), plan); } int count =
-		 * ransomService.queryErdiByRansomCode(ransomCode);
-		 * 
-		 * request.setAttribute("ransomCode", ransomCode);
-		 * request.setAttribute("caseVo", caseVo); request.setAttribute("planMap",
-		 * planMap); request.setAttribute("count", count);
-		 * 
-		 * return "ransom/ransomPlanTime"; } catch (Exception e) { logger.error("",e);
-		 * return null; }
-		 */
 
 		request.setAttribute("ransomCode", ransomCode);
 

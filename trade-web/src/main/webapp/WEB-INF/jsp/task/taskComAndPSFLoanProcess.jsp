@@ -496,7 +496,7 @@
                                                                     <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                 </div>
                                                                 <div class="form_content">
-					                                             <label class="control-label sign_left_small2">信贷员电话<span class="star">*</span></label>
+					                                             <label class="control-label sign_left_small2">信贷员电话</label>
 																 <input type="text" name="loanerPhone" id="loanerPhone" placeholder="联系方式" class="input_type data_style">
 		                                         				</div>
                                                             </div>
@@ -729,7 +729,7 @@
                                                                     <i style=" position: absolute; top: 5px; right: 20px; color:#52cdec; " class="icon iconfont loanerNameImage" id="loanerNameImage" name="loanerNameImage" ></i>
                                                                 </div>
                                                                 <div class="form_content">
-					                                             <label class="control-label sign_left_small2">信贷员电话<span class="star">*</span></label>
+					                                             <label class="control-label sign_left_small2">信贷员电话</label>
 																 <input type="text" name="loanerPhone" id="loanerPhone" placeholder="联系方式" class="input_type data_style">
 		                                         				</div>
                                                             </div>
