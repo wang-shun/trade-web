@@ -137,8 +137,12 @@ var message = {
 		return e;
 	},
 	createMsgLi : function(obj) {
-		imgUrl = "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"
-				+ obj.employeeCode + ".jpg";
+		imgUrl = "";
+		if(obj.employeeCode){
+            imgUrl= "http://img.sh.centanet.com/shanghai/staticfile/agent/agentphoto/"
+                + obj.employeeCode + ".jpg";
+		}
+
 		var defImg = ctx + "/img/a5.png";
 		var li = $("<li>");
 		var messageBox = $("<div>").addClass("dropdown-messages-box");

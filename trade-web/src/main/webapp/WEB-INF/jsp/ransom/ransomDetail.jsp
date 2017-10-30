@@ -115,6 +115,9 @@
 	.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar{
 		width: 100%;
 	}
+	.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar{
+		width: 100%;
+	}
 </style>
 </head>
 <body>
@@ -213,13 +216,13 @@
 									</div>
 								</div>
 								<div class="col-lg-1 bs-wizard-step 
-										<c:choose>  
-										    <c:when test="${!empty actTasks['APPLY']}"> active
+										 <c:choose>  
+										    <c:when test="${empty actTasks['APPLY']}"> active
 										   </c:when>  
-										    <c:when test="${empty actTasks['APPLY']}"> complete
+										    <c:when test="${!empty actTasks['APPLY']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
-										</c:choose>	
+										</c:choose>	 
 										">
 									<div class="progress">
 										<div class="progress-bar"></div>
@@ -239,13 +242,13 @@
 								</div>
 								<div
 									class="col-lg-2 bs-wizard-step 
-										<c:choose>  
-										    <c:when test="${!empty actTasks['SIGN']}"> active
+										  <c:choose>  
+										    <c:when test="${empty actTasks['SIGN']}"> active
 										   </c:when>  
-										    <c:when test="${empty actTasks['SIGN']}"> complete
+										    <c:when test="${!empty actTasks['SIGN']}"> complete
 										   </c:when>   
 										   <c:otherwise> disabled</c:otherwise>  
-										</c:choose>	
+										</c:choose> 	 
 										">
 									<div class="progress">
 										<div class="progress-bar"></div>
@@ -377,27 +380,12 @@
 							<div class="col-lg-12">
 								<div class="row bs-wizard"
 									style="border-bottom: 0; margin-left: 15px">
-									
-									<%--<div class="col-lg-1 bs-wizard-step
-											<c:choose>  
-											    <c:when test=""> active
-											   </c:when>  
-											    <c:when test=""> complete
-											   </c:when>   
-											   <c:otherwise> disabled</c:otherwise>  
-											</c:choose>	
-											">
-										<div class="progress">
-											<div class="progress-bar"></div>
-										</div>
-									</div>--%>
-									
 									<div
 										class="col-lg-3 bs-wizard-step 
 											<c:choose>  
-											    <c:when test="${empty actTasks['ODEPAYLOAN_TWO']}"> active
+											    <c:when test="${empty actTasks['PAYLOAN_TWO']}"> active
 											   </c:when>  
-											    <c:when test="${!empty actTasks['ODEPAYLOAN_TWO']}"> complete
+											    <c:when test="${!empty actTasks['PAYLOAN_TWO']}"> complete
 											   </c:when>   
 											   <c:otherwise> disabled</c:otherwise>  
 											</c:choose>	
@@ -471,19 +459,6 @@
 											</dl>
 										</div>
 									</div>
-									<%--<div class="col-lg-1 bs-wizard-step
-											<c:choose>
-											    <c:when test=""> active
-											   </c:when>
-											    <c:when test=""> complete
-											   </c:when>
-											   <c:otherwise> disabled</c:otherwise>
-											</c:choose>
-											">
-										<div class="progress">
-											<div class="progress-bar"></div>
-										</div>
-									</div>--%>
 								</div>
 							</div>
 						</div>
@@ -572,7 +547,7 @@
 													<td>领取产证时间(一抵)</td><td><fmt:formatDate value="${permitMap['RECEIVE_ONE'] }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${perTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 												<tr>
-													<td>回款结清时间(一抵)</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
+													<td>回款结清时间</td><td><fmt:formatDate value="${paymentVo.paymentTime }" pattern="yyyy-MM-dd"/></td><td><fmt:formatDate value="${payTime }" pattern="yyyy-MM-dd"/></td>
 												</tr>
 										</tbody>
 									</table>
