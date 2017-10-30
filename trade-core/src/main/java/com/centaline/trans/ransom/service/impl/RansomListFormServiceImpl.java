@@ -36,6 +36,7 @@ import com.centaline.trans.ransom.entity.ToRansomTailinsVo;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.repository.RansomMapper;
 import com.centaline.trans.ransom.service.RansomListFormService;
+import com.centaline.trans.ransom.service.RansomService;
 import com.centaline.trans.ransom.vo.ToRansomMoneyVo;
 import com.centaline.trans.ransom.vo.ToRansomVo;
 import com.centaline.trans.ransom.vo.VRansomFinishTaskVo;
@@ -64,8 +65,6 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		
 		return ransomListFormMapper.addRansomDetail(trco);
 	}
-
-	
 	
 	@Override
 	public ToRansomMoneyVo getRansomDetailMoneyInfo(String ransomCode) {
@@ -85,10 +84,12 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 				String isEntrust = ransomMoneyVo.getIsEntrust();
 				
 				BigDecimal loanMoney = ransomMoneyVo.getRepayLoanMoney();
+				
 				if(loanMoney == null) {
 					loanMoney = null;
-				}else repayLoanMoney.add(loanMoney);
-				
+				}else {
+					 repayLoanMoney = repayLoanMoney.add(loanMoney);
+				}
 				
 				moneyVo.setRansomCode(ransomMoneyVo.getRansomCode());
 				moneyVo.setBorrowerMoney(borrowerMoney);
@@ -110,9 +111,60 @@ public class RansomListFormServiceImpl implements RansomListFormService {
 		return moneyVo;
 	}
 
+//	@Override
+//	public List<Object> getRansomDetailInfo(String ransomCode) {
+//		
+//		List<Object> objList = new ArrayList<Object>();
+//		
+//		// 新建赎楼单即是受理状态
+//		List<ToRansomTailinsVo> ransomTailinsList = ransomService.getTailinsInfoByRansomCode(ransomCode);
+//		ToRansomTailinsVo tailinsVo = ransomTailinsList.get(0);
+//		objList.add(tailinsVo);
+//		// 申请
+//		ToRansomApplyVo applyVo = ransomService.getApplyInfo(ransomCode);
+//		objList.add(applyVo);
+//		// 面签
+//		ToRansomSignVo signVo = ransomService.getInterviewInfo(ransomCode);
+//		objList.add(signVo);
+//		// 陪同还贷
+//		List<ToRansomMortgageVo> mortgageVoList = ransomMapper.getMortgageInfoByRansomCode(ransomCode);
+//		objList.add(mortgageVoList);
+//		// 注销抵押
+//		List<ToRansomCancelVo> cancelList = ransomMapper.getCancelInfoByRansomCode(ransomCode);
+//		objList.add(cancelList);
+//		// 领取产证
+//		List<ToRansomPermitVo> permitList = ransomMapper.getPermitInfoByRansomCode(ransomCode);
+//		objList.add(permitList);
+//		// 回款结清
+//		ToRansomPaymentVo paymentVo = ransomService.getPaymentInfo(ransomCode);
+//		objList.add(paymentVo);
+//		// 计划时间信息
+//		List<ToRansomPlanVo> planVo = ransomService.getPlanTimeInfoByRansomCode(ransomCode);
+//		objList.add(planVo);
+//		//实际完成环节
+//		List<String> tasks = ransomListFormMapper.getRansomActTasks(ransomCode);
+//		Map<String, String> actTasks = ransomService.getActTasks(ransomCode);
+//		for(Object obj : objList) {
+//			
+//		}
+//		
+//		actTasks.get("");
+//		
+//		
+//		
+//		
+//		
+//		return objList;
+//	}
+
 	@Override
 	public ToRansomCaseVo getRansomCase(String caseCode, String ransomCode) {
 		return ransomListFormMapper.getRansomCase(caseCode, ransomCode);
+	}
+	
+	@Override
+	public ToRansomCaseVo getRansomCaseInfo(String caseCode) {
+		return ransomListFormMapper.getRansomCaseInfo(caseCode);
 	}
 
 	@Override

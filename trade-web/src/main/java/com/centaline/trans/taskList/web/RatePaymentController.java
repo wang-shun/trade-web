@@ -107,23 +107,13 @@ public class RatePaymentController {
 	@ResponseBody
 	public Result submitRatePayment(HttpServletRequest request,
 			ToRatePayment toRatePayment, String taskId, String processInstanceId) {
-		ratePaymentService.saveRatePayment(toRatePayment);
-		List<RestVariable> restVariables = new ArrayList<RestVariable>();
-		ToCase toCase = toCaseService.findToCaseByCaseCode(toRatePayment
-				.getCaseCode());
-		workFlowManager.submitTask(restVariables, taskId, processInstanceId,
-				toCase.getLeadingProcessId(), toRatePayment.getCaseCode());
-		Result rs = new Result();
+		Result result=new Result();
 		try {
-			int result = tgGuestInfoService.sendMsgHistory(
-					toRatePayment.getCaseCode(), toRatePayment.getPartCode());
-			if (result > 0) {
-			} else {
-				rs.setMessage("短信发送失败, 请您线下手工再次发送！");
-			}
-		} catch (BusinessException ex) {
-			ex.getMessage();
+			ratePaymentService.sumbitRatePayment(request,toRatePayment,taskId,processInstanceId);
+
+		}catch (Exception b){
+			b.printStackTrace();
 		}
-		return rs;
+		return result;
 	}
 }

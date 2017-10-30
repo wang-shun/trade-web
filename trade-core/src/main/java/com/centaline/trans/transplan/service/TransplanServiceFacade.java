@@ -2,6 +2,7 @@ package com.centaline.trans.transplan.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.centaline.trans.task.entity.ToTransPlanOrToPropertyInfo;
 import com.centaline.trans.transplan.entity.ToTransPlan;
 import com.centaline.trans.transplan.entity.TsTaskPlanSet;
@@ -10,6 +11,8 @@ import com.centaline.trans.transplan.entity.TtsReturnVisitRegistration;
 import com.centaline.trans.transplan.entity.TtsTransPlanHistoryBatch;
 import com.centaline.trans.transplan.vo.TransPlanVO;
 import com.centaline.trans.transplan.vo.TsTransPlanHistoryVO;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 交易计划操作service类
@@ -122,4 +125,19 @@ public interface TransplanServiceFacade {
 	 * 修改交易计划变更历史记录状态
 	 */
 	int updateTransPlanHistoryByPKID(TsTransPlanHistory tsTransPlanHistory);
+
+	/**
+	 * 交易计划提交
+	 * @param request
+	 * @param transPlanVO
+	 * @return
+	 */
+	Boolean submitTransPlan(HttpServletRequest request,
+							TransPlanVO transPlanVO)throws Exception;
+
+	/**
+	 * 交易计划变更审核
+	 * @return
+	 */
+	AjaxResponse<?> submitTranPlanAppver(String[]pkids, String[] newDates, String[] partCodes, Boolean audit, TransPlanVO transPlanVO);
 }

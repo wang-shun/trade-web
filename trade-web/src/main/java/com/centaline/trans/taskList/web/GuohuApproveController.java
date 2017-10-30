@@ -237,8 +237,13 @@ public class GuohuApproveController {
 	@ResponseBody
 	public Boolean guohuApprove(HttpServletRequest request, ProcessInstanceVO processInstanceVO, LoanlostApproveVO loanlostApproveVO,
 								String GuohuApprove, String GuohuApprove_response,String notApprove,String members) {
-
-		return toHouseTransferService.guohuApprove(request, processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove, members);
+		Boolean boo=false;
+		try {
+			boo=toHouseTransferService.guohuApprove(request, processInstanceVO, loanlostApproveVO, GuohuApprove, GuohuApprove_response, notApprove, members);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return boo;
 	}
 
 	/**
@@ -312,10 +317,13 @@ public class GuohuApproveController {
 	@ResponseBody
 	public Boolean guohuInfoModifySubmit(HttpServletRequest request,String taskId, String processInstanceId, String caseCode){
 		// 基本信息
-		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		return workFlowManager.submitTask(variables, taskId, processInstanceId,
-				toCase.getLeadingProcessId(), caseCode);
+		Boolean boo=false;
+		try {
+			boo=toHouseTransferService.guohuInfoModifySubmit(request,taskId,processInstanceId,caseCode);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return boo;
 	}
 
 	private List<TaskVo>filterMyTask(List<TgServItemAndProcessor>mySerivceItems,List<TaskVo>tasks){

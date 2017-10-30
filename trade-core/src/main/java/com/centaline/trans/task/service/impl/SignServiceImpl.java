@@ -440,8 +440,10 @@ public class SignServiceImpl implements SignService
     public ToSign findToSignByCaseCode(String caseCode)
     {
         ToSign sign = toSignMapper.findToSignByCaseCode(caseCode);
-        sign.setConPrice(sign.getConPrice() != null ? sign.getConPrice().divide(new BigDecimal(10000)) : null);
-        sign.setRealPrice(sign.getRealPrice() != null ? sign.getRealPrice().divide(new BigDecimal(10000)) : null);
+        if(null!=sign) {
+            sign.setConPrice(sign.getConPrice() != null ? sign.getConPrice().divide(new BigDecimal(10000)) : null);
+            sign.setRealPrice(sign.getRealPrice() != null ? sign.getRealPrice().divide(new BigDecimal(10000)) : null);
+        }
         return sign;
     }
 

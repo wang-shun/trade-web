@@ -587,8 +587,8 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">评估值：<label id="assessmentFee"></label></label>
-					<label class="col-sm-3 control-label">应收评估值：<label id="receivableAssessmentFee"></label></label>
-					<label class="col-sm-3 control-label">实收评估值：<label id="receiptsAssessmentFee"></label></label>
+					<label class="col-sm-3 control-label">应收评估费：<label id="receivableAssessmentFee"></label></label>
+					<label class="col-sm-3 control-label">实收评估费：<label id="receiptsAssessmentFee"></label></label>
 				</div>
 			</div>
 		</div>
@@ -620,7 +620,7 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script> --%>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
@@ -784,8 +784,8 @@
 				{{/if}}
 			</td>
 			<td class="td_width">
-				{{if item.type == 1}}
-				{{item.sharingProportion}}
+				{{if item.type == 1 && item.sharingProportion !=''}}
+				{{item.sharingProportion}}%
 				{{/if}}
 			</td>
 			<td class="td_width">
