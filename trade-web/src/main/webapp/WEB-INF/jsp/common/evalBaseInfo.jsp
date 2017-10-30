@@ -146,7 +146,7 @@
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd ><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd ><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd ><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd >${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd >${toEvalReportProcessVo.ornginPrice / 10000.00}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd >${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
 											</div>
 										</div>
@@ -180,7 +180,7 @@
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">申请评估时间</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.applyDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估值</dt> <dd><%-- ${toEvalReportProcessVo.evalPrice} --%></dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">贷款银行</dt> <dd><%-- ${toEvalReportProcessVo.loanBank} --%></dd></dl>
-												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice}&nbsp;万</dd></dl>
+												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">原购入价</dt> <dd>${toEvalReportProcessVo.ornginPrice / 10000.00}&nbsp;万</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">评估报告份数</dt> <dd>${toEvalReportProcessVo.reportNum}&nbsp;份</dd></dl>
 												<dl class="dl-horizontal col-sm-4"><dt class="col-sm-6">出具报告日期</dt> <dd><fmt:formatDate value="${toEvalReportProcessVo.issueDate}" type="date" pattern="yyyy-MM-dd"/></dd></dl>
 											</div>
