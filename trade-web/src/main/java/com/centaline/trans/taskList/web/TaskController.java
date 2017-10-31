@@ -287,7 +287,7 @@ public class TaskController {
     		getAccesoryListGuoHu(request, taskitem, caseCode);
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
     		//贷款信息
-    		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+    		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
     		if(toMortgage!=null){
 				request.setAttribute("toMortgage", toMortgage);
 			}
@@ -338,7 +338,7 @@ public class TaskController {
     		/*RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");公积金
     		boolean tz = !(boolean)(psf==null?false:psf.getValue());
     		getAccesoryList(request, taskitem);
-    		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+    		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
     		//公积金的话无他证送抵时间
     		if("30016003".equals(mortgage.getMortType())&&"1".equals(mortgage.getIsDelegateYucui())) {
     			tz = false;
@@ -451,7 +451,7 @@ public class TaskController {
     		VCaseTradeInfo caseInfo = vCaseTradeInfoService.queryCaseTradeInfoByCaseCode(caseCode);
     		//贷款信息
     		ToCaseInfo toCaseInfo = toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
-    		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
+    		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
     		CaseDetailShowVO reVo  = getCaseDetailShowVO(caseCode,toMortgage);
     		request.setAttribute("toMortgage", toMortgage);
     		request.setAttribute("caseDetailVO", reVo);
@@ -840,7 +840,7 @@ public class TaskController {
 		List<ToAccesoryList> list = toAccesoryListService.qureyToAccesoryList(toAccesoryList);
 		List<ToAccesoryList> removeList = new ArrayList<ToAccesoryList>();
 		/*根据需求调整附件上传项目*/
-		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		for(ToAccesoryList tal:list) {
 			if((toMortgage == null || toMortgage.getMortType() == null) && ("抵押登记表".equals(tal.getAccessoryName()) || "商贷利率页".equals(tal.getAccessoryName()))) {/*无贷款*/
 				removeList.add(tal);

@@ -300,5 +300,9 @@
 		<!-- 银行返利-->
 		<mapper resource="mapper/bankRebate/ToBankRebateMapper.xml"/>
 		<mapper resource="mapper/bankRebate/ToBankRebateInfoMapper.xml"/>
+
+		<!-- 与CCAI 流程引擎交互日志记录  -->
+		<mapper resource="mapper/api/CcaiFlowPushLogMapper.xml"/>
+
 	</mappers>
 </configuration>

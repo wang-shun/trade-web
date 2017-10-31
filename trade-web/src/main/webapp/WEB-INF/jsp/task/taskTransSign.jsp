@@ -337,7 +337,7 @@
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">买方信息</h2>
+					<h2 class="newtitle title-mark">卖方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="topHome">
 							<div id="guestUpDiv"></div>
@@ -345,19 +345,19 @@
 					</div>
 
 					<div class="clear add-member">
-						<a href="javascript:addDateDivUp();">添加买方</a>
+						<a href="javascript:addDateDivUp();">添加卖方</a>
 					</div>
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">卖方信息</h2>
+					<h2 class="newtitle title-mark">买方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="downHome">
 							<div id="guestDownDiv"></div>
 						</div>
 					</div>
 					<div class="clear add-member">
-						<a href="javascript:addDateDivDown();">添加卖方</a>
+						<a href="javascript:addDateDivDown();">添加买方</a>
 					</div>
 				</div>
 

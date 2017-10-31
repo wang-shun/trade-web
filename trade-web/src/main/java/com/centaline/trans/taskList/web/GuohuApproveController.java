@@ -132,7 +132,7 @@ public class GuohuApproveController {
 			request.setAttribute("houseTransfer", toHouseTransfer);
 		}
 		String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
-		if(accompanyReasonCn!=null){
+		if(accompanyReasonCn!=null&&accompanyReasonCn!=""){
 			request.setAttribute("accompanyReasonCn", accompanyReasonCn);
 		}
 		//缴税信息
@@ -281,7 +281,7 @@ public class GuohuApproveController {
 		}
 		request.setAttribute("toCase", toCase);
 
-		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		request.setAttribute("mortage", mortage);
 
 		String loanReqType="FullPay";
