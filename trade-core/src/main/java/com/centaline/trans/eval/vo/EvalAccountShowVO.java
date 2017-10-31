@@ -30,6 +30,7 @@ public class EvalAccountShowVO {
 	private String userId;
 	private BigDecimal evalComAmount;//结算费用  wbzhouht添加
 	private String updateReason;       //修改原因
+	private String loaner;            //贷款权证
 
 	public BigDecimal getEvalComAmount() {
 		return evalComAmount;
@@ -152,6 +153,14 @@ public class EvalAccountShowVO {
 
 	public void setEvalCompany(String evalCompany) {
 		this.evalCompany = evalCompany;
+	}
+
+	public String getLoaner() {
+		return loaner;
+	}
+
+	public void setLoaner(String loaner) {
+		this.loaner = loaner;
 	}
 	
 	
