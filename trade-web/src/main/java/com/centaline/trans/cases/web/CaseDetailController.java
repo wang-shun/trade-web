@@ -3,7 +3,7 @@ package com.centaline.trans.cases.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +42,7 @@ import com.aist.uam.userorg.remote.UamUserOrgService;
 import com.aist.uam.userorg.remote.vo.Org;
 import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.api.service.CaseApiService;
+import com.centaline.trans.api.vo.ApiCaseFees.SharingInfo;
 import com.centaline.trans.api.vo.ApiCaseInfo;
 import com.centaline.trans.bizwarn.service.BizWarnInfoService;
 import com.centaline.trans.cases.entity.ToCase;
@@ -223,6 +224,10 @@ public class CaseDetailController {
 	CaseApiService caseApiService;
 	@Autowired
 	private SignService signService;
+	@Autowired
+	private CaseRecvService caseRecvService;
+	@Autowired
+	private ToTaxService toTaxService;
 
 	/**
 	 * 判断交易计划时间 by wbzhouht
@@ -834,6 +839,7 @@ public class CaseDetailController {
 				reVo.setBuyerMobile(guest.getGuestPhone());
 			}
 		}
+			
 		// 房屋类型
 		if(toPropertyInfo.getPropertyType() != null){
 			String propertyTypeName = uamBasedataService.getDictValue("30014", toPropertyInfo.getPropertyType());
@@ -853,6 +859,7 @@ public class CaseDetailController {
 				reVo.setIsUniqueHome("否");
 			}
 		}
+		ToTax tax = toTaxService.findToTaxByCaseCode(toCase.getCaseCode());
 		
 		//网签时间
 		if (caseInfo.getRealConTime() != null) {
@@ -1039,7 +1046,9 @@ public class CaseDetailController {
 
 		request.setAttribute("toPropertyInfo", toPropertyInfo);
 		request.setAttribute("ransomInfo", ransomInfo);
-		
+		//添加买卖方信息
+		request.setAttribute("caseRecv", caseRecv);
+		request.setAttribute("tax", tax);
 		return "case/caseDetail_new";
 	}
 	
@@ -1342,181 +1351,20 @@ public class CaseDetailController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/changeLeadingUser")
 	@ResponseBody
-	public AjaxResponse<?> changeLeadingUser(String instCode, String caseCode, String userId,String chooseType, HttpServletRequest request) {
-		/**
-		 * TODO 如果贷款权证与过户权证同一人，更换权证时，可能会将另一岗位的任务责任人替换掉,原因是任务查询只能通过username
-		 * 		变更时添加同一人的拦截,与产品确认，贷款权证与过户权证不可能出现为同一人的情况，但需注意此点
-		 * @author wbcaiyx
-		 * @date 2017/10/25
-		 */
-		
-		//如果不是案件责任人，只修改案件参与人信息及案件流程中过户权证参数
-		ToCaseParticipant param = new ToCaseParticipant();
-		param.setCaseCode(caseCode);
-		List<ToCaseParticipant> caseParts = toCaseParticipantService.findToCaseParticipantByCondition(param);
-		
-		String leadingVal = CaseParticipantEnum.WARRANT.getCode();
-        for(ToCaseParticipant part : caseParts){
-        	if(CaseParticipantEnum.LOAN.getCode().equals(part.getPosition())){
-        		leadingVal = CaseParticipantEnum.LOAN.getCode();
-        		break;
-        	}
-        }
-        
-        User u_new = uamUserOrgService.getUserById(userId);
-		//权证经理
-		User manager = new User();
-		List<User> managerList = uamUserOrgService.findHistoryUserByOrgIdAndJobCode(u_new.getOrgId(),TransJobs.QZJL.getCode());
-		if(managerList != null && managerList.size() > 0){
-			manager = managerList.get(0);
-		}else{
-			return AjaxResponse.fail("该权证无法获取分行经理!");
+	public AjaxResponse<String> changeLeadingUser(String instCode, String caseCode, String userId,String chooseType, HttpServletRequest request) {
+		AjaxResponse<String> result = null;
+		try{
+			result = toCaseService.updateLeadingUser(instCode, caseCode, userId, chooseType);
+		}catch(Exception e){
+			e.printStackTrace();
+			return AjaxResponse.failException(e);
 		}
-        //只是变更过户权证，不是责任人
-		if(!leadingVal.equals(chooseType)){
-
-			//更新案件分配人
-			toCaseParticipantService.updateCaseParticipant(caseCode, u_new, manager,chooseType);
-			if(!StringUtils.isBlank(instCode)){
-				RestVariable restVariable = new RestVariable();
-		        restVariable.setType("string");
-		        restVariable.setValue(u_new.getUsername());
-				workFlowManager.setVariableByProcessInsId(instCode, chooseType, restVariable);
-				
-				//拿过户权证的用户名查询存在的任务
-				String userOldName = "";
-				for(ToCaseParticipant part : caseParts){
-		        	if(CaseParticipantEnum.WARRANT.getCode().equals(part.getPosition())){
-		        		userOldName = part.getUserName();
-		        		break;
-		        	}
-		        }
-				TaskQuery tq = new TaskQuery();
-				tq.setProcessInstanceId(instCode);
-				tq.setFinished(false);
-				//该权证的任务
-				tq.setAssignee(userOldName);
-				List<TaskVo> tasks =  new ArrayList<TaskVo>();		
-				PageableVo pageVo =	workFlowManager.listTasks(tq);
-				if(pageVo != null){
-					tasks = pageVo.getData();
-				}				
-				//流程任务人变更
-				updateWorkflow(userId, tasks, caseCode); 
-			}
-		}else{
-			//变更的是责任人
-			// 案件信息更新
-			ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-			String origUserId = toCase.getLeadingProcessId();
-			User u = uamUserOrgService.getUserById(origUserId);
-			
-			int reToCase = 0;
-			try{
-				//更新案件信息
-				toCase.setLeadingProcessId(userId);
-				reToCase = toCaseService.updateByPrimaryKey(toCase);
-				//更新案件分配人
-				toCaseParticipantService.updateCaseParticipant(caseCode, u_new, manager,chooseType);
-			} catch(Exception e){
-				return AjaxResponse.fail(e.getMessage());
-			}
-			if (reToCase == 0){
-				return AjaxResponse.fail("案件基本表更新失败！");
-			}
-			/**
-			 * 原码,no modify
-			 */
-			TgServItemAndProcessor record = new TgServItemAndProcessor();
-			record.setPreProcessorId(toCase.getLeadingProcessId());
-			record.setProcessorId(userId);
-			record.setOrgId(u_new.getOrgId());
-			record.setCaseCode(caseCode);
-			record.setPreProcessorId(origUserId);
-			record.setPreOrgId(u.getOrgId());	
-			tgServItemAndProcessorService.updateByCaseCode(record);
-	
-			//流程变量更新,如果是贷款权证修改loan参数，如果是过户权证修改warrant参数
-			if(!StringUtils.isBlank(instCode)){
-				//接单参数receiver
-				String receiveVal = "receiver";
-				//经理
-				String managerVal = "manager";
-				
-				ToCaseParticipant vo = new ToCaseParticipant();
-				vo.setCaseCode(caseCode);
-				/*List<ToCaseParticipant> caseParticipants = toCaseParticipantService.findToCaseParticipantByCondition(vo);
-				String paramVal = CaseParticipantEnum.WARRANT.getCode();
-		        for(ToCaseParticipant part : caseParticipants){
-		        	if(CaseParticipantEnum.LOAN.getCode().equals(part.getPosition())){
-		        		paramVal = CaseParticipantEnum.LOAN.getCode();
-		        		break;
-		        	}
-		        }*/
-		        RestVariable restVariable = new RestVariable();
-		        restVariable.setType("string");
-		        restVariable.setValue(u_new.getUsername());
-		        try{
-		        	//接单人员
-		        	workFlowManager.setVariableByProcessInsId(instCode, receiveVal, restVariable);		
-		        	//贷款权证or过户权证
-					workFlowManager.setVariableByProcessInsId(instCode, chooseType, restVariable);
-		        	//经理manager			
-					restVariable.setValue(manager.getUsername());
-		        	workFlowManager.setVariableByProcessInsId(instCode, managerVal, restVariable);
-				}catch(WorkFlowException e){
-					if(404!=e.getStatusCode()){
-						throw e;
-					}
-				}
-		        TaskQuery tq = new TaskQuery();
-				tq.setProcessInstanceId(instCode);
-				tq.setFinished(false);
-				tq.setAssignee(u.getUsername());
-				List<TaskVo> tasks =  new ArrayList<TaskVo>();		
-				PageableVo pageVo =	workFlowManager.listTasks(tq);
-				if(pageVo != null){
-					tasks = pageVo.getData();
-				}				
-				//获取贷款流程(贷款权证)
-				tasks.addAll(getNonMainWorkflowByAssignee(caseCode,u.getUsername()));
-				//流程任务人变更
-				updateWorkflow(userId, tasks, caseCode);        
-			}
-		}
-		return AjaxResponse.success("变更成功！");
+			return result;
 	}
 	
-	
-	/**
-	 * 查询指定办理人的任务项(贷款流程)
-	 * @param caseCode
-	 * @param assignee
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private List<TaskVo> getNonMainWorkflowByAssignee(String caseCode,String assignee){
-		List<TaskVo> result=new ArrayList<TaskVo>();
-		ToWorkFlow wfQueryBean=new ToWorkFlow();
-		wfQueryBean.setCaseCode(caseCode);
-		wfQueryBean.setBizCodes(Arrays.asList("ComLoan_Process","LoanLost_Process","PSFLoan_Process"));
-		List<ToWorkFlow> subWF= toWorkFlowService.queryToWorkFlowByCaseCodeBusKeys(wfQueryBean);
-		for (ToWorkFlow wf : subWF) {
-			TaskQuery tq = new TaskQuery();
-			tq.setProcessInstanceId(wf.getInstCode());
-			tq.setFinished(false);
-			tq.setAssignee(assignee);
-			
-			List<TaskVo> tks = workFlowManager.listTasks(tq).getData();
-			if(tks!=null &&!tks.isEmpty()){
-				result.addAll(tks);
-			}
-		}
-		return result;
-	}
 	
 	/**
 	 * 流程办理人变更
@@ -2168,67 +2016,18 @@ public class CaseDetailController {
 	 * @return
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/casePause")
 	@ResponseBody
 	public AjaxResponse<String> casePause(String caseCode, HttpServletRequest request) {
-		// 案件状态查询
-		AjaxResponse<String> response = new AjaxResponse<String>();
-		boolean isSus = false;
-		ToCase record = new ToCase();
-		ToCase toCase = toCaseService.findToCaseByCaseCode(caseCode);
-		record.setCaseCode(caseCode);
-		//在途—>挂起
-		if (CasePropertyEnum.TPZT.getCode().equals(toCase.getCaseProperty())) {
-			record.setCaseProperty(CasePropertyEnum.TPGQ.getCode());
-		}else if (CasePropertyEnum.TPGQ.getCode().equals(toCase.getCaseProperty())) {//挂起->恢复在途
-			record.setCaseProperty(CasePropertyEnum.TPZT.getCode());
-			isSus = true;
+		AjaxResponse<String> result = null;
+		try{
+			result = toCaseService.updateCasePause(caseCode);
+		}catch(Exception e){
+			e.printStackTrace();
+			return AjaxResponse.failException(e);
 		}
-		//获取案件所有进行中流程任务
-		List<TaskVo> taskVos = actRuTaskService.getRuTask(caseCode);
-		Map<String,Boolean> taskInstCode = new HashMap<>();
-		
-		/**
-		 *  检查是否有流程重启任务或报单流程及获取所有任务暂停状态 
-		 */
-		for(TaskVo task : taskVos){
-			if(WorkFlowEnum.SERVICE_RESTART.getCode().equals(task.getBusiness_key())){
-				response.setMessage("该案件有流程重启任务，等待主管审批");
-				response.setSuccess(false);
-				return response;
-			}if(WorkFlowEnum.CASE_STOP_PROCESS.getCode().equals(task.getBusiness_key())){
-				response.setMessage("该案件有爆单任务，等待主管审批");
-				response.setSuccess(false);
-				return response;
-			}else{
-				//false:未暂停,true:暂停
-				taskInstCode.put(task.getInstCode(), task.getSuspended());
-			}
-		}
-		
-		for (String instCode : taskInstCode.keySet()) {
-			if(!com.alibaba.druid.util.StringUtils.isEmpty(instCode)){
-				//恢复在途状态
-				if(isSus){
-					//如果是挂起状态  true,->恢复在途
-					if(taskInstCode.get(instCode)){
-						workFlowManager.activateOrSuspendProcessInstance(instCode, true);
-					}
-				}else{
-					//如果是正常在途状态  false,->挂起状态
-					if(!taskInstCode.get(instCode)){
-						workFlowManager.activateOrSuspendProcessInstance(instCode, false);
-					}
-				}
-			}
-		}
-		
-		// 案件表更新
-		toCaseService.updateByCaseCodeSelective(record);
-		response.setContent(record.getCaseProperty());
-		response.setMessage("变更成功！");
-		response.setSuccess(true);
-		return response;
+		return result;
 	}
 
 	// 跟进orgId查询统计数据
@@ -2364,6 +2163,20 @@ public class CaseDetailController {
 			return result;
 		}
 		ApiCaseInfo info = caseApiService.getApiCaseInfo(ccaiCode);
+		//分成人和权证做个排序
+		if(info != null && info.getFees() != null && info.getFees().getSharingInfo() != null && info.getFees().getSharingInfo().size() > 0){
+			info.getFees().getSharingInfo().sort(new Comparator<SharingInfo>() {
+				
+				@Override
+				public int compare(SharingInfo o1, SharingInfo o2) {
+					if(o1.getType() > o2.getType()){
+						return 1;
+					}else{
+						return -1;
+					}
+				}
+			});
+		}
 		result.setContent(info);
 		return result; 
 	}
@@ -2418,6 +2231,7 @@ public class CaseDetailController {
 				reVo.setBuyerMobile(guest.getGuestPhone());
 			}
 		}
+		
 		
 		ToCaseParticipant vo = new ToCaseParticipant();
 		vo.setCaseCode(caseCode);

@@ -17,6 +17,7 @@ import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
+import com.centaline.trans.common.enums.CaseParticipantEnum;
 import com.centaline.trans.common.enums.EvalStatusEnum;
 import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
@@ -117,16 +118,18 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		
 		/** 启动 评估重启流程 */
 		SessionUser sessionUser = uamSessionService.getSessionUser();
-		Map<String, Object> vars = new HashMap<>();
-		//User user = uamUserOrgService.getUserByUsername(vo.getUserName());
+		
+		//根据岗位找内勤经理
 		Job job = uamUserOrgService.getJobByCode(TransJobs.TNQJL.getCode(), sessionUser.getCityCode());
 		List<User> userList = uamUserOrgService.getUserByJobId(job.getId());
-		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());// 根据案件所在组找主管
+		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());
 		if(userList==null || userList.size()==0 ){
 			 resp.setSuccess(false);
 			 resp.setMessage("当前用户归属主管不存在！");
 			 return null;
 		}
+		
+		Map<String, Object> vars = new HashMap<>();
 		vars.put("consultant", vo.getUserName());//评估流程重启发起人
 		vars.put("manager", userList.get(0).getUsername());
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(
@@ -139,6 +142,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		wf.setProcessOwner(vo.getUserId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode()));
 		wf.setInstCode(spv.getId());
+		wf.setBizCode(vo.getEvaCode());
 		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 		return spv;
@@ -182,6 +186,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		t.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		t.setBizCode(vo.getEvaCode());
 		ToWorkFlow preFlow = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(t);
+		
 		if (preFlow != null) {
 			try {
 				workFlowManager.deleteProcess(preFlow.getInstCode());
@@ -204,11 +209,15 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		
 		//更改评估单状态为重启
 		toEvalReportProcessService.updateStatusByEvalCode(EvalStatusEnum.YCQ.getCode(),vo.getEvaCode());
+		//评估信息
+		ToEvalReportProcess toEvalReportProcess =toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+		Map<String, Object> defValsMap = new HashMap<String,Object>();
+    	defValsMap.put(CaseParticipantEnum.LOAN.getCode(), toEvalReportProcess.getProposeer());
+    	defValsMap.put(CaseParticipantEnum.ASSISTANT.getCode(), toEvalReportProcess.getTransactor());
 		
 		//启动新的评估流程，入workflow表
 		StartProcessInstanceVo processInstance = processInstanceService.startWorkFlowByDfId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()), 
-    			vo.getEvaCode());
-		ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByEvalCode(vo.getEvaCode());
+    			vo.getEvaCode(),defValsMap);
 		ToWorkFlow wf = new ToWorkFlow();
 		wf.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		wf.setCaseCode(toEvalReportProcess.getCaseCode());
@@ -216,6 +225,7 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 		wf.setProcessOwner(user.getId());
 		wf.setProcessDefinitionId(propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_PROCESS.getCode()));
 		wf.setInstCode(processInstance.getId());
+		wf.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		toWorkFlowService.insertSelective(wf);
 	}
 
@@ -269,24 +279,17 @@ public class EvalServiceRestartServiceImpl implements EvalServiceRestartService 
 	 * @param vo
 	 */
 	private void submitEvelRestartTask(ServiceRestartVo vo) {
-		/*if (vo.getIsApproved()) {
-			ToEvalReportProcess toEvalReportProcess = new ToEvalReportProcess();
-			toEvalReportProcessService.updateEvalPropertyByEvalCode(vo.getEvaCode(),EvalPropertyEnum.PGYX.getCode());
-		} else {*/
 
-			ToWorkFlow wf = new ToWorkFlow();
-			wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
-			wf.setCaseCode(vo.getCaseCode());
-			wf.setInstCode(vo.getInstCode());
-			wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
-			toWorkFlowService.updateWorkFlowByInstCode(wf);
-		//}
-			Map<String, Object> defValsMap = new HashMap<String,Object>();
-	    	defValsMap.put("is_approved", vo.getIsApproved());
-		/*List<RestVariable> vs = new ArrayList<>();
-		RestVariable v = new RestVariable("is_approved", vo.getIsApproved());
-		vs.add(v);*/
+		Map<String, Object> defValsMap = new HashMap<String,Object>();
+	    defValsMap.put("is_approved", vo.getIsApproved());
 		taskService.submitTask(vo.getTaskId(),defValsMap);
+		ToWorkFlow wf = new ToWorkFlow();
+		wf.setBusinessKey(WorkFlowEnum.EVAL_SERVICE_RESTART_PROCESS.getCode());
+		wf.setCaseCode(vo.getCaseCode());
+		wf.setInstCode(vo.getInstCode());
+		wf.setBizCode(vo.getEvaCode());
+		wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+		toWorkFlowService.updateWorkFlowByInstCode(wf);
 	}
 	
 	

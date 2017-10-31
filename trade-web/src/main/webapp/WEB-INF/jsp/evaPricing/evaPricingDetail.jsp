@@ -128,7 +128,7 @@ font-family:Microsoft Yahei;
 							<label class="col-sm-4 control-label">总层高/所在楼层 ：${toEvaPricingVo.floor }/${toEvaPricingVo.totalFloor }</label>
 							<label class="col-sm-3 control-label">竣工年限 ：${toEvaPricingVo.completeYear }&nbsp;&nbsp;年</label>
 							<label class="col-sm-3 control-label">贷款银行 ：${toEvaPricingVo.loanBank }</label>
-							<label class="col-sm-2 control-label">合同价 ：${toEvaPricingVo.conPrice }</label>
+							<label class="col-sm-2 control-label">合同价 ：<c:if test="${!empty toEvaPricingVo.conPrice }">${toEvaPricingVo.conPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
 						</div>
 						<div class="height_line1"></div>
 						<div class="row font-family" >

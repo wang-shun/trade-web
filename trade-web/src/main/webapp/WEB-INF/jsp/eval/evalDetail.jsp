@@ -68,7 +68,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 
 				<!-- 服务流程 -->
-				<div class="panel " id="serviceFlow">
+				<div class="panel ">
 					<div class="panel-body">
 						<ul class="nav nav-tabs">
 							<li class="active"><a href="#settings" data-toggle="tab">评估操作纪录</a>
@@ -91,9 +91,7 @@
 								<div class="row">
 										<a role="button" id="processRestart" class="btn btn-primary btn-xm" href="javascript:evalProcessRestart()">评估重启 </a>
 										<a role="button" id="evalComChange" class="btn btn-primary btn-xm" href="javascript:evalComChange('${evaCode}')">评估公司变更</a>
-										<shiro:hasPermission name="TRADE.EVAL.BAODAN">
 										<a role="button" id="evalBaodan" class="btn btn-primary btn-xm btn-activity" href="javascript:evalBaodan()">评估爆单 </a>
-										</shiro:hasPermission>
 										<a role="button" id="evalReject" class="btn btn-primary btn-xm btn-activity" href="javascript:evalReject('${caseCode}')">驳回申请</a>
 										<a role="button" class="btn btn-primary btn-xm btn-activity" href="javascript:transferCommission()" target="_blank">评估公司变更调佣</a>
 									
@@ -208,7 +206,7 @@
 
 
 				<!-- 相关信息 -->
-				<div class="panel " id="aboutInfo" style="min-height: 800px;">
+				<div class="panel "  style="min-height: 800px;">
 					 <a style="float: right; margin-right: 12px; margin-top: 10px;"
 						href="javascript:showChangeFormModal();">修改</a>
 					<div class="panel-body">
@@ -358,7 +356,7 @@
 							
 							<!-- 调佣审批 -->
 						    <div class="tab-pane fade" id="message_info">
-								<div class="row">
+								<div class="row" id="serviceFlow">
 									     <label class="col-sm-3 control-label">调佣事项：${evalChangeCommVO.changeChargesType}</label>
 									     <label class="col-sm-3 control-label">调佣类型：${evalChangeCommVO.changeChargesType}</label>
 									     <label class="col-sm-3 control-label">调佣事由：${evalChangeCommVO.changeChargesCause}</label>
@@ -430,9 +428,9 @@
 								
 							<!-- 评估退费 -->
 							<div class="tab-pane fade" id="refund_info">
-							       <div class="row">
+							       <div class="row" id="aboutInfo">
 										<label class="col-sm-3 control-label">退费类别：${toEvaRefundVo.refundKinds}</label>
-										<label class="col-sm-3 control-label">申请人：${toEvaRefundVo.proposer}</label>
+										<label class="col-sm-3 controbasicInfol-label">申请人：${toEvaRefundVo.proposer}</label>
 										<label class="col-sm-3 control-label">申请分行：${toEvaRefundVo.applyDepart}</label>
 									</div>
 									 <div class="row">
@@ -498,6 +496,7 @@
 	<script src="<c:url value='/js/plugins/validate/jquery.validate.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/additional-methods.js' />"></script>
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
+	<script src="<c:url value='/js/jquery-2.1.1.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
 	<!-- 放款监管信息  -->
@@ -511,12 +510,9 @@
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
 	<!-- 公共信息js -->	
-	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
-	
-	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
-	
+	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>	
+	<jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>	
 </content>
-
 </body>
 </html>
 

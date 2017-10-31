@@ -119,6 +119,7 @@ public class EvaController {
 	public String report(HttpServletRequest request, HttpServletResponse response,String source,
 			String taskitem,String businessKey, String processInstanceId,String evaCode){
 		evaProcessService.initReport(request,taskitem, businessKey,evaCode,source);
+		request.setAttribute("source",source);
 	    return "eval/evalReport";
 	}
 	
@@ -167,8 +168,8 @@ public class EvaController {
 	@RequestMapping(value = "issue")
 	public String issue(HttpServletRequest request, HttpServletResponse response, String businessKey, String source,
 			String taskitem, String processInstanceId,String evaCode){
-
 		evaProcessService.initIssue(request, taskitem, businessKey,evaCode,source);
+		request.setAttribute("source",source);
 	    return "eval/evalIssue";
 	}
 	
@@ -218,6 +219,7 @@ public class EvaController {
 	public String used(HttpServletRequest request, HttpServletResponse response, String businessKey,String source,
 			String taskitem, String processInstanceId,String evaCode){
 		evaProcessService.initUsed(request, taskitem, businessKey,evaCode,source);
+		request.setAttribute("source",source);
 	    return "eval/evalUsed";
 	}
 	
@@ -233,8 +235,8 @@ public class EvaController {
 	 */
 	@RequestMapping(value = "submitUsed")
 	@ResponseBody
-	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId){
-	    return evaProcessService.submitUsed(toEvalReportProcess, taskId);
+	public AjaxResponse<?> submitUsed(HttpServletRequest request, HttpServletResponse response,ToEvalReportProcess toEvalReportProcess,String taskId,String processInstanceId){
+	    return evaProcessService.submitUsed(toEvalReportProcess, taskId,processInstanceId);
 	}
 	
 	/**

@@ -2,12 +2,12 @@ package com.centaline.trans.cases.service;
 
 import java.util.List;
 
+import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfoCountVo;
 import com.centaline.trans.cases.entity.ToOrgVo;
 import com.centaline.trans.common.entity.CaseMergerParameter;
-import com.centaline.trans.common.entity.TgServItemAndProcessor;
 import com.centaline.trans.common.entity.ToPropertyInfo;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.VCaseDistributeUserVO;
@@ -160,4 +160,21 @@ public interface ToCaseService {
 	 * @return
 	 */
 	int updateAssistant(ToCase tocase);
+	
+	/**
+	 * 变更案件经办人
+	 * @param instCode
+	 * @param caseCode
+	 * @param userId
+	 * @param chooseType
+	 * @return
+	 */
+	AjaxResponse<String> updateLeadingUser(String instCode, String caseCode, String userId,String chooseType);
+	
+	/**
+	 * 案件爆单
+	 * @param caseCode
+	 * @return
+	 */
+	AjaxResponse<String> updateCasePause(String caseCode);
 }

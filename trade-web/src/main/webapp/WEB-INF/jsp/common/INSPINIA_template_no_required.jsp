@@ -15,7 +15,9 @@
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	Menu menu = MenuConstants.getMenu();
-	request.setAttribute("menuVO", menu.getChildren());
+    if(menu!=null && menu.getChildren()!=null){
+        request.setAttribute("menuVO", menu.getChildren());
+    }
 %>
 <html>
 
@@ -89,7 +91,7 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            YUCUI+
+                            JYJR+
                         </div>
                     </li>
                    <c:forEach items="${menuVO}" var="l1_menu" >

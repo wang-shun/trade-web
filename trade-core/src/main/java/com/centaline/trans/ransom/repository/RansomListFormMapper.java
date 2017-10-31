@@ -45,6 +45,8 @@ public interface RansomListFormMapper {
 	 */
 	ToRansomCaseVo getRansomCase(@Param("caseCode")String caseCode, @Param("ransomCode")String ransomCode);
 	
+	ToRansomCaseVo getRansomCaseInfo(@Param("caseCode")String caseCode);
+	
 	/**
 	 * 根据caseCode更新赎楼中止信息
 	 * @param caseCode

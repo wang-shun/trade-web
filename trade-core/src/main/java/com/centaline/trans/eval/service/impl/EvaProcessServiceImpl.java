@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,11 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	@Override
 	public void initApply(HttpServletRequest request, String caseCode, String evaCode, String taskitem,
 			String businessKey) {
+		//若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+		if(StringUtils.isNotBlank(businessKey)){
+			evaCode=businessKey;
+			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode).getCaseCode();
+		}
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode); 
 		ToEvaPricingVo toEvaPricingVo=null;
@@ -122,6 +128,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvaPricingVo", toEvaPricingVo);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 	
@@ -136,6 +143,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 
@@ -151,6 +159,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("taskitem", taskitem);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 		
@@ -167,6 +176,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		request.setAttribute("caseBaseVO", caseBaseVO);
 		request.setAttribute("toEvalReportProcessVo", toEvalReportProcess);
 		request.setAttribute("caseCode", caseCode);
+		request.setAttribute("evaCode", evaCode);
 		request.setAttribute("conPrice", toSign==null?null:toSign.getConPrice());
 	}
 	
@@ -216,6 +226,11 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		    	toWorkFlow.setBizCode(toEvalReportProcess.getEvaCode());
 		    	toWorkFlow.setStatus(WorkFlowStatus.ACTIVE.getCode());
 		    	toWorkFlowService.insertSelective(toWorkFlow);
+		    	
+		    	//评估流程申请人、办理人入表
+		    	toEvalReportProcess.setProposeer(user.getUsername());
+		    	toEvalReportProcess.setTransactor(tp.getUserName());
+		    	toEvalReportProcessService.updateEvaReportByEvaCode(toEvalReportProcess);
 		    	
 		    	TaskVo taskvo = (TaskVo) taskService.listTasks(processInstance.getId()).getData().get(0);
 		    	taskService.submitTask(String.valueOf(taskvo.getId()));
@@ -274,7 +289,7 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	}
 
 	@Override
-	public AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess, String taskId) {
+	public AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess, String taskId,String processInstanceId) {
 		   AjaxResponse<String> response = new AjaxResponse<String>();
 		   try{
 		        //评估使用信息保存
@@ -282,6 +297,11 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 				toEvalReportProcess.setSysFinshTime(new Date());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 				taskService.submitTask(taskId,null);
+				ToWorkFlow wf = new ToWorkFlow();
+				wf.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
+				wf.setInstCode(processInstanceId);
+				wf.setStatus(WorkFlowStatus.COMPLETE.getCode());
+				toWorkFlowService.updateWorkFlowByInstCode(wf);
 		   }catch(Exception e){
 			   response.setSuccess(false);
 			   response.setMessage(e.getMessage());
@@ -314,7 +334,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		 try{
 			    //评估上报保存
-				toEvalReportProcess.setStatus(EvalStatusEnum.YSB.getCode());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){
 			 response.setSuccess(false);
@@ -330,7 +349,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		 try{
 			 //评估出具信息保存
 		     BigDecimal evaPrice = toEvalReportProcess.getEvaPrice();
-			 toEvalReportProcess.setStatus(EvalStatusEnum.YCNBG.getCode());
 			 toEvalReportProcess.setEvaPrice(evaPrice.multiply(new BigDecimal(10000.00)));
 			 toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){
@@ -347,7 +365,6 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 		AjaxResponse<String> response = new AjaxResponse<String>();
 		 try{
 			    //评估使用信息保存
-				toEvalReportProcess.setStatus(EvalStatusEnum.YSYBG.getCode());
 				toEvalReportProcess.setSysFinshTime(new Date());
 				toEvalReportProcessService.updateEvaReport(toEvalReportProcess);
 		 }catch(Exception e){

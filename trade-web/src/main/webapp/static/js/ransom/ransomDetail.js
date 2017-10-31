@@ -60,8 +60,8 @@ function reloadDetail(){
 		align : "center",
 		width : 176
 	}, {
-		name : 'ACTUALMoney',
-		index : 'ACTUALMoney',
+		name : 'REST_MONEY',
+		index : 'REST_MONEY',
 		align : "center",
 		width : 176
 	}];
@@ -79,7 +79,7 @@ function reloadDetail(){
 		colModel : colModels,
 		pager : "#tails_pager",
 		sortname:'DIYA_TYPE',
-        sortorder:'desc',
+        sortorder:'ASC',
 		viewrecords : true,
 		pagebuttions : true,
 		hidegrid : false,
@@ -106,7 +106,7 @@ function reloadDetail(){
 		var ctx = $("#ctx").val();
 		var ransomcode = $("#ransomCode").val();
 		url = ctx + url;
-		var dispCols=[ '申请人','申请时间', '申请金额','申请机构','中止原因' ];
+		var dispCols=[ '申请人','申请时间', '申请金额(单位：万元)','申请机构','中止原因' ];
 		var colModels=
 		[ {
 			name : 'APPLY_USER',

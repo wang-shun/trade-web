@@ -79,7 +79,7 @@ public interface EvaProcessService {
 	 * @param toEvalReportProcess
 	 * @return
 	 */
-	AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess,String taskId);
+	AjaxResponse<?> submitUsed(ToEvalReportProcess toEvalReportProcess,String taskId,String processInstanceId);
 	
 	/**
 	 * 评估申请保存

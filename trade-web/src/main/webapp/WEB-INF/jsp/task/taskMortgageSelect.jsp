@@ -111,6 +111,8 @@
 			<input type="hidden" id="processInstanceId" name="processInstanceId" value="${processInstanceId}">
 
 			<input type="hidden" id="pkid" name="pkid" value="${loanReleasePlan.pkid}">
+			
+			<input type="hidden" id="service" value="${mortgageSelect.mortgageServive }"
 			<h2 class="newtitle title-mark">填写任务信息</h2>
 			<div class="form_list">
 				<div class="marinfo">
@@ -129,6 +131,7 @@
 			</div>
 			<div class="form-btn">
 				<div class="text-center">
+					<button class="btn btn-success btn-space" onclick="saveMort()">保存</button>
 					<button class="btn btn-success btn-space" onclick="submit()">提交</button>
 				</div>
 			</div>
@@ -175,7 +178,10 @@
 			
 			$("#mortageService").find("option").eq(0).remove();
 			$("#mortageService").find("option").eq(1).remove();
-	
+			 var service = $("#service").val();
+			if(service){
+				$("#mortageService").val(service);
+			}
 			//$('#div_releasePlan').hide();
 
 			$('#div_releasePlan .input-group.date').datepicker({
@@ -197,6 +203,52 @@
 			save(true);
 		}
 
+		
+		function saveMort(){
+			var jsonData = $("#firstFollowform").serializeArray();
+			var 
+				url = "${ctx}/task/mortgageSelect/save";
+			$.ajax({
+				cache : true,
+				async : true,//false同步，true异步
+				type : "POST",
+				url : url,
+				dataType : "json",
+				data : jsonData,
+    		    beforeSend:function(){  
+    				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+    				$(".blockOverlay").css({'z-index':'9998'});
+                },
+                complete: function() {  
+
+                    $.unblockUI();  
+                	if(b){ 
+                        $.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'1900'}}); 
+    				    $(".blockOverlay").css({'z-index':'1900'});
+                	}   
+                     if(status=='timeout'){//超时,status还有success,error等值的情况
+    	          	  Modal.alert(
+    				  {
+    				    msg:"抱歉，系统处理超时。"
+    				  });
+    		  		 $(".btn-primary").one("click",function(){
+    		  				parent.$.fancybox.close();
+    		  			});	 
+    		                } 
+    		            } ,  
+				success : function(data) {
+						window.wxc.success("保存成功！",{"wxcOk":function(){
+							 window.close();
+	                         window.opener.callback();
+						}});
+				},
+				error : function(errors) {
+					 window.wxc.error("数据保存出错");
+					 $.unblockUI();
+				}
+			});
+		}
+		
 		/**保存数据*/
 		function save(b) {
 			var jsonData = $("#firstFollowform").serializeArray();
@@ -232,7 +284,8 @@
     		            } ,  
 				success : function(data) {
 						window.wxc.success("提交成功！",{"wxcOk":function(){
-							caseTaskCheck();
+							 window.close();
+	                         window.opener.callback();
 						}});
 				},
 				error : function(errors) {

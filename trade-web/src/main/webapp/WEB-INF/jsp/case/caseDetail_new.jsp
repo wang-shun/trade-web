@@ -11,7 +11,7 @@
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<title>案件详情</title>
 	<!-- Toastr style -->
 	<link href="<c:url value='/css/plugins/toastr/toastr.min.css' />" rel="stylesheet">
 	<!-- stickUp fixed css -->
@@ -39,6 +39,7 @@
 	<link rel="stylesheet" href="<c:url value='/static/iconfont/iconfont.css' />" />
 	<link href="<c:url value='/static/trans/css/workflow/details.css' />" rel="stylesheet" />
 	<link href="<c:url value='/js/viewer/viewer.min.css' />" rel="stylesheet" />
+	<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
 </head>
 <body>
 <style>
@@ -70,6 +71,7 @@
 <input type="hidden" id="processDefinitionId"
 	   value="${toWorkFlow.processDefinitionId}" />
 	<input type="hidden" id="data" value="${data }"/>
+	
 	<script>
 		var resourceDistributionBtn = false;
 		var partCode="${partCode}";//用以获取发起交易变更时的环节 by wbzhouht
@@ -91,6 +93,7 @@
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#profile" data-toggle="tab">案件基本操作</a></li>
 				<li class=""><a href="#messages" data-toggle="tab">案件进程总览</a></li>
+				<li><a href="#caseRecord" data-toggle="tab">案件操作记录</a></li>
 			</ul>
 			<div class="tab-content">
 				
@@ -298,6 +301,34 @@
 						</c:if>
 				</c:if>
 				</div>
+				<div class="tab-pane fade" id="caseRecord">
+					<div class="table_content">
+						<table border="0" cellpadding="0" cellspacing="0" class="table table_blue table-striped  table-hover ">
+							<thead>
+								<tr>
+									<th>红绿灯</th>
+									<th>红灯记录</th>
+									<th>所属流程信息</th>
+									<th>任务名</th>
+									<th>执行人</th>
+									<th>预计执行时间</th>
+									<th>执行时间</th>
+									<th>任务状态</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="allProcessList">
+								
+							</tbody>
+						</table>
+					</div>
+					<div class="text-center page_box">
+						<span id="currentTotalPage1"><strong ></strong></span>
+						<span class="ml15">共<strong  id="totalP1"></strong>条</span>&nbsp;
+						<div id="pageBar1" class="pagergoto">
+						</div>  
+				    </div> 	
+				</div>
 			</div>
 		</div>
 	</div>
@@ -332,14 +363,14 @@
 					<label class="col-sm-3 control-label">业务单创建时间：${caseDetailVO.createTime}</label>
 					<label class="col-sm-3 control-label">接单时间：${caseDetailVO.resDate}</label>
 				</div>
-				<div class="row">
+				<%-- <div class="row">
 					<label class="col-sm-3 control-label">卖方姓名：${caseDetailVO.sellerName}</label>
 					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.sellerMobile}</label>
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">买方姓名：${caseDetailVO.buyerName}</label>
 					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.buyerMobile}</label>
-				</div>
+				</div> --%>
 				<div class="row">
 					<label class="col-sm-3 control-label">房屋类型：${caseDetailVO.propertyTypeName }</label>
 					<label class="col-sm-3 control-label">购房年数：${caseDetailVO.holdYear }</label>
@@ -347,7 +378,7 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">产证面积：${toPropertyInfo.square }&nbsp;&nbsp;平方</label>
-					<label class="col-sm-3 control-label">产证地址：${toPropertyInfo.propertyAddr }</label>
+					<label class="col-sm-6 control-label">产证地址：${toPropertyInfo.propertyAddr }</label>
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">竣工年份：${toPropertyInfo.finishYearStr}</label>
@@ -355,7 +386,7 @@
 					<label class="col-sm-3 control-label">总层高：${toPropertyInfo.totalFloor }</label>
 				</div>
 				<div class="row">
-					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
+					<%-- <label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label> --%>
 					<label class="col-sm-3 control-label">成交价：
 						<c:if test="${!empty caseInfo.realPrice }">${caseInfo.realPrice/1000 }&nbsp&nbsp万元</c:if>
 					</label>
@@ -414,6 +445,112 @@
 				<div class="row">
 					<label class="col-sm-3 control-label">结案时间：${caseDetailVO.closeTime}</label>
 				</div>
+				
+				<hr>
+				<!-- caseRecv -->
+				
+				<div class="row">
+					<label class="col-sm-3 control-label">买方姓名：${caseDetailVO.buyerName}</label>
+					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.buyerMobile}</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">购房套数：
+						<aist:dict clazz="select_control data_style" id="purchaseHouseNo"
+								name="purchaseHouseNo" display="label"
+								dictCode="${caseRecv.purchaseHouseNo}"
+								dictType="61000" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">贷款套数：
+						<aist:dict clazz="select_control data_style" id="loanHouseNo"
+								name="loanHouseNo" display="label"
+								dictCode="${caseRecv.loanHouseNo}"
+								dictType="61000" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">婚姻情况：
+						<aist:dict clazz="select_control data_style" id="marriageStatus"
+								name="marriageStatus"
+								dictCode="${caseRecv.marriageStatus}"
+								display="label" dictType="61001" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">家庭情况：
+						<aist:dict clazz="select_control data_style" id="familyStatus"
+								name="familyStatus" display="label"
+								dictCode="${caseRecv.familyStatus}"
+								dictType="61002" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">付款方式：${toCaseInfo.payType }</label>
+					<label class="col-sm-3 control-label">评估：
+						<aist:dict clazz="select_control data_style" id="evalByWho"
+								name="evalByWho"
+								dictCode="${caseRecv.evalByWho}"
+								display="label" dictType="61005" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">户籍：
+						<aist:dict clazz="select_control data_style" id="huji"
+								name="huji" display="label"
+								dictCode="${caseRecv.huji}" dictType="61006"
+								hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">社保：
+						<aist:dict clazz="select_control data_style"
+								id="societySecuretyYears" name="societySecuretyYears"
+								dictCode="${caseRecv.societySecuretyYears}"
+								display="label" dictType="61007" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">税单：
+						<aist:dict clazz="select_control data_style"
+								id="taxSecuretyYears" name="taxSecuretyYears"
+								dictCode="${caseRecv.taxSecuretyYears}"
+								display="label" dictType="61008" hasEmpty="true" />
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">住房补贴：
+						<aist:dict clazz="select_control data_style" id="houseSubsidy"
+								name="houseSubsidy" display="label"
+								dictCode="${caseRecv.houseSubsidy}"
+								dictType="61009" hasEmpty="true" />				
+					</label>
+					<label class="col-sm-3 control-label">预警内容：${caseRecv.loanWarn}</label>
+				</div>
+				
+				<div class="row">
+					<label class="col-sm-3 control-label">卖方姓名：${caseDetailVO.sellerName}</label>
+					<label class="col-sm-3 control-label">联系电话：${caseDetailVO.sellerMobile}</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">房屋来源：
+						<aist:dict clazz="select_control data_style" id="houseFrom"
+								name="houseFrom" display="label"
+								dictCode="${caseRecv.houseFrom}"
+								dictType="61010" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">抵押信息：
+						<aist:dict clazz="select_control data_style" id="mortInfo"
+								name="mortInfo"
+								dictCode="${caseRecv.mortInfo}"
+								display="label" dictType="61011" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">预计清尾时间：
+						<fmt:formatDate  value='${caseRecv.estFinishTime}' type='both' pattern='yyyy-MM-dd'/>
+					</label>
+				</div>
+				<div class="row">
+					<label class="col-sm-3 control-label">房屋套数：
+						<aist:dict clazz="select_control data_style" id="isUniqueHome"
+								name="isUniqueHome"
+								dictCode="${tax.isUniqueHome}" display="label"
+								dictType="61012" hasEmpty="true" />
+					</label>
+					<label class="col-sm-3 control-label">原购入价格：
+						<c:if test="${!empty caseRecv.oriPrice }">${caseRecv.oriPrice/10000 }&nbsp;&nbsp;万元</c:if>
+					</label>
+				</div>
+				
 			</div>
 
 			<div class="tab-pane fade" id="profile_info">
@@ -556,8 +693,8 @@
 				</div>
 				<div class="row">
 					<label class="col-sm-3 control-label">评估值：<label id="assessmentFee"></label></label>
-					<label class="col-sm-3 control-label">应收评估值：<label id="receivableAssessmentFee"></label></label>
-					<label class="col-sm-3 control-label">实收评估值：<label id="receiptsAssessmentFee"></label></label>
+					<label class="col-sm-3 control-label">应收评估费：<label id="receivableAssessmentFee"></label></label>
+					<label class="col-sm-3 control-label">实收评估费：<label id="receiptsAssessmentFee"></label></label>
 				</div>
 			</div>
 		</div>
@@ -574,13 +711,13 @@
 	<script	src="<c:url value='/js/plugins/jquery-ui/jquery-ui.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/iCheck/icheck.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/datapicker/bootstrap-datepicker.js' />"></script><%--by wbzhouht 添加时间组件js，解决时间显示撑破布局--%>
-
+	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
 	<script	src="<c:url value='/js/plugins/ionRangeSlider/ion.rangeSlider.min.js' />"></script>
 	<script src="<c:url value='/js/plugins/jasny/jasny-bootstrap.min.js' />"></script>
 	<script src="<c:url value='/js/jquery.blockui.min.js' />"></script>
 	<%-- <script src="<c:url value='/transjs/task/follow.pic.list.js' />"></script> --%>
 	<script src="<c:url value='/js/trunk/case/moduleSubscribe.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/caseDetail_new.js' />"></script>
+
 	<%-- <script src="<c:url value='js/trunk/case/showCaseAttachment.js' />"></script> --%>
 	<script src="<c:url value='/js/viewer/viewer.min.js' />"></script>
 	<%--<script src="<c:url value='/js/trunk/case/showCaseAttachmentByJagd.js' />"></script>--%>
@@ -589,12 +726,12 @@
 	<script src="<c:url value='/js/plugins/validate/common/messages_zh.js' />"></script>
 	<script src="<c:url value='/js/stickUp.js' />"></script>
 	<script	src="<c:url value='/js/plugins/toastr/toastr.min.js' />"></script>
-	<script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script>
+	<%-- <script src="<c:url value='/js/trunk/case/showCaseAttachmentGuohu.js' />"></script> --%>
 	<!-- 放款监管信息  -->
 	<script src="<c:url value='/js/poshytitle/src/jquery.poshytip.js' />"></script>
 	<script	src="<c:url value='/transjs/task/caseflowlist.js' />"></script>
 	<script	type="text/javascript" src="<c:url value='/js/jquery.json.min.js' />"></script>
-	<script	src="<c:url value='/js/plugins/pager/jquery.twbsPagination.min.js' />"></script>
+
 	<script	src="<c:url value='/js/template.js' />" type="text/javascript"></script>
 	<!-- 公共信息js -->
 	<script	src="<c:url value='/js/trunk/case/caseBaseInfo.js' />" type="text/javascript"></script>
@@ -603,6 +740,7 @@
 	<script	src="<c:url value='/js/trunk/comment/caseComment.js' />"></script>
 	<!-- 各个环节的备注信息  -->
 	<script src="<c:url value='/js/trunk/case/caseRemark.js' />"></script>
+	<script src="<c:url value='/js/trunk/case/caseDetail_new.js' />"></script>
 	<jsp:include	page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 	<script>
 
@@ -752,8 +890,8 @@
 				{{/if}}
 			</td>
 			<td class="td_width">
-				{{if item.type == 1}}
-				{{item.sharingProportion}}
+				{{if item.type == 1 && item.sharingProportion !=''}}
+				{{item.sharingProportion}}%
 				{{/if}}
 			</td>
 			<td class="td_width">
@@ -804,6 +942,178 @@
 		</tr>
 		{{/each}}
 	</script>
+	
+<script id="template_caseRecord" type="text/html">
+
+	{{each rows as item index}}
+		<tr>
+			{{if item.BUSINESS_KEY =='ransom_process'}}
+			{{if item.DATELAMP < lamp1|| item.DATELAMP==null || item.DATELAMP ==''}}
+				<td></td>
+			{{else if item.DATELAMP < lamp2}}
+            	<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		<div class="sk-double-bounce1 green_light"></div>
+                		<div class="sk-double-bounce2 green_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                        </p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+                 </td>
+			{{else if item.DATELAMP < lamp3}}
+				<td>  
+					<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                		<div class="sk-double-bounce1 orange_light"></div>
+                    	<div class="sk-double-bounce2 orange_light"></div>
+               		</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+  			{{else}}
+   				<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                    	<div class="sk-double-bounce1 red_light"></div>
+                    	<div class="sk-double-bounce1 red_light"></div>
+                	</div>
+					{{if item.RED_LOCK==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+			{{/if}}
+
+			{{else}}
+
+			{{if item.DATELAMP_CASE < lamp1|| item.DATELAMP_CASE==null || item.DATELAMP_CASE ==''}}
+				<td></td>
+			{{else if item.DATELAMP_CASE < lamp2}}
+            	<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                 		<div class="sk-double-bounce1 green_light"></div>
+                		<div class="sk-double-bounce2 green_light"></div>
+                	</div>
+					{{if item.RED_LOCK_CASE==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                        </p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+                 </td>
+			{{else if item.DATELAMP_CASE < lamp3}}
+				<td>  
+					<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                		<div class="sk-double-bounce1 orange_light"></div>
+                    	<div class="sk-double-bounce2 orange_light"></div>
+               		</div>
+					{{if item.RED_LOCK_CASE==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+  			{{else}}
+   				<td>
+                	<div class="sk-spinner sk-spinner-double-bounce" style="width:18px;height:18px;margin-top:-5px;">
+                    	<div class="sk-double-bounce1 red_light"></div>
+                    	<div class="sk-double-bounce1 red_light"></div>
+                	</div>
+					{{if item.RED_LOCK_CASE==1}}
+						<p class="text-center clock clock_red">
+                        	<i class="icon iconfont clock_icon">&#xe60b;</i>
+                    	</p>
+					{{else}}
+                    	<p class="text-center clock">
+          					<i class="icon iconfont clock_icon">&#xe60b;</i>
+      					</p>
+					{{/if}}
+				</td>
+			{{/if}}
+			{{/if}}
+				
+			<td>
+				<p>
+					{{if item.BUSINESS_KEY =='ransom_process'}}
+						{{if item.RED_LOCK == '1'}}
+							有
+						{{else}}
+							无
+						{{/if}}
+					{{else}}
+						{{if item.RED_LOCK_CASE == '1'}}
+							有
+						{{else}}
+							无
+						{{/if}}
+					{{/if}}
+				</p>
+			</td>
+			<td>
+				<P>
+					{{item.processName}}
+				</P>
+			</td>
+			<td>
+				<P>
+					{{item.taskName}}
+				</P>
+			</td>
+			<td>
+				<P>
+					{{item.userNameStr}}
+				</P>
+			</td>
+			<td>
+				<p>
+					{{if item.BUSINESS_KEY =='ransom_process'}}
+						{{item.EST_PART_TIME}}
+					{{else}}
+						{{item.EST_PART_TIME_CASE}}
+					{{/if}}
+				</p>
+			</td>
+			<td>
+				<P>
+					{{item.compTime}}
+				</P>
+			</td>
+			<td>
+					{{if item.STATUS =='completed'}}
+						已完成
+					{{else if item.STATUS == 'deleted'}}
+						已删除
+					{{else}}
+						进行中..
+					{{/if}}
+			</td>
+		</tr>
+	{{/each}}
+</script>
+
 </content>
 </body>
 </html>

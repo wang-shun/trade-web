@@ -27,11 +27,11 @@ $(document).ready(function() {
 	caseremarkList.init(ctx,'/quickGrid/findPage','evalCommenTable','evalCommenPager',caseCode);  // 显示各个流程的备注信息列表
 	
 	//审批记录
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_invoice','gridPager_invoice',caseCode,'25');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_rebate','gridPager_rebate',caseCode,'18');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_baodao','gridPager_baodao',caseCode,'16');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
-	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'10');
+	//ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_settle','gridPager_settle',caseCode,'10');
+	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_message','gridPager_message',caseCode,'26');
 	ApproveList.init(ctx,'/quickGrid/findPage', 'gridTable_refund','gridPager_refund',caseCode,'17');
 	
 	var width = $('.jqGrid_wrapper').width();
@@ -224,8 +224,8 @@ var ApproveList = (function() {
 									width : 25,
 									resizable : false
 								}, {
-									name : 'NOT_APPROVE',
-									index : 'NOT_APPROVE',
+									name : 'NOT_APPROVE_OLD',
+									index : 'NOT_APPROVE_OLD',
 									align : "center",
 									width : 25,
 									resizable : false
@@ -256,20 +256,18 @@ var ApproveList = (function() {
 												"#" + gridTableId).jqGrid(
 												'getRowData', ids[i]); // 获取当前行
 
-										var auditResult = rowDatas['NOT_APPROVE'];
+										var auditResult = rowDatas['NOT_APPROVE_OLD'];
 										var auditResultDisplay = null;
-										if (!auditResult) {
-											auditResultDisplay = "审批通过"
-										} else {
-											auditResultDisplay = auditResult;
-										}
+										console.info(auditResult);
+                                        if (!auditResult || auditResult.length == 0) {
+                                            auditResultDisplay = "通过"
+                                            auditResult = rowDatas['CONTENT'];
+                                        } else {
+                                            auditResultDisplay = "不通过";
+                                            auditResult = rowDatas['NOT_APPROVE_OLD'];
+                                        }
 										jQuery("#" + gridTableId)
-												.jqGrid(
-														'setRowData',
-														ids[i],
-														{
-															NOT_APPROVE : auditResultDisplay
-														});
+												.jqGrid('setRowData',ids[i],{NOT_APPROVE_OLD: auditResultDisplay,CONTENT:auditResult});
 									}
 								},
 								postData : {
@@ -449,7 +447,7 @@ function evalComChange(evaCode){
 }
 
 //评估公司变更调佣
-function transferCommission(){
+/*function transferCommission(){
 	var caseCode = $("#caseCode").val();
 	window.wxc.confirm("确定评估公司变更调佣？",{"wxcOk":function(){
 		
@@ -482,8 +480,45 @@ function transferCommission(){
 			}
 		});
 	}});
-}
+}*/ //注释by xiefei1 改用流程开启的方式开启
 
+function transferCommission(){
+	var url = null;
+	url=ctx+"/eval/detail/checkTransferCommission";//注释by xiefei1 原来的url
+	url=ctx+"/eval/startChangeCommssion";//注释by xiefei1,测试开始调佣流程的url   
+//	url=ctx+"/eval/submitEvalChangeAudit";//测试用的
+	var caseCode = $("#caseCode").val();
+	window.wxc.confirm("确定评估公司变更调佣？",{"wxcOk":function(){		
+		$.ajax({
+			url:url,
+			method:"post",
+			dataType:"json",
+			data:{caseCode:caseCode,evaCode:$("#evaCode").val()},
+		    beforeSend:function(){  
+				$.blockUI({message:$("#salesLoading"),css:{'border':'none','z-index':'9999'}}); 
+				$(".blockOverlay").css({'z-index':'9998'});
+          },
+          complete: function() {  
+              if(status=='timeout'){//超时,status还有success,error等值的情况
+	          	  Modal.alert(
+				  {
+				    msg:"抱歉，系统处理超时。"
+				  });
+		        }
+		   } , 
+		   success:function(data){
+			   console.log(data);
+				if(!data.success){
+					$.unblockUI();   
+					window.wxc.error(data.message);				
+				}else{
+					$.unblockUI();
+					window.wxc.alert("成功开启权证经理审批调佣流程，请查看！");	
+				}
+			}
+		});
+	}});
+}
 
 function dateFormat(dateTime){
 	if(dateTime ==null || dateTime == '' || dateTime == undefined){

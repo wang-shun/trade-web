@@ -209,7 +209,7 @@ function submitChangeRecord(){
 			success: function(data){
 				if(data.success){
 					window.wxc.alert("赎楼计划时间修改保存成功！");
-					window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
+					//window.location.href = ctx + "/ransomList/ransomDetail?ransomCode=" + ransomCode;
 				}else{
 					window.wxc.error(data.exception);
 				}

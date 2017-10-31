@@ -15,7 +15,9 @@
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	Menu menu = MenuConstants.getMenu();
-	request.setAttribute("menuVO", menu.getChildren());
+	if(menu!=null && menu.getChildren()!=null){
+        request.setAttribute("menuVO", menu.getChildren());
+    }
 %>
 <html>
 
@@ -24,7 +26,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>誉萃交易系统</title>
+	<title>
+		<sitemesh:title /> - 交易金融平台
+	</title>
 	<link rel="icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
 	<link rel="shortcut icon" href="<c:url value='/static/image/favicon.ico' />" type="image/x-icon">  
     <link href="<c:url value='/css/bootstrap.min.css' />" rel="stylesheet">
@@ -39,6 +43,7 @@
     <link href="<c:url value='/css/plugins/jqGrid/aist-jqgird-ui.custom.css' />" rel="stylesheet">
     <!--弹出框样式  -->
 	<link href="<c:url value='/css/common/xcConfirm.css' />" rel="stylesheet">
+	<link rel="stylesheet" href="<c:url value='/css/common/table.css' />" />
     <script type="text/javascript">
 	    var ctx = '${ctx}';
 	    window.ctx=ctx;
@@ -92,7 +97,7 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            YUCUI+
+                            JYJR+
                         </div>
                     </li>
                    <c:forEach items="${menuVO}" var="l1_menu" >
@@ -161,7 +166,7 @@
 		        
 	        </sitemesh:body>
 	        <div class="copyrightstyle">
-            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>
+            	Copyright ©2017 Centaline Group Management Limited All rights reserved.  </br> Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>
             </div>   
             
         </div>

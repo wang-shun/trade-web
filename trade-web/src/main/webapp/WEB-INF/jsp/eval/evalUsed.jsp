@@ -67,7 +67,10 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalUsedForm">
-				    <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				    <c:if test="${source != 'evalDetails'}">
+				         <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				    </c:if>
+				    <input type="hidden" id="source" name="source" value="${source }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode"
 						value="${taskitem}">
@@ -102,7 +105,7 @@
 						</li>
 					</ul>
 					<p class="text-center">
-							<c:if test="${source == null}">
+							<c:if test="${source != 'evalDetails'}">
 							<input type="button" class="btn btn-success submit_From" value="提交">
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">
@@ -186,7 +189,11 @@
 				},
 				success : function(data) {
 					window.wxc.success(message,{"wxcOk":function(){
-							window.location.href = ctx + "/task/eval/evalTaskList";
+						if($("#source").val()=='evalDetails'){
+						    location.reload();
+					   }else{
+						   window.location.href = ctx + "/task/eval/evalTaskList";
+					   }
 					}});
 				},
 				error : function(errors) {

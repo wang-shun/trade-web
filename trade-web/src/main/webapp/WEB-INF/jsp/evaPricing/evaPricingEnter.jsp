@@ -104,7 +104,7 @@
 <body>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 <input type="hidden" id="ctx" value="${ctx}" />
-	
+<input TYPE="hidden" id="finorgIdEx" value="${toEvaPricingVo.finorgId }">	
 	
 	<nav id="navbar-example" class="navbar navbar-default navbar-static"
 		role="navigation">
@@ -199,7 +199,7 @@
 						<div class="height_line1"></div>
 						<div class="row font-family" >
 							<label class="col-sm-4 control-label">贷款银行 ：${toEvaPricingVo.loanBank }</label>
-							<label class="col-sm-3 control-label">合同价 ：${toEvaPricingVo.conPrice }</label>
+							<label class="col-sm-3 control-label">合同价 ：<c:if test="${!empty toEvaPricingVo.conPrice }">${toEvaPricingVo.conPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
 							<label class="col-sm-3 control-label">询价值 ：<c:if test="${!empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }&nbsp;&nbsp;万元</c:if></label>
 						</div>
 					</div>
@@ -236,7 +236,7 @@
 								<div class="form_content">
 									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价时间</label>
 									<div id="datepicker" class="input-group sign-right  input-daterange pull-left width_house"  data-date-format="yyyy-mm-dd">
-					                  		<input id="evalTime" name="evalTime" class="form-control " style="font-size: 13px; border-radius: 2px;" type="text" placeholder="询价时间">
+					                  		<input id="evalTime" name="evalTime" value="<fmt:formatDate value="${toEvaPricingVo.evalTime }" type="date" pattern="yyyy-MM-dd"/>" class="form-control " style="font-size: 13px; border-radius: 2px;" type="text" placeholder="询价时间">
 					                  	</div> 
 								</div>
 							</div>
@@ -244,12 +244,12 @@
 							<div class="row clearfix">
 								<div class="form_content">
 									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>询价值</label>
-									<input type="text" id="totalPrice" name="totalPrice" class="select_control"  onkeyup="checkNum(this)">
+									<input type="text" id="totalPrice" name="totalPrice" value="<c:if test="${not empty toEvaPricingVo.totalPrice }">${toEvaPricingVo.totalPrice/10000 }</c:if>" class="select_control"  onkeyup="checkNum(this)">
 									<div class="date_icon">万元</div>
 								</div>
 								<div class="form_content">
 									<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>房龄</label>
-									<input type="text" id="houseAge" class="select_control" name="houseAge" style="margin-left:2px;" onkeyup="checkNum(this)">
+									<input type="text" id="houseAge" value="${toEvaPricingVo.houseAge }" class="select_control" name="houseAge" style="margin-left:2px;" onkeyup="checkNum(this)">
 								</div>
 							</div>	
 						</div>
@@ -305,8 +305,13 @@
 				success:function(data){
 					var html = '<option value="" selected>请选择</option>';
 					if(data != null){
+						var finorgIdEx = $('#finorgIdEx').val();
 						$.each(data,function(i,item){
-							html += '<option value="'+item.pkid+'">'+item.finOrgName+'</option>';
+							if(finorgIdEx == item.pkid){
+								html += '<option value="'+item.pkid+'" selected>'+item.finOrgName+'</option>';
+							}else{
+								html += '<option value="'+item.pkid+'" >'+item.finOrgName+'</option>';
+							}
 						});
 					}					
 					$('#'+finOrgId).empty();
@@ -395,9 +400,7 @@
 				dataType:"json",
 				success:function(data){
 					if(data.success){
-						window.wxc.success("记录保存成功!",{"wxcOk":function(){
-							window.location.href = "${ctx}/evaPricing/list";
-						}});
+						window.wxc.alert("记录保存成功!");
 					}else{
 						window.wxc.error(data.message);
 					}

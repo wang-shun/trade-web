@@ -28,6 +28,7 @@
 		<result column="STATUS" property="status" jdbcType="VARCHAR"/>
 		<result column="taskId" property="taskId" jdbcType="VARCHAR"/>
 		<result column="REASON" property="reason" jdbcType="VARCHAR"/>
+		<result column="FIN_ORG_ID" property="finorgId" jdbcType="VARCHAR"/>
 	</resultMap>
 	
 	<!-- 查询询价明细 -->
@@ -57,7 +58,8 @@
 			si.CON_PRICE,
 			pri.STATUS,
 			ART.ID_ taskId,
-			pri.REASON
+			pri.REASON,
+			pri.FIN_ORG_ID
 		FROM
 			sctrans.T_TO_EVA_PRICING pri
 			INNER JOIN sctrans.T_TO_EGU_PROPERTY_INFO pro ON pri.EVA_CODE = pro.EVA_CODE

@@ -35,7 +35,7 @@
     <link rel="icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico" type="image/x-icon">  
     <title>
-		<sitemesh:title /> - 金融交易平台
+		<sitemesh:title /> - 交易金融平台
 	</title>
     <link href="<c:url value='/static/css/bootstrap.min.css' />" rel="stylesheet">
     <link href="<c:url value='/static/font-awesome/css/font-awesome.css' />" rel="stylesheet">
@@ -100,7 +100,7 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            YUCUI+
+                            JYJR+
                         </div>
                     </li>
                    <c:forEach items="${menuVO}" var="l1_menu" >
@@ -193,7 +193,7 @@
 			</div>
 			
             <div class="copyrightstyle">
-            	Copyright ©2017 AIST All rights reserved. Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>  
+            	Copyright ©2017 Centaline Group Management Limited. All rights reserved. </br> Version : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("Implementation-Version")%> commit : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("commit")%> branch : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("branch")%> buildTime : <%=com.aist.common.utils.ManifestUtils.getManifest().getMainAttributes().getValue("buildTime")%> hostname: <%=java.net.InetAddress.getLocalHost().getHostName() %>
             </div>    
         </div>
     </div>

@@ -14,4 +14,9 @@ public interface ToMortgageTosaveMapper {
 	MortgageToSaveVO selectByCaseCode(String code);
 
 	int updateByPrimary(MortgageToSaveVO mortgageToSaveVO);
+	
+	
+	int update(MortgageToSaveVO mortgageToSaveVO);
+	
+	int update1(MortgageToSaveVO mortgageToSaveVO);
 }

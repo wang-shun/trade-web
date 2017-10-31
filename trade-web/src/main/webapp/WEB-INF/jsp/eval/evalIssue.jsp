@@ -67,8 +67,11 @@
 			<h5>填写任务信息</h5>
 			<div class="ibox-content">
 				<form method="get" class="form_list" id="evalIssueForm">
-				<input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				<c:if test="${source != 'evalDetails'}">
+				         <input type="hidden" id="evaCode" name="evaCode" value="${toEvalReportProcessVo.evaCode }">
+				    </c:if>
 				<input type="hidden" id="caseCode" name="caseCode" value="${caseCode }">
+				<input type="hidden" id="source" name="source" value="${source }">
 					<%--环节编码 --%>
 					<input type="hidden" id="partCode" name="partCode" value="${taskitem}">
 					<!-- 流程引擎需要字段 -->
@@ -110,14 +113,14 @@
 								<label class="control-label sign_left_two"><i style="color:red">* </i> 房龄</label> 
 								<input class="input_type sign_right_two" name="houseAgeIssue" id="houseAgeIssue" value="${toEvalReportProcessVo.houseAgeIssue}"></input>
 								<div class="input-group date_icon">
-									<span class="danwei">年</span>
+									<span class="danwei">年内</span>
 								</div>
 							</div>
 						</li>
 						<li>
 							<div class="form_content">
 								<label class="control-label sign_left_two"><i style="color:red">* </i>评估报告份数</label> 
-								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue" value="${toEvalReportProcess.reportNumIssue}"></input>
+								<input class="input_type sign_right_two" name="reportNumIssue" id="reportNumIssue" value="${toEvalReportProcessVo.reportNumIssue}"></input>
 							</div>
 						</li>
 						<li>
@@ -133,7 +136,7 @@
                         </li>
 					</ul>
 					<p class="text-center">
-							<c:if test="${source == null}">
+							<c:if test="${source != 'evalDetails'}">
 							<input type="button" class="btn btn-success submit_From" value="提交">
 							</c:if>
 							<c:if test="${source == 'evalDetails'}">
@@ -200,7 +203,7 @@
 					if (!checkForm()) {
 						return;
 					}
-					saveEvalUsed("${ctx}/task/eval/saveIssue","评估出具提交成功");
+					saveEvalIssue("${ctx}/task/eval/saveIssue","评估出具提交成功");
 				});
 		});
 		
@@ -234,7 +237,11 @@
 				},
 				success : function(data) {
 					window.wxc.success(message,{"wxcOk":function(){
-							window.location.href = ctx + "/task/eval/evalTaskList";
+						if($("#source").val()=='evalDetails'){
+						    location.reload();
+					   }else{
+						   window.location.href = ctx + "/task/eval/evalTaskList";
+					   }
 					}});
 				},
 				error : function(errors) {
