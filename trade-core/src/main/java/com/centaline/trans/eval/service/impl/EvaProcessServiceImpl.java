@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,11 @@ public class EvaProcessServiceImpl implements EvaProcessService {
 	@Override
 	public void initApply(HttpServletRequest request, String caseCode, String evaCode, String taskitem,
 			String businessKey) {
+		//若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+		if(StringUtils.isNotBlank(businessKey)){
+			evaCode=businessKey;
+			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(evaCode).getCaseCode();
+		}
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
 		ToSign toSign = toSignMapper.findToSignByCaseCode(caseCode); 
 		ToEvaPricingVo toEvaPricingVo=null;
