@@ -781,7 +781,7 @@ public class CaseDetailController {
 		}
 		TsTransPlanHistory th=transplanServiceFacade.findTransPlanHistoryByCaseCode(tsTransPlanHistory);
 		if (th!=null){
-			if (th.getAuditResult().equals(0)){
+			if (Integer.valueOf(0).equals(th.getAuditResult())){
 				request.setAttribute("auditResult",true);
 			}
 		}
