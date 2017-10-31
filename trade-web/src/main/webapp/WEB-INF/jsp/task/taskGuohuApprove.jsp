@@ -161,8 +161,8 @@
         </div>
     </div>
     <div class="clearfix">
-        <c:if test="${!empty toMortgage or !empty mortgageToSaveVO}">
-            <h2 class="newtitle title-mark">案件贷款情况 : 有贷款</h2>
+       <c:if test="${!empty toMortgage or !empty mortgageToSaveVO}">
+           <h2 class="newtitle title-mark">案件贷款情况 : 有贷款</h2>
         </c:if>
         <c:if test="${empty toMortgage and empty mortgageToSaveVO}">
             <h2 class="newtitle title-mark">案件贷款情况 : 无贷款</h2>
