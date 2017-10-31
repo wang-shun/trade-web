@@ -40,7 +40,9 @@ import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.service.ToMortgageService;
 import com.centaline.trans.task.entity.ActRuEventSubScr;
+import com.centaline.trans.task.entity.MortgageSelect;
 import com.centaline.trans.task.repository.ActRuEventSubScrMapper;
+import com.centaline.trans.task.repository.MortgageSelectMapper;
 import com.centaline.trans.task.repository.ToMortgageTosaveMapper;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
@@ -91,6 +93,9 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 	@Autowired(required = true)
 	private PropertyUtilsService propertyUtilsService;
 	
+	@Autowired
+	private MortgageSelectMapper mortgageSelectMapper;
+	
 
 	
 	@Autowired
@@ -101,8 +106,42 @@ public class ToMortgageTosaveServiceImp implements ToMortgageTosaveService {
 	
 	@Override
 	public int saveMortgageTosave(MortgageToSaveVO mortgageTosaveVo) {
-		mortgageTosaveVo.setCreateTime(new Date());
-		return toMortgageTosaveMapper.saveMortgageTosave(mortgageTosaveVo);
+		if(mortgageTosaveVo.getSelfMort().equals("0")){  //自办1代办0
+			MortgageSelect mortgageSelect1 = mortgageSelectMapper.selectByCaseCode(mortgageTosaveVo.getCaseCode());
+			if(mortgageSelect1 != null){
+				mortgageSelect1.setMortgageServive(mortgageTosaveVo.getMortageService());
+				mortgageSelectMapper.update(mortgageSelect1);
+			}else{
+				MortgageSelect mortgageSelect = new MortgageSelect();
+				mortgageSelect.setCaseCode(mortgageTosaveVo.getCaseCode());
+				mortgageSelect.setMortgageServive(mortgageTosaveVo.getMortageService());
+				mortgageSelectMapper.save(mortgageSelect);
+			}
+			MortgageToSaveVO mortgageTosave = toMortgageTosaveMapper.selectByCaseCode(mortgageTosaveVo.getCaseCode());
+			if(mortgageTosave != null){
+				mortgageTosaveVo.setPkid(mortgageTosave.getPkid());
+				return toMortgageTosaveMapper.update(mortgageTosaveVo);
+			}
+			mortgageTosaveVo.setCreateTime(new Date());
+			mortgageTosaveVo.setBankName(null);
+			mortgageTosaveVo.setContent(null);
+			return toMortgageTosaveMapper.saveMortgageTosave(mortgageTosaveVo);
+		}else{
+			MortgageToSaveVO mortgageTosave = toMortgageTosaveMapper.selectByCaseCode(mortgageTosaveVo.getCaseCode());
+			if(mortgageTosave != null){
+				mortgageTosaveVo.setPkid(mortgageTosave.getPkid());
+				return toMortgageTosaveMapper.update1(mortgageTosaveVo);
+			}
+			mortgageTosaveVo.setCreateTime(new Date());
+			mortgageTosaveVo.setBank_type(null);
+			mortgageTosaveVo.setFinOrgCode(null);
+			MortgageSelect mortgageSelect2 = mortgageSelectMapper.selectByCaseCode(mortgageTosaveVo.getCaseCode());
+			if(mortgageSelect2 != null){
+				mortgageSelectMapper.deleteByCode(mortgageSelect2.getCaseCode());
+			}
+			return toMortgageTosaveMapper.saveMortgageTosave(mortgageTosaveVo);
+		}
+		
 	}
 
 	@Override

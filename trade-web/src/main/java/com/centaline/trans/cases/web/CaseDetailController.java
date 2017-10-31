@@ -224,6 +224,10 @@ public class CaseDetailController {
 	CaseApiService caseApiService;
 	@Autowired
 	private SignService signService;
+	@Autowired
+	private CaseRecvService caseRecvService;
+	@Autowired
+	private ToTaxService toTaxService;
 
 	/**
 	 * 判断交易计划时间 by wbzhouht
@@ -835,6 +839,7 @@ public class CaseDetailController {
 				reVo.setBuyerMobile(guest.getGuestPhone());
 			}
 		}
+			
 		// 房屋类型
 		if(toPropertyInfo.getPropertyType() != null){
 			String propertyTypeName = uamBasedataService.getDictValue("30014", toPropertyInfo.getPropertyType());
@@ -854,6 +859,7 @@ public class CaseDetailController {
 				reVo.setIsUniqueHome("否");
 			}
 		}
+		ToTax tax = toTaxService.findToTaxByCaseCode(toCase.getCaseCode());
 		
 		//网签时间
 		if (caseInfo.getRealConTime() != null) {
@@ -1040,7 +1046,9 @@ public class CaseDetailController {
 
 		request.setAttribute("toPropertyInfo", toPropertyInfo);
 		request.setAttribute("ransomInfo", ransomInfo);
-		
+		//添加买卖方信息
+		request.setAttribute("caseRecv", caseRecv);
+		request.setAttribute("tax", tax);
 		return "case/caseDetail_new";
 	}
 	
@@ -2223,6 +2231,7 @@ public class CaseDetailController {
 				reVo.setBuyerMobile(guest.getGuestPhone());
 			}
 		}
+		
 		
 		ToCaseParticipant vo = new ToCaseParticipant();
 		vo.setCaseCode(caseCode);

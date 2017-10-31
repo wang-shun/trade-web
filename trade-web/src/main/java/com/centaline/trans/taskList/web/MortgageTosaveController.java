@@ -13,6 +13,8 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.mortgage.entity.ToMortgage;
+import com.centaline.trans.task.entity.MortgageSelect;
+import com.centaline.trans.task.service.MortgageSelectService;
 import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
 import com.centaline.trans.transplan.entity.ToTransPlan;
@@ -31,20 +33,18 @@ public class MortgageTosaveController {
 	@Inject
 	private ToMortgageTosaveService toMortgageTosaveService;
 	
+	@Inject
+	private MortgageSelectService mortgageSelectService;
+	
 	
 	@RequestMapping(value = "process")
 	public String toProcess(HttpServletRequest request, HttpServletResponse response, String caseCode, String source,
 			String taskitem, String processInstanceId) {
 		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
-		//税费卡
-		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
-		if ( cou >0) {
-			caseBaseVO.setLoanType("30004005");
-		}
 		request.setAttribute("source", source);
 		request.setAttribute("caseBaseVO", caseBaseVO);
-		ToTransPlan plan=new ToTransPlan();
-		plan.setCaseCode(caseCode);
+		request.setAttribute("tosave", toMortgageTosaveService.selectByCaseCode(caseCode));
+		request.setAttribute("service",mortgageSelectService.selectByCaseCode(caseCode));
 		return "task" + UiImproveUtil.getPageType(request) + "/taskMortgageTosave";
 
 	}
@@ -59,6 +59,15 @@ public class MortgageTosaveController {
 			  b = toMortgageTosaveService.submit(mortgageToSaveVO);
 		 }
 		 return b;
+	}
+	
+	@RequestMapping(value = "save")
+	@ResponseBody
+	public boolean save(MortgageToSaveVO mortgageToSaveVO){
+		SessionUser u = uamSessionService.getSessionUser();
+		mortgageToSaveVO.setPartner(u.getId());
+		 int count = toMortgageTosaveService.saveMortgageTosave(mortgageToSaveVO);
+		 return count>0;
 	}
 	
 	@RequestMapping(value="getSaveInfo")
