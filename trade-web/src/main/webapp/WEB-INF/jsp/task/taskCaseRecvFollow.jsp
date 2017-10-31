@@ -302,7 +302,7 @@
 			window.wxc.alert("合同价为必填项!");
 			$('input[name=conPrice]').focus();
 			$('input[name=conPrice]').css("border-color", "red");
-			return false;
+			return false;		
 		} */
 
 		/* if ($("#estEvlApplyTime").val() == 0) {
@@ -533,7 +533,7 @@
 	<jsp:include page="/WEB-INF/jsp/common/caseBaseInfo.jsp"></jsp:include>
 		<script src="<c:url value='/js/trunk/case/caseBaseInfo.js' />"></script>
 	<div class="">
-		<div class="row wrapper white-bg new-heading" id="serviceFlow">
+		<div class="wrapper white-bg new-heading" id="serviceFlow">
 			<div class="pl10">
 				<h2 class="newtitle-big">接单跟进</h2>
 				<div class="mt20">
@@ -646,7 +646,7 @@
 
 					</div>
 					<div class="line">
-						<div class="form_content mt3">
+						<%-- <div class="form_content mt3">
 							<label
 								class="control-label sign_left_small select_style mend_select">
 								<!-- <font color=" red" class="mr5">*</font> -->评估申请时间
@@ -659,7 +659,7 @@
 									onfocus="this.blur()"
 									value="<fmt:formatDate  value='${caseRecvVO.toCaseRecv.estEvlApplyTime}' type='both' pattern='yyyy-MM-dd'/>">
 							</div>
-						</div>
+						</div> --%>
 
 						<div class="form_content mt3">
 							<label
@@ -974,7 +974,7 @@
 								}
 	
 								//日期组件
-								 $('#estEvlApplyTime').datepicker({
+								 /* $('#estEvlApplyTime').datepicker({
 									todayBtn : "linked",
 									keyboardNavigation : false,
 									forceParse : false,
@@ -986,7 +986,7 @@
 									if(inputtime<newDate){
 										window.wxc.alert("请输入大于今日的时间!");
 									}
-						        }); 
+						        });  */
 								//日期组件
 								 $('#estSignTime').datepicker({
 									todayBtn : "linked",

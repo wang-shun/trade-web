@@ -3,6 +3,7 @@ package com.centaline.trans.eval.service;
 import java.util.List;
 
 import com.centaline.trans.eval.entity.ToEvalSettle;
+import com.centaline.trans.eval.vo.EvalAccountShowVO;
 import com.centaline.trans.mgr.entity.TsFinOrg;
 /***
  * 
@@ -27,7 +28,11 @@ public interface ToEvalSettleService {
     int updateSettleTimeByCaseCode(ToEvalSettle record);
     
     int updateSettleFeeByCaseCode(ToEvalSettle record);
-    
+    /**
+     * 根据案件编号修改结算费用
+     * @param record
+     * @return
+     */
     int newSettleFeeByCaseCode(ToEvalSettle record);
     
     ToEvalSettle findToCaseByCaseCode(String caseCode);
@@ -43,5 +48,11 @@ public interface ToEvalSettleService {
     //传入需要结算案件 feeChangeReason：1--发票税点；2--退报告；3--爆单
     int insertWaitAccount(String caseCode,String evaCode,String feeChangeReason);
     
+    /**
+     * 查询案件关联相关信息
+     * @param caseCode
+     * @return
+     */
+    EvalAccountShowVO selectAssociatedCaseInfo(String caseCode);
     
 }
