@@ -16,9 +16,9 @@
 <%
 	request.setAttribute("sessionUser", SessionUserConstants.getSesstionUser());
 	Menu menu = MenuConstants.getMenu();
-	request.setAttribute("menuVO", menu.getChildren());
-
-
+	if(menu!=null && menu.getChildren()!=null){
+		request.setAttribute("menuVO", menu.getChildren());
+	}
 %>
 <html>
 

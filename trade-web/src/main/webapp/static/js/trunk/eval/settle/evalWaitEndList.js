@@ -203,42 +203,17 @@ $('#checkAllNot').click(function(){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',true);
 		}
 		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
+		//$("#caseAdd").attr("disabled", false);
 	}else{
 		for(var i=0; i<my_checkboxes.length; i++){
 			$('input[name="my_checkbox"]:eq('+i+')').prop('checked',false);
 		}
 		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
+		//$("#caseAdd").attr("disabled", true);
 	}
 });
 
-/*单选框*/
-/*function _checkbox(){
-	var my_checkboxes = $('input[name="my_checkbox"]');
-	var flag =false;
-	var count=0;
-	$.each(my_checkboxes, function(j, item){
-		if($('input[name="my_checkbox"]:eq('+j+')').prop('checked')){
-			flag=true;
-			++count;
-		}
-	});
-	if(flag){
-		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
-		if(count==my_checkboxes.length){
-			$('#checkAllNot').prop('checked', true);
-			
-		}else if(count<my_checkboxes.length){
-			$('#checkAllNot').prop('checked', false);
-		}
-	}else{
-		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
-		$('#checkAllNot').prop('checked', false);
-	}
-}*/
+
 
 /*单选框*/
 function _checkbox(){
@@ -253,7 +228,7 @@ function _checkbox(){
 	});
 	if(flag){
 		$("#batchappro").attr("disabled", false);
-		$("#caseAdd").attr("disabled", false);
+		//$("#caseAdd").attr("disabled", false);
 		if(count==my_checkboxes.length){
 			$('#checkAllNot').prop('checked', true);
 		}else if(count<my_checkboxes.length){
@@ -261,7 +236,7 @@ function _checkbox(){
 		}
 	}else{
 		$("#batchappro").attr("disabled", true);
-		$("#caseAdd").attr("disabled", true);
+		//$("#caseAdd").attr("disabled", true);
 		$('#checkAllNot').prop('checked', false);
 	}
 }
@@ -291,7 +266,7 @@ function packgeData(page){
  */
 
 function caseAdd(){
-	var ids = new Array();
+	/*var ids = new Array();
 	var checkeds=$('input[name="my_checkbox"]:checked');
 	$.each(checkeds, function(i, items){
 		var $td = $(items).parent();
@@ -301,9 +276,9 @@ function caseAdd(){
 	if(ids.length>1){
 		window.wxc.alert("只能勾选一个案件编号，请检查！");
 		return;
-	}
+	}*/
 	var ctx = $("#ctx").val();
-	window.location.href = ctx + "/eval/settle/newEndForm?caseCodes="+ids;
+	window.location.href = ctx + "/eval/settle/newEndForm";
 	
 }
 

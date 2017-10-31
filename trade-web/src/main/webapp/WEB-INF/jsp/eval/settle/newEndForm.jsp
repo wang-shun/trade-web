@@ -90,20 +90,9 @@ display: none;}
 }
 </style>
 <jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
-	<input type="hidden" id="caseCode" value="${caseCode}" />
+	
 	<input type="hidden" id="flag" value="${flag}" />
 	<input type="hidden" id="ctx" value="${ctx}" />
-	<%--<input type="hidden" id="ctm" value="${toCaseInfo.ctmCode}" />
-	<input type="hidden" id="Lamp1" value="${Lamp1}" />
-	<input type="hidden" id="Lamp2" value="${Lamp2}" />
-	<input type="hidden" id="Lamp3" value="${Lamp3}" />
-	<input type="hidden" id="Lamp3" value="${Lamp3}" />
-	<input type="hidden" id="activityFlag" value="${toCase.caseProperty}" /> --%>
-	
-	<%-- <input type="hidden" id="instCode" value="${toWorkFlow.instCode}" />
-	<input type="hidden" id="srvCodes" value="${caseDetailVO.srvCodes}" />
-	<input type="hidden" id="processDefinitionId"
-		value="${toWorkFlow.processDefinitionId}" /> --%>
 	<jsp:include page="/WEB-INF/jsp/common/salesLoading.jsp"></jsp:include>
 	
 	<script>
@@ -131,7 +120,7 @@ display: none;}
 								<div class="tab-pane active fade in" id="settings">
 									<div class="jqGrid_wrapper row">
 										<button type="button" class="btn btn-primary" onclick="javascript:associEval()" >关联评估单列表</button>
-										<!-- <button type="button" class="btn btn-primary" onclick="javascript:associEval2()" style="padding-right::100px;" >关联失误</button> -->
+										<button type="button" class="btn btn-primary" onclick="javascript:associEval2()" style="padding-right::100px;" >关联失误</button>
 									</div>
 								</div>
 							</div>
@@ -143,8 +132,8 @@ display: none;}
 								  		<span>结算信息</span>
 								  			<div class="height_line1" style=" margin-top:10px;"></div>
 									  		<div class="row font-family" >
-												<label v-cloak  class="col-sm-4 control-label">案件编号：<span  style="background-color:#87CEFA" v-html="evalVO.caseCode"></span><span id="content_caseCode"></span></label>
-												<label v-cloak  class="col-sm-3 control-label">评估单编号：<span  style="background-color:#87CEFA" v-html="evalVO.evaCode"></span></label>
+												<label v-cloak  class="col-sm-4 control-label">案件编号：<span id="caseCode" style="background-color:#87CEFA" v-html="evalVO.caseCode"></span><span id="content_caseCode"></span></label>
+												<label v-cloak  class="col-sm-3 control-label">评估单编号：<span id="evaCode" style="background-color:#87CEFA" v-html="evalVO.evaCode"></span></label>
 											</div>
 											<div class="height_line1" ></div>
 											<div class="row font-family" style=" margin-top:20px;">
@@ -160,8 +149,8 @@ display: none;}
 											</div>
 											<div class="height_line1"></div>
 											<div class="row font-family" style=" margin-top:20px;">
-												<label class="col-sm-4 control-label">评估值：<span  style="background-color:#87CEFA" v-html="evalVO.evaPrice+'元'"></span></label>
-												<label class="col-sm-3 control-label">贷款权证：</label>
+												<label class="col-sm-4 control-label">评估值：<span  style="background-color:#87CEFA" v-html="evalVO.evaPrice/10000+'万元'"></span></label>
+												<label class="col-sm-3 control-label">贷款权证：<span  style="background-color:#87CEFA" v-html="evalVO.loaner"></span></label>
 											</div>
 									</div>
 							</div>
@@ -198,17 +187,6 @@ display: none;}
 													placeholder="" value="" id="newCause" name="newCause" />
 											
 											</div>
-										<div class="tab-pane fade" id="messages">
-											<c:if test="${not empty toWorkFlow.processDefinitionId}">
-												<c:if test="${not empty toWorkFlow.instCode}">
-													<iframe frameborder="no" border="0" marginwidth="0"
-														marginheight="0" scrolling="auto" allowtransparency="yes"
-														overflow:auto;
-															style="height: 1068px; width: 100%;"
-														src="<aist:appCtx appName='aist-activiti-web'/>/diagram-viewer/index.html?processDefinitionId=${toWorkFlow.processDefinitionId}&processInstanceId=${toWorkFlow.instCode}"></iframe>
-												</c:if>
-											</c:if>
-										</div>
 										<div class="tab-pane fade" id="home">
 											<table id="caseCommenTable"></table>
 											<div id="caseCommenPager"></div>
@@ -221,7 +199,7 @@ display: none;}
 								<!-- <button type="button" class="btn btn-primary" onclick="javascript:closeEval()"
 									>关闭</button> -->
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<button class="btn btn-primary" id="submit" onclick="javascript:submit()">提交</button>
+								<button class="btn btn-primary" id="submitBtn" onclick="javascript:submit()">提交</button>
 							</div>
 					</div>
 		</div>
@@ -259,12 +237,6 @@ display: none;}
 																	</div>
 							                                    </div>
 							                                </div>
-							                                <!--  <div class="col-lg-5 col-md-5"> 
-							                                        <label class="col-lg-3 col-md-3 control-label font_w">案件状态</label>
-							                                        <div class="col-lg-9 col-md-9">
-																			<aist:dict id="caseStatus" name="caseStatus"  display="select" dictType="eval_status" clazz="select_control sign_right_one_case"/>
-							                                        </div>
-							                                </div> -->
 							                            </div>
 							                            <div id="select_div_1" class="form_content" >
 								             		 		<div  class="sign_left_two">
@@ -415,12 +387,6 @@ display: none;}
 			function() {
 				var caseCode = $(this).attr(
 						"id"); 
-				//$('.modal-dialog').on("click",'.close');
-				//$(".close").click();
-				var caseCod = $("#caseCode").val();
-				if(caseCode!=$("#caseCode").val()){
-					window.wxc.error("您【关联评估单案件】与【新增结算单案件】不匹配,请重新选择！");
-				}else{
 				$('#modal-form').modal("hide");
 				//window.wxc.confirm("请确认要关联的案件是否正确？",{"wxcOk":function(){
 					$.ajax({
@@ -468,8 +434,6 @@ display: none;}
 							window.wxc.error(data.message);
 						}
 					});
-				}
-				//}})
 					
 			});
  	
@@ -839,30 +803,34 @@ display: none;}
 		//window.location.href = ctx+"/eval/settle/evalWaitEndList";
 	}
 	
-	$("#submit").click(function(){
+	$("#submitBtn").click(function(){
 		var toEvalSettle = {
-				caseCode : $("#caseCode").val(),
+				caseCode : $("#caseCode").text(),
 				settleFee : $("#endCost").val(),
+				evaCode : $("#evaCode").text(),
 				settleAddReason:$("#newCause").val()
 			};
 		toEvalSettle = $.toJSON(toEvalSettle);
-	   	  $.ajax({
-					cache:false,
-					async:true,
-					type:"POST",
-					dataType:"json",
-					contentType: "application/json; charset=utf-8" ,
-					url:ctx+"/eval/settle/newEndFee",
-					data:toEvalSettle,
-					success:function(data){
-						if(data.success){
-							location.href = "../settle/evalWaitEndList"
-						}else{
-							window.wxc.error(data.message);
-						}
-					},
-					
+		window.wxc.confirm("确定提交吗？",{"wxcOk":function(){
+			$.ajax({
+				cache:false,
+				async:true,
+				type:"POST",
+				dataType:"json",
+				contentType: "application/json; charset=utf-8" ,
+				url:ctx+"/eval/settle/newEndFee",
+				data:toEvalSettle,
+				success:function(data){
+					if(data.success){
+						location.href = "../settle/evalWaitEndList"
+					}else{
+						window.wxc.error(data.message);
+					}
+				},
+				
 			}); 
+		}});
+	   	  
    	  	
      });
 	

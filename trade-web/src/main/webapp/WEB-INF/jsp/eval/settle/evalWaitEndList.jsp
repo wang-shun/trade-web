@@ -157,7 +157,7 @@
 							<button id="myCaseListCleanButton" type="button" class="btn btn-grey">清空</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 							<a data-toggle="modal" class="btn btn-success" href="javascript:void(0)" onclick="javascript:exportToExcel()">导出到excel</a>
 							<button id="batchappro" onclick="javascript:showOptUsers()" type="button" class="btn btn-success" disabled="true">批量审批</button>&nbsp;
-							<button id="caseAdd" onclick="javascript:caseAdd()" type="button" class="btn btn-success" disabled="true">新增结算单</button>&nbsp;
+							<button id="caseAdd" onclick="javascript:caseAdd()" type="button" class="btn btn-success" >新增结算单</button>&nbsp;
 						</div>
 					</div>
 				</div>
