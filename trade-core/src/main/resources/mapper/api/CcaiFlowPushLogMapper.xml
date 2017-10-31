@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.centaline.trans.api.repository.CcaiFlowPushLogMapper" >
+  <resultMap id="BaseResultMap" type="com.centaline.trans.api.entity.CcaiFlowPushLog" >
+    <id column="PKID" property="pkid" jdbcType="BIGINT" />
+    <result column="APPLY_ID" property="applyId" jdbcType="VARCHAR" />
+    <result column="ACTIVE_NAME" property="activeName" jdbcType="VARCHAR" />
+    <result column="WORKFLOW_TYPE" property="workflowType" jdbcType="VARCHAR" />
+    <result column="RESULT" property="result" jdbcType="VARCHAR" />
+    <result column="APPROVE_TIME" property="approveTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="CHAR" />
+  </resultMap>
+
+  <insert id="insertSelective" parameterType="com.centaline.trans.api.entity.CcaiFlowPushLog" >
+    insert into sctrans.T_CCAI_FLOW_PUSH_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      CREATE_DATE,CREATE_BY,
+      <if test="pkid != null" >
+        PKID,
+      </if>
+      <if test="applyId != null" >
+        APPLY_ID,
+      </if>
+      <if test="activeName != null" >
+        ACTIVE_NAME,
+      </if>
+      <if test="workflowType != null" >
+        WORKFLOW_TYPE,
+      </if>
+      <if test="result != null" >
+        RESULT,
+      </if>
+      <if test="approveTime != null" >
+        APPROVE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      GETDATE(),@{SESSION_USER_ID},
+      <if test="pkid != null" >
+        #{pkid,jdbcType=BIGINT},
+      </if>
+      <if test="applyId != null" >
+        #{applyId,jdbcType=VARCHAR},
+      </if>
+      <if test="activeName != null" >
+        #{activeName,jdbcType=VARCHAR},
+      </if>
+      <if test="workflowType != null" >
+        #{workflowType,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="approveTime != null" >
+        #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+
+  <select id="countLog" parameterType="com.centaline.trans.api.entity.CcaiFlowPushLog" resultType="java.lang.Long">
+    SELECT COUNT(1) FROM sctrans.T_CCAI_FLOW_PUSH_LOG where 1=1
+      <if test="applyId != null" >
+        AND APPLY_ID = #{applyId,jdbcType=VARCHAR}
+      </if>
+      <if test="activeName != null" >
+        AND ACTIVE_NAME = #{activeName,jdbcType=VARCHAR}
+      </if>
+      <if test="workflowType != null" >
+        AND WORKFLOW_TYPE = #{workflowType,jdbcType=VARCHAR}
+      </if>
+      <if test="result != null" >
+        AND RESULT = #{result,jdbcType=VARCHAR}
+      </if>
+  </select>
+</mapper>
