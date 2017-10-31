@@ -203,7 +203,6 @@
         <!-- 评估无需结算  -->
         <script	src="<c:url value='/js/trunk/eval/settle/noEndEvalList.js' />"></script>
         
-       <%--  <script	src="<c:url value='/js/trunk/bankRebate/bankRebateList.js' />"></script> --%>
         <jsp:include page="/WEB-INF/jsp/tbsp/common/userorg.jsp"></jsp:include>
 		<script id="evalNoListTemp" type= "text/html">
                            {{each rows as item index}}

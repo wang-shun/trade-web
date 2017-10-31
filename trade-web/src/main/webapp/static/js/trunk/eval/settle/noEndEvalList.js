@@ -278,29 +278,7 @@ function reNewAccount(){
 	}); 
 }*/
 
-/*function getMergeCount2(){
-	
-	var data = {};
-	if($('input[name="my_checkbox"]:checked').length>=1){data.caseCode=$('input[name="my_checkbox"]:checked').val();};
-	var url = "/eval/settle/reNewAccount";
-	var ctx = $("#ctx").val();
-	url = ctx + url;
-	
-	$.ajax({
-		cache : false,
-		async:true,
-		type : "POST",
-		url : url,
-		dataType : "json",
-		timeout: 20000,
-	    data : data, 
-		success : function(data) {
-			window.location.href = ctx+"/eval/settle/evalEndUpdate"
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-		}
-	}); 
-}*/
+
 
 
 
