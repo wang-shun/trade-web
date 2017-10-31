@@ -136,8 +136,51 @@ function checkMortgageForm(formId){
 	return true;
 }
 function checkCompleteMortgage(formId){	
-	$("input,select").css("border-color","#ccc");	
-	if(checkValue(formId.find("input[name='apprCompleTime']"))){
+	$("input,select").css("border-color","#ccc");
+	if(checkValue(formId.find("select[name='custCode']"))){
+		window.wxc.alert("主贷人为必填项！");
+		formId.find("select[name='custCode']").css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("input[name=prfAmount]"))){
+		window.wxc.alert("公积金贷款金额必填项！");
+		formId.find("input[name='prfAmount']").css("border-color","red");
+		return false;
+	}else if (checkValue(formId.find("input[name=prfYear]"))){
+		window.wxc.alert("公积金贷款年限必填项！");
+		formId.find("input[name='prfYear']").css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("select[name='lendWay']"))){
+		window.wxc.alert("放款方式必填项！");
+		formId.find("select[name='lendWay']").css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("select[name='bank_type']"))){
+		window.wxc.alert("请选择贷款银行！");
+		formId.find($("select[name='bank_type']")).css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("select[name='finOrgCode']"))){
+		window.wxc.alert("贷款支行为必填项！");
+		formId.find("select[name='finOrgCode']").css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("input[name='loanerName']"))){
+		window.wxc.alert("信贷员为必填项！");
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;		
+	}/*else if(formId.find("input[name='loanerId']").val() == ""){
+		formId.find("input[name='loanerName']").css("border-color","red");
+		return false;		
+	}*//*else if(checkValue(formId.find("input[name='loanerPhone']"))){
+		window.wxc.alert("信贷员电话为必填项！");
+		formId.find("input[name='loanerPhone']").css("border-color","red");
+		return false;
+	}*/else if(formId.find("input[name='loanerPhone']").val()!="" && checkPhone(formId.find("input[name='loanerPhone']"))){
+		formId.find("input[name='loanerPhone']").css("border-color","red");
+		window.wxc.alert("信贷员手机号码输入错误！");
+		return false;
+	}else if(checkValue(formId.find("input[name='signDate']"))){
+		window.wxc.alert("实际面签时间为必填项！");
+		formId.find("input[name='signDate']").css("border-color","red");
+		return false;
+	}else if(checkValue(formId.find("input[name='apprCompleTime']"))){
 		window.wxc.alert("实际审批完成时间为必填项！");
 		formId.find("input[name='apprCompleTime']").css("border-color","red");
 		return false;
@@ -962,23 +1005,23 @@ function renderMortgageComplete(f,data){
 			f.find('input[name=caseCode]').val($content.caseCode);
 			f.find('input[name=isMainLoanBank]').val($content.isMainLoanBank);
 			f.find('input[name=custName]').val($content.custName);
-			f.find('input[name=coLender]').val($content.coLender).attr("readonly",true);
-			f.find('select[name=custCode]').val($content.caseCode).attr("disabled",true);
+			f.find('input[name=coLender]').val($content.coLender);
+			f.find('select[name=custCode]').val($content.caseCode);
 			//f.find('select[name=mortType]').val($content.mortType).attr("disabled",true);
-			f.find('select[name=lendWay]').val($content.lendWay).attr("disabled",true);
-			f.find('input[name=houseNum]').val($content.houseNum).attr("readonly",true);
-			f.find('input[name=prfAmount]').val($content.prfAmount).attr("readonly",true);
-			f.find('input[name=prfYear]').val($content.prfYear).attr("readonly",true);
+			f.find('select[name=lendWay]').val($content.lendWay);
+			f.find('input[name=houseNum]').val($content.houseNum);
+			f.find('input[name=prfAmount]').val($content.prfAmount);
+			f.find('input[name=prfYear]').val($content.prfYear);
 			//f.find('input[name=comDiscount]').val($content.comDiscount);
 			//f.find('input[name=priCreditUnit]').val($content.priCreditUnit);
-			f.find('select[name=bank_type]').val($content.bank_type).attr("disabled",true);
-			f.find('select[name=finOrgCode]').val($content.finOrgCode).attr("disabled",true);
-			f.find('input[name=signDate]').val($content.signDate).attr("disabled",true);
+			f.find('select[name=bank_type]').val($content.bank_type);
+			f.find('select[name=finOrgCode]').val($content.finOrgCode);
+			f.find('input[name=signDate]').val($content.signDate);
 			f.find('input[name=loanerOrgCode]').val($content.loanerOrgCode);
 			f.find('input[name=loanerOrgId]').val($content.loanerOrgId);
 			f.find('input[name=loanerId]').val($content.loanerId);
-			f.find('input[name=loanerName]').val($content.loanerName).attr("readonly",true);
-			f.find('input[name=loanerPhone]').val($content.loanerPhone).attr("readonly",true);
+			f.find('input[name=loanerName]').val($content.loanerName);
+			f.find('input[name=loanerPhone]').val($content.loanerPhone);
 			f.find('input[name=apprCompleTime]').val($content.apprCompleTime);
 			f.find('input[name=loanContraTime]').val($content.loanContraTime);
 			if(undefined != $content.loanerId && ""!= $content.loanerId){
@@ -1691,9 +1734,12 @@ $(document).ready(function (){
  	onStepChanging: function (event, currentIndex, newIndex){
  		if(currentIndex == 0){
  			var flag = false; 			
- 			if(checkyuyueForm($("#mortgageForm0"))){
+ 			if(currentIndex < newIndex && checkyuyueForm($("#mortgageForm0"))){
 	 			saveMortgage($("#mortgageForm0"));
 	 			flag = true;
+ 			}else if(currentIndex > newIndex){
+ 				saveMortgage($("#mortgageForm0"));
+ 				flag = true;
  			}
  			return flag;
  		}else if(currentIndex == 2){
@@ -1701,9 +1747,12 @@ $(document).ready(function (){
  			/*点第二步点击下一步的时候判断 信贷员是否变更？ 判断是否启流程
  			 * 变更为：选择信贷员派单之后，设置银行、信贷员为disabled
  			 * */
- 			if(checkMortgageForm($("#mortgageForm"))){
+ 			if(currentIndex < newIndex && checkMortgageForm($("#mortgageForm"))){
 	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
+ 			}else if(currentIndex > newIndex){
+ 				saveMortgage($("#mortgageForm0"));
+ 				flag = true;
  			}
  			return flag;
  		}else if(currentIndex == 3){
@@ -1718,7 +1767,7 @@ $(document).ready(function (){
 	    				$arr1[i].checked = false;
 	    			}
 	    			$("#form_check").find("input[name=patchTimeSell]").val("");
- 					if( !checkPatch1($("#mortgageForm_b"))){
+ 					if( currentIndex < newIndex && !checkPatch1($("#mortgageForm_b"))){
  						return false;
  					};
  	
@@ -1729,12 +1778,12 @@ $(document).ready(function (){
 	    				$arr[i].checked = false;
 	    			}
 	    			$("#form_check").find("input[name=patchTimeBuy]").val("");
- 					if(!checkPatch2($("#mortgageForm_b"))){
+ 					if(currentIndex < newIndex && !checkPatch2($("#mortgageForm_b"))){
  						return false;
  					};
  				}
  				if(ischeckSell == "1" && ischeckBuy == "1"){
- 					if(!checkPatch($("#mortgageForm_b"))){
+ 					if(currentIndex < newIndex && !checkPatch($("#mortgageForm_b"))){
  						return false;
  					};
  					
@@ -1808,19 +1857,6 @@ $(document).ready(function (){
  			}
  			return flag;
  		}else if(currentIndex == 4){
-
- 			if ($("#loan_doc_confirm_letter_first_pic_list li").length == undefined
-					|| $("#loan_doc_confirm_letter_first_pic_list li").length == 0 ) {
-				window.wxc.alert("贷款材料未上传!");
-				return false;
-			}
- 			/*if($("#mortgageForm").find("input[name='isTmpBank']:checked").val() == '0'){
- 				//非临时银行需要判断上传推荐函
-	 			if ($("#rec_letter_first_pic_list li").length == undefined || $("#rec_letter_first_pic_list li").length == 0 ) {
-					window.wxc.alert("推荐函未上传!");
-					return false;
-				}
- 			}*/
  			var option = [];
  			option.container = "PSFLoanProcessfileUploadContainer";
  			
@@ -1833,7 +1869,7 @@ $(document).ready(function (){
 			}
  			return true;
  		}else if(currentIndex == 5 ){
- 			if(!checkCompleteMortgage($("#completeForm"))){
+ 			if(currentIndex < newIndex && !checkCompleteMortgage($("#completeForm"))){
 	 			return false;
  			}
  			saveMortgage($("#completeForm"));
