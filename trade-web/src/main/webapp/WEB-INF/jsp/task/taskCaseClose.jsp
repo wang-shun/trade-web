@@ -711,12 +711,9 @@
 			$('#prfYear').attr("readonly","readonly");
 			
 			$("#tab-1").find("select").attr("disabled","disabled");			
-			$("#tab-1").find("select").attr("disabled","disabled");			
-			
-			if(!hasLoan){
-				$("#tab-2").find("input").attr("disabled","disabled");
-				$("#tab-2").find("select").attr("disabled","disabled");
-			}
+			$("#tab-1").find("select").attr("disabled","disabled");	
+			$("#tab-2").find("input").attr("disabled","disabled");
+			$("#tab-2").find("select").attr("disabled","disabled");
 			 $("#wizard").steps();
 				<c:if test="${empty editCaseDetailVO.lcid}">
 				 $("#closeType").attr("disabled","disabled");
@@ -753,10 +750,11 @@
 	        $('#guestPhoneDown').attr("readonly","readonly");
 	        $('#guestNameUp').attr("readonly","readonly");
 	        $('#guestPhoneUp').attr("readonly","readonly");
-	        if(notFirstTimeSubmit == 1){
-	        }else{
-	        	$('#tazhengArrDate').attr("disabled","disabled");
-	        	$('#lendDate').attr("disabled","disabled");
+			$("#tab-2").find("select").attr("disabled","disabled");
+			$("#tab-2").find("input").attr("disabled","disabled");
+	        if(notFirstTimeSubmit == 1 && hasLoan == "true"){
+	        	$('#tazhengArrDate').removeAttr("disabled");
+	        	$('#lendDate').removeAttr("disabled");
 	        }
 		});
 		
@@ -988,6 +986,7 @@
 							//window.location.href = "${ctx }/task/myTaskList";
 				},
 				error : function(errors) {
+					$.unblockUI();
 					window.wxc.error("数据保存出错");
 				}
 			});
