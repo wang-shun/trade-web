@@ -4,7 +4,7 @@
 
     <groupId>com.centaline</groupId>
     <artifactId>trade-api</artifactId>
-    <version>1.3.10-SNAPSHOT</version>
+    <version>1.3.20-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>trade-api</name>
@@ -28,7 +28,7 @@
         <tomcat.warFile>trade-api</tomcat.warFile>
         <springfox-version>2.6.1</springfox-version>
         <servlet.version>3.0.1</servlet.version>
-        <trade.version>1.3.10-SNAPSHOT</trade.version>
+        <trade.version>1.3.20-SNAPSHOT</trade.version>
         <skipTests>true</skipTests>
     </properties>
 

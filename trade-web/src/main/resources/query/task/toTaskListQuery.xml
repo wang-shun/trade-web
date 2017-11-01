@@ -177,7 +177,7 @@
 						LEFT JOIN sctrans.SYS_WFE_TEMPLATE wfe ON tw.BUSINESS_KEY = wfe.WFE_CODE
 					WHERE 	
 						cas.CASE_CODE = #caseCode#
-						AND tw.STATUS IN ('0','4')
+						<!-- AND tw.STATUS IN ('0','4') -->
 				]]>
 			</baseSql>
 			<orderBySql>
