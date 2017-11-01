@@ -1904,6 +1904,7 @@ $(document).ready(function (){
 	 			return false;
  			}
  			saveMortgage($("#completeForm"));
+ 			return true;
  		}
 
  		return true;
@@ -2077,6 +2078,7 @@ transitionEffect: "slide",
 	 			return false;
  			}
  			saveMortgage($("#completeForm1"));
+ 			return true;
  		}
 
  		return true;
