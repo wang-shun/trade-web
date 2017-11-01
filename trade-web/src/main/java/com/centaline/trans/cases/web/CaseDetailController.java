@@ -1295,7 +1295,7 @@ public class CaseDetailController {
 		ToRatePayment toRatePayment=toRatePaymentService.qureyToRatePayment(caseCode);
 		ToGetPropertyBook toGetPropertyBook=toGetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
 		ToHouseTransfer toHouseTransfer=toHouseTransferService.findToGuoHuByCaseCode(caseCode);
-		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		ToSign toSign=signService.findToSignByCaseCode(caseCode);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<ToTransPlan>transPlan=new ArrayList<ToTransPlan>();
