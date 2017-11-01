@@ -68,7 +68,7 @@ public class CaseCloseServiceImpl implements CaseCloseService {
 	@Override
 	public boolean submitCaseClose(HttpServletRequest request, ProcessInstanceVO processInstanceVO,
 			LoanlostApproveVO loanlostApproveVO, EditCaseDetailVO editCaseDetailVO) throws Exception {
-		editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO);
+		editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO, processInstanceVO);
 		ToApproveRecord toApproveRecord = saveToApproveRecord(processInstanceVO, loanlostApproveVO, "", "结档归案提交。");
 		sendMessage(processInstanceVO, toApproveRecord.getContent(), toApproveRecord.getApproveType());
 		/*流程引擎相关*/

@@ -380,7 +380,7 @@
     		                } 
     		            } ,  
 				success : function(data) {
-						window.wxc.success("提交成功！",{"wxcOk":function(){
+						window.wxc.success("保存成功！",{"wxcOk":function(){
 							 window.close();
 	                         window.opener.callback();
 						}});

@@ -1751,7 +1751,7 @@ $(document).ready(function (){
 	 			saveMortgage($("#mortgageForm"));
 	 			flag = true;
  			}else if(currentIndex > newIndex){
- 				saveMortgage($("#mortgageForm0"));
+ 				saveMortgage($("#mortgageForm"));
  				flag = true;
  			}
  			return flag;
@@ -1873,6 +1873,7 @@ $(document).ready(function (){
 	 			return false;
  			}
  			saveMortgage($("#completeForm"));
+ 			return true;
  		}
 
  		return true;
