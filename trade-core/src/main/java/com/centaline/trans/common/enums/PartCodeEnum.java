@@ -5,6 +5,7 @@ package com.centaline.trans.common.enums;
  * 环节编码枚举类
  */
 public enum PartCodeEnum {
+	RF("caseRecvFlow","接单跟进"),
     WQ("TransSign","网签"),
     JYJH("TransPlanFilling","填写交易计划"),
     JS("RatePayment","缴税"),

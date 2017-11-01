@@ -483,4 +483,16 @@
   	update sctrans.T_TO_GET_PROPERTY_BOOK set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
 	update sctrans.T_TO_PAYMENT set IS_ACTIVE='0' where CASE_CODE=#{caseCode,jdbcType=VARCHAR};
   </select>
+  
+  <!-- 获取主流程及贷款流程实例id -->
+  <select id="queryAllInstCodesByCaseCodeAndBizCode" resultType="java.lang.String">
+	  select 
+	    INST_CODE
+    from 
+    	sctrans.T_TO_WORKFLOW  with(nolock)
+    where 
+    	BIZ_CODE = #{caseCode,jdbcType=VARCHAR}
+    	AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+    	AND BUSINESS_KEY IN ('ComLoan_Process','PSFLoan_Process','ComLoanAndPSFLoan_Process','operation_process')
+  </select>
 </mapper>

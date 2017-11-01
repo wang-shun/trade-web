@@ -14,6 +14,7 @@ import com.centaline.trans.common.enums.*;
 import com.centaline.trans.task.entity.ToRatePayment;
 import com.centaline.trans.task.service.*;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,12 +37,14 @@ import com.centaline.trans.attachment.service.ToAttachmentService;
 import com.centaline.trans.cases.entity.ToCase;
 import com.centaline.trans.cases.entity.ToCaseInfo;
 import com.centaline.trans.cases.entity.VCaseTradeInfo;
+import com.centaline.trans.cases.service.CaseRecvService;
 import com.centaline.trans.cases.service.EditCaseDetailService;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.service.VCaseTradeInfoService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.CaseDetailShowVO;
+import com.centaline.trans.cases.vo.CaseRecvVO;
 import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.entity.TgGuestInfo;
 import com.centaline.trans.common.entity.ToPropertyInfo;
@@ -171,6 +174,8 @@ public class TaskController {
 	private ToPropertyInfoService toPropertyInfoService;
 	@Autowired(required = true)
 	VCaseTradeInfoService vCaseTradeInfoService;
+	@Autowired
+	private CaseRecvService caseRecvService;
 	
     @RequestMapping(value="/{taskitem}")   
     public String taskPageRoute(Model model, HttpServletRequest request,@PathVariable String taskitem,
@@ -202,8 +207,19 @@ public class TaskController {
 		if(null!=caseinfo){
 			ctmCode=caseinfo.getCtmCode();
 		}
-		
-    	if(PartCodeEnum.WQ.getCode().equals(taskitem)) {//签约，读取数据
+		if(PartCodeEnum.RF.getCode().equals(taskitem)){//接单跟进
+			if(null!=caseCode&&caseCode!=""){
+				CaseRecvVO caseRecvVO = caseRecvService.selectFullCaseRecvVO(caseCode);
+				model.addAttribute("caseRecvVO", caseRecvVO);			
+			}
+			
+			App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_TRADE.getCode());
+			String ctx = app.genAbsoluteUrl();
+			request.setAttribute("ctx", ctx);
+			//接单跟进新写，未与下面task开一致
+			return "task/taskCaseRecvFollow";
+		}
+		else if(PartCodeEnum.WQ.getCode().equals(taskitem)) {//签约，读取数据
     		getAccesoryList(request, taskitem);
     		request.setAttribute("transSign", signService.qureyGuestInfo(caseCode));
     		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
@@ -211,16 +227,31 @@ public class TaskController {
     	    App app = uamPermissionService.getAppByAppName(AppTypeEnum.APP_FILESVR.getCode());
     	    model.addAttribute("imgweb", app.genAbsoluteUrl());
     	} else if(PartCodeEnum.JYJH.getCode().equals(taskitem)) {//填写交易计划
-    		/*getAccesoryList(request, taskitem);*/
-    		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");/*抵押*/
+    		/*getAccesoryList(request, taskitem);
+    		RestVariable dy = workFlowManager.getVar(instCode, "LoanCloseNeed");抵押
     		
-    		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
-    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");/*自办*/
-    		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");/*贷款*/
+    		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");公积金
+    		RestVariable self = workFlowManager.getVar(instCode, "SelfLoanNeed");自办
+    		RestVariable com = workFlowManager.getVar(instCode, "ComLoanNeed");贷款
     		boolean dk =  ((boolean)(psf==null?false:psf.getValue())||(boolean)(self==null?false:self.getValue())||(boolean)(com==null?false:com.getValue()));
     		request.setAttribute("dy", dy==null?false:dy.getValue());
     		request.setAttribute("dk", dk);
-    		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));
+    		request.setAttribute("transPlan", transplanServiceFacade.findTransPlanByCaseCode(caseCode));*/
+    		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+    		int cou = toCaseService.findToLoanAgentByCaseCode(caseCode);
+    		if (cou > 0) {
+    			caseBaseVO.setLoanType("30004005");
+    		}
+    		request.setAttribute("source", source);
+    		request.setAttribute("caseBaseVO", caseBaseVO);
+    		/*获取案件信息，用以判断贷款类型 by wbzhouht*/
+    		ToCaseInfo toCaseInfo=toCaseInfoService.findToCaseInfoByCaseCode(caseCode);
+    		if(null!=toCaseInfo){
+    			request.setAttribute("toCaseInfo",toCaseInfo);
+    		}
+    		request.setAttribute("transPlan",
+    				transplanServiceFacade.findTransPlanByCaseCode(caseCode));
+    		
     	}
     	//已废弃,天津使用接单跟进
     	/*else if("FirstFollow".equals(taskitem)) {//首次跟进
@@ -304,7 +335,7 @@ public class TaskController {
     	} else if(PartCodeEnum.LZ.getCode().equals(taskitem)) {/*领证*/
     		request.setAttribute("tgpb", toGetPropertyBookService.queryToGetPropertyBook(caseCode));
     	} else if(PartCodeEnum.FK.getCode().equals(taskitem)) {/*放款*/
-    		RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");/*公积金*/
+    		/*RestVariable psf = workFlowManager.getVar(instCode, "PSFLoanNeed");公积金
     		boolean tz = !(boolean)(psf==null?false:psf.getValue());
     		getAccesoryList(request, taskitem);
     		ToMortgage mortgage=toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
@@ -313,7 +344,23 @@ public class TaskController {
     			tz = false;
     		}
     		request.setAttribute("tz", tz);
-    		request.setAttribute("loanRelease", mortgage);
+    		request.setAttribute("loanRelease", mortgage);*/
+    		//数据库表T_TO_ACCESORY_LIST需加相应数据：放款所需附件
+        	toAccesoryListService.getAccesoryList(request, taskitem);
+        	CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+            request.setAttribute("source", source);
+            request.setAttribute("caseBaseVO", caseBaseVO);
+            request.setAttribute("caseCode", caseCode);
+            ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+            if(mortgage == null) {
+            	MortgageToSaveVO toSaveVO = toMortgageTosaveService.selectByCaseCode(caseCode);
+            	mortgage = new ToMortgage();
+            	mortgage.setCaseCode(caseCode);
+            	mortgage.setLendDate(toSaveVO.getLendDate());
+            	mortgage.setRemark(toSaveVO.getRemark());
+            }
+
+            request.setAttribute("loanRelease", mortgage);
     	} else if(PartCodeEnum.ZBDKSP.getCode().equals(taskitem)) {/*SelfLoanApprove 自办贷款审批*/
     		ToMortgage mortgage =toMortgageService.findToSelfLoanMortgage(caseCode);
     		request.setAttribute("SelfLoan", mortgage);
@@ -416,11 +463,31 @@ public class TaskController {
         		request.setAttribute("notApproves", dict.getChildren());
     		}
     	} else if(PartCodeEnum.JA.getCode().equals(taskitem)) {/*结案审批，验证数据是否正确*/
-    		initApproveRecord(request, caseCode, "3");
+    		/*initApproveRecord(request, caseCode, "3");
     		getAccesoryListCaseClose(request, caseCode);
     		
     		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
     		
+    		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
+    		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());*/
+    		SessionUser user=uamSessionService.getSessionUser();
+    		request.setAttribute("source", source);
+    		CaseBaseVO caseBaseVO = toCaseService.getCaseBaseVO(caseCode);
+    		request.setAttribute("caseBaseVO", caseBaseVO);
+    		request.setAttribute("approveType", "3");
+    		request.setAttribute("operator", user != null ? user.getId():"");
+    		toAccesoryListService.getAccesoryListCaseClose(request, caseCode);
+    		EditCaseDetailVO editCaseDetailVO=editCaseDetailService.queryCaseDetai(caseCode);
+    		if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
+    			ToApproveRecord tar = new ToApproveRecord();
+    			tar.setCaseCode(caseCode);
+    			tar.setPartCode(OldActivitiFormKey.CaseCloseFirstApprove.getTaskDefinitionKey());
+    			tar.setProcessInstance(String.valueOf(request.getAttribute("processInstanceId")));
+    			List<ToApproveRecord> tarList = toApproveRecordService.queryToApproveRecords(tar);
+    			if(tarList != null && tarList.size() > 0) {
+    				request.setAttribute("notFirstTimeSubmit", 1);
+    			}
+    		}
     		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
     		request.setAttribute("loanReq", editCaseDetailVO.getLoanReq());
     	} else if(PartCodeEnum.FWX.getCode().equals(taskitem)) {/*服务项变更*/
