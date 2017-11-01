@@ -620,4 +620,17 @@
 			RANSOM_CODE = #{ransomCode,jdbcType=VARCHAR}
 	
 	</select>
+	
+	<select id="getRansomCaseLastComplete" resultMap="BaseResultMap">
+		SELECT
+			TOP 1 *
+		FROM
+			sctrans.T_RA_CASE t
+		WHERE
+			t.RANSOM_STATUS = 3
+		AND CASE_CODE = #{caseCode,jdbcType=VARCHAR}
+		ORDER BY
+			t.CREATE_TIME DESC
+	</select>
+	
 </mapper>
