@@ -96,10 +96,7 @@ public class EvalWaitAccountListController {
 	private TaskService taskService;
 	
 	/**
-	 * 页面初始化
-	 * 
-	 * @param 
-	 * @param 
+	 * 评估待结算页面初始化
 	 * @return
 	 */
 	@RequestMapping(value = "/evalWaitEndList")
@@ -107,23 +104,52 @@ public class EvalWaitAccountListController {
 //		String caseCode = "ZY-TJ-2017100557";
 //		String evaCode = "PG-TJ-2017100558";
 //		String feeChangeReason = "1";
-//		String caseCode = "ZY-TJ-2017100568";
-//		String evaCode = "PG-TJ-2017100569";
+//		String caseCode = "ZY-TJ-2017100834";
+//		String evaCode = "PG-TJ-2017100917";
 //		String feeChangeReason = "4";
 //		int a =toEvalSettleService.insertWaitAccount(caseCode, evaCode, feeChangeReason);
 //		System.out.println(a);
 		return "eval/settle/evalWaitEndList";
 	}
 	
+	/**
+	 * 无需结算列表初始化
+	 * @param pkid
+	 * @param request
+	 * @param model
+	 * @param settleNotReason
+	 * @return
+	 */
+	@RequestMapping(value = "noEndEvalList")
+	public String noEndEvalList(Long pkid, HttpServletRequest request,Model model,String settleNotReason) {
+		
+		if(pkid != null) {
+			ToEvalSettle toEvalSettle = new ToEvalSettle();
+			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WXJS.getCode()));//2；无需结算状态
+			toEvalSettle.setPkid(pkid);
+			toEvalSettle.setSettleNotReason(settleNotReason);
+			//toEvalSettle.setCaseCode(caseCode);
+			toEvalSettleService.updateByPrimaryKeySelective(toEvalSettle);
+		}
+		
+		return  "eval/settle/noEndEvalList";
+	}
 	
 	/**
-	 * 
-	 * 批量审批
-	 * 
-	 * @param 
+	 * 结算列表初始化
+	 * @return
+	 */
+	@RequestMapping(value = "evalEndList")
+	public String evalEndList() {
+
+		return  "eval/settle/evalEndList";
+	}
+	
+	/**
+	 * 发起批量审批
 	 * @param request
-	 * @return 描述
-	 * 
+	 * @param caseCodes
+	 * @return
 	 */
 	@RequestMapping("/majorAppro")
 	public String majorAppro( HttpServletRequest request,String[] caseCodes) {
@@ -167,13 +193,9 @@ public class EvalWaitAccountListController {
 	}
 	
 	/**
-	 * 
-	 * 跳转总监审批通过页面
-	 * @param 
-	 * @param caseCodes
-	 * @param request
-	 * @return 描述
-	 * 
+	 * 总监页面初始化
+	 * @param model
+	 * @return
 	 */
 	@RequestMapping(value = "majorApprove")
 	public String majorApprove(Model model) {
@@ -212,13 +234,11 @@ public class EvalWaitAccountListController {
 	}*/
 	
 	/**
-	 * 
 	 * 总监审批不通过
-	 * @param 
-	 * @param caseCodes
 	 * @param request
-	 * @return 描述
-	 * 
+	 * @param caseCodes
+	 * @param rejectCause
+	 * @return
 	 */
 	@RequestMapping("/majorNoAppro")
 	public String majorNoAppro( HttpServletRequest request,String[] caseCodes,String rejectCause) {
@@ -269,97 +289,63 @@ public class EvalWaitAccountListController {
 	}
 	
 	/**
-	 * 
 	 * 转向新增结算单
-	 * 
-	 * @param 
-	 * @param request
-	 * @return 描述
-	 * 
+	 * @return
 	 */
 	@RequestMapping("/newEndForm")
-	public String newEndForm(String[] caseCodes, Model model, HttpServletRequest request) {
-		for (String caseCode : caseCodes) {
-			//System.out.println(caseCode);
-			model.addAttribute("caseCode", caseCode);
-		}
+	public String newEndForm() {
 		return  "eval/settle/newEndForm";
 	}
 	
 	
-	/**新增结算费用*/
+	/**
+	 * 新增结算费用
+	 * @param request
+	 * @param toEvalSettle
+	 * @return
+	 */
 	@RequestMapping(value = "newEndFee")
 	@ResponseBody
 	public AjaxResponse<?> newEndFee(HttpServletRequest request,@RequestBody ToEvalSettle toEvalSettle) {
+		ToEvalSettle settle = toEvalSettleService.findToCaseByCaseCode(toEvalSettle.getCaseCode());
+		if(settle==null) {
+			//插入
+			toEvalSettleService.insertSelective(toEvalSettle);
+		}else {
+			//修改
+			toEvalSettleService.newSettleFeeByCaseCode(toEvalSettle);
+		}
 		
-		int count = toEvalSettleService.newSettleFeeByCaseCode(toEvalSettle);
-		if (count > 0) {
-			ToEvalSettle record = new ToEvalSettle();
-			record.setStatus(String.valueOf(EvalWaitAccountEnum.WTJ.getCode()));//0:未提交
-			record.setCaseCode(toEvalSettle.getCaseCode());
-			System.out.println(toEvalSettle.getCaseCode());
-			int cout2 = toEvalSettleService.updateByCaseCode(record);
-			
-			
-				
-			if(cout2>0) {
-				return  AjaxResponse.success("新增结算费用成功！");
-			}else {
-				return AjaxResponse.fail("新增结算费用失败！");
-			}
-		} 
-		return AjaxResponse.fail("新增结算费用失败！");
+		//修改状态
+		ToEvalSettle record = new ToEvalSettle();
+		record.setStatus(String.valueOf(EvalWaitAccountEnum.WTJ.getCode()));//0:未提交
+		record.setCaseCode(toEvalSettle.getCaseCode());
+		int cout = toEvalSettleService.updateByCaseCode(record);
+		if(cout>0) {
+			return  AjaxResponse.success("新增结算费用成功！");
+		}else {
+			return AjaxResponse.fail("新增结算费用失败！");
+		}
+		
 	}
 	
-	/**新增结算关联案件表单显示页*/
+	/**
+	 * 新增结算关联案件表单显示页
+	 * @param caseCode
+	 * @param model
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/associatedShowForm")
 	public AjaxResponse<EvalAccountShowVO> associatedShowForm(String caseCode,  Model model, HttpServletRequest request) {
 			AjaxResponse<EvalAccountShowVO> result = new AjaxResponse<>();
 			//int count = toEvalSettleService.findCaseCountByCaseCode(caseCode);
 			try {
 			if(caseCode != null) {
-				EvalAccountShowVO evalAccountShowVO  = new EvalAccountShowVO();
-				ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				//evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
-				//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
-				evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
-				//查询评估公司名称
-				TsFinOrg tsFinOrg = toEvalSettleService.findTsFinOrgByfinOrgCode(toEvalReportProcess.getFinOrgId());
-				evalAccountShowVO.setEvalCompany(tsFinOrg.getFinOrgName());
-				if(toEvalReportProcess.getIssueDate() != null) {
-					evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
-				}else {
-					evalAccountShowVO.setIssueDate(String.valueOf(' '));
-				}
-				//evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
-				evalAccountShowVO.setCaseCode(toEvalReportProcess.getCaseCode());
-				if(toEvalReportProcess.getEvaCode() != null) {
-					evalAccountShowVO.setEvaCode(toEvalReportProcess.getEvaCode());
-				}else {
-					evalAccountShowVO.setEvaCode(String.valueOf(' '));
-				}
+				EvalAccountShowVO evalAccountShowVO  = toEvalSettleService.selectAssociatedCaseInfo(caseCode);
 				
-				//评估值
-				if(toEvalReportProcess.getEvaPrice()!= null) {
-					evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
-				}else {
-					evalAccountShowVO.setEvaPrice(new BigDecimal("0.00"));
-				}
-				
-				//贷款权证
-				//评估费实收金额
-				ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-				//结算费用
-				if(toEvalRebate.getEvaComAmount()!= null) {
-					evalAccountShowVO.setEvalComAmount(toEvalRebate.getEvaComAmount());
-				}else {
-					evalAccountShowVO.setEvalComAmount(new BigDecimal("0.00"));
-				}
-				evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
 				model.addAttribute("evalVO", evalAccountShowVO);
 			}
-			//result.setContent((EvalAccountShowVO) model);
 			result.setSuccess(true);
 			result.setMessage("关联成功!");
 		} catch (Exception e) {
@@ -370,43 +356,21 @@ public class EvalWaitAccountListController {
 	}
 	
 	
-	
-	/**评估结算修改显示页*/
+	/**
+	 * 初始化评估结算修改显示页
+	 * @param pkid
+	 * @param model
+	 * @param request
+	 * @param caseCode
+	 * @return
+	 */
 	@RequestMapping(value = "evalEndUpdate")
 	public String evalEndUpdate(Long pkid, Model model, HttpServletRequest request,String caseCode) {
 		if(caseCode != null) {
-			EvalAccountShowVO evalAccountShowVO  = new EvalAccountShowVO();
-			ToEvalReportProcess toEvalReportProcess = toEvalReportProcessService.findToEvalReportProcessByCaseCode(caseCode);
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			evalAccountShowVO.setEvaPrice(toEvalReportProcess.getEvaPrice());
-			evalAccountShowVO.setCaseCode(caseCode);
-			//System.out.println(format.format(toEvalReportProcess.getApplyDate()));
-			evalAccountShowVO.setApplyDate(format.format(toEvalReportProcess.getApplyDate()));
-			//查询评估公司名称
-			TsFinOrg tsFinOrg = toEvalSettleService.findTsFinOrgByfinOrgCode(toEvalReportProcess.getFinOrgId());
-			evalAccountShowVO.setEvalCompany(tsFinOrg.getFinOrgName());
-			//evalAccountShowVO.setFinOrgId(toEvalReportProcess.getFinOrgId());
-			if(toEvalReportProcess.getIssueDate() != null) {
-				evalAccountShowVO.setIssueDate(format.format(toEvalReportProcess.getIssueDate()));
-			}else {
-				evalAccountShowVO.setIssueDate(String.valueOf(' '));
-			}
-			
-			ToEvalRebate toEvalRebate = toEvalRebateService.findToEvalRebateByCaseCode(caseCode);
-			evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
-			//结算费用
-			evalAccountShowVO.setEvalComAmount(toEvalRebate.getEvaComAmount());
+			EvalAccountShowVO evalAccountShowVO  = toEvalSettleService.selectAssociatedCaseInfo(caseCode);
 			
 			//查询修改记录列表
 			List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateLogByCaseCode(caseCode);
-			/*if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
-				for (ToEvaSettleUpdateLog toEvaSettleUpdateLog : toEvaSettleUpdateLogList) {
-					ToEvaSettleUpdateLog record = new ToEvaSettleUpdateLog();
-					record.setUpdateReason(toEvaSettleUpdateLog.getUpdateReason());
-					record.setUpdateTime(toEvaSettleUpdateLog.getUpdateTime());
-					updateLogList.add(record);
-				}
-			}*/
 			model.addAttribute("evalVO", evalAccountShowVO);
 			model.addAttribute("updateLogList",toEvaSettleUpdateLogList);
 		}
@@ -415,13 +379,10 @@ public class EvalWaitAccountListController {
 	}
 	
 	/**
-	 * 
 	 * 修改结算费用
-	 * 
-	 * @param 
 	 * @param request
-	 * @return 描述
-	 * 
+	 * @param evalAccountShowVO
+	 * @return
 	 */
 	@RequestMapping(value = "evalEndUpdateFee")
 	@ResponseBody
@@ -442,19 +403,6 @@ public class EvalWaitAccountListController {
 			record.setUpdateTime(new Date());
 			record.setUpdateReason(evalAccountShowVO.getUpdateReason());//修改原因
 			toEvaSettleUpdateLogService.updateByPrimaryKeySelective(record);
-			/*List<ToEvaSettleUpdateLog> toEvaSettleUpdateLogList = toEvaSettleUpdateLogService.selectUpdateNumByCaseCode(evalAccountShowVO.getCaseCode());
-			if(CollectionUtils.isNotEmpty(toEvaSettleUpdateLogList)) {
-				ToEvaSettleUpdateLog log =  toEvaSettleUpdateLogList.get(0);
-				if(log != null) {
-					int x = log.getUpdateNum();
-					int a = x+1;
-					record.setUpdateNum(a);
-				}
-			}else{
-				record.setUpdateNum(1);
-			}*/
-			
-		   // toEvaSettleUpdateLogService.insertSelective(record);
 			
 			return  AjaxResponse.success("结算费用修改成功！");
 		}
@@ -462,48 +410,18 @@ public class EvalWaitAccountListController {
 	}
 	
 	
-	/**
-	 * 无需结算列表
-	 * @param 
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "noEndEvalList")
-	public String noEndEvalList(Long pkid, HttpServletRequest request,Model model,String settleNotReason) {
-		
-		if(pkid != null) {
-			//toEvalSettleService.insertSelective(record);
-			//ToEvalSettle toEvalSettle = toEvalSettleService.findToCaseByCaseCode(caseCode);
-			ToEvalSettle toEvalSettle = new ToEvalSettle();
-			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WXJS.getCode()));//2；无需结算状态
-			toEvalSettle.setPkid(pkid);
-			toEvalSettle.setSettleNotReason(settleNotReason);
-			//toEvalSettle.setCaseCode(caseCode);
-			toEvalSettleService.updateByPrimaryKeySelective(toEvalSettle);
-			//System.out.println(settleNotReason);
-			//model.addAttribute("caseCode", caseCode);
-		}
-		
-		return  "eval/settle/noEndEvalList";
-	}
+	
 	
 	/**
-	 * 结算列表
-	 * @param 
+	 * 重新结算
 	 * @param request
+	 * @param caseCodes
+	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "evalEndList")
-	public String evalEndList(HttpServletRequest request,Model model) {
-
-		return  "eval/settle/evalEndList";
-	}
-	
-	/**重新结算*/
 	@RequestMapping("/reEvalEndList")
 	public String reEvalEndList(HttpServletRequest request,String[] caseCodes,Model model) {
 		for (String caseCode : caseCodes) {
-			//System.out.println(caseCode);
 			ToEvalSettle toEvalSettle = new ToEvalSettle();
 			toEvalSettle.setStatus(String.valueOf(EvalWaitAccountEnum.WJS.getCode()));//3:未结算状态
 			toEvalSettle.setCaseCode(caseCode);
@@ -516,11 +434,17 @@ public class EvalWaitAccountListController {
 			toEvalSettleService.updateSettleTimeByCaseCode(record);
 			model.addAttribute("caseCode", caseCode);
 		}
-
+		
 		return  "redirect:evalEndList";
 	}
 	
-	/**批量结算*/
+	/**
+	 * 批量结算
+	 * @param request
+	 * @param caseCodes
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/batEnd")
 	public String batEnd(HttpServletRequest request,String[] caseCodes,Model model) {
 		for (String caseCode : caseCodes) {
@@ -537,20 +461,27 @@ public class EvalWaitAccountListController {
 		return  "redirect:evalEndList";
 	}
 	
-	/**转向关联评估列表*/
-	@RequestMapping("/associatedEvalList")
-	public String associatedEvalList(HttpServletRequest request) {
+	/**
+	 * 转向关联评估列表
+	 * @return
+	 */
+	/*@RequestMapping("/associatedEvalList")
+	public String associatedEvalList() {
 		
 
 		return  "eval/settle/associatedEvalList";
-	}
+	}*/
 	
-	/**重新结算*/
-	@RequestMapping(value = "/reNewAccount")
+	/**
+	 * 重新结算
+	 * @param caseCodes
+	 * @param request
+	 * @return
+	 */
+/*	@RequestMapping(value = "/reNewAccount")
 	@ResponseBody
 	public AjaxResponse<?> reNewAccount(String [] caseCodes, HttpServletRequest request) {
 		AjaxResponse<?> result = new AjaxResponse<>();
-		//System.out.println(caseCodes);
 		try {
 			for(String caseC : caseCodes) {
 				ToEvalSettle toEvalSettle = new ToEvalSettle();
@@ -566,7 +497,7 @@ public class EvalWaitAccountListController {
 		}
 		
 		return result;
-	}
+	}*/
 	
 	/*@RequestMapping("/newEndForm2")
 	public String newEndForm2(String caseCode,Model model) {

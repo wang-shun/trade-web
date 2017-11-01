@@ -98,7 +98,7 @@ public class ToHouseTransferController {
 		}
 		toAccesoryListService.getAccesoryListGuoHu(request, taskitem, caseCode);
 		request.setAttribute("houseTransfer", toHouseTransferService.findToGuoHuByCaseCode(caseCode));
-		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		if(toMortgage!=null) {
 			request.setAttribute("toMortgage", toMortgage);
 		}

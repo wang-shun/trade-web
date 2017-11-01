@@ -83,6 +83,7 @@ import com.centaline.trans.engine.bean.TaskQuery;
 import com.centaline.trans.engine.entity.ToWorkFlow;
 import com.centaline.trans.engine.exception.WorkFlowException;
 import com.centaline.trans.engine.service.ProcessInstanceService;
+import com.centaline.trans.engine.service.TaskService;
 import com.centaline.trans.engine.service.ToWorkFlowService;
 import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.engine.vo.PageableVo;
@@ -242,7 +243,8 @@ public class CaseDetailController {
 	private ToCaseRecvMapper toCaseRecvMapper;
 	@Autowired
 	private RansomMapper ransomMapper;
-	
+	@Autowired
+	private TaskService taskService;
 
 	/**
 	 * 页面初始化
@@ -781,7 +783,7 @@ public class CaseDetailController {
 		}
 		TsTransPlanHistory th=transplanServiceFacade.findTransPlanHistoryByCaseCode(tsTransPlanHistory);
 		if (th!=null){
-			if (th.getAuditResult().equals(0)){
+			if (Integer.valueOf(0).equals(th.getAuditResult())){
 				request.setAttribute("auditResult",true);
 			}
 		}
@@ -1014,7 +1016,26 @@ public class CaseDetailController {
 		List<Resource> resourcelist = uamPermissionService.getResourceByJobId(jobId);
 		request.setAttribute("resourcelist", resourcelist);
 
-
+		List<TaskVo> tasks = new ArrayList<TaskVo>();
+		if (toWorkFlow != null) {
+			//查询caseCode所有的主流程instCode
+			List<String> insCodeList = toWorkFlowService.queryAllInstCodesByCaseCodeAndBizCode(toCase.getCaseCode());
+			for(String insCode : insCodeList) {
+				TaskHistoricQuery tq = new TaskHistoricQuery();				
+				tq.setProcessInstanceId(insCode);
+				tq.setFinished(true);
+				//去重
+				List<TaskVo> taskList1 = taskDuplicateRemoval(workFlowManager.listHistTasks(tq).getData());		
+				tasks.addAll(taskList1);
+			}
+			//不用了
+			// 本人做的任务
+//			List<TgServItemAndProcessor> myServiceCase = tgServItemAndProcessorService.findTgServItemAndProcessorByCaseCode(toCase.getCaseCode());
+			
+//			request.setAttribute("myTasks",filterMyTask(myServiceCase,tasks)) ;
+			request.setAttribute("myTasks",tasks) ;
+			
+		}
 		/** 案件重启中对信息管理员开放 ff80808158af2e600158b98c82340049 ***/
 		/*if(null != sessionUser){
 			if(StringUtils.equals(sessionUser.getServiceJobCode(), "COXXGLY")){
@@ -1295,7 +1316,7 @@ public class CaseDetailController {
 		ToRatePayment toRatePayment=toRatePaymentService.qureyToRatePayment(caseCode);
 		ToGetPropertyBook toGetPropertyBook=toGetPropertyBookService.findGetPropertyBookByCaseCode(caseCode);
 		ToHouseTransfer toHouseTransfer=toHouseTransferService.findToGuoHuByCaseCode(caseCode);
-		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage toMortgage=toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		ToSign toSign=signService.findToSignByCaseCode(caseCode);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<ToTransPlan>transPlan=new ArrayList<ToTransPlan>();

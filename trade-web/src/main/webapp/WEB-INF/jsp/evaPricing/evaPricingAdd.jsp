@@ -140,6 +140,7 @@
 					<div class="form_content">
 						<label class="sign_left_two control-label"><font color=" red" class="mr5" >*</font>房龄</label>
 						<input type="text" id="houseAge" class="select_control" name="houseAge" onkeyup="checkInteger(this)">
+						<span class="date_icon">年内</span>
 					</div>
 				</div>
 				

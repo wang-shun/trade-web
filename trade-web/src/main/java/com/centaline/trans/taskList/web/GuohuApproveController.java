@@ -132,7 +132,7 @@ public class GuohuApproveController {
 			request.setAttribute("houseTransfer", toHouseTransfer);
 		}
 		String accompanyReasonCn = findDictAccompanyReason(toHouseTransfer.getAccompanyReason());
-		if(accompanyReasonCn!=null){
+		if(accompanyReasonCn!=null&&accompanyReasonCn!=""){
 			request.setAttribute("accompanyReasonCn", accompanyReasonCn);
 		}
 		//缴税信息
@@ -150,7 +150,7 @@ public class GuohuApproveController {
 			request.setAttribute("mortgageToSaveVO",mortgageToSaveVO);
 		}
 			//贷款信息
-		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode(caseCode);
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		if(toMortgage!=null){
 			//当贷款为按揭贷款时，公积金为空，贷款总额则为按揭贷款金额
 			if(toMortgage.getPrfAmount()==null){
@@ -203,7 +203,7 @@ public class GuohuApproveController {
 			request.setAttribute("users", caseParticipants);
 		}
 
-
+		System.out.println("task" + UiImproveUtil.getPageType(request) + "/taskGuohuApprove");
 		return "task" + UiImproveUtil.getPageType(request) + "/taskGuohuApprove";
 	}
 
@@ -281,7 +281,7 @@ public class GuohuApproveController {
 		}
 		request.setAttribute("toCase", toCase);
 
-		ToMortgage mortage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		ToMortgage mortage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		request.setAttribute("mortage", mortage);
 
 		String loanReqType="FullPay";

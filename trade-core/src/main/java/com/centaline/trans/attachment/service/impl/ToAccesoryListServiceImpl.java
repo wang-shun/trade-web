@@ -231,8 +231,8 @@ public class ToAccesoryListServiceImpl implements ToAccesoryListService {
 		toAccesoryList.setPartCode(taskitem);
 		List<ToAccesoryList> list = qureyToAccesoryList(toAccesoryList);
 		List<ToAccesoryList> removeList = new ArrayList<ToAccesoryList>();
-		/*根据需求调整附件上传项目*/
-		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+		/*根据需求调整附件上传项目 findToMortgageByCaseCode2  findToMortgageByCaseCodeOnlyOne*/
+		ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
 		for(ToAccesoryList tal:list) {
 			if((toMortgage == null || toMortgage.getMortType() == null) && (tal.getAccessoryName().equals("抵押登记表") || tal.getAccessoryName().equals("商贷利率页"))) {/*无贷款*/
 				removeList.add(tal);

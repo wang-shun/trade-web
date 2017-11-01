@@ -11,6 +11,8 @@ Array.prototype.contains = function(obj){
     }
     return false;
 };
+var changeTaskList=['TransSign','RatePayment','Guohu','HouseBookGet'];
+/*var loanTaskArry=['ComLoanProcess',"PSFLoanProcess","ComLoanAndPSFLoanProcess"];*/
 
 $(document).ready(function() {
 
@@ -33,8 +35,41 @@ $(document).ready(function() {
     queryPer();
     //获取案件操作记录
     searchCaseRecord();
+    
+    //修改环节
+    
+    $("#sel_changeFrom option").each(function(){
+		var _this=$(this);
+		var taskDfKey=_this.val();
+		if(!changeTaskList.contains(taskDfKey) 
+				/*&& !(loanTaskArry.contains(taskDfKey)) */
+						){
+			_this.remove();
+		}
+	});
+	$("#sel_changeFrom").change(function(){
+			console.log('../task/'+$("#sel_changeFrom").val());
+			$("#changeForm-form").attr('action','../task/'+$("#sel_changeFrom").val());
+
+	});
+
+	$("#sel_changeFrom").change();
+	$("#changeForm-form").submit(function(){
+		$('#changeForm-modal-form').modal("hide");
+	});
+	$("#changeForm-form").submit(function(){
+		if($("#sel_changeFrom").val()==null||$("#sel_changeFrom").val()==''){
+			window.wxc.alert('请选择要修改的项目！');
+			return false;
+		}
+	});
  
 });
+
+//我要修改显示弹框
+function showChangeFormModal(){
+	$('#changeForm-modal-form').modal("show");
+}
 
 var lamp1 = $("#Lamp1").val();
 var lamp2 = $("#Lamp2").val();
