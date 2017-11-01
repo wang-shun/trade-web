@@ -3,6 +3,7 @@ package com.centaline.trans.eval.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import com.aist.uam.auth.remote.vo.SessionUser;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.engine.vo.StartProcessInstanceVo;
 import com.centaline.trans.eval.service.EvalServiceStopService;
+import com.centaline.trans.eval.service.ToEvalReportProcessService;
 
 /**
  * @Description:评估爆单
@@ -30,6 +32,8 @@ public class evalServiceStopController {
 	private UamSessionService uamSessionService;
 	@Autowired
 	private EvalServiceStopService evalServiceStopService;
+	@Autowired
+	private ToEvalReportProcessService toEvalReportProcessService;
 	
 	/**
 	 * @评估流程初始化处理
@@ -71,12 +75,17 @@ public class evalServiceStopController {
 	 */
 	@RequestMapping("apply/process")
 	public String toApplyProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
+			HttpServletResponse response, String caseCode, String source,String businessKey,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
-
-		request.setAttribute("approveType", "11");
+		//若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+  		if(StringUtils.isNotBlank(businessKey)){
+  			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+  		}
+  		request.setAttribute("caseCode", caseCode);
+  		 request.setAttribute("evaCode", businessKey);
+		request.setAttribute("approveType", "16");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "eval/taskevalServiceStopApply";
 	}
@@ -93,12 +102,17 @@ public class evalServiceStopController {
 	 */
 	@RequestMapping("approve/process")
 	public String toApproveProcess(HttpServletRequest request,
-			HttpServletResponse response,String source,String  businessKey,
+			HttpServletResponse response,String source,String caseCode,String  businessKey,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
+		//若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+  		if(StringUtils.isNotBlank(businessKey)){
+  			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+  		}
 		request.setAttribute("source", source);
         request.setAttribute("evaCode", businessKey);
-		request.setAttribute("approveType", "11");
+        request.setAttribute("caseCode", caseCode);
+		request.setAttribute("approveType", "16");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "eval/taskevalServiceStopApprove";
 	}

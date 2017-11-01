@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 import com.aist.common.web.validate.AjaxResponse;
 import com.aist.uam.auth.remote.UamSessionService;
 import com.aist.uam.auth.remote.vo.SessionUser;
+import com.aist.uam.userorg.remote.UamUserOrgService;
+import com.aist.uam.userorg.remote.vo.Job;
+import com.aist.uam.userorg.remote.vo.User;
 import com.centaline.trans.cases.service.ToCaseInfoService;
 import com.centaline.trans.cases.vo.ServiceRestartVo;
 import com.centaline.trans.common.enums.EvalStatusEnum;
+import com.centaline.trans.common.enums.TransJobs;
 import com.centaline.trans.common.enums.WorkFlowEnum;
 import com.centaline.trans.common.enums.WorkFlowStatus;
 import com.centaline.trans.common.service.PropertyUtilsService;
@@ -60,6 +64,8 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 	ActRuTaskService actRuTaskService;
 	@Autowired
 	WorkFlowManager workFlowManager;
+	@Autowired
+	UamUserOrgService uamUserOrgService;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -105,10 +111,10 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		
 		/** 启动 评估爆单流程 */
 		Map<String, Object> vars = new HashMap<>();
-		// 根据案件所在组找主管
-		String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());
+		
+		//String manager = toCaseInfoService.getCaseManager(vo.getCaseCode());
 		vars.put("consultant", vo.getUserName());
-		vars.put("manager", manager);
+		vars.put("manager", getLeaderUser(vo.getUserName()));
 		StartProcessInstanceVo spv = processInstanceService.startWorkFlowByDfId(
 				propertyUtilsService.getProcessDfId(WorkFlowEnum.EVAL_SERVICE_STOP_PROCESS.getCode()), vo.getEvaCode(), vars);
 		List<TaskVo> tasks = taskService.listTasks(spv.getId(), false, vo.getUserName()).getData();
@@ -180,7 +186,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		ToWorkFlow t = new ToWorkFlow();
 		t.setBusinessKey(WorkFlowEnum.EVAL_PROCESS.getCode());
 		t.setBizCode(vo.getEvaCode());
-		//workflow流程表更改为已结束
+		//workflow流程表更改为爆单
 		ToWorkFlow record = toWorkFlowService.queryActiveToWorkFlowByBizCodeBusKey(t);
 		if (record != null) {
 			record.setStatus(WorkFlowStatus.COMPLETE.getCode());
@@ -253,5 +259,25 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		taskService.submitTask(vo.getTaskId(),defValsMap);
 	}
 	
+	/**
+	 * 根据申请人找对应的主管 若申请人是权证那么找权证经理  若是内勤找内勤经理
+	 * @param username
+	 * @return
+	 */
+	public String  getLeaderUser(String username){
+		Job job = null;
+		User user = null;
+		SessionUser sessionUser = uamSessionService.getSessionUser();
+		//若是内勤找内勤经理
+		if(TransJobs.TNQZL.getCode().equals(sessionUser.getServiceJobCode())){
+			job = uamUserOrgService.getJobByCode(TransJobs.TNQJL.getCode(), sessionUser.getCityCode());
+			user = uamUserOrgService.getUserByJobId(job.getId()).get(0);
+		}else{
+			// 若是权证找权证经理
+			user = uamUserOrgService.getUserByUsername(username);
+			user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getOrgId(),TransJobs.TNQZL.getCode());
+		}
+		return user.getUsername();
+	}
 
 }

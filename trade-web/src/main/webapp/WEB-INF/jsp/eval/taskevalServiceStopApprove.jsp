@@ -163,8 +163,8 @@
 					if(data.success) {
 						if(data) {
 							window.wxc.success("操作成功",{"wxcOk":function(){
-								window.close();
-						 		//window.location.href = ctx + "/task/eval/evalTaskList";
+								//window.close();
+						 		window.location.href = ctx + "/task/eval/evalTaskList";
 						    }});
 							//caseTaskCheck();
 						} else {
