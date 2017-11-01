@@ -66,4 +66,11 @@ public interface ToWorkFlowMapper {
 	 */
 	List<String> queryAllInstCodesByBizCode(@Param("bizCode")String bizCode,@Param("businessKey")String businessKey);
 	
+	/**
+	 * 根据案件编号获取和主流程相关的instCode
+	 * @param caseCode
+	 * @return
+	 */
+	List<String> queryAllInstCodesByCaseCodeAndBizCode(String caseCode);
+	
 }

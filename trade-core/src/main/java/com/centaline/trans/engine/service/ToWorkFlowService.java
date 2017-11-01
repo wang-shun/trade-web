@@ -58,4 +58,6 @@ public interface ToWorkFlowService {
 	
 	List<ToWorkFlow> getMortToWorkFlowByCaseCode(ToWorkFlow record);
 	
+	List<String> queryAllInstCodesByCaseCodeAndBizCode(String caseCode);
+	
 }

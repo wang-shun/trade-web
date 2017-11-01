@@ -65,12 +65,13 @@
 		.divider {position: relative}
 		.divider label {position: absolute;left: 0;top: -17px}
 		.fkfs_date_icon{
-			right: 100px;
+			right: 28%;
 		}
 		.form_list .row .form_content{
 			margin: 0px;
 		}
 		.common_width{width: 180px;}
+		.input-group{display: inline-block}
 	</style>
 </head>
 <body>
@@ -211,7 +212,7 @@
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
-											   class="input_type yuanwid" id="initAmount" name="initAmount"
+											   class="input_type data_style" id="initAmount" name="initAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 
@@ -220,10 +221,10 @@
 										<label >
 											<font color=" red" class="mr5" >*</font>时间
 										</label>
-										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+										<div class="input-group" data-date-format="yyyy-mm-dd">
 											<input type="text"
 												   value="<fmt:formatDate  value='${transSign.initPayTime }' type='both' pattern='yyyy-MM-dd' />"
-												   class="input_type yuanwid datatime" id="initPayTime" name="initPayTime"
+												   class="input_type data_style datatime" id="initPayTime" name="initPayTime"
 												   onfocus="this.blur()">
 										</div>
 									</div>
@@ -240,7 +241,7 @@
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.initSupervisionAmount }' type='number' pattern='#0.00' />"
-											   class="input_type yuanwid" id="initSupervisionAmount" name="initSupervisionAmount"
+											   class="input_type data_style" id="initSupervisionAmount" name="initSupervisionAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 
@@ -254,7 +255,7 @@
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.secAmount }' type='number' pattern='#0.00' />"
-											   class="input_type yuanwid" id="secAmount" name="secAmount"
+											   class="input_type data_style" id="secAmount" name="secAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 									</div>
@@ -262,7 +263,7 @@
 										<label>
 											<font class="mr5">&nbsp;&nbsp;</font>时间
 										</label>
-										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+										<div class="input-group" data-date-format="yyyy-mm-dd">
 											<input type="text"
 												   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
 												   class="input_type yuanwid datatime" id="secPayTime" name="secPayTime"
@@ -282,7 +283,7 @@
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
-											   class="input_type yuanwid" id="secSupervisionAmount" name="secSupervisionAmount"
+											   class="input_type data_style" id="secSupervisionAmount" name="secSupervisionAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 
@@ -296,7 +297,7 @@
 										<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
-											   class="input_type yuanwid" id="lastAmount" name="lastAmount"
+											   class="input_type data_style" id="lastAmount" name="lastAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 									</div>
@@ -304,10 +305,10 @@
 										<label >
 											<font class="mr5">&nbsp;&nbsp;</font>时间
 										</label>
-										<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
+										<div class="input-group" data-date-format="yyyy-mm-dd">
 											<input type="text"
 												   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
-												   class="input_type yuanwid datatime" id="lastPayTime" name="lastPayTime"
+												   class="input_type data_style datatime" id="lastPayTime" name="lastPayTime"
 												   onfocus="this.blur()">
 										</div>
 									</div>
@@ -324,7 +325,7 @@
 
 										<input type="text"
 											   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
-											   class="input_type " id="lastSupervisionAmount" name="lastSupervisionAmount"
+											   class="input_type data_style" id="lastSupervisionAmount" name="lastSupervisionAmount"
 											   onkeyup="checkNum(this)">
 										<span class="date_icon fkfs_date_icon">万元</span>
 
@@ -337,7 +338,7 @@
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">买方信息</h2>
+					<h2 class="newtitle title-mark">卖方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="topHome">
 							<div id="guestUpDiv"></div>
@@ -345,19 +346,19 @@
 					</div>
 
 					<div class="clear add-member">
-						<a href="javascript:addDateDivUp();">添加买方</a>
+						<a href="javascript:addDateDivUp();">添加卖方</a>
 					</div>
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">卖方信息</h2>
+					<h2 class="newtitle title-mark">买方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="downHome">
 							<div id="guestDownDiv"></div>
 						</div>
 					</div>
 					<div class="clear add-member">
-						<a href="javascript:addDateDivDown();">添加卖方</a>
+						<a href="javascript:addDateDivDown();">添加买方</a>
 					</div>
 				</div>
 

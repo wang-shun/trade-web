@@ -159,7 +159,7 @@ public class EvaPricingListController {
 			evaPricingService.updateEvaPricing(toEvaPricingVo);
 		} catch(Exception e){
 			result.setSuccess(false);
-			result.setMessage("数据更新失败");
+			result.setMessage(e.getMessage());
 			return result;
 		}
 		
