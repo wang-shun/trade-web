@@ -365,9 +365,17 @@
     		    		                } 
     		    		            } ,  				
     						success : function(data) {
-    							$.unblockUI();  
+    							$.unblockUI(); 
     							if(b) {
-    								caseTaskCheck();
+    								window.wxc.success("处理成功",{"wxcOk":function(){
+    									if(window.opener)
+    									{
+    										 window.opener.location.reload();
+    										 window.close();
+    									} else {
+    										 window.location.href = "${ctx }/task/myTaskList";
+    									}
+    								}})
     							} else {
     								window.wxc.success("保存成功。",{"wxcOk":function(){
     									/* window.close();

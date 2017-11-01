@@ -276,11 +276,17 @@
 	    		                } 
 	    		            } ,  			
 					success : function(data) {
+						$.unblockUI();
 						if(b) {
-							caseTaskCheck();
-							if(null!=data.message){
-								window.wxc.alert(data.message);
-							}
+							window.wxc.success("处理成功",{"wxcOk":function(){
+								if(window.opener)
+								{
+									 window.opener.location.reload();
+									 window.close();
+								} else {
+									 window.location.href = "${ctx }/task/myTaskList";
+								}
+							}})
 						} else {
 							 window.wxc.success("保存成功。",{"wxcOk":function(){
 								/* window.close();
@@ -289,6 +295,7 @@
 						}
 					},
 					error : function(errors) {
+						$.unblockUI();
 						window.wxc.error("数据保存出错");
 					}
 				});  

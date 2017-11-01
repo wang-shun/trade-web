@@ -221,6 +221,7 @@
 							<div class="row">
 								<div class="form_content">
 									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>一期款</label>
+									<input type="hidden" value="一期款" id="initPayName" name="initPayName">
 									<input type="text"
 										   value="<fmt:formatNumber value='${ transSign.initAmount}' type='number' pattern='#0.00' />"
 										   class="input_type data_style" id="initAmount" name="initAmount"
@@ -254,7 +255,7 @@
 							<p></p>
 							<div class="row">
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>二期款</label>
+									<label class="control-label sign_left_small"></font>二期款</label>
 									<input type="hidden" value="二期款" id="secPayName" name="secPayName">
 
 									<input type="text"
@@ -264,7 +265,7 @@
 									<span class="date_icon fkfs_date_icon">万元</span>
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>时间</label>
+									<label class="control-label sign_left_small"></font>时间</label>
 									<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
 										<input type="text"
 											   value="<fmt:formatDate  value='${transSign.secPayTime }' type='both' pattern='yyyy-MM-dd' />"
@@ -273,13 +274,13 @@
 									</div>
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>方式</label>
+									<label class="control-label sign_left_small"></font>方式</label>
 									<aist:dict clazz="select_control data_style" id="secPayType"
 											   name="secPayType" display="select"
 											   defaultvalue="${transSign.secPayType}" dictType="30015" />
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>监管金额</label>
+									<label class="control-label sign_left_small"></font>监管金额</label>
 									<input type="text"
 										   value="<fmt:formatNumber value='${transSign.secSupervisionAmount }' type='number' pattern='#0.00' />"
 										   class="input_type data_style" id="secSupervisionAmount" name="secSupervisionAmount"
@@ -290,7 +291,7 @@
 							<p></p>
 							<div class="row">
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>三期款</label>
+									<label class="control-label sign_left_small">三期款</label>
 									<input type="hidden" value="三期款" id="lastPayName" name="lastPayName">
 									<input type="text"
 										   value="<fmt:formatNumber value='${transSign.lastAmount}' type='number' pattern='#0.00' />"
@@ -299,7 +300,7 @@
 									<span class="date_icon fkfs_date_icon">万元</span>
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>时间</label>
+									<label class="control-label sign_left_small">时间</label>
 									<div class="input-group sign-right dataleft input-daterange pull-right" data-date-format="yyyy-mm-dd">
 										<input type="text"
 											   value="<fmt:formatDate  value='${transSign.lastPayTime }' type='both' pattern='yyyy-MM-dd' />"
@@ -308,13 +309,13 @@
 									</div>
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>方式</label>
+									<label class="control-label sign_left_small">方式</label>
 									<aist:dict clazz="select_control data_style" id="lastPayType"
 											   name="lastPayType" display="select"
 											   defaultvalue="${transSign.lastPayType}" dictType="30015" />
 								</div>
 								<div class="form_content">
-									<label class="control-label sign_left_small"><font color=" red" class="mr5" >*</font>监管金额</label>
+									<label class="control-label sign_left_small">监管金额</label>
 									<input type="text"
 										   value="<fmt:formatNumber value='${transSign.lastSupervisionAmount }' type='number' pattern='#0.00' />"
 										   class="input_type data_style" id="lastSupervisionAmount" name="lastSupervisionAmount"
@@ -328,7 +329,7 @@
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">买方信息</h2>
+					<h2 class="newtitle title-mark">卖方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="topHome">
 							<div id="guestUpDiv"></div>
@@ -336,19 +337,19 @@
 					</div>
 
 					<div class="clear add-member">
-						<a href="javascript:addDateDivUp();">添加上家</a>
+						<a href="javascript:addDateDivUp();">添加卖方</a>
 					</div>
 				</div>
 
 				<div>
-					<h2 class="newtitle title-mark">卖方信息</h2>
+					<h2 class="newtitle title-mark">买方信息</h2>
 					<div class="form_list">
 						<div class="marinfo" id="downHome">
 							<div id="guestDownDiv"></div>
 						</div>
 					</div>
 					<div class="clear add-member">
-						<a href="javascript:addDateDivDown();">添加下家</a>
+						<a href="javascript:addDateDivDown();">添加买方</a>
 					</div>
 				</div>
 
