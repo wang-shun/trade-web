@@ -251,4 +251,11 @@ public interface RansomListFormMapper {
 	 * @return
 	 */
 	List<ToRansomPlanVo> getRansomPlanChangeRecordByRansomCode(String ransomCode);
+	
+	/**
+	 * 根据案件编号获取一个最新完成的赎楼单
+	 * @param caseCode
+	 * @return
+	 */
+	ToRansomCaseVo getRansomCaseLastComplete(@Param("caseCode")String caseCode);
 }

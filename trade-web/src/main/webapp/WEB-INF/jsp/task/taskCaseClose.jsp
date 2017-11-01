@@ -59,6 +59,7 @@
 	var ctx = "${ctx}";
 	var taskitem = "${taskitem}";
 	var caseCode = "${caseCode}";
+	var hasLoan = "${hasLoan}";
 	var approveType = "${approveType }";
 	var mpkid = "${editCaseDetailVO.mpkid }";
 	var processInstanceId = "${processInstanceId}";
@@ -376,8 +377,9 @@
 													</div>
 													<div class="form_content">
 														<label class="control-label sign_left_small">
-															还款银行 </label> <input class=" input_type yuanwid"  readonly="readonly"  id="landIncrementTax" name="landIncrementTax" onkeyup="checkNum(this)"
-												value="<fmt:formatNumber value='${ editCaseDetailVO.restFinOrgCode}' type='number' pattern='#0.00' />"> <span class="date_icon">万元</span>
+															还款银行 </label> <%-- <input class=" input_type yuanwid"  readonly="readonly"  id="landIncrementTax" name="landIncrementTax" onkeyup="checkNum(this)"
+												value="<fmt:formatNumber value='${ editCaseDetailVO.restFinOrgCode}' type='number' pattern='#0.00' />"> <span class="date_icon"></span> --%>
+												<aist:dict clazz="select_control data_style" id="restFinOrgCode" name="restFinOrgCode" display="select" dictCode="${editCaseDetailVO.restFinOrgCode}" dictType="FINAL_ORG" />
 													</div>
 												</div>
 												<div class="line">
@@ -711,8 +713,8 @@
 			$("#tab-1").find("select").attr("disabled","disabled");			
 			$("#tab-1").find("select").attr("disabled","disabled");			
 			
-			if(!~~loanReq){
-				$("#tab-2").find("input").disabled=true;
+			if(!hasLoan){
+				$("#tab-2").find("input").attr("disabled","disabled");
 				$("#tab-2").find("select").attr("disabled","disabled");
 			}
 			 $("#wizard").steps();
@@ -752,8 +754,6 @@
 	        $('#guestNameUp').attr("readonly","readonly");
 	        $('#guestPhoneUp').attr("readonly","readonly");
 	        if(notFirstTimeSubmit == 1){
-	        	$('#tazhengArrDate').disabled=false;//这个写法对日期数据无效，因为这个在div上
-	        	$('#lendDate').disabled=false;
 	        }else{
 	        	$('#tazhengArrDate').attr("disabled","disabled");
 	        	$('#lendDate').attr("disabled","disabled");
