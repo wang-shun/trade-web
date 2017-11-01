@@ -275,7 +275,7 @@ public class EvalServiceStopServiceImpl implements EvalServiceStopService {
 		}else{
 			// 若是权证找权证经理
 			user = uamUserOrgService.getUserByUsername(username);
-			user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getOrgId(),TransJobs.TNQZL.getCode());
+			user = uamUserOrgService.getLeaderUserByOrgIdAndJobCode(user.getOrgId(),TransJobs.QZJL.getCode());
 		}
 		return user.getUsername();
 	}
