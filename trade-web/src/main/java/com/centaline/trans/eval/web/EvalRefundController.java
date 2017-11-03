@@ -141,35 +141,10 @@ public class EvalRefundController {
 	@RequestMapping(value="submit")
 	@ResponseBody
 	public boolean submit(ToEvaRefundVO toEvaRefundvo){
-		ToEvaRefund  toEvaRefund = new ToEvaRefund();
-		try {
-			toEvaRefund = copyProperties(toEvaRefundvo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		int count = toEvaRefundService.updateByPrimaryKeySelective(toEvaRefund);
-		if(count <= 0){
-			return false;
-		}
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		RestVariable  restVariable = new RestVariable();
-		variables.add(restVariable);
-		boolean b = workFlowManager.submitTask(null, toEvaRefundvo.getTaskId(), toEvaRefundvo.getProcessInstanceId(), null, toEvaRefundvo.getCaseCode());
-		return b;
+		boolean flag = toEvaRefundService.submitAssistant(toEvaRefundvo);
+		return flag;
 	}
-	
-	/*private void saveToApproveRecord(ToEvaRefundVO toEvaRefundvo) {
-		SessionUser user = uamSessionService.getSessionUser();
-		ToApproveRecord toApproveRecord = new ToApproveRecord();
-		toApproveRecord.setProcessInstance(toEvaRefundvo.getProcessInstanceId());
-		toApproveRecord.setPartCode(toEvaRefundvo.getPartCode());
-		toApproveRecord.setOperatorTime(new Date());
-		toApproveRecord.setCaseCode(toEvaRefundvo.getCaseCode());
-		toApproveRecord.setContent("审批通过");
-		toApproveRecord.setOperator(user.getId());
-		toApproveRecord.setTaskId(toEvaRefundvo.getTaskId());
-		toApproveRecordService.saveToApproveRecord(toApproveRecord);
-	}*/
+
 	/**
 	 * 退费经理审核
 	 * @param request
@@ -198,59 +173,10 @@ public class EvalRefundController {
 	@ResponseBody
 	public boolean submitManager(ToEvaRefundVO toEvaRefundvo,String approveResult,String approveContent){
 		saveRcord(toEvaRefundvo,approveResult,approveContent);
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		RestVariable  restVariable = new RestVariable();
-		boolean b = false;
-		if(approveResult.equals("0")){
-			restVariable.setName("EvalRefundFirstCheck");
-			restVariable.setValue(true);
-			variables.add(restVariable);
-		    b = workFlowManager.submitTask(variables, toEvaRefundvo.getTaskId(), toEvaRefundvo.getProcessInstanceId(), null, toEvaRefundvo.getCaseCode());
-		    return b;
-		}else{
-			restVariable.setName("EvalRefundFirstCheck");
-			restVariable.setValue(false);
-			variables.add(restVariable);
-			b = workFlowManager.submitTask(variables, toEvaRefundvo.getTaskId(), toEvaRefundvo.getProcessInstanceId(), null, toEvaRefundvo.getCaseCode());
-		}
-		
-		SessionUser user = uamSessionService.getSessionUserById(getManagerId(toEvaRefundvo.getCaseCode()));
-		FlowFeedBack info = new FlowFeedBack(user, CcaiFlowResultEnum.BACK,"权证经理驳回");
-		ApiResultData result = flowApiService.tradeFeedBackCcai(toEvaRefundvo.getCaseCode(), CcaiTaskEnum.EVAL_REFUND_MANAGER, info);
-		if(result.isSuccess()){
-			//修改案件状态为驳回CCAI
-			ToCase ca  = toCasemapper.findToCaseByCaseCode(toEvaRefundvo.getCaseCode());
-			ca.setStartDate(CaseStatusEnum.BHCCAI.getCode());
-			toCasemapper.updateByCaseCodeSelective(ca);
-			return b;
-		}
-		return false;
+		boolean flag = toEvaRefundService.submitManager(toEvaRefundvo,approveResult);
+		return flag;
 	}
-	/**
-	 * 获取对应的权证经理 域账号
-	 * @param caseCode
-	 * @return
-	 */
-	private String getManagerId(String caseCode){
-		List<ToCaseParticipant> participants = participantMapper.selectByCaseCode(caseCode);
-		ToCaseParticipant pa = null;
-		for(ToCaseParticipant p :participants){
-			System.out.println(p.getPosition()+"---"+p.getUserName()+"----"+p.getRealName()+" manager :"+p.getGrpMgrUsername());
-			//优先找贷款权证
-			if(CaseParticipantEnum.LOAN.getCode().equals(p.getPosition())){
-				pa = p ;
-				break;
-			}
-			//没有贷款权证 找过户权证
-			if(pa==null && CaseParticipantEnum.WARRANT.getCode().equals(p.getPosition())){
-				pa = p;
-			}
-		}
-		Assert.notNull(pa,"贷款或者过户权证不能都不存在");
-		User u = uamUserOrgService.getUserByUsername(pa.getGrpMgrUsername());
-		Assert.notNull(u,pa.getGrpMgrUsername()+" 主管信息不存在");
-		return u.getId();
-	}
+	
 	
 	private void saveRcord(ToEvaRefundVO toEvaRefundvo,String approveResult,String approveContent){
 		ToApproveRecord toApproveRecord  = new ToApproveRecord();
@@ -289,27 +215,8 @@ public class EvalRefundController {
 	@ResponseBody
 	public boolean submitChif(ToEvaRefundVO toEvaRefundvo,String approveResult,String approveContent){
 		saveRcord(toEvaRefundvo,approveResult,approveContent);
-		List<RestVariable> variables = new ArrayList<RestVariable>();
-		RestVariable  restVariable = new RestVariable();
-		boolean b = false;
-	
-	    b = workFlowManager.submitTask(null, toEvaRefundvo.getTaskId(), toEvaRefundvo.getProcessInstanceId(), null, toEvaRefundvo.getCaseCode());	
-		SessionUser user = uamSessionService.getSessionUserById(getManagerId(toEvaRefundvo.getCaseCode()));
-		FlowFeedBack info = null;
-		if(approveResult.equals("1")){
-			 info = new FlowFeedBack(user, CcaiFlowResultEnum.FAILURE,"审批不通过");
-		}else{
-			 info = new FlowFeedBack(user, CcaiFlowResultEnum.SUCCESS,"审批通过");
-		}
-		ApiResultData result = flowApiService.tradeFeedBackCcai(toEvaRefundvo.getCaseCode(), CcaiTaskEnum.EVAL_REFUND_MAJORDOMO, info);
-		if(result.isSuccess()){
-			//修改案件状态为驳回CCAI
-			ToCase ca  = toCasemapper.findToCaseByCaseCode(toEvaRefundvo.getCaseCode());
-			ca.setStartDate(CaseStatusEnum.YZZ.getCode());
-			toCasemapper.updateByCaseCodeSelective(ca);
-			return b;
-		}
-		return false;
+		boolean flag = toEvaRefundService.submitChif(toEvaRefundvo, approveResult);
+		return flag;
 	}
 
 }

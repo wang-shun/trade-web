@@ -1,5 +1,6 @@
 package com.centaline.trans.eval.service;
 
+import com.centaline.trans.cases.vo.ToEvaRefundVO;
 import com.centaline.trans.eval.entity.ToEvaRefund;
 
 
@@ -21,4 +22,10 @@ public interface ToEvaRefundService {
     int updateByPrimaryKeySelective(ToEvaRefund record);
 
     int updateByPrimaryKey(ToEvaRefund record);
+
+	boolean submitManager(ToEvaRefundVO toEvaRefundvo, String approveResult);
+
+	boolean submitAssistant(ToEvaRefundVO toEvaRefundvo);
+
+	boolean submitChif(ToEvaRefundVO toEvaRefundvo, String approveResult);
 }
