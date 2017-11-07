@@ -211,6 +211,9 @@ public class ToEvalSettleServiceImpl implements ToEvalSettleService {
 				evalAccountShowVO.setEvalComAmount(new BigDecimal("0.00"));
 			}
 			evalAccountShowVO.setEvalRealCharges(toEvalRebate.getEvalRealCharges());
+		}else {
+			evalAccountShowVO.setEvalComAmount(new BigDecimal("0.00"));
+			evalAccountShowVO.setEvalRealCharges(new BigDecimal("0.00"));
 		}
 		return evalAccountShowVO;
 	}
