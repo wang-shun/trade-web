@@ -134,10 +134,10 @@ function getShowCCAIAttachment(){
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
                 var rowData = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-                var link = "<button  class='btn red' onclick='showAttachment(\""+rowData['URL']+"\")'>查看附件</a>";
-
+                var link = "<img src='" +rowData['URL']+"' class='imgCCAAI' style='width:50px;height:50px;'>";
                 jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
             }
+            $(".imgCCAAI").viewer();
         },
         postData : {
             queryId : "getCcaiAttachmentListByCaseCode",
