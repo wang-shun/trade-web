@@ -228,6 +228,19 @@
             <version>${servlet.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--  fluentd log -->
+        <dependency>
+            <groupId>com.sndyuk</groupId>
+            <artifactId>logback-more-appenders</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fluentd</groupId>
+            <artifactId>fluent-logger</artifactId>
+            <version>0.3.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

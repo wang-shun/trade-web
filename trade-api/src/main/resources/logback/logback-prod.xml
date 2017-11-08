@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{yy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="APILOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/APILOG.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FLUENT_TEXT" class="ch.qos.logback.more.appenders.FluentLogbackAppender">
+        <!-- Tag for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
+        <tag>prod.trade-api</tag>
+        <!-- ${centaline.environment} [Optional] Label for Fluentd. Farther information: http://docs.fluentd.org/articles/config-file -->
+        <label>prod.trade-api</label>
+        <!-- Host name/address and port number which Flentd placed -->
+        <remoteHost>10.1.30.104</remoteHost>
+        <port>24224</port>
+        <!-- Max queue size of logs which is waiting to be sent (When it reach
+            to the max size, the log will be disappeared). -->
+        <maxQueueSize>200</maxQueueSize>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                <![CDATA[%date{yy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{10} [%file : %line] %msg%n]]></pattern>
+        </layout>
+    </appender>
+
+    <logger name="org.springframework" additivity="false" level="ERROR"/>
+
+    <logger name="org.apache.shiro" level="ERROR">
+    </logger>
+    <logger name="net.sf.ehcache" level="warn"></logger>
+
+    <logger name="org.redisson" level="INFO"/>
+
+    <logger name="org.apache.zookeeper" level="INFO"/>
+
+    <logger name="org.apache.activemq" level="INFO"/>
+
+    <logger name="org.hibernate.validator" level="INFO"/>
+
+    <logger name="org.mybatis.spring" level="ERROR"/>
+
+    <logger name="com.centaline" additivity="false" level="DEBUG">
+        <appender-ref ref="FLUENT_TEXT"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <logger name="com.github.isrsal.logging.LoggingFilter" level="DEBUG">
+        <appender-ref ref="FLUENT_TEXT"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</included>
