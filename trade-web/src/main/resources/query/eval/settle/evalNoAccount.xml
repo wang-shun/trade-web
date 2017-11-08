@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <querys>
 <dicts>
-		<customDict id="getIsFeeGetNameByCode" beanName="qqcdDictIsFeeGet"></customDict>
+		<customDict id="getStatus" beanName="qqcdDictEvalStatus"></customDict>
 </dicts>
 <formatters>
 		<formatter id="dateFormatter" ref="" class="com.aist.common.quickQuery.formatter.DateFormatter">
@@ -39,7 +39,7 @@
 		<searchSql>
 			<baseSql>
 				<![CDATA[
-			select a.CASE_CODE as caseCode,a.EVA_CODE as evalCode,b.FIN_ORG_ID,b.APPLY_DATE,b.ISSUE_DATE,b.EVA_PRICE,
+			select a.CASE_CODE as caseCode,a.EVA_CODE as evalCode,b.FIN_ORG_ID,b.STATUS as STATUS_OLD,b.APPLY_DATE,b.ISSUE_DATE,b.EVA_PRICE,
 				a.PKID as pkId,a.FEE_CHANGE_REASON,a.SETTLE_FEE,a.STATUS,a.SETTLE_NOT_REASON,
 				c.PROPERTY_ADDR,
 				d.EVAL_REAL_CHARGES,
@@ -76,6 +76,8 @@
 				<column type="both" name="SETTLE_FEE" index="" checkbox="" title="结算费用" display="结算费用" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />			
 				<column type="both" name="" index="" checkbox="" title="贷款权证" display="贷款权证" customDict="" sysDict="" format=""  width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="STATUS" index="" checkbox="" title="案件状态" display="状态" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="both" name="STATUS_OLD" index="" checkbox="" title="评估进程" display="评估进程" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
+				<column type="virtual" name="PROCESS_STATUS" referencecol="STATUS_OLD" index="" checkbox="" title="评估进程"  display="评估进程" customDict="getStatus" sysDict="" format="" width="60" isSort="true" align="" halign="" order="" resizable="" />
 				<column type="both" name="SETTLE_NOT_REASON" index="" checkbox="" title="无需结算原因" display="无需结算原因" customDict="" sysDict="" beanFormatter=""  format=""  width="60" isSort="" align="" halign="" order="" resizable="" />
 				<column type="virtual" isDynamicDict="true" name="glCount" display="glCount" referencecol="CASE_CODE,CASE_ORIGIN"  customDict="getGlCaseCount" />				
 			</table-row>

@@ -56,7 +56,7 @@ public class LoanReleaseController
         request.setAttribute("source", source);
         request.setAttribute("caseBaseVO", caseBaseVO);
         request.setAttribute("caseCode", caseCode);
-        ToMortgage mortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+        ToMortgage mortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
         if(mortgage == null) {
         	MortgageToSaveVO toSaveVO = toMortgageTosaveService.selectByCaseCode(caseCode);
         	mortgage = new ToMortgage();

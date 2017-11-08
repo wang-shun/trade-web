@@ -40,16 +40,16 @@ public class EvalTaskPageRouteController {
 			request.setAttribute("evaCode", evalCode);
 			
 			if("evalServiceRestartApply".equals(taskitem)){ //天津评估重启流程申请
-				initApproveRecord(request, caseCode, "10");
-	     		if(instCode == null && caseCode != null) {
+				//initApproveRecord(request, caseCode, "10");
+	     		/*if(instCode == null && caseCode != null) {
 	        		ToWorkFlow toWorkFlow = new ToWorkFlow();
 	        		toWorkFlow.setBizCode(request.getParameter("evalCode"));
 	        		toWorkFlow.setBusinessKey(WorkFlowEnum.SRV_BUSSKEY.getCode());
 	        		instCode = toWorkFlowService.queryToWorkFlowByCaseCodeBusKey(toWorkFlow).getInstCode();
 	        		request.setAttribute("processInstanceId", instCode);
-	        	}
+	        	}*/
 			}else if("evalServiceStopApply".equals(taskitem)){//天津评估爆单流程申请
-				initApproveRecord(request, caseCode, "11");
+				//initApproveRecord(request, caseCode, "16");
 			}
 			
 			return "eval/task"+taskitem;

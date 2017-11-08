@@ -21,6 +21,8 @@ import com.centaline.trans.cases.service.ToCaseService;
 import com.centaline.trans.cases.vo.CaseBaseVO;
 import com.centaline.trans.cases.vo.EditCaseDetailVO;
 import com.centaline.trans.common.enums.OldActivitiFormKey;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.task.entity.ToApproveRecord;
 import com.centaline.trans.task.service.CaseCloseService;
 import com.centaline.trans.task.service.ToApproveRecordService;
@@ -48,6 +50,8 @@ public class CaseCloseController {
 	private ToAccesoryListService toAccesoryListService;
 	@Autowired
 	private CaseCloseService caseCloseService;
+	@Autowired
+	private WorkFlowManager workFlowManager;
 	@RequestMapping("process")
 	public String toProcess(HttpServletRequest request,
 			HttpServletResponse response,String caseCode,String source){
@@ -63,10 +67,17 @@ public class CaseCloseController {
 			ToApproveRecord tar = new ToApproveRecord();
 			tar.setCaseCode(caseCode);
 			tar.setPartCode(OldActivitiFormKey.CaseCloseFirstApprove.getTaskDefinitionKey());
-			tar.setProcessInstance(String.valueOf(request.getAttribute("processInstanceId")));
+			String processInstanceId = String.valueOf(request.getAttribute("processInstanceId"));
+			tar.setProcessInstance(processInstanceId);
 			List<ToApproveRecord> tarList = toApproveRecordService.queryToApproveRecords(tar);
 			if(tarList != null && tarList.size() > 0) {
 				request.setAttribute("notFirstTimeSubmit", 1);
+			}
+			if(StringUtils.isNotBlank(processInstanceId)) {
+				RestVariable var = workFlowManager.getVar(processInstanceId, "hasLoan");
+				if(var != null) {
+					request.setAttribute("hasLoan", var.getValue());
+				}
 			}
 		}
 		request.setAttribute("editCaseDetailVO", editCaseDetailVO);
@@ -79,9 +90,9 @@ public class CaseCloseController {
 	
 	@RequestMapping(value="saveCaseClose")
 	@ResponseBody
-	public Boolean saveCaseDetai(HttpServletRequest request, EditCaseDetailVO editCaseDetailVO) {
+	public Boolean saveCaseDetai(HttpServletRequest request, EditCaseDetailVO editCaseDetailVO, ProcessInstanceVO processInstanceVO) {
 		try{
-			editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO);
+			editCaseDetailService.saveCaseCloseDetai(editCaseDetailVO, processInstanceVO);
 		}catch (Exception e){
 			e.printStackTrace();
 			return false;

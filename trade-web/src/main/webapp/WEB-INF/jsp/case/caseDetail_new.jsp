@@ -287,7 +287,61 @@
 							</form>
 						</div>
 					</div>
-				
+					
+					<!-- 修改表单数据-->
+					<div id="changeForm-modal-form" class="modal fade" role="dialog"
+						aria-labelledby="plan-modal-title" aria-hidden="true">
+						<div class="modal-dialog" style="width: 1000px">
+							<form id="changeForm-form" class="form-horizontal"
+								method="post" target="_blank">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">×</button>
+										<h4 class="modal-title" id="plan-modal-title">
+											选择要修改的表单项目</h4>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-lg-3"
+												style="margin-top: 9px; margin-left: 15px;">
+												请选择您要修改的环节</div>
+											<div class="col-lg-3">
+												<input name="caseCode" value="${toCase.caseCode}" id="hid_case_code" type="hidden">
+												<input name="source" value="caseDetails" type="hidden">
+												<input name="instCode" value="${toWorkFlow.instCode}" type="hidden">
+												<select id="sel_changeFrom"	name="changeFrom" class="form-control m-b"	style="padding-bottom: 3px; height: 45.003px;">
+													<c:forEach items="${myTasks}" var="item">
+														<option value="${item.taskDefinitionKey }">${item.name }</option>
+													</c:forEach>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-12"
+												style="margin-top: 9px; margin-left: 10px;">
+												<font color="red">*</font>注1：权证只能修改归属自己的、已提交的任务，未完成的任务请在待办任务中填写。
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-12"
+												style="margin-top: 9px; margin-left: 10px;">
+												<font color="red">*</font>注2：在环节表单中，凡是涉及到交易时间或变更流程走向的信息，系统不允许用户修改。
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+
+
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">关闭</button>
+										<button type="submit" class="btn btn-primary">去修改</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					
 					</div>
 				</div>
 				<div class="tab-pane fade" id="messages">
@@ -337,6 +391,8 @@
 
 <!-- 相关信息 -->
 <div class="panel " id="aboutInfo" style="min-height: 800px;">
+	<a style="float: right; margin-right: 12px; margin-top: 10px;"
+						href="javascript:showChangeFormModal();">我要修改</a>
 	<div class="panel-body">
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#home_info" data-toggle="tab">交易相关信息</a>

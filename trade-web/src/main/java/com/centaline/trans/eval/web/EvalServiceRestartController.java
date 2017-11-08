@@ -98,11 +98,15 @@ public class EvalServiceRestartController {
 	 */
 	@RequestMapping("apply/process")
 	public String toApplyProcess(HttpServletRequest request,
-			HttpServletResponse response, String caseCode, String source,
+			HttpServletResponse response, String caseCode, String source,String  businessKey,
 			String taskitem, String processInstanceId) {
 		SessionUser user = uamSessionService.getSessionUser();
 		request.setAttribute("source", source);
-
+		//若businessKey不为空，那么是重启后进入到申请任务页面,businessKey为evaCode的值
+  		if(StringUtils.isNotBlank(businessKey)){
+  			caseCode=toEvalReportProcessService.findToEvalReportProcessByEvalCode(businessKey).getCaseCode();
+  		}
+  		request.setAttribute("caseCode", caseCode);
 		request.setAttribute("approveType", "10");
 		request.setAttribute("operator", user != null ? user.getId() : "");
 		return "eval/taskevalServiceRestartApply";

@@ -282,11 +282,11 @@
 									<td>{{item.FEE_CHANGE_REASON}}</td>
                                     <td>{{item.EVA_COMPANY}}</td>
 									<td>
-										<p>评：{{item.APPLY_DATE}}</p>
-										<p>出：{{item.ISSUE_DATE}}</p>
+										<p><i class="sign_normal">评</i>{{item.APPLY_DATE}}</p>
+										<p><i class="sign_grey">出</i>{{item.ISSUE_DATE}}</p>
 									</td>
-                                    <td>{{item.EVAL_REAL_CHARGES}}</td>
-                                    <td>{{item.SETTLE_FEE}}</td>
+                                    <td>{{item.EVAL_REAL_CHARGES}}元</td>
+                                    <td>{{item.SETTLE_FEE}}元</td>
                                     <td>{{item.LOAN}}</td>
 									<td>{{item.REJECT_CAUSE}}</td>
 									

@@ -24,6 +24,8 @@ import com.centaline.trans.common.repository.TgGuestInfoMapper;
 import com.centaline.trans.common.repository.ToPropertyInfoMapper;
 import com.centaline.trans.eloan.entity.ToCloseLoan;
 import com.centaline.trans.eloan.repository.ToCloseLoanMapper;
+import com.centaline.trans.engine.bean.RestVariable;
+import com.centaline.trans.engine.service.WorkFlowManager;
 import com.centaline.trans.eval.entity.ToEvalReportProcess;
 import com.centaline.trans.eval.repository.ToEvalReportProcessMapper;
 import com.centaline.trans.mgr.entity.TsFinOrg;
@@ -33,7 +35,7 @@ import com.centaline.trans.mortgage.entity.ToMortgage;
 import com.centaline.trans.mortgage.repository.ToEvaReportMapper;
 import com.centaline.trans.mortgage.repository.ToMortgageMapper;
 import com.centaline.trans.mortgage.service.ToMortgageService;
-import com.centaline.trans.ransom.entity.ToRansomFormVo;
+import com.centaline.trans.ransom.entity.ToRansomCaseVo;
 import com.centaline.trans.ransom.repository.AddRansomFormMapper;
 import com.centaline.trans.ransom.repository.RansomListFormMapper;
 import com.centaline.trans.ransom.vo.ToRansomVo;
@@ -52,9 +54,9 @@ import com.centaline.trans.task.repository.ToPurchaseLimitSearchMapper;
 import com.centaline.trans.task.repository.ToRatePaymentMapper;
 import com.centaline.trans.task.repository.ToSignMapper;
 import com.centaline.trans.task.repository.ToTaxMapper;
-import com.centaline.trans.task.service.ToMortgageTosaveService;
 import com.centaline.trans.task.service.ToRatePaymentService;
 import com.centaline.trans.task.vo.MortgageToSaveVO;
+import com.centaline.trans.task.vo.ProcessInstanceVO;
 import com.centaline.trans.utils.DateUtil;
 
 @Service
@@ -107,6 +109,8 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
     private RansomListFormMapper ransomListFormMapper;
     @Autowired
     private ToMortgageTosaveMapper toMortgageTosaveMapper;
+    @Autowired
+    private WorkFlowManager workFlowManager;
 
     
     /**
@@ -286,7 +290,7 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         }
 
         /* 贷款信息 */
-        ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCode2(caseCode);
+        ToMortgage toMortgage = toMortgageService.findToMortgageByCaseCodeOnlyOne(caseCode);
         if (toMortgage != null)
         {
             editCaseDetailVO.setMpkid(toMortgage.getPkid());
@@ -350,15 +354,21 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
         if(toEvaReportProcess != null) {
         	editCaseDetailVO.setEvaPrice(toEvaReportProcess.getEvaPrice() != null ? toEvaReportProcess.getEvaPrice().divide(new BigDecimal(10000)) : null);
         }
-        ToRansomFormVo toRansomFormVo = addRansomFormMapper.selectByCaseCode(caseCode);
-        if(toRansomFormVo != null) {
-        	editCaseDetailVO.setRestFinOrgCode(toRansomFormVo.getFinOrgCode());
-        	editCaseDetailVO.setRestMoney(toRansomFormVo.getRestMoney() != null ? toRansomFormVo.getRestMoney().divide(new BigDecimal(10000)) : null);
-        	List<ToRansomVo> toRansomVos = ransomListFormMapper.getRansomInfoByRansomCode(toRansomFormVo.getRansomCode());
+        ToRansomCaseVo ransomCaseVo = ransomListFormMapper.getRansomCaseLastComplete(caseCode);
+        if(ransomCaseVo != null) {
+        	List<ToRansomVo> toRansomVos = ransomListFormMapper.getRansomInfoByRansomCode(ransomCaseVo.getRansomCode());
         	if(toRansomVos != null && toRansomVos.size() > 0) {
+        		BigDecimal restMoney = new BigDecimal(0);
+        		for (ToRansomVo toRansomVo : toRansomVos) {
+        			if(toRansomVo.getRestMoney() != null) {
+        				restMoney.add(toRansomVo.getRestMoney());
+        			}
+				}
+        		editCaseDetailVO.setRestFinOrgCode(toRansomVos.get(0).getFinOrgCode());//还款银行，这里有问题，如果是多次抵押该写哪个？
+        		editCaseDetailVO.setRestMoney(restMoney.divide(new BigDecimal(10000)));//剩余贷款金额
         		ToRansomVo toRansomVo = toRansomVos.get(0);
 				if(toRansomVo != null) { 
-					editCaseDetailVO.setRestPayTime(toRansomVo.getRepayTime());
+					editCaseDetailVO.setRestPayTime(toRansomVo.getRepayTime());//陪同还贷时间
 				}
         	}
         }
@@ -678,32 +688,37 @@ public class EditCaseDetailServiceImpl implements EditCaseDetailService
      * ②如果是第二次提交：只允许修改过户之后的信息：领证时间、放款时间
      */
     @Override
-    public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO)
+    public void saveCaseCloseDetai(EditCaseDetailVO editCaseDetailVO, ProcessInstanceVO processInstanceVO)
     {
-    	if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
-    		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
-    			ToMortgage record = toMortgageService.findToMortgageById(editCaseDetailVO.getMpkid());
-    			if(record != null) {//有贷款数据时
-    				if(editCaseDetailVO.getLendDate() != null) {
-    					record.setLendDate(editCaseDetailVO.getLendDate());
-    				}
-    				if(editCaseDetailVO.getTazhengArrDate() != null) {
-    					record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
-    				}
-    				toMortgageMapper.update(record);
-    			}else {
-    				/**
-    				 * 自办贷款挽回失败的情况下，由于贷款表无数据，故领他证和放款时间更新到各自表中
-    				 */
-    				MortgageToSaveVO toSaveVO = toMortgageTosaveMapper.selectByCaseCode(editCaseDetailVO.getCaseCode());
-    				toSaveVO.setLendDate(editCaseDetailVO.getLendDate());
-    				toMortgageTosaveMapper.updateByPrimary(toSaveVO);
-    				ToGetPropertyBook propertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(editCaseDetailVO.getCaseCode());
-    				propertyBook.setRealPropertyGetTime(editCaseDetailVO.getTazhengArrDate());
-    				toGetPropertyBookMapper.updateByPrimaryKeySelective(propertyBook);
-    			}
-    		}
-    	}
+    	if(processInstanceVO != null && StringUtils.isNotBlank(processInstanceVO.getProcessInstanceId())) {
+			RestVariable var = workFlowManager.getVar(processInstanceVO.getProcessInstanceId(), "hasLoan");
+			if(var != null && var.getValue() != null && (boolean)var.getValue()) {
+				if(editCaseDetailVO != null && StringUtils.isNotBlank(String.valueOf(editCaseDetailVO.getMpkid()))) {
+		    		if(editCaseDetailVO.getLendDate() != null || editCaseDetailVO.getTazhengArrDate() != null) {
+		    			ToMortgage record = toMortgageService.findToMortgageById(editCaseDetailVO.getMpkid());
+		    			if(record != null) {//有贷款数据时
+		    				if(editCaseDetailVO.getLendDate() != null) {
+		    					record.setLendDate(editCaseDetailVO.getLendDate());
+		    				}
+		    				if(editCaseDetailVO.getTazhengArrDate() != null) {
+		    					record.setTazhengArrDate(editCaseDetailVO.getTazhengArrDate());
+		    				}
+		    				toMortgageMapper.update(record);
+		    			}else {
+		    				/**
+		    				 * 自办贷款挽回失败的情况下，由于贷款表无数据，故领他证和放款时间更新到各自表中
+		    				 */
+		    				MortgageToSaveVO toSaveVO = toMortgageTosaveMapper.selectByCaseCode(editCaseDetailVO.getCaseCode());
+		    				toSaveVO.setLendDate(editCaseDetailVO.getLendDate());
+		    				toMortgageTosaveMapper.updateByPrimary(toSaveVO);
+		    				ToGetPropertyBook propertyBook = toGetPropertyBookMapper.findGetPropertyBookByCaseCode(editCaseDetailVO.getCaseCode());
+		    				propertyBook.setRealPropertyGetTime(editCaseDetailVO.getTazhengArrDate());
+		    				toGetPropertyBookMapper.updateByPrimaryKeySelective(propertyBook);
+		    			}
+		    		}
+		    	}
+			}
+		}
     	
          //执行上下家删除操作 
         /*if (editCaseDetailVO.getGuestPkid() != null && editCaseDetailVO.getGuestPkid().size() > 0)

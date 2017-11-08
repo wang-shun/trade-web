@@ -153,5 +153,10 @@ public class ToWorkFlowServiceImpl implements ToWorkFlowService {
 	@Override
 	public List<String> queryAllInstCodesByBizCode(String bizCode,String businessKey) {
 		return toWorkFlowMapper.queryAllInstCodesByBizCode(bizCode,businessKey);
+	}
+
+	@Override
+	public List<String> queryAllInstCodesByCaseCodeAndBizCode(String caseCode) {	
+		return toWorkFlowMapper.queryAllInstCodesByCaseCodeAndBizCode(caseCode);
 	}	
 }

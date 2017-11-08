@@ -167,8 +167,8 @@
 									</td>
                                     <td>{{item.PROPERTY_ADDR}}</td>
                                     <td>{{item.EVA_COMPANY}}</td>
-                                    <td>{{item.EVAL_REAL_CHARGES}}</td>
-                                    <td>{{item.SETTLE_FEE}}</td>
+                                    <td>{{item.EVAL_REAL_CHARGES}}元</td>
+                                    <td>{{item.SETTLE_FEE}}元</td>
                                     
 									<td>{{item.LOAN}}</td>
 				<td class="center">
