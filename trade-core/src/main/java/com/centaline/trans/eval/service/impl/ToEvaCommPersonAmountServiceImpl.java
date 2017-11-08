@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -309,7 +310,8 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 		}
 		EvalChangeCommVO evalChangeCommVO = new EvalChangeCommVO(caseCode);
 		List<ToEvaCommPersonAmount> toEvaCommPersonAmountList = toEvaCommPersonAmountMapper.selectByCasecode(caseCode);
-		if(toEvaCommPersonAmountList.size()<=0){
+//		如果DB已经有调佣信息就从DB取，如果没有则从CCAI获取
+		if(!CollectionUtils.isNotEmpty(toEvaCommPersonAmountList)){
 			return getFullEvalChangeCommVOFromCCAI(caseCode);
 		}else{
 			return getFullEvalChangeCommVOFromDB(caseCode);			
