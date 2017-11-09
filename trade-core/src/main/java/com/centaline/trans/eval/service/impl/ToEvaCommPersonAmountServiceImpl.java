@@ -245,6 +245,7 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 					toEvaCommPersonAmount.setEmployeeName(sharingInfo2.getEmployee());
 					toEvaCommPersonAmount.setShareAmount(sharingInfo2.getSharingAmount());
 					toEvaCommPersonAmount.setShareReason(sharingInfo2.getSharingInstruction());
+					//注释by xiefei1 2017-11-09			防止出现这里为空指针,已经在ApiCommissionAssign中判断过
 					toEvaCommPersonAmount.setDealCount(sharingInfo2.getTurnoverNum().intValue());
 					warrantPersonList.add(toEvaCommPersonAmount);
 				}else{
@@ -255,6 +256,7 @@ public class ToEvaCommPersonAmountServiceImpl implements ToEvaCommPersonAmountSe
 					toEvaCommPersonAmount.setEmployeeName(sharingInfo2.getEmployee());
 					toEvaCommPersonAmount.setShareAmount(sharingInfo2.getSharingAmount());
 					toEvaCommPersonAmount.setShareReason(sharingInfo2.getSharingInstruction());
+					//注释by xiefei1 2017-11-09			防止出现这里为空指针,已经在ApiCommissionAssign中判断过
 					toEvaCommPersonAmount.setDealCount(sharingInfo2.getTurnoverNum().intValue());
 					sharePersonList.add(toEvaCommPersonAmount);
 				}

@@ -91,6 +91,10 @@ public class ApiCommissionAssign extends ApiResultData {
 		}
 
 		public BigDecimal getTurnoverNum() {
+//注释by xiefei1 2017-11-09			防止出现这里为空指针 
+			if(null==turnoverNum){
+				return new BigDecimal("0");
+			}
 			return turnoverNum;
 		}
 
