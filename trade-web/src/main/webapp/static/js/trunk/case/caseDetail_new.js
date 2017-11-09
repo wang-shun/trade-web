@@ -137,7 +137,7 @@ function getShowCCAIAttachment(){
                 var link = "<img src='" +rowData['URL']+"' class='imgCCAAI' style='width:50px;height:50px;'>";
                 jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
             }
-            $(".imgCCAAI").viewer();
+            $("#gridTable").viewer();
         },
         postData : {
             queryId : "getCcaiAttachmentListByCaseCode",
