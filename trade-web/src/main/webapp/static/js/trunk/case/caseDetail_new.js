@@ -85,10 +85,10 @@ function getShowCCAIAttachment(){
         url : ctx+'/quickGrid/findPage',
         mtype : 'GET',
         datatype : "json",
-        height : 250,
+        height : 600,
         autowidth : true,
         shrinkToFit : true,
-        rowNum : 5,
+        rowNum : 10,
         colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
         colModel : [ {
             name : 'FILE_CAT',
