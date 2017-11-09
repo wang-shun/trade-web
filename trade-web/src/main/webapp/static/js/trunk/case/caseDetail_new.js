@@ -134,7 +134,7 @@ function getShowCCAIAttachment(){
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
                 var rowData = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-                var link = "<img src='" +rowData['URL']+"' class='imgCCAAI' style='width:50px;height:50px;'>";
+                var link = "<img src='" +rowData['URL']+"' class='imgCCAAI' style='width:50px;height:50px;' alt='"+rowData['FILE_NAME']+"."+rowData['FILE_CAT']+"'>";
                 jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
             }
             $("#gridTable").viewer();
@@ -190,7 +190,7 @@ function getShowAttachment() {
                         trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
                     }
                     trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
-                    trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
+                    trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;' alt='"+value.preFileName+"'>";
                     trStr += "</a>";
 
                 }
