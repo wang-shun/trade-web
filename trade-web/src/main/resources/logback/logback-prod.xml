@@ -90,9 +90,10 @@
     <logger name="org.mybatis.spring.mapper" level="INFO">
         <appender-ref ref="FLUENT_TEXT" />
     </logger>
-	<!-- <logger name="com.centaline.trans.utils.wechat" level="DEBUG">
-        <appender-ref ref="APILOG_FILE"/>
-    </logger> -->
+
+    <logger name="com.aist" level="ERROR">
+        <appender-ref ref="FLUENT_TEXT" />
+    </logger>
 
     <root level="DEBUG">
         <appender-ref ref="FLUENT_TEXT" />

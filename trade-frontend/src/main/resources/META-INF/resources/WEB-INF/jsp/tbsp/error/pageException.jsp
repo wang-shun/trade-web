@@ -28,7 +28,7 @@ $("#error").click(function(){
       您可以：<a class="green" id="error" href="#">查看错误详情</a> 或者 <a class="green" href="#">联系我们</a> ！
     </div>
   </div>
-  <div id="error-box" class="bordergrey bgwhite p10 dn">${msg}</div>
+  <div id="error-box" class="bordergrey bgwhite p10 dn">${message}</div>
 </div>
 </body>
 </html>

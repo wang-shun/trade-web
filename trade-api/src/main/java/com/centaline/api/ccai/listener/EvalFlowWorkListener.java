@@ -117,9 +117,6 @@ public class EvalFlowWorkListener {
 	@Autowired
 	private TsTaskDelegateService tsTaskDelegateService;
 	
-	@Autowired
-	private ToCaseParticipantService ToCaseParticipantService;
-	
 	@JmsListener(destination = evalQueueName)
 	public void mqEvalOpertation(Message msg) {
 		if (msg == null) return;
