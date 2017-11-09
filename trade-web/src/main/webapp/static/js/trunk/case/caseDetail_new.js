@@ -85,10 +85,10 @@ function getShowCCAIAttachment(){
         url : ctx+'/quickGrid/findPage',
         mtype : 'GET',
         datatype : "json",
-        height : 250,
+        height : 600,
         autowidth : true,
         shrinkToFit : true,
-        rowNum : 5,
+        rowNum : 10,
         colNames : [ '附件类型','附件名称','附件路径','上传时间','操作'],
         colModel : [ {
             name : 'FILE_CAT',
@@ -134,10 +134,10 @@ function getShowCCAIAttachment(){
             for (var i = 0; i < ids.length; i++) {
                 var id = ids[i];
                 var rowData = jQuery("#gridTable").jqGrid('getRowData', ids[i]); // 获取当前行
-                var link = "<button  class='btn red' onclick='showAttachment(\""+rowData['URL']+"\")'>查看附件</a>";
-
+                var link = "<img src='" +rowData['URL']+"' class='imgCCAAI' style='width:50px;height:50px;' alt='"+rowData['FILE_NAME']+"."+rowData['FILE_CAT']+"'>";
                 jQuery("#gridTable").jqGrid('setRowData', ids[i], { READ: link});
             }
+            $("#gridTable").viewer();
         },
         postData : {
             queryId : "getCcaiAttachmentListByCaseCode",
@@ -190,7 +190,7 @@ function getShowAttachment() {
                         trStr += '<div class="col-sm-10 lightBoxGallery" style="text-align:left">';
                     }
                     trStr += "<a href='#' title='"+value.fileName+"' data-gallery='' style='height:90px;width:80px;margin-left:5px;margin-right:5px;margin-bottom:20px;'>";
-                    trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;'>";
+                    trStr += "<img src='"+appCtx['shcl-filesvr-web'] +"/JQeryUpload/getfile?fileId="+value.preFileAdress+"' style='padding-bottom: 5px;padding-top: 5px;width:100px;' alt='"+value.preFileName+"'>";
                     trStr += "</a>";
 
                 }
